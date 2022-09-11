@@ -23,7 +23,8 @@ function (superbuild_find_projects var)
     ospray
     pybind11
     tbb
-    vtk)
+    vtk
+    f3d)
 
   set("${var}"
     ${projects}
