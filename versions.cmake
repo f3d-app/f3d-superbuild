@@ -35,3 +35,7 @@ endif()
 superbuild_set_revision(ispc
   URL     "https://www.paraview.org/files/dependencies/ispc-v1.16.1-${ispc_suffix}"
   URL_MD5 "${ispc_md5}")
+
+superbuild_set_revision(vtk
+  URL     "https://www.vtk.org/files/release/9.2/VTK-9.2.0.rc2.tar.gz"
+  URL_MD5 f1238c0ad6ed76de03a0f0d570fa3db9)

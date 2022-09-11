@@ -22,7 +22,8 @@ function (superbuild_find_projects var)
     openimagedenoise
     ospray
     pybind11
-    tbb)
+    tbb
+    vtk)
 
   set("${var}"
     ${projects}
