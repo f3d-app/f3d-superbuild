@@ -5,6 +5,8 @@ project(f3d-superbuild)
 function (superbuild_find_projects var)
 
   list(APPEND projects
+    imath
+    alembic
     cxx11
     zlib
     bzip2
