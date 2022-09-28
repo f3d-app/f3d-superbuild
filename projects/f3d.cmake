@@ -1,7 +1,7 @@
 superbuild_add_project(f3d
   LICENSE_FILES
     LICENSE
-  DEPENDS vtk
+  DEPENDS vtk pybind11
   CMAKE_ARGS
     -Werror=dev
     -Werror=deprecated

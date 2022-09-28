@@ -39,6 +39,9 @@ list(APPEND superbuild_project_roots
 # set the default arguments used for "git clone"
 set(_git_clone_arguments_default --progress)
 
+# build F3D by default
+set(_superbuild_default_f3d ON)
+
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
                       "is missing; did you forget to do `git submodule init` "
