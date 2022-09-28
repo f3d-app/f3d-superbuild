@@ -8,6 +8,7 @@ function (superbuild_find_projects var)
     imath
     alembic
     cxx11
+    assimp
     zlib
     bzip2
     png

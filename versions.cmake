@@ -1,3 +1,7 @@
+superbuild_set_revision(assimp
+  URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.2.5.tar.gz"
+  URL_MD5 0b5a5a2714f1126b9931cdb95f512c91)
+
 superbuild_set_revision(imath
   URL     "https://github.com/AcademySoftwareFoundation/Imath/archive/refs/tags/v3.1.5.tar.gz"
   URL_MD5 dd375574276c54872b7b3d54053baff0)

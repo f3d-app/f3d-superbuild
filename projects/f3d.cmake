@@ -1,7 +1,7 @@
 superbuild_add_project(f3d
   LICENSE_FILES
     LICENSE
-  DEPENDS vtk pybind11 alembic
+  DEPENDS vtk pybind11 alembic assimp
   CMAKE_ARGS
     -Werror=dev
     -Werror=deprecated
@@ -9,8 +9,8 @@ superbuild_add_project(f3d
     -DF3D_STRICT_BUILD=ON
     -DF3D_MODULE_EXTERNAL_RENDERING=ON
 #    -DF3D_MODULE_OCCT=ON
-#    -DF3D_MODULE_ASSIMP=ON
-   -DF3D_MODULE_ALEMBIC=ON
+    -DF3D_MODULE_ASSIMP=ON
+    -DF3D_MODULE_ALEMBIC=ON
     -DF3D_MODULE_RAYTRACING=ON
     -DF3D_PYTHON_BINDINGS=ON
     -DCMAKE_BUILD_TYPE=Release
