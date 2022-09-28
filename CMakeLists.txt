@@ -5,6 +5,7 @@ project(f3d-superbuild)
 function (superbuild_find_projects var)
 
   list(APPEND projects
+    occt
     imath
     alembic
     cxx11

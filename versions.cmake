@@ -1,3 +1,7 @@
+superbuild_set_revision(occt
+  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_6_3.tar.gz"
+  URL_MD5 00f8dc72a7cf378598f52e2216a15ea4)
+
 superbuild_set_revision(assimp
   URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.2.5.tar.gz"
   URL_MD5 0b5a5a2714f1126b9931cdb95f512c91)
