@@ -6,7 +6,7 @@ superbuild_add_project(f3d
     -Werror=dev
     -Werror=deprecated
     --warn-uninitialized
-#    -DF3D_STRICT_BUILD=ON # Breaks because of occt
+    -DF3D_STRICT_BUILD=ON
     -DF3D_MODULE_EXTERNAL_RENDERING=ON
     -DF3D_MODULE_OCCT=ON
     -DF3D_MODULE_ASSIMP=ON
