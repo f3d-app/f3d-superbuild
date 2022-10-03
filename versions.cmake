@@ -15,8 +15,8 @@ superbuild_set_revision(alembic
   URL_MD5 2cd8d6e5a3ac4a014e24a4b04f4fadf9)
 
 superbuild_set_revision(vtk
-  URL     "https://www.vtk.org/files/release/9.2/VTK-9.2.0.rc2.tar.gz"
-  URL_MD5 f1238c0ad6ed76de03a0f0d570fa3db9)
+  URL     "https://www.vtk.org/files/release/9.2/VTK-9.2.2.tar.gz"
+  URL_MD5 35e80f6bb8805d1a5f995b4ee0f93718)
 
 superbuild_set_revision(f3d
   URL     "https://github.com/f3d-app/f3d/archive/refs/tags/v1.3.1.tar.gz"
