@@ -27,9 +27,8 @@ jobs:
       if: matrix.os == 'windows-latest'
       uses: seanmiddleditch/gha-setup-ninja@v3
 
-    - name: Setup MSBuilid Windows
-      if: matrix.os == 'windows-latest'
-      uses: microsoft/setup-msbuild@v1.1
+    - name: setup dev cmd Windows
+      uses: ilammy/msvc-dev-cmd@v1.3.0
 
     - name: Checkout
       uses: actions/checkout@v3
@@ -47,7 +46,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: >
         cmake ../source
-        ${{ matrix.os == 'windows-latest' && '-G Ninja' || null }}
+        ${{ matrix.os == 'windows-latest' && '-G Ninja -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_DEST_WIN }}\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static-release' || null }}
 
     - name: Build
       working-directory: ${{github.workspace}}/build
