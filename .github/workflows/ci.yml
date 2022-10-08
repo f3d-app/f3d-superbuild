@@ -41,9 +41,7 @@ jobs:
 
     - name: Setup Directories
       working-directory: ${{github.workspace}}
-      run: |
-         mkdir build
-         mkdir install
+      run: mkdir build
 
     - name: Configure
       working-directory: ${{github.workspace}}/build
