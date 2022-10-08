@@ -34,6 +34,11 @@ function (superbuild_find_projects var)
       ffi)
   endif ()
 
+  if (WIN32)
+    list(APPEND projects
+      pywin32)
+  endif ()
+
   set("${var}"
     ${projects}
     PARENT_SCOPE)
