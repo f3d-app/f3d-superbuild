@@ -28,6 +28,7 @@ jobs:
       uses: seanmiddleditch/gha-setup-ninja@v3
 
     - name: setup msvc Windows
+      if: matrix.os == 'windows-latest'
       uses: TheMrMilchmann/setup-msvc-dev@v2
       with:
         arch: x64
