@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-2019, macos-latest]
 
     runs-on: ${{matrix.os}}
     container: ${{ matrix.os == 'ubuntu-latest' && 'ghcr.io/f3d-app/f3d-ci' || null }}
@@ -32,7 +32,6 @@ jobs:
       uses: TheMrMilchmann/setup-msvc-dev@v2
       with:
         arch: x64
-        toolset: 14.0
 
     - name: Checkout
       uses: actions/checkout@v3
