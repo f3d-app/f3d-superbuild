@@ -27,6 +27,10 @@ jobs:
       if: matrix.os == 'windows-latest'
       uses: seanmiddleditch/gha-setup-ninja@v3
 
+    - name: Setup MSBuilid Windows
+      if: matrix.os == 'windows-latest'
+      uses: microsoft/setup-msbuild@v1.1
+
     - name: Checkout
       uses: actions/checkout@v3
       with:
