@@ -23,14 +23,16 @@ jobs:
 
     steps:
 
-    - name: Intall ninja Windows
-      if: matrix.os == 'windows-latest'
-      uses: seanmiddleditch/gha-setup-ninja@v3
+   - name: Setup Ninja Windows
+     if: matrix.os == 'windows-latest'
+     uses: ashutoshvarma/setup-ninja@v1.1
 
-    - name: setup msvc Windows
-      uses: TheMrMilchmann/setup-msvc-dev@v2
-      with:
-        arch: x64
+   - name: setup msvc Windows
+     if: matrix.os == 'windows-latest'
+     uses: TheMrMilchmann/setup-msvc-dev@v2
+     with:
+       arch: x64
+       toolset: 14.0
 
     - name: Checkout
       uses: actions/checkout@v3
