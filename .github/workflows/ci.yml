@@ -1,17 +1,15 @@
 name: CI
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
 
 jobs:
-
-  ci:
-    if: github.event.pull_request.draft == false
-
+  build_and_package:
     runs-on: ubuntu-latest
     container: ghcr.io/f3d-app/f3d-ci
 
