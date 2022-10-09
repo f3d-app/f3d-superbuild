@@ -13,7 +13,6 @@ function (superbuild_find_projects var)
     zlib
     bzip2
     png
-    ffi
     sqlite
     xz
     rkcommon
@@ -29,6 +28,16 @@ function (superbuild_find_projects var)
     tbb
     vtk
     f3d)
+
+  if (UNIX)
+    list(APPEND projects
+      ffi)
+  endif ()
+
+  if (WIN32)
+    list(APPEND projects
+      pywin32)
+  endif ()
 
   set("${var}"
     ${projects}
