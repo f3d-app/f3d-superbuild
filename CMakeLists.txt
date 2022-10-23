@@ -44,6 +44,35 @@ function (superbuild_find_projects var)
     PARENT_SCOPE)
 endfunction ()
 
+function (superbuild_add_packaging)
+    # Packaging tests
+  if (WIN32)
+    set(generators
+      ZIP
+      NSIS)
+  elseif (APPLE)
+    set(generators
+      DragNDrop)
+  else ()
+    set(generators
+      TGZ
+      TXZ
+      DEB)
+  endif ()
+  foreach (generator IN LISTS generators)
+    superbuild_add_extra_package_test(f3d "${generator}"
+      LABELS  "F3D"
+      TIMEOUT 6400)
+  endforeach ()
+
+endfunction ()
+
+function (superbuild_add_tests)
+  # Declaring this CMake function, even empty, is needed to trigger BUILD_TESTING
+  # in the superbuild logic.
+  # TODO add actual testing here
+endfunction ()
+
 list(APPEND superbuild_version_files
   "${CMAKE_CURRENT_LIST_DIR}/versions.cmake")
 list(APPEND superbuild_project_roots
