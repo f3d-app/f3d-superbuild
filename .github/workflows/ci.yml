@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-2019, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     runs-on: ${{matrix.os}}
     container: ${{ matrix.os == 'ubuntu-latest' && 'ghcr.io/f3d-app/f3d-ci' || null }}
@@ -24,11 +24,11 @@ jobs:
     steps:
 
     - name: Intall ninja Windows
-      if: matrix.os == 'windows-2019'
+      if: matrix.os == 'windows-latest'
       uses: seanmiddleditch/gha-setup-ninja@v3
 
     - name: setup msvc Windows
-      if: matrix.os == 'windows-2019'
+      if: matrix.os == 'windows-latest'
       uses: TheMrMilchmann/setup-msvc-dev@v2
       with:
         arch: x64
@@ -48,7 +48,7 @@ jobs:
       run: >
         cmake ../source
         -DCMAKE_BUILD_TYPE=Release
-        ${{ matrix.os == 'windows-2019' && '-G Ninja' || null }}
+        ${{ matrix.os == 'windows-latest' && '-G Ninja' || null }}
 
     - name: Build
       working-directory: ${{github.workspace}}/build
