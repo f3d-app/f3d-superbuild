@@ -1,3 +1,8 @@
+set(vtk_raytracing_enabled NO)
+if (ospray_enabled)
+  set(vtk_raytracing_enabled YES)
+endif ()
+
 superbuild_add_project(vtk
   LICENSE_FILES
     Copyright.txt
@@ -33,5 +38,5 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_RenderingOpenGL2=YES
     -DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2=YES
     -DVTK_MODULE_ENABLE_VTK_TestingCore=YES
-    -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:BOOL=${ospray_enabled}
+    -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:STRING=${vtk_raytracing_enabled}
 )
