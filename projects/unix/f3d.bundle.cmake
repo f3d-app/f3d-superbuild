@@ -1,4 +1,4 @@
-set(CPACK_PACKAGE_NAME "F3D-TODO")
+include(f3d.bundle.common)
 
 set(library_paths
   "${superbuild_install_location}/lib")
@@ -24,7 +24,6 @@ if (ospray_enabled)
       "${superbuild_install_location}/lib/lib${osprayextra_library}.so.[1-9]")
 
     foreach (lib_filename IN LISTS lib_filenames)
-      message(WARNING ${lib_filename})
       superbuild_unix_install_module("${lib_filename}"
         "lib"
         "lib"
@@ -34,3 +33,21 @@ if (ospray_enabled)
     endforeach ()
   endforeach ()
 endif ()
+
+set(f3d_resource_dirs
+    applications
+    bash-completion
+    f3d
+    fish
+    icons
+    licenses
+    metainfo
+    zsh)
+
+foreach (f3d_resource_dir IN LISTS f3d_resource_dirs)
+  install(
+    DIRECTORY   "${superbuild_install_location}/share/${f3d_resource_dir}"
+    DESTINATION "share"
+    COMPONENT   resouces
+    USE_SOURCE_PERMISSIONS)
+endforeach ()
