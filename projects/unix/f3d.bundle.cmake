@@ -34,6 +34,7 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
+# Package F3D resources
 set(f3d_resource_dirs
     applications
     bash-completion
@@ -42,12 +43,37 @@ set(f3d_resource_dirs
     icons
     licenses
     metainfo
+    mime
+    thumbnailers
     zsh)
 
 foreach (f3d_resource_dir IN LISTS f3d_resource_dirs)
   install(
     DIRECTORY   "${superbuild_install_location}/share/${f3d_resource_dir}"
     DESTINATION "share"
-    COMPONENT   resouces
+    COMPONENT   resources
     USE_SOURCE_PERMISSIONS)
 endforeach ()
+
+install(
+  FILES   "${superbuild_install_location}/share/man/man1/f3d.1.gz"
+  DESTINATION "share/man/man1"
+  COMPONENT   resources)
+
+install(
+  FILES   "${superbuild_install_location}/share/doc/f3d/README.md"
+  DESTINATION "share/doc/f3d/"
+  COMPONENT   resources)
+
+# Package F3D SDK
+install(
+  DIRECTORY   "${superbuild_install_location}/lib/cmake/f3d"
+  DESTINATION "lib/cmake"
+  COMPONENT   sdk
+  USE_SOURCE_PERMISSIONS)
+
+install(
+  DIRECTORY   "${superbuild_install_location}/include/f3d"
+  DESTINATION "include"
+  COMPONENT   sdk
+  USE_SOURCE_PERMISSIONS)
