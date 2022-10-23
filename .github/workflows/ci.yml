@@ -53,3 +53,13 @@ jobs:
     - name: Build
       working-directory: ${{github.workspace}}/build
       run: cmake --build . --parallel 2 --config Release
+
+    - name: Package
+      working-directory: ${{github.workspace}}/build
+      run: ctest -R cpack
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        path: ./build/F3D-*
+        name: f3d-${{matrix.os}}

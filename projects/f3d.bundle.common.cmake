@@ -14,6 +14,8 @@ set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${f3d_description}")
 #set(CPACK_PACKAGE_EXECUTABLES f3d f3d) Should not be needed
 set(CPACK_CREATE_DESKTOP_LINKS f3d) # Needed ?
 
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Whisley <whisley.santos@gmail.com>")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libbsd0, libxdmcp6, libglvnd0, libxcb1, libc6, libgcc1, libstdc++6, libopengl0, libglx0, libx11-6")
 
 
 
