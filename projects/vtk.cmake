@@ -1,7 +1,8 @@
 superbuild_add_project(vtk
   LICENSE_FILES
     Copyright.txt
-  DEPENDS cxx11 tbb ospray
+  DEPENDS cxx11 tbb
+  DEPENDS_OPTIONAL ospray
   CMAKE_ARGS
     -DVTK_ENABLE_LOGGING=OFF
     -DVTK_ENABLE_WRAPPING=OFF
@@ -32,5 +33,5 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_RenderingOpenGL2=YES
     -DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2=YES
     -DVTK_MODULE_ENABLE_VTK_TestingCore=YES
-    -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing=YES
+    -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:BOOL=${ospray_enabled}
 )
