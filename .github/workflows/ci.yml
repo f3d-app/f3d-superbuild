@@ -33,16 +33,16 @@ jobs:
       with:
         arch: x64
 
-    - name: Setup NSIS Windows
-      if: matrix.os == 'windows-latest'
-      working-directory: ${{github.workspace}}
-      run: cp source\.github\nsis\FileAssociation.nsh "C:/Program Files (x86)/NSIS/Include"
-
     - name: Checkout
       uses: actions/checkout@v3
       with:
         path: 'source'
         submodules: 'true'
+
+    - name: Setup NSIS Windows
+      if: matrix.os == 'windows-latest'
+      working-directory: ${{github.workspace}}
+      run: cp source\.github\nsis\FileAssociation.nsh "C:/Program Files (x86)/NSIS/Include"
 
     - name: Setup Directories
       working-directory: ${{github.workspace}}
