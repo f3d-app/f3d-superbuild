@@ -65,7 +65,7 @@ install(
   DESTINATION "share/doc/f3d/"
   COMPONENT   resources)
 
-# Package F3D SDK
+# Package libf3d SDK
 install(
   DIRECTORY   "${superbuild_install_location}/lib/cmake/f3d"
   DESTINATION "lib/cmake"
