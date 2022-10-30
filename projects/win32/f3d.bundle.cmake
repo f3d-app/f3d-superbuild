@@ -31,6 +31,7 @@ endif ()
 # Package F3D resources
 set(f3d_resources
     config.json
+    logo.ico
     README.md)
 
 foreach (f3d_resource IN LISTS f3d_resources)
