@@ -19,19 +19,21 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
-superbuild_apple_create_app(
-  "\${CMAKE_INSTALL_PREFIX}"
-  "${f3d_appname}"
-  "${superbuild_install_location}/Applications/f3d.app/Contents/MacOS/f3d"
-  CLEAN
-  SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
-  ADDITIONAL_LIBRARIES ${additional_libraries})
+## TODO impossible to implement without a MacOS, will be handled in another PR
 
-install(
-  FILES       "${superbuild_install_location}/../superbuild/f3d/src/logo.icns" # TODO
-  DESTINATION "${f3d_appname}/Contents/Resources"
-  COMPONENT   superbuild) # TODO
-install(
-  FILES       "${superbuild_install_location}/Applications/f3d.app/Contents/Info.plist"
-  DESTINATION "${f3d_appname}/Contents"
-  COMPONENT   superbuild) # TODO
+#superbuild_apple_create_app(
+#  "\${CMAKE_INSTALL_PREFIX}"
+#  "${f3d_appname}"
+#  "${superbuild_install_location}/Applications/f3d.app/Contents/MacOS/f3d"
+#  CLEAN
+#  SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
+#  ADDITIONAL_LIBRARIES ${additional_libraries})
+#
+#install(
+#  FILES       "${superbuild_install_location}/../superbuild/f3d/src/logo.icns" # TODO
+#  DESTINATION "${f3d_appname}/Contents/Resources"
+#  COMPONENT   superbuild) # TODO
+#install(
+#  FILES       "${superbuild_install_location}/Applications/f3d.app/Contents/Info.plist"
+#  DESTINATION "${f3d_appname}/Contents"
+#  COMPONENT   superbuild) # TODO
