@@ -1,12 +1,24 @@
+## Set CPack vars
+
+# Set CMake vars for common
+set(readme_path "${superbuild_install_location}/share/doc/f3d/README.md")
+
 include(f3d.bundle.common)
 
-set(library_paths
-  "${superbuild_install_location}/lib")
+# Unix specific CPack vars
+if (cpack_generator MATCHES "DEB")
+  set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${f3d_url})
+  set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Whisley <whisley.santos@gmail.com>")
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libbsd0, libxdmcp6, libglvnd0, libxcb1, libc6, libgcc1, libstdc++6, libopengl0, libglx0, libx11-6")
+endif ()  
+
+## Package binaries
+
+# Set where library will be found by fixup_bundle.py
+set(library_paths "${superbuild_install_location}/lib")
 
 # Package the F3D executable
-superbuild_unix_install_program("${superbuild_install_location}/bin/f3d" "lib"
-  SEARCH_DIRECTORIES  "${library_paths}")
-
+superbuild_unix_install_program("${superbuild_install_location}/bin/f3d" "lib" SEARCH_DIRECTORIES  "${library_paths}")
 
 # Package supplemental ospray libraries that may be loaded dynamically
 if (ospray_enabled)
@@ -34,7 +46,9 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
-# Package F3D resources
+## Package F3D resources
+
+# List of directories to package
 set(f3d_resource_dirs
     applications
     bash-completion
@@ -55,6 +69,7 @@ foreach (f3d_resource_dir IN LISTS f3d_resource_dirs)
     USE_SOURCE_PERMISSIONS)
 endforeach ()
 
+# Individual files to package
 install(
   FILES   "${superbuild_install_location}/share/man/man1/f3d.1.gz"
   DESTINATION "share/man/man1"
@@ -65,7 +80,8 @@ install(
   DESTINATION "share/doc/f3d/"
   COMPONENT   resources)
 
-# Package libf3d SDK
+## Package libf3d SDK
+
 install(
   DIRECTORY   "${superbuild_install_location}/lib/cmake/f3d"
   DESTINATION "lib/cmake"

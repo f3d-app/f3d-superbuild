@@ -87,7 +87,7 @@ set(_superbuild_default_alembic ON)
 set(_superbuild_default_assimp ON)
 set(_superbuild_default_occt ON)
 set(_superbuild_default_ospray ON)
-set(_superbuild_default_pybind11 ON)
+set(_superbuild_default_pybind11 OFF)
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "

@@ -2,21 +2,19 @@
 set(f3d_name F3D)
 set(f3d_version 1.3.1)
 set(f3d_description "F3D - A fast and minimalist 3D viewer")
+set(f3d_url "https://f3d-app.github.io/f3d/")
 
 set(CPACK_PACKAGE_NAME "${f3d_name}")
-set(CPACK_PACKAGE_VERSION "${f3d_version}") # separate ? TODO
+set(CPACK_PACKAGE_VERSION "${f3d_version}")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY  "${f3d_name}")
 set(CPACK_PACKAGE_VENDOR "${f3d_name}-app")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${f3d_description}")
-set(CPACK_PACKAGE_DESCRIPTION_FILE "${superbuild_install_location}/../superbuild/f3d/src/README.md") # TODO
-set(CPACK_RESOURCE_FILE_README "${superbuild_install_location}/../superbuild/f3d/src/README.md") # TODO
-set(CPACK_RESOURCE_FILE_LICENSE "${superbuild_install_location}/share/licenses/f3d/LICENSE") # TODO
+set(CPACK_PACKAGE_DESCRIPTION_FILE ${readme_path})
+set(CPACK_PACKAGE_HOMEPAGE_URL ${f3d_url})
+set(CPACK_PACKAGE_CHECKSUM MD5)
 set(CPACK_PACKAGE_EXECUTABLES f3d f3d)
+set(CPACK_RESOURCE_FILE_README ${readme_path}) # Rework this and add a WELCOME
+set(CPACK_RESOURCE_FILE_LICENSE "${superbuild_install_location}/share/licenses/f3d/LICENSE")
 set(CPACK_CREATE_DESKTOP_LINKS f3d)
-
-# Should not be in common TODO
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Whisley <whisley.santos@gmail.com>")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libbsd0, libxdmcp6, libglvnd0, libxcb1, libc6, libgcc1, libstdc++6, libopengl0, libglx0, libx11-6")
-
-
-
+set(CPACK_STRIP_FILES TRUE)
+set(CPACK_THREADS 0)
