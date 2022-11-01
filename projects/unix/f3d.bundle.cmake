@@ -18,7 +18,7 @@ endif ()
 set(library_paths "${superbuild_install_location}/lib")
 
 # Package the F3D executable
-superbuild_unix_install_program("${superbuild_install_location}/bin/f3d" "lib" SEARCH_DIRECTORIES  "${library_paths}")
+superbuild_unix_install_program("${superbuild_install_location}/bin/f3d" "lib" SEARCH_DIRECTORIES "${library_paths}" COMPONENT binaries)
 
 # Package supplemental ospray libraries that may be loaded dynamically
 if (ospray_enabled)

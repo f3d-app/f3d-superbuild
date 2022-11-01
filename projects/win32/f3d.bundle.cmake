@@ -12,11 +12,14 @@ set(library_paths "${superbuild_install_location}/bin")
 
 # TODO Add component support in superbuild
 # Package the F3D executable
-superbuild_windows_install_program("f3d" "bin" SEARCH_DIRECTORIES  "${library_paths}")
+superbuild_windows_install_program("f3d" "bin"
+	SEARCH_DIRECTORIES "${library_paths}"
+	COMPONENT binaries)
 
 # Package the F3D shell extension
 superbuild_windows_install_plugin("F3DShellExtension.dll" "bin" "bin" 
-  SEARCH_DIRECTORIES  "${library_paths}")
+  SEARCH_DIRECTORIES  "${library_paths}"
+  COMPONENT binaries)
 
 # Package supplemental ospray libraries that may be loaded dynamically
 if (ospray_enabled)
@@ -30,7 +33,8 @@ if (ospray_enabled)
 
   foreach (osprayextra_library IN LISTS osprayextra_libraries)
     superbuild_windows_install_plugin("${osprayextra_library}.dll" "bin" "bin"
-      SEARCH_DIRECTORIES "${library_paths}")
+      SEARCH_DIRECTORIES "${library_paths}"
+      COMPONENT binaries)
   endforeach ()
 endif ()
 
@@ -44,7 +48,7 @@ set(f3d_resources
 
 foreach (f3d_resource IN LISTS f3d_resources)
   install(
-    FILES   "${superbuild_install_location}/${f3d_resource}"
+    FILES       "${superbuild_install_location}/${f3d_resource}"
     DESTINATION "."
     COMPONENT   resources)
 endforeach ()
@@ -71,7 +75,7 @@ install(
   USE_SOURCE_PERMISSIONS)
 
 install(
-  FILES   "${superbuild_install_location}/lib/f3d.lib"
+  FILES       "${superbuild_install_location}/lib/f3d.lib"
   DESTINATION "lib"
   COMPONENT   sdk)
 
