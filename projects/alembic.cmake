@@ -1,7 +1,7 @@
 set(alembic_lib_install_dir lib)
 if (WIN32)
   set(alembic_lib_install_dir bin)
-endif (WIN32)
+endif ()
 
 superbuild_add_project(alembic
   LICENSE_FILES
