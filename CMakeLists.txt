@@ -45,7 +45,7 @@ function (superbuild_find_projects var)
 endfunction ()
 
 function (superbuild_add_packaging)
-    # Packaging tests
+  # Packaging tests
   if (WIN32)
     set(generators
       ZIP
