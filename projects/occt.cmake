@@ -7,6 +7,7 @@ superbuild_add_project(occt
     LICENSE_LGPL_21.txt
     OCCT_LGPL_EXCEPTION.txt
   CMAKE_ARGS
+    -DINSTALL_DIR_BIN:PATH=bin
     -DBUILD_ADDITIONAL_TOOLKITS=${occt_toolkits_escaped}
     -DBUILD_MODULE_ApplicationFramework=OFF
     -DBUILD_MODULE_DataExchange=OFF
