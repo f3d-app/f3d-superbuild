@@ -3,6 +3,7 @@ if (WIN32)
   set(generator "ZIP")
   set(f3d_exe "${f3d_extract_dir}/bin/f3d.exe")
 elseif (APPLE)
+  return () # TODO
 #  set(generator "DragNDrop")
 #  include(f3d-appname)
 #  set(f3d_exe "${paraview_extract_dir}/${paraview_appname}/Contents/MacOS/f3d")
