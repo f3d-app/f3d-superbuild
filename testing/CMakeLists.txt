@@ -1,4 +1,4 @@
-set(f3d_extract_dir "${CMAKE_CURRENT_BINARY_DIR}/f3d/test-extraction")
+set(f3d_extract_dir "${CMAKE_CURRENT_BINARY_DIR}/test-extraction")
 if (WIN32)
   set(generator "ZIP")
   set(f3d_exe "${f3d_extract_dir}/bin/f3d.exe")
@@ -31,22 +31,38 @@ function (f3d_add_test name file)
       DEPENDS "extract-f3d-${generator}")
 endfunction ()
 
-f3d_add_test("TestSimple" "cow.vtp")
-f3d_add_test("TestSimpleColor" "dragon.vtu")
+function (f3d_add_sdk_test name folder exe)
+  add_test(
+    NAME    "f3d-sdk-${name}"
+    COMMAND ${CMAKE_COMMAND}
+            -Dtest_sdk_name=${name}
+            -Dtest_sdk_dir=${folder}
+            -Dtest_sdk_exe=${exe}
+            -Df3d_install_dir=${f3d_extract_dir}
+            -P ${CMAKE_SOURCE_DIR}/testing/scripts/f3d.test.sdk.cmake)
+  set_tests_properties(f3d-sdk-${name}
+    PROPERTIES
+      LABELS  "F3D"
+      DEPENDS "extract-f3d-${generator}")
+endfunction ()
+
+f3d_add_test(TestSimple cow.vtp)
+f3d_add_test(TestSimpleColor dragon.vtu)
+f3d_add_sdk_test(TestSDK "${CMAKE_SOURCE_DIR}/testing/test_sdk" test_sdk)
 
 if (alembic_enabled)
-  f3d_add_test("TestAlembic" "suzanne.abc")
+  f3d_add_test(TestAlembic suzanne.abc)
 endif ()
 
 if (assimp_enabled)
-  f3d_add_test("TestAssimp" "slime.fbx")
+  f3d_add_test(TestAssimp slime.fbx)
 endif ()
 
 if (occt_enabled)
-  f3d_add_test("TestOCCT" "cube.stp")
+  f3d_add_test(TestOCCT cube.stp)
 endif ()
 
 if (ospray_enabled)
   # This baseline is incorrect, caused by https://github.com/f3d-app/f3d/issues/483
-  f3d_add_test("TestOSPray" "dragon.vtu" "-rd" "--samples=4")
+  f3d_add_test(TestOSPray dragon.vtu -rd --samples=4)
 endif ()
