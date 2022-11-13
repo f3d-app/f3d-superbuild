@@ -2,6 +2,25 @@ cmake_minimum_required(VERSION 3.12)
 
 project(f3d-superbuild)
 
+macro (superbuild_setup_variables)
+  include(SuperbuildVersionMacros)
+  if (f3d_SOURCE_SELECTION STREQUAL "git")
+    # Assuming master; just use the latest version, but let the user set their
+    # own version in case it is actually a branch from some other version.
+    set(F3D_VERSION_DEFAULT "1.3.1"
+      CACHE STRING "The default version of F3D to use if it cannot be detected")
+    mark_as_advanced(F3D_VERSION_DEFAULT)
+    set(f3d_default_version "${F3D_VERSION_DEFAULT}")
+  elseif (f3d_SOURCE_SELECTION STREQUAL "source")
+    # If it is a git repo, we'll get it that way.
+    set(f3d_default_version "")
+  else ()
+    # The selection is the version number; use it.
+    set(f3d_default_version "${f3d_SOURCE_SELECTION}")
+  endif()
+  superbuild_set_version_variables(f3d "${f3d_default_version}" "f3d-version.cmake")
+endmacro ()
+
 function (superbuild_find_projects var)
 
   list(APPEND projects
