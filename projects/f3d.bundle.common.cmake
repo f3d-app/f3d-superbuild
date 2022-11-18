@@ -19,3 +19,5 @@ set(CPACK_RESOURCE_FILE_LICENSE "${superbuild_install_location}/share/licenses/f
 set(CPACK_CREATE_DESKTOP_LINKS f3d)
 set(CPACK_STRIP_FILES TRUE)
 set(CPACK_THREADS 0)
+
+set(superbuild_bundle_system_librairies_component "system")
