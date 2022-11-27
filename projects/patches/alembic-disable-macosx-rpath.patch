@@ -1,0 +1,15 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 36c68cc0..789efb6e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -105,10 +105,6 @@ IF ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
+     ENDIF()
+ ENDIF()
+ 
+-IF (APPLE)
+-  SET(CMAKE_MACOSX_RPATH ON)
+-ENDIF()
+-
+ SET(LINUX FALSE)
+ IF ("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+     SET(LINUX TRUE)
