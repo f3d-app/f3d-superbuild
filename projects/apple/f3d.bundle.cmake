@@ -1,5 +1,5 @@
 include(f3d.bundle.common)
-set(f3d_appname "${f3d_name}-${f3d_version}.app") # TODO
+include(f3d-appname)
 
 set(additional_libraries)
 if (ospray_enabled)
