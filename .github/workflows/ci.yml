@@ -38,6 +38,7 @@ jobs:
       with:
         path: 'source'
         submodules: 'true'
+        lfs: 'true'
 
     - name: Setup NSIS Windows
       if: matrix.os == 'windows-latest'
@@ -61,9 +62,26 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: cmake --build . --parallel 2 --config Release
 
-    - name: Package
+    - name: Run Xvfb ubuntu
+      if: matrix.os == 'ubuntu-latest'
+      run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
+
+    - name: Install Mesa windows
+      shell: cmd
+      if: matrix.os == 'windows-latest'
+      working-directory: ${{github.workspace}}/dependencies/
+      run: |
+        mkdir mesa
+        cd mesa
+        curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.0.1/mesa3d-22.0.1-release-msvc.7z
+        "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+        cp x64\opengl32.dll ..\..\build\bin\Release\
+        cp x64\libglapi.dll ..\..\build\bin\Release\
+        cp x64\libgallium_wgl.dll ..\..\build\bin\Release\
+
+    - name: Package and Test
       working-directory: ${{github.workspace}}/build
-      run: ctest -R cpack -VV
+      run: ctest
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2

@@ -49,9 +49,11 @@ endfunction ()
 # SDK Tests
 # These tests check the SDK can be built, linked against and loaded
 # But no actual test is performed
-f3d_add_sdk_test(TestEngine "${CMAKE_SOURCE_DIR}/testing/sdk/test_engine" test_engine)
-f3d_add_sdk_test(TestRendering "${CMAKE_SOURCE_DIR}/testing/sdk/test_rendering" test_rendering)
-f3d_add_sdk_test(TestExternal "${CMAKE_SOURCE_DIR}/testing/sdk/test_external" test_external)
+if (NOT APPLE)
+  f3d_add_sdk_test(TestEngine "${CMAKE_SOURCE_DIR}/testing/sdk/test_engine" test_engine)
+  f3d_add_sdk_test(TestRendering "${CMAKE_SOURCE_DIR}/testing/sdk/test_rendering" test_rendering)
+  f3d_add_sdk_test(TestExternal "${CMAKE_SOURCE_DIR}/testing/sdk/test_external" test_external)
+endif ()
 
 # F3D test
 # Use f3d exectuable to ensure dependecies can be loaded and renders correctly
