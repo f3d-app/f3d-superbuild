@@ -12,4 +12,8 @@ superbuild_add_project(alembic
     -DUSE_BINARIES=OFF
     -DBUILD_TESTING=OFF
     -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_MACOSX_RPATH=OFF
 )
+
+superbuild_apply_patch(alembic disable-macosx-rpath
+  "Disable macosx rpath force")

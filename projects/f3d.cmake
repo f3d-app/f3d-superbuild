@@ -35,4 +35,5 @@ superbuild_add_project(f3d
     -DF3D_INSTALL_THUMBNAILER_FILES:BOOL=${f3d_build_for_linux}
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
     -DF3D_WINDOWS_GUI:BOOL=${f3d_build_for_windows}
+    -DCMAKE_MACOSX_RPATH=OFF
 )

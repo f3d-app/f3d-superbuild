@@ -39,4 +39,5 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2=YES
     -DVTK_MODULE_ENABLE_VTK_TestingCore=YES
     -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:STRING=${vtk_raytracing_enabled}
+    -DCMAKE_MACOSX_RPATH=OFF
 )
