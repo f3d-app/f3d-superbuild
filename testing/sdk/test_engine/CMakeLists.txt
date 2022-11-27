@@ -1,4 +1,4 @@
-project(test_sdk)
+project(test_engine)
 
 cmake_minimum_required(VERSION 3.2)
 
@@ -19,8 +19,8 @@ check_variable_defined(f3d_MODULE_OCCT)
 check_variable_defined(f3d_MODULE_ASSIMP)
 check_variable_defined(f3d_MODULE_ALEMBIC)
 
-add_executable(test_sdk main.cxx)
-target_link_libraries(test_sdk f3d::libf3d)
+add_executable(test_engine main.cxx)
+target_link_libraries(test_engine f3d::libf3d)
 
 # make sure the libf3d API is compatible with C++11
-set_target_properties(test_sdk PROPERTIES CXX_STANDARD 11)
+set_target_properties(test_engine PROPERTIES CXX_STANDARD 11)

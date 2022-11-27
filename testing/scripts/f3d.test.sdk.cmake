@@ -25,5 +25,5 @@ execute_process (
     ${test_sdk_build_dir}/${test_sdk_exe}
   RESULT_VARIABLE ret)
 if (NOT ret EQUAL 0)
-  message(FATAL_ERROR "Could not run sdk test ${test_sdk_name}")
+  message(FATAL_ERROR "sdk test run fail ${test_sdk_name}")
 endif ()

@@ -46,9 +46,18 @@ function (f3d_add_sdk_test name folder exe)
       DEPENDS "extract-f3d-${generator}")
 endfunction ()
 
+# SDK Tests
+# These tests check the SDK can be built, linked against and loaded
+# But no actual test is performed
+f3d_add_sdk_test(TestEngine "${CMAKE_SOURCE_DIR}/testing/sdk/test_engine" test_engine)
+f3d_add_sdk_test(TestRendering "${CMAKE_SOURCE_DIR}/testing/sdk/test_rendering" test_rendering)
+f3d_add_sdk_test(TestExternal "${CMAKE_SOURCE_DIR}/testing/sdk/test_external" test_external)
+
+# F3D test
+# Use f3d exectuable to ensure dependecies can be loaded and renders correctly
+
 f3d_add_test(TestSimple cow.vtp)
 f3d_add_test(TestSimpleColor dragon.vtu)
-f3d_add_sdk_test(TestSDK "${CMAKE_SOURCE_DIR}/testing/test_sdk" test_sdk)
 
 if (alembic_enabled)
   f3d_add_test(TestAlembic suzanne.abc)
