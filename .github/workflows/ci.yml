@@ -70,7 +70,7 @@ jobs:
 
     - name: Clean install
       working-directory: ${{github.workspace}}/build
-      run: rm -rf install
+      run: cmake -E remove_directory install
 
     - name: Run Xvfb ubuntu
       if: matrix.os == 'ubuntu-latest'
