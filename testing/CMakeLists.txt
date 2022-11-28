@@ -18,14 +18,14 @@ superbuild_add_extract_test("f3d" "${glob_prefix}" "${generator}" "${f3d_extract
 
 function (f3d_add_test name file)
   add_test(
-    NAME    "f3d-${name}"
+    NAME    "f3d-exec-${name}"
     COMMAND "${f3d_exe}"
             "${CMAKE_SOURCE_DIR}/testing/data/${file}"
             "--resolution=300,300"
             "--output=${CMAKE_BINARY_DIR}/Testing/Temporary/${name}.png"
             "--ref=${CMAKE_SOURCE_DIR}/testing/baselines/${name}.png"
             ${ARGN})
-  set_tests_properties(f3d-${name}
+  set_tests_properties(f3d-exec-${name}
     PROPERTIES
       LABELS  "F3D"
       DEPENDS "extract-f3d-${generator}")
