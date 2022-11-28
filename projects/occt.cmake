@@ -16,5 +16,6 @@ superbuild_add_project(occt
     -DBUILD_MODULE_ModelingAlgorithms=OFF
     -DBUILD_MODULE_ModelingData=OFF
     -DBUILD_MODULE_Visualization=OFF
+    -DBUILD_DOC_Overview=OFF
     -DCMAKE_BUILD_TYPE=Release
 )

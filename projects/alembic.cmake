@@ -10,7 +10,7 @@ superbuild_add_project(alembic
   CMAKE_ARGS
     -DALEMBIC_LIB_INSTALL_DIR:PATH=${alembic_lib_install_dir}
     -DUSE_BINARIES=OFF
-    -DBUILD_TESTING=OFF
+    -DUSE_TESTS=OFF
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_MACOSX_RPATH=OFF
 )
