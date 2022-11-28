@@ -55,9 +55,9 @@ jobs:
         cmake ../source
         -DCMAKE_BUILD_TYPE=Release
         -Df3d_SOURCE_SELECTION="1.3.1"
-        -DENABLE_ospray=ON
-        -DENABLE_assimp=ON
-        -DENABLE_occt=ON
+        -DENABLE_ospray=OFF
+        -DENABLE_assimp=OFF
+        -DENABLE_occt=OFF
         ${{ matrix.os == 'windows-latest' && '-G Ninja' || null }}
         ${{ matrix.os == 'macos-latest' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
