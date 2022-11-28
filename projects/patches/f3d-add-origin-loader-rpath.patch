@@ -1,0 +1,32 @@
+diff -urN src.orig/application/CMakeLists.txt src/application/CMakeLists.txt
+--- src.orig/application/CMakeLists.txt	2022-09-07 12:17:51.000000000 +0200
++++ src/application/CMakeLists.txt	2022-11-28 22:29:52.594106316 +0100
+@@ -35,9 +35,9 @@
+ 
+ set_target_properties(f3d PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+ if (APPLE)
+-  set_target_properties(f3d PROPERTIES INSTALL_RPATH @loader_path/../lib)
++  set_target_properties(f3d PROPERTIES INSTALL_RPATH @loader_path:@loader_path/../lib)
+ elseif (UNIX)
+-  set_target_properties(f3d PROPERTIES INSTALL_RPATH $ORIGIN/../lib)
++  set_target_properties(f3d PROPERTIES INSTALL_RPATH $ORIGIN:$ORIGIN/../lib)
+ endif ()
+ 
+ target_compile_features(f3d PRIVATE cxx_std_17)
+diff -urN src.orig/library/CMakeLists.txt src/library/CMakeLists.txt
+--- src.orig/library/CMakeLists.txt	2022-09-07 12:17:51.000000000 +0200
++++ src/library/CMakeLists.txt	2022-11-28 22:48:16.533904162 +0100
+@@ -185,7 +185,12 @@
+     endif ()
+   endif ()
+ 
+-  set_target_properties(libf3d PROPERTIES INSTALL_RPATH "${absolute_rpaths}")
++  if (APPLE)
++    set_target_properties(libf3d PROPERTIES INSTALL_RPATH "@loader_path:${absolute_rpaths}")
++  elseif (UNIX)
++    set_target_properties(libf3d PROPERTIES INSTALL_RPATH "$ORIGIN:${absolute_rpaths}")
++  endif ()
++
+ endif ()
+ 
+ # testing
