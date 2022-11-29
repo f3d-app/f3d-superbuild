@@ -36,6 +36,8 @@ superbuild_add_project(f3d
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
     -DF3D_WINDOWS_GUI:BOOL=${f3d_build_for_windows}
     -DCMAKE_MACOSX_RPATH=OFF
+    -DCMAKE_EXE_LINKER_FLAGS="-Wl,--disable-new-dtags"
+    -DCMAKE_SHARED_LINKER_FLAGS="-Wl,--disable-new-dtags"
 )
 
 superbuild_apply_patch(f3d add-origin-loader-rpath
