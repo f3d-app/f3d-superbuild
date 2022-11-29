@@ -3,6 +3,12 @@ if (WIN32)
   set(alembic_lib_install_dir bin)
 endif ()
 
+if (UNIX AND NOT APPLE)
+  superbuild_append_flags(ld_flags
+    "-Wl,-rpath,${superbuild_install_location}/lib"
+    PROJECT_ONLY)
+endif ()
+
 superbuild_add_project(alembic
   LICENSE_FILES
     LICENSE.txt

@@ -95,6 +95,13 @@ jobs:
         ctest -R sdk -VV
         ctest -R exec -VV
 
+    - name: Upload Failed Artifacts
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        path: ./build/F3D-*
+        name: F3D-${{matrix.os}}
+
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
