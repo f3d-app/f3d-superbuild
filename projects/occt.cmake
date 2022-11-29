@@ -1,7 +1,12 @@
 set(occt_toolkits TKSTEP TKIGES TKMesh)
 list(JOIN occt_toolkits "${_superbuild_list_separator}" occt_toolkits_escaped)
 
-superbuild_sanitize_lists_in_string(SB_ MPIEXEC_MAX_NUMPROCS)
+if (UNIX AND NOT APPLE)
+  superbuild_append_flags(ld_flags
+    "-Wl,-rpath,${superbuild_install_location}/lib"
+    PROJECT_ONLY)
+endif ()
+
 superbuild_add_project(occt
   LICENSE_FILES
     LICENSE_LGPL_21.txt
