@@ -1,9 +1,3 @@
-if (UNIX AND NOT APPLE)
-  superbuild_append_flags(ld_flags
-    "-Wl,-rpath,${superbuild_install_location}/lib"
-    PROJECT_ONLY)
-endif ()
-
 superbuild_add_project(rkcommon
   LICENSE_FILES
     LICENSE.txt
@@ -13,4 +7,5 @@ superbuild_add_project(rkcommon
      -DCMAKE_INSTALL_LIBDIR:STRING=lib
      -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
      -DINSTALL_DEPS:BOOL=OFF
+     -DCMAKE_INSTALL_RPATH=<INSTALL_DIR>/lib
 )

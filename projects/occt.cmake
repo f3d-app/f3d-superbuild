@@ -1,12 +1,6 @@
 set(occt_toolkits TKSTEP TKIGES TKMesh)
 list(JOIN occt_toolkits "${_superbuild_list_separator}" occt_toolkits_escaped)
 
-if (UNIX AND NOT APPLE)
-  superbuild_append_flags(ld_flags
-    "-Wl,-rpath,${superbuild_install_location}/lib"
-    PROJECT_ONLY)
-endif ()
-
 superbuild_add_project(occt
   LICENSE_FILES
     LICENSE_LGPL_21.txt
@@ -22,4 +16,5 @@ superbuild_add_project(occt
     -DBUILD_MODULE_ModelingData=OFF
     -DBUILD_MODULE_Visualization=OFF
     -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_INSTALL_RPATH=<INSTALL_DIR>/lib
 )

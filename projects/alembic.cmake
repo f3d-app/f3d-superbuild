@@ -3,12 +3,6 @@ if (WIN32)
   set(alembic_lib_install_dir bin)
 endif ()
 
-if (UNIX AND NOT APPLE)
-  superbuild_append_flags(ld_flags
-    "-Wl,-rpath,${superbuild_install_location}/lib"
-    PROJECT_ONLY)
-endif ()
-
 superbuild_add_project(alembic
   LICENSE_FILES
     LICENSE.txt
@@ -19,6 +13,7 @@ superbuild_add_project(alembic
     -DBUILD_TESTING=OFF
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_MACOSX_RPATH=OFF
+    -DCMAKE_INSTALL_RPATH=<INSTALL_DIR>/lib
 )
 
 superbuild_apply_patch(alembic disable-macosx-rpath
