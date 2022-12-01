@@ -1,7 +1,6 @@
 set(occt_toolkits TKSTEP TKIGES TKMesh)
 list(JOIN occt_toolkits "${_superbuild_list_separator}" occt_toolkits_escaped)
 
-superbuild_sanitize_lists_in_string(SB_ MPIEXEC_MAX_NUMPROCS)
 superbuild_add_project(occt
   LICENSE_FILES
     LICENSE_LGPL_21.txt
@@ -18,4 +17,5 @@ superbuild_add_project(occt
     -DBUILD_MODULE_Visualization=OFF
     -DBUILD_DOC_Overview=OFF
     -DCMAKE_BUILD_TYPE=Release
+    -DCMAKE_INSTALL_RPATH=<INSTALL_DIR>/lib
 )

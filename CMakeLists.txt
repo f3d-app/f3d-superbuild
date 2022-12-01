@@ -87,9 +87,7 @@ function (superbuild_add_packaging)
 endfunction ()
 
 function (superbuild_add_tests)
-  # Declaring this CMake function, even empty, is needed to trigger BUILD_TESTING
-  # in the superbuild logic.
-  # TODO add actual testing here
+  add_subdirectory("${CMAKE_SOURCE_DIR}/testing" "${CMAKE_BINARY_DIR}/testing")
 endfunction ()
 
 list(APPEND superbuild_version_files

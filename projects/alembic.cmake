@@ -13,6 +13,7 @@ superbuild_add_project(alembic
     -DUSE_TESTS=OFF
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_MACOSX_RPATH=OFF
+    -DCMAKE_INSTALL_RPATH=<INSTALL_DIR>/lib
 )
 
 superbuild_apply_patch(alembic disable-macosx-rpath
