@@ -7,5 +7,5 @@ superbuild_add_project(rkcommon
      -DCMAKE_INSTALL_LIBDIR:STRING=lib
      -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
      -DINSTALL_DEPS:BOOL=OFF
-     -DCMAKE_INSTALL_RPATH=<INSTALL_DIR>/lib
+     -DCMAKE_INSTALL_RPATH=<INSTALL_DIR>/lib # TODO add in common-superbuild
 )
