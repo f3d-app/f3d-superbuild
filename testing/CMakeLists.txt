@@ -28,7 +28,7 @@ function (f3d_add_test name file)
   set_tests_properties(f3d-exec-${name}
     PROPERTIES
       LABELS  "F3D"
-      DEPENDS "extract-f3d-${generator}")
+      DEPENDS "f3d-exec-exists")
 endfunction ()
 
 function (f3d_add_sdk_test name folder exe)
@@ -56,6 +56,16 @@ if (NOT APPLE)
 endif ()
 
 # F3D test
+
+# Check f3d executable exists by using md5sum command
+add_test(
+  NAME    "f3d-exec-exists"
+  COMMAND "${CMAKE_COMMAND}" -E md5sum ${f3d_exe})
+set_tests_properties(f3d-exec-exists
+  PROPERTIES
+    LABELS  "F3D"
+    DEPENDS "extract-f3d-${generator}")
+
 # Use f3d exectuable to ensure dependecies can be loaded and renders correctly
 
 f3d_add_test(TestSimple cow.vtp)
