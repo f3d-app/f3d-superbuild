@@ -1,4 +1,5 @@
 ## Set CPack vars
+set(f3d_license_path "share/licenses")
 include(f3d.bundle.common)
 
 ## Package binaries
@@ -39,6 +40,9 @@ endif ()
 
 ## Package F3D resources
 
+# Package all licenses
+f3d_package_all_licenses()
+
 # List of directories to package
 set(f3d_resource_dirs
     applications
@@ -46,7 +50,6 @@ set(f3d_resource_dirs
     f3d
     fish
     icons
-    licenses
     metainfo
     mime
     thumbnailers

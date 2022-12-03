@@ -1,4 +1,5 @@
 ## Set CPack vars
+set(f3d_license_path "share/licenses")
 include(f3d.bundle.common)
 
 ## Package binaries
@@ -36,6 +37,9 @@ endif ()
 
 ## Package F3D resources
 
+# Package all licenses
+f3d_package_all_licenses()
+
 # List of individual files to package
 set(f3d_resources
     config.json
@@ -47,13 +51,6 @@ foreach (f3d_resource IN LISTS f3d_resources)
     DESTINATION "."
     COMPONENT   resources)
 endforeach ()
-
-# Package licenses directories
-install(
-  DIRECTORY   "${superbuild_install_location}/share/licenses"
-  DESTINATION "share"
-  COMPONENT   resources
-  USE_SOURCE_PERMISSIONS)
 
 ## Package libf3d SDK
 

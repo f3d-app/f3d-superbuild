@@ -18,3 +18,40 @@ set(CPACK_STRIP_FILES TRUE)
 set(CPACK_THREADS 0)
 
 set(superbuild_bundle_system_librairies_component "system")
+
+# Manage license packaging
+function (f3d_package_all_licenses)
+  set(license_projects "${enabled_projects}")
+
+  foreach (project IN LISTS license_projects)
+    if (NOT ${project}_built_by_superbuild)
+      list(REMOVE_ITEM license_projects ${project})
+    endif ()
+  endforeach ()
+
+  # Remove package without licenses
+  list(REMOVE_ITEM license_projects
+    ospraymaterials # CC0 License
+    )
+
+  # Do not install license of non-packaged projects
+  list(REMOVE_ITEM license_projects
+   ffi
+   ispc
+   png
+   python3
+   sqlite
+   xz
+    )
+
+  foreach (project IN LISTS license_projects)
+    if (EXISTS "${superbuild_install_location}/share/licenses/${project}")
+      install(
+        DIRECTORY   "${superbuild_install_location}/share/licenses/${project}"
+        DESTINATION "${f3d_license_path}"
+        COMPONENT   resources)
+    else ()
+      message(FATAL_ERROR "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
+    endif ()
+  endforeach ()
+endfunction ()

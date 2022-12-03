@@ -1,6 +1,7 @@
 ## Set CPack vars
-include(f3d.bundle.common)
 include(f3d-appname)
+set(f3d_license_path "${f3d_appname}/Contents/Resources/licenses")
+include(f3d.bundle.common)
 
 ## Package binaries
 
@@ -41,17 +42,13 @@ install(
 
 ## Package F3D resources
 
+# Package all licenses
+f3d_package_all_licenses()
+
 # Package resources
 install(
   DIRECTORY   "${superbuild_install_location}/f3d.app/Contents/Resources"
   DESTINATION "${f3d_appname}/Contents"
-  COMPONENT   resources
-  USE_SOURCE_PERMISSIONS)
-
-# Package licenses
-install(
-  DIRECTORY   "${superbuild_install_location}/share/licenses"
-  DESTINATION "${f3d_appname}/Contents/Resources"
   COMPONENT   resources
   USE_SOURCE_PERMISSIONS)
 
