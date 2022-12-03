@@ -10,7 +10,6 @@ include(f3d.bundle.common)
 # Set where library will be found by fixup_bundle.py
 set(library_paths "${superbuild_install_location}/bin")
 
-# TODO Add component support in superbuild
 # Package the F3D executable
 superbuild_windows_install_program("f3d" "bin"
 	SEARCH_DIRECTORIES "${library_paths}"
@@ -40,9 +39,11 @@ endif ()
 
 ## Package F3D resources
 
-# List of individual files to package
+# List of individual resources to package
+# TODO add a F3D cmake option to simplify this packaging
 set(f3d_resources
     config.json
+    thumbnail.json
     logo.ico
     README.md)
 
@@ -79,16 +80,16 @@ install(
   DESTINATION "lib"
   COMPONENT   sdk)
 
-## NSIS Packaging
+## NSIS Generator specific
 if (cpack_generator MATCHES "NSIS")
   set(CPACK_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/NSIS")
 
-  set(f3d_ico "${superbuild_install_location}/logo.ico") # TODO add a cmake option in F3D for this
+  set(f3d_ico "${superbuild_install_location}/logo.ico")
 
   # For some reason, we need Windows backslashes
   # https://www.howtobuildsoftware.com/index.php/how-do/PNb/cmake-nsis-bmp-cpack-how-to-set-an-icon-in-nsis-install-cmake
   # BMP3 format is also required (recommended size is 150x57)
-  set(CPACK_PACKAGE_ICON "${superbuild_install_location}/..//superbuild/f3d/src/resources\\\\logo.bmp") # TODO F3D should install this somewhere
+  set(CPACK_PACKAGE_ICON "${superbuild_install_location}\\\\logotype64.bmp")
   set(CPACK_NSIS_URL_INFO_ABOUT ${f3d_url})
   set(CPACK_NSIS_MENU_LINKS ${f3d_url} "F3D Website")
   set(CPACK_NSIS_MODIFY_PATH ON)
