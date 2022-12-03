@@ -1,8 +1,4 @@
 ## Set CPack vars
-
-# Set CMake vars for common
-set(readme_path "${superbuild_install_location}/README.md")
-
 include(f3d.bundle.common)
 
 ## Package binaries
@@ -43,8 +39,7 @@ endif ()
 # List of individual files to package
 set(f3d_resources
     config.json
-    logo.ico
-    README.md)
+    logo.ico)
 
 foreach (f3d_resource IN LISTS f3d_resources)
   install(

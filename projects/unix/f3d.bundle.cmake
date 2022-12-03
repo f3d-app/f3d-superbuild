@@ -1,8 +1,4 @@
 ## Set CPack vars
-
-# Set CMake vars for common
-set(readme_path "${superbuild_install_location}/share/doc/f3d/README.md")
-
 include(f3d.bundle.common)
 
 ## Package binaries
@@ -68,11 +64,6 @@ endforeach ()
 install(
   FILES   "${superbuild_install_location}/share/man/man1/f3d.1.gz"
   DESTINATION "share/man/man1"
-  COMPONENT   resources)
-
-install(
-  FILES   "${superbuild_install_location}/share/doc/f3d/README.md"
-  DESTINATION "share/doc/f3d/"
   COMPONENT   resources)
 
 ## Package libf3d SDK

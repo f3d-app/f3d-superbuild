@@ -1,8 +1,4 @@
 ## Set CPack vars
-
-# Set CMake vars for common
-set(readme_path "${superbuild_install_location}/README.md")
-
 include(f3d.bundle.common)
 include(f3d-appname)
 
