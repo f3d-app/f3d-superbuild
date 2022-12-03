@@ -5,13 +5,6 @@ set(readme_path "${superbuild_install_location}/share/doc/f3d/README.md")
 
 include(f3d.bundle.common)
 
-# Unix specific CPack vars
-if (cpack_generator MATCHES "DEB")
-  set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${f3d_url})
-  set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Whisley <whisley.santos@gmail.com>")
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libbsd0, libxdmcp6, libglvnd0, libxcb1, libc6, libgcc1, libstdc++6, libopengl0, libglx0, libx11-6")
-endif ()  
-
 ## Package binaries
 
 # Set where library will be found by fixup_bundle.py
@@ -95,3 +88,10 @@ install(
   DESTINATION "include"
   COMPONENT   sdk
   USE_SOURCE_PERMISSIONS)
+
+## Deb Generator specific
+if (cpack_generator MATCHES "DEB")
+  set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${f3d_url})
+  set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Whisley <whisley.santos@gmail.com>")
+  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libbsd0, libxdmcp6, libglvnd0, libxcb1, libc6, libgcc1, libstdc++6, libopengl0, libglx0, libx11-6")
+endif ()  
