@@ -55,6 +55,7 @@ jobs:
         cmake ../source
         -DCMAKE_BUILD_TYPE=Release
         -Df3d_SOURCE_SELECTION="1.3.1"
+        -DUSE_SYSTEM_python3=ON
         ${{ matrix.os == 'windows-latest' && '-G Ninja' || null }}
         ${{ matrix.os == 'macos-latest' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
