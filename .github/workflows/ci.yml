@@ -7,7 +7,11 @@ on:
     branches: [ "main" ]
 
   workflow_dispatch:
-
+    inputs:
+    f3d_version:
+      description: 'F3D version to build'
+      required: true
+      default: 'git'
 jobs:
   build_and_package:
     strategy:
@@ -23,6 +27,23 @@ jobs:
 
     steps:
 
+    - name: Checkout
+      if: github.event.inputs.f3d_version == 'git'
+      uses: actions/checkout@v3
+      with:
+        path: 'source'
+        submodules: 'true'
+        lfs: 'true'
+
+    - name: Checkout Release
+      if: github.event.inputs.f3d_version != 'git'
+      uses: actions/checkout@v3
+      with:
+        path: 'source'
+        submodules: 'true'
+        lfs: 'true'
+        ref: v${{ github.event.inputs.f3d_version}}
+
     - name: Intall ninja Windows
       if: matrix.os == 'windows-latest'
       run: choco install ninja
@@ -32,13 +53,6 @@ jobs:
       uses: TheMrMilchmann/setup-msvc-dev@v2
       with:
         arch: x64
-
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        path: 'source'
-        submodules: 'true'
-        lfs: 'true'
 
     - name: Setup NSIS Windows
       if: matrix.os == 'windows-latest'
@@ -54,7 +68,7 @@ jobs:
       run: >
         cmake ../source
         -DCMAKE_BUILD_TYPE=Release
-        -Df3d_SOURCE_SELECTION="1.3.1"
+        -Df3d_SOURCE_SELECTION=${{ github.event.inputs.f3d_version}}
         -DUSE_SYSTEM_python3=ON
         ${{ matrix.os == 'windows-latest' && '-G Ninja' || null }}
         ${{ matrix.os == 'macos-latest' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
