@@ -28,7 +28,7 @@ jobs:
     steps:
 
     - name: Checkout
-      if: github.event.inputs.f3d_version == 'git'
+      if: github.event.inputs.f3d_version == ''
       uses: actions/checkout@v3
       with:
         path: 'source'
