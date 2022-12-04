@@ -7,7 +7,6 @@ include(f3d.bundle.common)
 # Set where library will be found by fixup_bundle.py
 set(library_paths "${superbuild_install_location}/bin")
 
-# TODO Add component support in superbuild
 # Package the F3D executable
 superbuild_windows_install_program("f3d" "bin"
 	SEARCH_DIRECTORIES "${library_paths}"
@@ -71,7 +70,7 @@ install(
   DESTINATION "lib"
   COMPONENT   sdk)
 
-## NSIS Packaging
+## NSIS Generator specific
 if (cpack_generator MATCHES "NSIS")
   set(CPACK_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/NSIS")
 

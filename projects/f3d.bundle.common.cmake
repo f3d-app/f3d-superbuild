@@ -19,7 +19,7 @@ set(CPACK_THREADS 0)
 
 set(superbuild_bundle_system_librairies_component "system")
 
-# Manage license packaging
+# Manage licenses packaging
 function (f3d_package_all_licenses)
   set(license_projects "${enabled_projects}")
 
@@ -29,15 +29,11 @@ function (f3d_package_all_licenses)
     endif ()
   endforeach ()
 
-  # Remove package without licenses
-  list(REMOVE_ITEM license_projects
-    ospraymaterials # CC0 License
-    )
-
   # Do not install license of non-packaged projects
   list(REMOVE_ITEM license_projects
    ffi
    ispc
+   ospraymaterials
    png
    python3
    sqlite
