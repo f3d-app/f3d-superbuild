@@ -1,8 +1,5 @@
 ## Set CPack vars
-
-# Set CMake vars for common
-set(readme_path "${superbuild_install_location}/README.md")
-
+set(f3d_license_path "share/licenses")
 include(f3d.bundle.common)
 
 ## Package binaries
@@ -10,7 +7,6 @@ include(f3d.bundle.common)
 # Set where library will be found by fixup_bundle.py
 set(library_paths "${superbuild_install_location}/bin")
 
-# TODO Add component support in superbuild
 # Package the F3D executable
 superbuild_windows_install_program("f3d" "bin"
 	SEARCH_DIRECTORIES "${library_paths}"
@@ -40,11 +36,13 @@ endif ()
 
 ## Package F3D resources
 
+# Package all licenses
+f3d_package_all_licenses()
+
 # List of individual files to package
 set(f3d_resources
     config.json
-    logo.ico
-    README.md)
+    logo.ico)
 
 foreach (f3d_resource IN LISTS f3d_resources)
   install(
@@ -52,13 +50,6 @@ foreach (f3d_resource IN LISTS f3d_resources)
     DESTINATION "."
     COMPONENT   resources)
 endforeach ()
-
-# Package licenses directories
-install(
-  DIRECTORY   "${superbuild_install_location}/share/licenses"
-  DESTINATION "share"
-  COMPONENT   resources
-  USE_SOURCE_PERMISSIONS)
 
 ## Package libf3d SDK
 
@@ -79,7 +70,7 @@ install(
   DESTINATION "lib"
   COMPONENT   sdk)
 
-## NSIS Packaging
+## NSIS Generator specific
 if (cpack_generator MATCHES "NSIS")
   set(CPACK_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/NSIS")
 

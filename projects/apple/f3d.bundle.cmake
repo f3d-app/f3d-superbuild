@@ -1,6 +1,11 @@
-include(f3d.bundle.common)
+## Set CPack vars
 include(f3d-appname)
+set(f3d_license_path "${f3d_appname}/Contents/Resources/licenses")
+include(f3d.bundle.common)
 
+## Package binaries
+
+# Package supplemental ospray libraries that may be loaded dynamically
 set(additional_libraries)
 if (ospray_enabled)
   set(osprayextra_libraries
@@ -19,6 +24,7 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
+# Bundle F3D and all binaries
 superbuild_apple_create_app(
   "\${CMAKE_INSTALL_PREFIX}"
   "${f3d_appname}"
@@ -28,16 +34,25 @@ superbuild_apple_create_app(
   ADDITIONAL_LIBRARIES ${additional_libraries}
   COMPONENT app)
 
+# Package Info.plist
 install(
   FILES       "${superbuild_install_location}/f3d.app/Contents/Info.plist"
   DESTINATION "${f3d_appname}/Contents"
   COMPONENT   app)
 
+## Package F3D resources
+
+# Package all licenses
+f3d_package_all_licenses()
+
+# Package resources
 install(
-  FILES       "${superbuild_install_location}/f3d.app/Contents/Resources/logo.icns"
-  DESTINATION "${f3d_appname}/Contents/Resources"
-  COMPONENT   resources)
-install(
-  FILES       "${superbuild_install_location}/f3d.app/Contents/Resources/config.json"
-  DESTINATION "${f3d_appname}/Contents/Resources"
-  COMPONENT   resources)
+  DIRECTORY   "${superbuild_install_location}/f3d.app/Contents/Resources"
+  DESTINATION "${f3d_appname}/Contents"
+  COMPONENT   resources
+  USE_SOURCE_PERMISSIONS)
+
+## DragNDrop Generator specific
+if (cpack_generator MATCHES "DragNDrop")
+  set(CPACK_PACKAGE_ICON "${superbuild_install_location}/f3d.app/Contents/Resources/logo.icns")
+endif()
