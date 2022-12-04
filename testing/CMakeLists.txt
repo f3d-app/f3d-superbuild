@@ -38,6 +38,8 @@ function (f3d_add_sdk_test name folder exe)
             -Dtest_sdk_name=${name}
             -Dtest_sdk_dir=${folder}
             -Dtest_sdk_exe=${exe}
+            -Dsuperbuild_build_type=${CMAKE_BUILD_TYPE}
+            -Dsuperbuild_generator=${CMAKE_GENERATOR}
             -Df3d_install_dir=${f3d_extract_dir}
             -P ${CMAKE_SOURCE_DIR}/testing/scripts/f3d.test.sdk.cmake)
   set_tests_properties(f3d-sdk-${name}
@@ -66,8 +68,7 @@ set_tests_properties(f3d-exec-exists
     LABELS  "F3D"
     DEPENDS "extract-f3d-${generator}")
 
-# Use f3d exectuable to ensure dependecies can be loaded and renders correctly
-
+# Use f3d executable to ensure dependecies can be loaded and renders correctly
 f3d_add_test(TestSimple cow.vtp)
 f3d_add_test(TestSimpleColor dragon.vtu)
 
