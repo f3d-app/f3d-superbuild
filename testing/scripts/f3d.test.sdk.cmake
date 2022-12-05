@@ -3,8 +3,11 @@ execute_process (
   COMMAND 
     ${CMAKE_COMMAND}
     -S ${test_sdk_dir}
-    -O ${test_sdk_build_dir}
-    -Df3d_DIR=${f3d_install_dir}/lib/cmake/f3d/
+    -B ${test_sdk_build_dir}
+    -Df3d_DIR:PATH=${f3d_install_dir}/lib/cmake/f3d/
+    -DCMAKE_BUILD_TYPE=${superbuild_build_type}
+    -DCMAKE_CONFIGURATION_TYPES=${superbuild_build_type}
+    -G${superbuild_generator}
   RESULT_VARIABLE ret)
 if (NOT ret EQUAL 0)
   message(FATAL_ERROR "Could not configure sdk test ${test_sdk_name}")
@@ -22,6 +25,7 @@ endif ()
 
 execute_process (
   COMMAND 
+    ${CMAKE_COMMAND} -E env PATH=${f3d_install_dir}/bin/
     ${test_sdk_build_dir}/${test_sdk_exe}
   RESULT_VARIABLE ret)
 if (NOT ret EQUAL 0)

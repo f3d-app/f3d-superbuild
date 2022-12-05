@@ -87,7 +87,7 @@ function (superbuild_add_packaging)
 endfunction ()
 
 function (superbuild_add_tests)
-  add_subdirectory("${CMAKE_SOURCE_DIR}/testing" "${CMAKE_BINARY_DIR}/testing")
+  add_subdirectory("${CMAKE_SOURCE_DIR}/testing" "${CMAKE_BINARY_DIR}/Testing")
 endfunction ()
 
 list(APPEND superbuild_version_files

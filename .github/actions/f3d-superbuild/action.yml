@@ -1,0 +1,103 @@
+name: 'F3D Superbuild'
+description: 'Build and package F3D'
+inputs:
+  f3d_version:
+    description: 'F3D version to build'
+    required: true
+    default: 'git'
+  os: 
+    description: 'OS to build on'
+    required: false
+    default: 'ubuntu-latest'
+
+runs:
+  using: "composite"
+  steps:
+  - name: Intall ninja Windows
+    if: inputs.os == 'windows-latest'
+    shell: cmd
+    run: choco install ninja
+
+  - name: setup msvc Windows
+    if: inputs.os == 'windows-latest'
+    uses: TheMrMilchmann/setup-msvc-dev@v2
+    with:
+      arch: x64
+
+  - name: Setup NSIS Windows
+    if: inputs.os == 'windows-latest'
+    working-directory: ${{github.workspace}}
+    shell: powershell
+    run: cp source\.github\nsis\FileAssociation.nsh "${env:ProgramFiles(x86)}/NSIS/Include"
+
+  - name: Setup Directories
+    working-directory: ${{github.workspace}}
+    shell: bash
+    run: mkdir build
+
+# TODO switch to ${{ inputs.f3d_version }}
+  - name: Configure
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: >
+      cmake ../source
+      -DCMAKE_BUILD_TYPE=Release
+      -Df3d_SOURCE_SELECTION=1.3.1
+      -DUSE_SYSTEM_python3=ON
+      ${{ inputs.os == 'windows-latest' && '-G Ninja' || null }}
+      ${{ inputs.os == 'macos-latest' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
+
+  - name: Build
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: cmake --build . --parallel 2 --config Release
+
+  - name: Package
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: |
+      ctest -R cpack -VV
+      ctest -R extract -VV
+
+  - name: Clean install
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: cmake -E remove_directory install
+
+  - name: Run Xvfb ubuntu
+    if: inputs.os == 'ubuntu-latest'
+    shell: bash
+    run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
+
+  - name: Install Mesa windows
+    shell: cmd
+    if: inputs.os == 'windows-latest'
+    working-directory: ${{github.workspace}}
+    run: |
+      mkdir build\Testing\test-sdk\
+      mkdir build\Testing\test-sdk\TestRendering_build\
+      mkdir mesa
+      cd mesa
+      curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.0.1/mesa3d-22.0.1-release-msvc.7z
+      "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+      cp x64\opengl32.dll ..\build\Testing\test-extraction\bin\
+      cp x64\libglapi.dll ..\build\Testing\test-extraction\bin\
+      cp x64\libgallium_wgl.dll ..\build\Testing\test-extraction\bin\
+      cp x64\opengl32.dll ..\build\Testing\test-sdk\TestRendering_build\
+      cp x64\libglapi.dll ..\build\Testing\test-sdk\TestRendering_build\
+      cp x64\libgallium_wgl.dll ..\build\Testing\test-sdk\TestRendering_build\
+
+
+  - name: Test package
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: |
+      ctest -R sdk -VV
+      ctest -R exec -VV
+
+  - name: Upload Failed Artifacts
+    if: always()
+    uses: actions/upload-artifact@v3
+    with:
+      path: ./build/F3D-*
+      name: F3D-${{inputs.os}}
