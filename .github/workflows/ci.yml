@@ -31,5 +31,5 @@ jobs:
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
       with:
-        f3d_version: git
+        f3d_version: origin/master
         os: ${{matrix.os}}
