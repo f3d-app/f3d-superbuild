@@ -22,9 +22,9 @@ superbuild_set_selectable_source(vtk
   SELECT 9.2.2
     URL     "https://www.vtk.org/files/release/9.2/VTK-9.2.2.tar.gz"
     URL_MD5 35e80f6bb8805d1a5f995b4ee0f93718
-  SELECT commit CUSTOMIZABLE DEFAULT
+  SELECT commit DEFAULT
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
-    GIT_TAG        "72ba01395460a2f50d7ec76f9ef664d6716c5509"
+    GIT_TAG        "ea2b6b5ad1516f65684eff0972a198af873ca1c1"
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
     GIT_TAG        "origin/master"
