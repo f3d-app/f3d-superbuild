@@ -14,7 +14,7 @@ superbuild_add_project(f3d
     LICENSE.md
     doc/THIRD_PARTY_LICENSES.md
   DEPENDS vtk
-  DEPENDS_OPTIONAL pybind11 alembic assimp occt
+  DEPENDS_OPTIONAL pybind11 alembic assimp draco occt
   CMAKE_ARGS
     -Werror=dev
     -Werror=deprecated
@@ -24,6 +24,7 @@ superbuild_add_project(f3d
     -DF3D_MODULE_RAYTRACING:BOOL=${ospray_enabled}
     -DF3D_PLUGIN_BUILD_ASSIMP:BOOL=${assimp_enabled}
     -DF3D_PLUGIN_BUILD_ALEMBIC:BOOL=${alembic_enabled}
+    -DF3D_PLUGIN_BUILD_DRACO:BOOL=${draco_enabled}
     -DF3D_PLUGIN_BUILD_OCCT:BOOL=${occt_enabled}
     -DF3D_PYTHON_BINDINGS:BOOL=${pybind11_enabled}
     -DF3D_INSTALL_SDK=ON

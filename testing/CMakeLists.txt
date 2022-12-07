@@ -80,6 +80,10 @@ if (assimp_enabled)
   f3d_add_test(TestAssimp slime.fbx)
 endif ()
 
+if (draco_enabled)
+  f3d_add_test(TestDraco suzanne.drc)
+endif ()
+
 if (occt_enabled)
   f3d_add_test(TestOCCT cube.stp)
 endif ()

@@ -24,32 +24,33 @@ endmacro ()
 function (superbuild_find_projects var)
 
   list(APPEND projects
-    occt
-    imath
     alembic
-    cxx11
     assimp
-    zlib
-    bzip2
-    png
-    sqlite
-    xz
-    rkcommon
-    openvkl
-    ospraymaterials
-    pythonsetuptools
-    ispc
-    python3
+    cxx11
+    draco
     embree
+    f3d
+    imath
+    ispc
+    occt
     openimagedenoise
+    openvkl
     ospray
+    ospraymaterials
+    png
     pybind11
+    python3
+    pythonsetuptools
+    rkcommon
+    sqlite
     tbb
     vtk
-    f3d)
+    xz
+    zlib)
 
   if (UNIX)
     list(APPEND projects
+      bzip2
       ffi)
   endif ()
 
@@ -102,6 +103,7 @@ set(_git_clone_arguments_default --progress)
 set(_superbuild_default_f3d ON)
 set(_superbuild_default_alembic ON)
 set(_superbuild_default_assimp ON)
+set(_superbuild_default_draco ON)
 set(_superbuild_default_occt ON)
 set(_superbuild_default_ospray ON)
 set(_superbuild_default_pybind11 OFF)
