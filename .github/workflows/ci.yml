@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
 
     runs-on: ${{matrix.os}}
     container: ${{ matrix.os == 'ubuntu-latest' && 'ghcr.io/f3d-app/f3d-ci' || null }}
@@ -33,3 +33,33 @@ jobs:
       with:
         f3d_version: origin/master
         os: ${{matrix.os}}
+
+    - name: Recover F3D SHA information
+      working-directory: ${{github.workspace}}/build/superbuild/f3d/src
+      shell: bash
+      run: |
+        export F3D_SHA=$(git rev-parse HEAD)
+        echo "F3D_SHA=$F3D_SHA" >> $GITHUB_ENV
+        echo "PREVIOUS_NIGHTLY_TAG=$(git tag | grep v1.3.1-nightly)" >> $GITHUB_ENV
+        echo "NIGHTLY_TAG=v1.3.1-nightly-g$(git rev-parse --short $F3D_SHA)" >> $GITHUB_ENV
+
+    - name: Delete previous nightly release
+      uses: dev-drprasad/delete-tag-and-release@v0.2.0
+      with:
+        repo: f3d-app/f3d
+        tag_name: ${{env.PREVIOUS_NIGHTLY_TAG}}
+        delete_release: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+
+    - name: Deploy nightly release
+      uses: softprops/action-gh-release@v1
+      with:
+        repository: f3d-app/f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        tag_name: ${{env.NIGHTLY_TAG}}
+        target_commitish: ${{env.F3D_SHA}}
+        name: "Nightly"
+        body: "Automatically generated nightly binary release"
+        files: './build/F3D-*'
