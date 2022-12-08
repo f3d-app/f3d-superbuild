@@ -22,8 +22,8 @@ superbuild_add_project(f3d
     -DF3D_STRICT_BUILD=ON
     -DF3D_MODULE_EXTERNAL_RENDERING=ON
     -DF3D_MODULE_RAYTRACING:BOOL=${ospray_enabled}
-    -DF3D_PLUGIN_BUILD_ASSIMP:BOOL=${assimp_enabled}
     -DF3D_PLUGIN_BUILD_ALEMBIC:BOOL=${alembic_enabled}
+    -DF3D_PLUGIN_BUILD_ASSIMP:BOOL=${assimp_enabled}
     -DF3D_PLUGIN_BUILD_DRACO:BOOL=${draco_enabled}
     -DF3D_PLUGIN_BUILD_OCCT:BOOL=${occt_enabled}
     -DF3D_PYTHON_BINDINGS:BOOL=${pybind11_enabled}
