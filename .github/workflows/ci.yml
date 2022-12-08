@@ -34,9 +34,15 @@ jobs:
         f3d_version: origin/master
         os: ${{matrix.os}}
 
+    - name: Check path
+      working-directory: ${{github.workspace}}
+      shell: bash
+      run: ls ./build/CMakeCache.txt
+
     - name: Deploy Ubuntu release
+      working-directory: ${{github.workspace}}
       if: matrix.os == 'ubuntu-latest'
-      uses: WebFreak001/deploy-nightly@v2.0.0
+      uses: WebFreak001/deploy-nightly@v1.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
       with:
@@ -45,4 +51,4 @@ jobs:
         asset_path: ./build/CMakeCache.txt
         asset_name: cmake_cache-$$.txt
         asset_content_type: text/plain
-        max_releases: 7 # optional, if there are more releases than this ma
+        max_releases: 7
