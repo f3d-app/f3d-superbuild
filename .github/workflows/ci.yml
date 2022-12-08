@@ -43,11 +43,11 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       uses: WebFreak001/deploy-nightly@v1.1.0
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: https://uploads.github.com/repos/f3d-app/f3d/releases/85465849/assets{?name,label}
-        release_id: 85465849
+        upload_url: https://uploads.github.com/repos/f3d-app/f3d/releases/87494418/assets{?name,label}
+        release_id: 87494418
         asset_path: ./build/CMakeCache.txt
-        asset_name: cmake_cache-$$.txt
+        asset_name: CMakeCache.txt
         asset_content_type: text/plain
         max_releases: 7
