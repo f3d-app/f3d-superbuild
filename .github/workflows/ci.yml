@@ -40,7 +40,6 @@ jobs:
       run: ls ./build/CMakeCache.txt
 
     - name: Deploy Ubuntu release
-      working-directory: ${{github.workspace}}
       if: matrix.os == 'ubuntu-latest'
       uses: WebFreak001/deploy-nightly@v1.1.0
       env:
