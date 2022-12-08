@@ -33,3 +33,16 @@ jobs:
       with:
         f3d_version: origin/master
         os: ${{matrix.os}}
+
+    - name: Deploy Ubuntu release
+      if: matrix.os == 'ubuntu-latest'
+      uses: WebFreak001/deploy-nightly@v2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # automatically provided by github actions
+      with:
+        upload_url: https://uploads.github.com/repos/f3d-app/f3d/releases/85465849/assets{?name,label}
+        release_id: 85465849
+        asset_path: ./build/CMakeCache.txt
+        asset_name: cmake_cache-$$.txt
+        asset_content_type: text/plain
+        max_releases: 7 # optional, if there are more releases than this ma
