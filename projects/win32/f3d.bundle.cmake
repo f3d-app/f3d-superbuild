@@ -39,17 +39,12 @@ endif ()
 # Package all licenses
 f3d_package_all_licenses()
 
-# List of individual files to package
-set(f3d_resources
-    config.json
-    logo.ico)
-
-foreach (f3d_resource IN LISTS f3d_resources)
-  install(
-    FILES       "${superbuild_install_location}/${f3d_resource}"
-    DESTINATION "."
-    COMPONENT   resources)
-endforeach ()
+# Package resources
+install(
+  DIRECTORY   "${superbuild_install_location}/resources/"
+  DESTINATION "."
+  COMPONENT   resources
+  USE_SOURCE_PERMISSIONS)
 
 ## Package libf3d SDK
 
@@ -74,12 +69,12 @@ install(
 if (cpack_generator MATCHES "NSIS")
   set(CPACK_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/NSIS")
 
-  set(f3d_ico "${superbuild_install_location}/logo.ico") # TODO add a cmake option in F3D for this
+  set(f3d_ico "${superbuild_install_location}/resources/logo.ico")
 
   # For some reason, we need Windows backslashes
   # https://www.howtobuildsoftware.com/index.php/how-do/PNb/cmake-nsis-bmp-cpack-how-to-set-an-icon-in-nsis-install-cmake
   # BMP3 format is also required (recommended size is 150x57)
-  set(CPACK_PACKAGE_ICON "${superbuild_install_location}/..//superbuild/f3d/src/resources\\\\logo.bmp") # TODO F3D should install this somewhere
+  set(CPACK_PACKAGE_ICON "${superbuild_install_location}/resources\\\\logotype64.bmp")
   set(CPACK_NSIS_URL_INFO_ABOUT ${f3d_url})
   set(CPACK_NSIS_MENU_LINKS ${f3d_url} "F3D Website")
   set(CPACK_NSIS_MODIFY_PATH ON)

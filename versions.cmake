@@ -18,13 +18,18 @@ superbuild_set_revision(alembic
   DOWNLOAD_NAME alembic-1.8.3.tar.gz
   URL_MD5 2cd8d6e5a3ac4a014e24a4b04f4fadf9)
 
+superbuild_set_revision(draco
+  URL     "https://github.com/google/draco/archive/refs/tags/1.5.5.tar.gz"
+  DOWNLOAD_NAME draco-1.5.5.tar.gz
+  URL_MD5 a0782fa8148610920bb3e91f3b8cc83c)
+
 superbuild_set_selectable_source(vtk
   SELECT 9.2.2
     URL     "https://www.vtk.org/files/release/9.2/VTK-9.2.2.tar.gz"
     URL_MD5 35e80f6bb8805d1a5f995b4ee0f93718
-  SELECT commit CUSTOMIZABLE DEFAULT
+  SELECT commit DEFAULT
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
-    GIT_TAG        "72ba01395460a2f50d7ec76f9ef664d6716c5509"
+    GIT_TAG        "ea2b6b5ad1516f65684eff0972a198af873ca1c1"
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
     GIT_TAG        "origin/master"
