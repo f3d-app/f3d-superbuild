@@ -34,17 +34,12 @@ jobs:
         f3d_version: origin/master
         os: ${{matrix.os}}
 
-    - name: Check path
-      working-directory: ${{github.workspace}}
-      shell: bash
-      run: ls ./build/CMakeCache.txt
-
     - name: Deploy Ubuntu release
       if: matrix.os == 'ubuntu-latest'
       uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "Nightly"
-          files: ./build/CMakeCache.txt
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Nightly"
+        files: ./build/CMakeCache.txt
