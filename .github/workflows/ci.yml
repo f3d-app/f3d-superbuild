@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     runs-on: ${{matrix.os}}
     container: ${{ matrix.os == 'ubuntu-latest' && 'ghcr.io/f3d-app/f3d-ci' || null }}
@@ -43,7 +43,9 @@ jobs:
         echo "PREVIOUS_NIGHTLY_TAG=$(git tag | grep v1.3.1-nightly)" >> $GITHUB_ENV
         echo "NIGHTLY_TAG=v1.3.1-nightly-g$(git rev-parse --short $F3D_SHA)" >> $GITHUB_ENV
 
+      # Linux is usually faster so we let it delete the previous nightly
     - name: Delete previous nightly release
+      if: matrix.os == 'ubuntu-latest'
       uses: dev-drprasad/delete-tag-and-release@v0.2.0
       with:
         repo: f3d-app/f3d
@@ -52,7 +54,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
 
-    - name: Deploy nightly release
+    - name: Publish nightly release
       uses: softprops/action-gh-release@v1
       with:
         repository: f3d-app/f3d
