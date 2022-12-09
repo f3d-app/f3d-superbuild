@@ -7,7 +7,29 @@ on:
     branches: [ "main" ]
 
 jobs:
+
+  check_nightly:
+    runs-on: ubuntu-latest
+    name: Check nightly is needed
+    outputs:
+      should_run: ${{ steps.should_run.outputs.should_run }}
+    steps:
+
+    - name: Checkout F3D
+      uses: actions/checkout@v3
+      with:
+        repository: f3d-app/f3d
+        fetch-depth: 0
+        lfs: 'false'
+
+    - name: check latest commit is less than a day
+      id: should_run
+      continue-on-error: true
+      run: test -n "$(git log --since=24h)" && echo "::set-output name=should_run::false"
+
   build_and_package:
+    needs: check_nightly
+    if: ${{ needs.check_nightly.outputs.should_run != 'false' }}
     strategy:
       fail-fast: false
       matrix:
