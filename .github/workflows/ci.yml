@@ -93,11 +93,11 @@ jobs:
     - name: Publish nightly release
       uses: softprops/action-gh-release@v1
       with:
-        repository: mwestphal/f3d
+        repository: f3d-app/f3d
         token: ${{ secrets.SECRET_TOKEN }}
         prerelease: true
         tag_name: nightly
         target_commitish: ${{env.F3D_SHA}}
         name: "Nightly"
         body: "Automatically generated nightly binary release"
-        files: './build/CMakeCache.txt'
+        files: './build/F3D-*'
