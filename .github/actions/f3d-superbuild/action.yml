@@ -46,3 +46,59 @@ runs:
       -DUSE_SYSTEM_python3=ON
       ${{ inputs.os == 'windows-latest' && '-G Ninja' || null }}
       ${{ inputs.os == 'macos-latest' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
+
+  - name: Build
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: cmake --build . --parallel 2 --config Release
+
+  - name: Package
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: |
+      cmake ./
+      ctest -R cpack -VV
+      ctest -R extract -VV
+
+  - name: Clean install
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: cmake -E remove_directory install
+
+  - name: Run Xvfb ubuntu
+    if: inputs.os == 'ubuntu-latest'
+    shell: bash
+    run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
+
+  - name: Install Mesa windows
+    shell: cmd
+    if: inputs.os == 'windows-latest'
+    working-directory: ${{github.workspace}}
+    run: |
+      mkdir build\Testing\test-sdk\
+      mkdir build\Testing\test-sdk\TestRendering_build\
+      mkdir mesa
+      cd mesa
+      curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.0.1/mesa3d-22.0.1-release-msvc.7z
+      "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+      cp x64\opengl32.dll ..\build\Testing\test-extraction\bin\
+      cp x64\libglapi.dll ..\build\Testing\test-extraction\bin\
+      cp x64\libgallium_wgl.dll ..\build\Testing\test-extraction\bin\
+      cp x64\opengl32.dll ..\build\Testing\test-sdk\TestRendering_build\
+      cp x64\libglapi.dll ..\build\Testing\test-sdk\TestRendering_build\
+      cp x64\libgallium_wgl.dll ..\build\Testing\test-sdk\TestRendering_build\
+
+
+  - name: Test package
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: |
+      ctest -R sdk -VV
+      ctest -R exec -VV
+
+  - name: Upload Failed Artifacts
+    if: always()
+    uses: actions/upload-artifact@v3
+    with:
+      path: ./build/F3D-*
+      name: F3D-${{inputs.os}}
