@@ -62,18 +62,33 @@ jobs:
       run: |
         export F3D_SHA=$(git rev-parse HEAD)
         echo "F3D_SHA=$F3D_SHA" >> $GITHUB_ENV
-        echo "PREVIOUS_NIGHTLY_TAG=$(git tag | grep v1.3.1-nightly)" >> $GITHUB_ENV
-        echo "NIGHTLY_TAG=v1.3.1-nightly-g$(git rev-parse --short $F3D_SHA)" >> $GITHUB_ENV
 
-    - name: Delete previous nightly release
-      uses: dev-drprasad/delete-older-releases@v0.2.0
+    - name: Delete previous nightly release assets Linux
+      if: matrix.os == 'ubuntu-latest'
+      uses: mknejp/delete-release-assets@v1
       with:
-        repo: mwestphal/f3d
-        keep_latest: 0
-        delete_tags: true
-        delete_tag_pattern: ${{env.PREVIOUS_NIGHTLY_TAG}}
-      env:
-        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN }}
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "F3D-*-Linux*"
+
+    - name: Delete previous nightly release assets Windows
+      if: matrix.os == 'windows-latest'
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "F3D-*-win64*"
+
+    - name: Delete previous nightly release assets MacOS
+      if: matrix.os == 'macos-latest'
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "F3D-*-Darwin*"
 
     - name: Publish nightly release
       uses: softprops/action-gh-release@v1
@@ -81,8 +96,8 @@ jobs:
         repository: mwestphal/f3d
         token: ${{ secrets.SECRET_TOKEN }}
         prerelease: true
-        tag_name: ${{env.NIGHTLY_TAG}}
+        tag_name: nightly
         target_commitish: ${{env.F3D_SHA}}
         name: "Nightly"
         body: "Automatically generated nightly binary release"
-        files: './build/F3D-*'
+        files: './build/CMakeCache.txt'
