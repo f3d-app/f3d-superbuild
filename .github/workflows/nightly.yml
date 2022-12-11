@@ -1,0 +1,104 @@
+name: Nightly
+
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+
+jobs:
+
+  check_nightly:
+    runs-on: ubuntu-latest
+    name: Check nightly is needed
+    outputs:
+      should_run: ${{ steps.should_run.outputs.should_run }}
+      f3d_sha: ${{ steps.should_run.outputs.f3d_sha }}
+    steps:
+
+    - name: Checkout F3D
+      uses: actions/checkout@v3
+      with:
+        repository: f3d-app/f3d
+        fetch-depth: 0
+        lfs: 'false'
+
+    - name: check latest commit is less than a day
+      id: should_run
+      continue-on-error: true
+      run: |
+        test -n "$(git log --since=72h)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
+        echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+  build_and_package:
+    needs: check_nightly
+    if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{matrix.os}}
+    container: ${{ matrix.os == 'ubuntu-latest' && 'ghcr.io/f3d-app/f3d-ci' || null }}
+
+    env:
+      DISPLAY: :0
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: 'source'
+        submodules: 'true'
+        lfs: 'true'
+
+    - name: Build and package F3D
+      uses: ./source/.github/actions/f3d-superbuild/
+      with:
+        f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
+        os: ${{matrix.os}}
+
+    - name: Advance nightly tag (Ubuntu Only)
+      if: matrix.os == 'ubuntu-latest'
+      working-directory: ${{github.workspace}}/build/superbuild/f3d/src
+      shell: bash
+      run: |
+        git tag nightly -f
+        git push https://${{ secrets.SECRET_TOKEN }}@github.com/f3d-app/f3d.git nightly -f
+
+    - name: Delete previous nightly release assets Linux
+      if: matrix.os == 'ubuntu-latest'
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "F3D-*-Linux*"
+
+    - name: Delete previous nightly release assets Windows
+      if: matrix.os == 'windows-latest'
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "F3D-*-win64*"
+
+    - name: Delete previous nightly release assets MacOS
+      if: matrix.os == 'macos-latest'
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "F3D-*-Darwin*"
+
+    - name: Publish nightly release
+      uses: softprops/action-gh-release@v1
+      with:
+        repository: f3d-app/f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        tag_name: nightly
+        name: "Nightly"
+        body: "Automatically generated nightly binary release"
+        files: './build/F3D-*'
