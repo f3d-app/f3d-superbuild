@@ -34,10 +34,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        config:
+          - { name: "Windows", os: windows-latest, suffix: "win32", container:null }
+          - { name: "Linux", os: ubuntu-latest, suffix: "Linux", container: "ghcr.io/f3d-app/f3d-ci" }
+          - { name: "MacOS", os: macos-latest, suffix: "Darwin", container:null }
 
-    runs-on: ${{matrix.os}}
-    container: ${{ matrix.os == 'ubuntu-latest' && 'ghcr.io/f3d-app/f3d-ci' || null }}
+    runs-on: ${{matrix.config.os}}
+    container: ${{ matrix.config.container }}
 
     env:
       DISPLAY: :0
@@ -55,10 +58,10 @@ jobs:
       uses: ./source/.github/actions/f3d-superbuild/
       with:
         f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
-        os: ${{matrix.os}}
+        os: ${{matrix.config.os}}
 
     - name: Advance nightly tag (Ubuntu Only)
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.config.os == 'ubuntu-latest'
       working-directory: ${{github.workspace}}/build/superbuild/f3d/src
       shell: bash
       run: |
@@ -66,31 +69,12 @@ jobs:
         git push https://${{ secrets.SECRET_TOKEN }}@github.com/f3d-app/f3d.git nightly -f
 
     - name: Delete previous nightly release assets Linux
-      if: matrix.os == 'ubuntu-latest'
       uses: mknejp/delete-release-assets@v1
       with:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
         tag: nightly
-        assets: "F3D-*-Linux*"
-
-    - name: Delete previous nightly release assets Windows
-      if: matrix.os == 'windows-latest'
-      uses: mknejp/delete-release-assets@v1
-      with:
-        token: ${{ secrets.SECRET_TOKEN }}
-        repository: f3d-app/f3d
-        tag: nightly
-        assets: "F3D-*-win64*"
-
-    - name: Delete previous nightly release assets MacOS
-      if: matrix.os == 'macos-latest'
-      uses: mknejp/delete-release-assets@v1
-      with:
-        token: ${{ secrets.SECRET_TOKEN }}
-        repository: f3d-app/f3d
-        tag: nightly
-        assets: "F3D-*-Darwin*"
+        assets: "F3D-*-${{matrix.config.suffix}}*"
 
     - name: Publish nightly release
       uses: softprops/action-gh-release@v1
