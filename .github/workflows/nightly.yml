@@ -37,9 +37,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { name: "Windows", os: windows-latest, suffix: "win32", cont:null }
-          - { name: "Linux", os: ubuntu-latest, suffix: "Linux", cont: "ghcr.io/f3d-app/f3d-ci" }
-          - { name: "MacOS", os: macos-latest, suffix: "Darwin", cont:null }
+          - { name: "Windows", os: windows-latest, suffix: "win32", container: "null" }
+          - { name: "Linux", os: ubuntu-latest, suffix: "Linux", container: "ghcr.io/f3d-app/f3d-ci" }
+          - { name: "MacOS", os: macos-latest, suffix: "Darwin", container: "null" }
 
     runs-on: ${{matrix.config.os}}
     container: ${{ matrix.config.container }}
