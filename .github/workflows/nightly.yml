@@ -37,7 +37,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { name: "Windows", os: windows-latest, suffix: "win32" }
+          - { name: "Windows", os: windows-latest, suffix: "win64" }
           - { name: "Linux", os: ubuntu-latest, suffix: "Linux", container: "ghcr.io/f3d-app/f3d-ci" }
           - { name: "MacOS", os: macos-latest, suffix: "Darwin" }
 
@@ -70,7 +70,7 @@ jobs:
         git tag nightly -f
         git push https://${{ secrets.SECRET_TOKEN }}@github.com/f3d-app/f3d.git nightly -f
 
-    - name: Delete previous nightly release assets Linux
+    - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1
       with:
         token: ${{ secrets.SECRET_TOKEN }}
