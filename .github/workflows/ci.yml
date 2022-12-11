@@ -13,7 +13,7 @@ jobs:
     name: Check nightly is needed
     outputs:
       should_run: ${{ steps.should_run.outputs.should_run }}
-      f3d_sha: ${{ steps.should_run.outputs.should_run }}
+      f3d_sha: ${{ steps.should_run.outputs.f3d_sha }}
     steps:
 
     - name: Checkout F3D
@@ -28,7 +28,6 @@ jobs:
       continue-on-error: true
       run: |
         test -n "$(git log --since=72h)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
-        echo "f3d_sha=$(git rev-parse HEAD)"
         echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
   build_and_package:
