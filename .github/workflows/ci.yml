@@ -13,6 +13,7 @@ jobs:
     name: Check nightly is needed
     outputs:
       should_run: ${{ steps.should_run.outputs.should_run }}
+      f3d_sha: ${{ steps.should_run.outputs.should_run }}
     steps:
 
     - name: Checkout F3D
@@ -25,7 +26,9 @@ jobs:
     - name: check latest commit is less than a day
       id: should_run
       continue-on-error: true
-      run: test -n "$(git log --since=72h)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
+      run: |
+        test -n "$(git log --since=72h)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
+        echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
   build_and_package:
     needs: check_nightly
@@ -53,15 +56,16 @@ jobs:
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
       with:
-        f3d_version: origin/master
+        f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
         os: ${{matrix.os}}
 
-    - name: Recover F3D SHA information
+    - name: Advance nightly tag (Ubuntu Only)
+      if: matrix.os == 'ubuntu-latest'
       working-directory: ${{github.workspace}}/build/superbuild/f3d/src
       shell: bash
       run: |
-        export F3D_SHA=$(git rev-parse HEAD)
-        echo "F3D_SHA=$F3D_SHA" >> $GITHUB_ENV
+        git tag nightly -f
+        git push https://${{ secrets.SECRET_TOKEN }}@github.com/f3d-app/f3d.git nightly -f
 
     - name: Delete previous nightly release assets Linux
       if: matrix.os == 'ubuntu-latest'
@@ -97,7 +101,6 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         prerelease: true
         tag_name: nightly
-        target_commitish: ${{env.F3D_SHA}}
         name: "Nightly"
         body: "Automatically generated nightly binary release"
         files: './build/F3D-*'
