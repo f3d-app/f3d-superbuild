@@ -5,7 +5,7 @@ inputs:
     description: 'F3D version to build'
     required: true
     default: 'origin/master'
-  os: 
+  os:
     description: 'OS to build on'
     required: false
     default: 'ubuntu-latest'
@@ -13,12 +13,31 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: Intall ninja Windows
+
+  - name: Install tools Windows
     if: inputs.os == 'windows-latest'
     shell: cmd
-    run: choco install ninja
+    run: |
+      choco install ninja
+      choco install sccache
 
-  - name: setup msvc Windows
+  - name: Install tools MacOS
+    if: inputs.os == 'macos-latest'
+    run: brew install sccache
+
+  - name: Recover sccache cache
+    uses: actions/cache@v3
+    with:
+      path: sccache_cache
+      key: sccache-cache-1-${{inputs.os}}
+
+  - name: Setup sccache
+    shell: bash
+    run: |
+      export SCCACHE_DIR=${{github.workspace}}/sccache_cache
+      sccache --start-server
+
+  - name: Setup msvc Windows
     if: inputs.os == 'windows-latest'
     uses: TheMrMilchmann/setup-msvc-dev@v2
     with:
@@ -88,7 +107,6 @@ runs:
       cp x64\libglapi.dll ..\build\Testing\test-sdk\TestRendering_build\
       cp x64\libgallium_wgl.dll ..\build\Testing\test-sdk\TestRendering_build\
 
-
   - name: Test package
     working-directory: ${{github.workspace}}/build
     shell: bash
@@ -96,7 +114,13 @@ runs:
       ctest -R sdk -VV
       ctest -R exec -VV
 
-  - name: Upload Failed Artifacts
+  - name: Cleanup sccache
+    shell: bash
+    run: |
+      sccache --show-stats
+      sccache --stop-server
+
+  - name: Upload Artifacts
     if: always()
     uses: actions/upload-artifact@v3
     with:
