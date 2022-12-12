@@ -23,6 +23,7 @@ runs:
 
   - name: Install tools MacOS
     if: inputs.os == 'macos-latest'
+    shell: bash
     run: brew install sccache
 
   - name: Recover sccache cache
