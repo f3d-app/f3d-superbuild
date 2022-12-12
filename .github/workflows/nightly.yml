@@ -79,12 +79,14 @@ jobs:
         assets: "F3D-*-${{matrix.config.suffix}}*"
 
     - name: Publish nightly release
-      uses: softprops/action-gh-release@v1
+      uses: ncipollo/release-action@v1
       with:
-        repository: f3d-app/f3d
+        owner: f3d-app
+        repo: f3d
         token: ${{ secrets.SECRET_TOKEN }}
+        allowUpdates: true
         prerelease: true
-        tag_name: nightly
+        tag: nightly
         name: "Nightly"
         body: "Automatically generated nightly binary release"
-        files: './build/F3D-*'
+        artifacts: './build/F3D-*'
