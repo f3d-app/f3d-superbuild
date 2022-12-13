@@ -34,8 +34,11 @@ runs:
 
   - name: Setup sccache
     shell: bash
+    working-directory: ${{github.workspace}}
     run: |
+      mkdir sccache_cache
       export SCCACHE_DIR=${{github.workspace}}/sccache_cache
+      echo $SCCACHE_DIR
       sccache --start-server
 
   - name: Setup msvc Windows
@@ -64,6 +67,8 @@ runs:
       -Df3d_SOURCE_SELECTION=git
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -DUSE_SYSTEM_python3=ON
+      -DCMAKE_C_COMPILER_LAUNCHER=sccache
+      -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       ${{ inputs.os == 'windows-latest' && '-G Ninja' || null }}
       ${{ inputs.os == 'macos-latest' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
