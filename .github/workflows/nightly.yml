@@ -82,8 +82,9 @@ jobs:
         owner: f3d-app
         repo: f3d
         token: ${{ secrets.SECRET_TOKEN }}
-        allowUpdates: true
         prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
         tag: nightly
         name: "Nightly"
         body: "Automatically generated nightly binary release"

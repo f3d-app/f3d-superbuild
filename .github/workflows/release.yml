@@ -11,6 +11,10 @@ on:
         description: 'Superbuild branch/tag to use'
         required: true
         default: 'main'
+      publish_assets:
+        description: 'Publish assets to a prerelease'
+        required: true
+        default: 'false'
 
 jobs:
   build_and_package:
@@ -40,3 +44,19 @@ jobs:
       with:
         f3d_version: ${{github.event.inputs.f3d_version}}
         os: ${{matrix.os}}
+
+    - name: Publish assets
+      if: ${{ github.event.inputs.publish_assets == 'true' }}
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        replacesArtifacts: true
+        omitBodyDuringUpdate: true
+        omitNameDuringUpdate: true
+        tag: ${{github.event.inputs.f3d_version}}
+        artifacts: './build/F3D-*'
