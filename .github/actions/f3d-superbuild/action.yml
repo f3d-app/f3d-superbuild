@@ -28,7 +28,9 @@ runs:
 
   - name: Initialize environnement
     shell: bash
-    run: echo SCCACHE_CACHE=$(sccache --show-stats | grep Local | cut -d '"' -f2) >> $GITHUB_ENV
+    run: |
+      echo SCCACHE_CACHE=$(sccache --show-stats | grep Local | cut -d '"' -f2) >> $GITHUB_ENV
+      sccache --stop-server
 
   - name: Recover sccache cache
     uses: actions/cache@v3
@@ -42,6 +44,7 @@ runs:
     run: |
       echo ${{env.SCCACHE_CACHE}}
       sccache --start-server
+      sccache --show-stats
 
   - name: Setup msvc Windows
     if: inputs.os == 'windows-latest'
