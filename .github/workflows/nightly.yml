@@ -21,11 +21,11 @@ jobs:
         fetch-depth: 0
         lfs: 'false'
 
-    - name: check latest commit is less than a day
+    - name: check latest commit is not tagged already
       id: should_run
       continue-on-error: true
       run: |
-        test -n "$(git log --since=24h)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
+        test -z "$(git tag --points-at HEAD)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
         echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
   build_and_package:
