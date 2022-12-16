@@ -26,16 +26,22 @@ runs:
     shell: bash
     run: brew install sccache
 
+  - name: Initialize environnement
+    shell: bash
+    run: echo SCCACHE_CACHE=$(sccache --show-stats | grep Local | cut -d '"' -f2) >> $GITHUB_ENV
+
   - name: Recover sccache cache
     uses: actions/cache@v3
     with:
-      path: /github/home/.cache/sccache
+      path: ${{env.SCCACHE_CACHE}}
       key: sccache-cache-1-${{inputs.os}}-${{hashFiles('**/versions.cmake')}}
 
   - name: Setup sccache
     shell: bash
     working-directory: ${{github.workspace}}
     run: |
+      echo ${{env.SCCACHE_CACHE}}
+      sccache --show-stats
       sccache --start-server
 
   - name: Setup msvc Windows
