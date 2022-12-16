@@ -36,7 +36,7 @@ runs:
     shell: bash
     working-directory: ${{github.workspace}}
     run: |
-      mkdir sccache_cache
+      mkdir -p sccache_cache
       export SCCACHE_DIR=${{github.workspace}}/sccache_cache
       echo $SCCACHE_DIR
       sccache --start-server
