@@ -26,19 +26,24 @@ runs:
     shell: bash
     run: brew install sccache
 
+  - name: Initialize environnement
+    shell: bash
+    run: echo "SCCACHE_CACHE=$(sccache --show-stats | grep Local | cut -d '\"' -f2)" >> $GITHUB_ENV
+
   - name: Recover sccache cache
     uses: actions/cache@v3
     with:
-      path: sccache_cache
-      key: sccache-cache-1-${{inputs.os}}
+      path: ${{env.SCCACHE_CACHE}}
+      key: sccache-cache-1-${{inputs.os}}-${{hashFiles('**/versions.cmake')}}
 
   - name: Setup sccache
     shell: bash
     working-directory: ${{github.workspace}}
     run: |
-      mkdir -p sccache_cache
-      export SCCACHE_DIR=${{github.workspace}}/sccache_cache
-      echo $SCCACHE_DIR
+      echo ${{env.SCCACHE_CACHE}}
+      ls -lah ${{env.SCCACHE_CACHE}}
+      du -sh ${{env.SCCACHE_CACHE}}
+      sccache --show-stats
       sccache --start-server
 
   - name: Setup msvc Windows
@@ -121,10 +126,15 @@ runs:
       ctest -R exec -VV
 
   - name: Cleanup sccache
+    working-directory: ${{github.workspace}}
     shell: bash
     run: |
+      ls -lah ${{env.SCCACHE_CACHE}}
+      du -sh ${{env.SCCACHE_CACHE}}
       sccache --show-stats
       sccache --stop-server
+      ls -lah ${{env.SCCACHE_CACHE}}
+      du -sh ${{env.SCCACHE_CACHE}}
 
   - name: Upload Artifacts
     if: always()
