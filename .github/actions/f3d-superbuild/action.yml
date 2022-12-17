@@ -128,13 +128,7 @@ runs:
   - name: Cleanup sccache
     working-directory: ${{github.workspace}}
     shell: bash
-    run: |
-      ls -lah ${{env.SCCACHE_CACHE}}
-      du -sh ${{env.SCCACHE_CACHE}}
-      sccache --show-stats
-      sccache --stop-server
-      ls -lah ${{env.SCCACHE_CACHE}}
-      du -sh ${{env.SCCACHE_CACHE}}
+    run: sccache --show-stats
 
   - name: Upload Artifacts
     if: always()
