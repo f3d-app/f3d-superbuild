@@ -43,6 +43,7 @@ runs:
     working-directory: ${{github.workspace}}
     run: |
       echo ${{env.SCCACHE_CACHE}}
+      ls -lah ${{env.SCCACHE_CACHE}}
       sccache --start-server
       sccache --show-stats
 
