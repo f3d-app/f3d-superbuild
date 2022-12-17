@@ -6,7 +6,6 @@ execute_process (
     -B ${test_sdk_build_dir}
     -Df3d_DIR:PATH=${f3d_install_dir}/lib/cmake/f3d/
     -DCMAKE_BUILD_TYPE=${superbuild_build_type}
-    -DCMAKE_CONFIGURATION_TYPES=${superbuild_build_type}
     -G${superbuild_generator}
   RESULT_VARIABLE ret)
 if (NOT ret EQUAL 0)
