@@ -5,7 +5,7 @@ inputs:
     description: 'F3D version to build'
     required: true
     default: 'origin/master'
-  os: 
+  os:
     description: 'OS to build on'
     required: false
     default: 'ubuntu-latest'
@@ -13,12 +13,37 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - name: Intall ninja Windows
+
+  - name: Install tools Windows
     if: inputs.os == 'windows-latest'
     shell: cmd
-    run: choco install ninja
+    run: |
+      choco install ninja
+      choco install sccache
 
-  - name: setup msvc Windows
+  - name: Install tools MacOS
+    if: inputs.os == 'macos-latest'
+    shell: bash
+    run: brew install sccache
+
+  - name: Initialize sccache environnement
+    shell: bash
+    run: |
+      echo SCCACHE_CACHE=$(sccache --show-stats | grep Local | cut -d '"' -f2) >> $GITHUB_ENV
+      sccache --stop-server
+
+  - name: Recover sccache cache
+    uses: actions/cache@v3
+    with:
+      path: ${{env.SCCACHE_CACHE}}
+      key: sccache-cache-1-${{inputs.os}}-${{hashFiles('**/versions.cmake')}}
+
+  - name: Start sccache
+    shell: bash
+    working-directory: ${{github.workspace}}
+    run: sccache --start-server
+
+  - name: Setup msvc Windows
     if: inputs.os == 'windows-latest'
     uses: TheMrMilchmann/setup-msvc-dev@v2
     with:
@@ -44,6 +69,8 @@ runs:
       -Df3d_SOURCE_SELECTION=git
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -DUSE_SYSTEM_python3=ON
+      -DCMAKE_C_COMPILER_LAUNCHER=sccache
+      -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       ${{ inputs.os == 'windows-latest' && '-G Ninja' || null }}
       ${{ inputs.os == 'macos-latest' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
@@ -88,7 +115,6 @@ runs:
       cp x64\libglapi.dll ..\build\Testing\test-sdk\TestRendering_build\
       cp x64\libgallium_wgl.dll ..\build\Testing\test-sdk\TestRendering_build\
 
-
   - name: Test package
     working-directory: ${{github.workspace}}/build
     shell: bash
@@ -96,7 +122,12 @@ runs:
       ctest -R sdk -VV
       ctest -R exec -VV
 
-  - name: Upload Failed Artifacts
+  - name: Cleanup sccache
+    working-directory: ${{github.workspace}}
+    shell: bash
+    run: sccache --stop-server
+
+  - name: Upload Artifacts
     if: always()
     uses: actions/upload-artifact@v3
     with:
