@@ -39,6 +39,7 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2=YES
     -DVTK_MODULE_ENABLE_VTK_TestingCore=YES
     -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:STRING=${vtk_raytracing_enabled}
+    -DVTKOSPRAY_ENABLE_DENOISER=${ospray_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE=TBB
     -DVTK_SMP_ENABLE_SEQUENTIAL=OFF
     -DVTK_SMP_ENABLE_STDTHREAD=OFF
