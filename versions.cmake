@@ -24,12 +24,9 @@ superbuild_set_revision(draco
   URL_MD5 a0782fa8148610920bb3e91f3b8cc83c)
 
 superbuild_set_selectable_source(vtk
-  SELECT 9.2.2
-    URL     "https://www.vtk.org/files/release/9.2/VTK-9.2.2.tar.gz"
-    URL_MD5 35e80f6bb8805d1a5f995b4ee0f93718
-  SELECT commit DEFAULT
-    GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
-    GIT_TAG        "ea2b6b5ad1516f65684eff0972a198af873ca1c1"
+  SELECT 9.2.5 DEFAULT
+    URL     "https://www.vtk.org/files/release/9.2/VTK-9.2.5.tar.gz"
+    URL_MD5 0749bd742b9a56d97099e1ab9737ccf1
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
     GIT_TAG        "origin/master"

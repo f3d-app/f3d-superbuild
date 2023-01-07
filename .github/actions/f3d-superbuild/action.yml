@@ -62,6 +62,13 @@ runs:
     shell: bash
     run: mkdir build
 
+  - name: Recover VTK version to build
+    working-directory: ${{github.workspace}}
+    shell: bash
+    run: |
+      curl -L --output vtk_commit_sha https://raw.githubusercontent.com/f3d-app/f3d/master/.github/actions/vtk_commit_sha
+      echo VTK_COMMIT_SHA=`cat ./vtk_commit_sha` >> $GITHUB_ENV
+
   - name: Configure
     working-directory: ${{github.workspace}}/build
     shell: bash
@@ -70,6 +77,8 @@ runs:
       -DCMAKE_BUILD_TYPE=Release
       -Df3d_SOURCE_SELECTION=git
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
+      -Dvtk_SOURCE_SELECTION=git
+      -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -DUSE_SYSTEM_python3=ON
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
