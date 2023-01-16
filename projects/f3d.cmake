@@ -40,4 +40,8 @@ superbuild_add_project(f3d
     -DF3D_WINDOWS_GUI:BOOL=${f3d_build_for_windows}
     -DF3D_WINDOWS_RESOURCES_INSTALL_DIR=resources
     -DCMAKE_MACOSX_RPATH=OFF
+  INSTALL_COMMAND
+    ${CMAKE_COMMAND} --install <BINARY_DIR>
+  COMMAND
+    ${CMAKE_COMMAND} --install <BINARY_DIR> --component mimetypes
 )
