@@ -4,6 +4,9 @@ include(f3d.info)
 # Define f3d_version_full and other vars
 include(f3d-version)
 
+# Define f3d_package_suffix
+include(f3d.suffix)
+
 set(CPACK_PACKAGE_NAME "${f3d_name}")
 set(CPACK_PACKAGE_VERSION "${f3d_version_full}")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY  "${f3d_name}")
@@ -16,6 +19,8 @@ set(CPACK_RESOURCE_FILE_LICENSE "${superbuild_install_location}/share/licenses/f
 set(CPACK_CREATE_DESKTOP_LINKS f3d)
 set(CPACK_STRIP_FILES TRUE)
 set(CPACK_THREADS 0)
+
+set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${f3d_version_full}-${f3d_package_suffix}")
 
 set(superbuild_bundle_system_librairies_component "system")
 
