@@ -44,7 +44,6 @@ jobs:
       uses: ./source/.github/actions/f3d-superbuild/
       with:
         f3d_version: ${{github.event.inputs.f3d_version}}
-        os: ${{matrix.os}}
         enable_raytracing: ${{matrix.enable_raytracing}}
 
     - name: Publish assets

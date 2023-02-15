@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref_name }}'
+  cancel-in-progress: true
+
 jobs:
   build_and_package:
     strategy:
@@ -33,5 +37,4 @@ jobs:
       uses: ./source/.github/actions/f3d-superbuild/
       with:
         f3d_version: origin/master
-        os: ${{matrix.os}}
         enable_raytracing: ${{matrix.enable_raytracing}}

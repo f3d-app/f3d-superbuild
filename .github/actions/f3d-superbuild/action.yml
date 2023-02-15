@@ -5,10 +5,6 @@ inputs:
     description: 'F3D version to build'
     required: true
     default: 'origin/master'
-  os:
-    description: 'OS to build on'
-    required: false
-    default: 'ubuntu-latest'
   enable_raytracing:
     description: 'A flag to enable raytracing'
     required: false
@@ -19,14 +15,14 @@ runs:
   steps:
 
   - name: Install tools Windows
-    if: inputs.os == 'windows-latest'
+    if: runner.os == 'Windows'
     shell: cmd
     run: |
       choco install ninja
       choco install sccache
 
   - name: Install tools MacOS
-    if: inputs.os == 'macos-latest'
+    if: runner.os == 'macOS'
     shell: bash
     run: brew install sccache
 
@@ -41,8 +37,8 @@ runs:
     uses: actions/cache@v3
     with:
       path: ${{env.SCCACHE_CACHE}}
-      key: sccache-cache-1-${{inputs.os}}-${{env.DATE_STRING}}
-      restore-keys: sccache-cache-1-${{inputs.os}}
+      key: sccache-cache-1-${{runner.os}}-${{env.DATE_STRING}}
+      restore-keys: sccache-cache-1-${{runner.os}}
 
   - name: Start sccache
     shell: bash
@@ -50,13 +46,13 @@ runs:
     run: sccache --start-server
 
   - name: Setup msvc Windows
-    if: inputs.os == 'windows-latest'
+    if: runner.os == 'Windows'
     uses: TheMrMilchmann/setup-msvc-dev@v2
     with:
       arch: x64
 
   - name: Setup NSIS Windows
-    if: inputs.os == 'windows-latest'
+    if: runner.os == 'Windows'
     working-directory: ${{github.workspace}}
     shell: powershell
     run: cp source\.github\nsis\FileAssociation.nsh "${env:ProgramFiles(x86)}/NSIS/Include"
@@ -87,8 +83,8 @@ runs:
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -Denable_ospray=${{ inputs.enable_raytracing == 'true' && 'ON' || 'OFF' }}
-      ${{ inputs.os == 'windows-latest' && '-G Ninja' || null }}
-      ${{ inputs.os == 'macos-latest' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
+      ${{ runner.os == 'Windows' && '-G Ninja' || null }}
+      ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
   - name: Build
     working-directory: ${{github.workspace}}/build
@@ -108,14 +104,14 @@ runs:
     shell: bash
     run: cmake -E remove_directory install
 
-  - name: Run Xvfb ubuntu
-    if: inputs.os == 'ubuntu-latest'
+  - name: Run Xvfb Linux
+    if: runner.os == 'Linux'
     shell: bash
     run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
 
-  - name: Install Mesa windows
+  - name: Install Mesa Windows
     shell: cmd
-    if: inputs.os == 'windows-latest'
+    if: runner.os == 'Windows'
     working-directory: ${{github.workspace}}
     run: |
       mkdir build\Testing\test-sdk\
@@ -148,4 +144,4 @@ runs:
     uses: actions/upload-artifact@v3
     with:
       path: ./build/F3D-*
-      name: F3D-${{inputs.enable_raytracing}}-${{inputs.os}}
+      name: F3D-${{inputs.enable_raytracing}}-${{runner.os}}
