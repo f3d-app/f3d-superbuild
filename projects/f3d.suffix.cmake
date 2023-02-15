@@ -9,7 +9,7 @@ endif()
 
 if (APPLE)
   list(APPEND package_suffix_items
-    "OSX${CMAKE_OSX_DEPLOYMENT_TARGET}")
+    "macOS")
 else ()
   list(APPEND package_suffix_items
     "${CMAKE_SYSTEM_NAME}")
