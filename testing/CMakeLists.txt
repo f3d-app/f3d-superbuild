@@ -13,8 +13,9 @@ endif ()
 
 include(f3d.info)
 include(f3d-version)
-set(glob_prefix "${f3d_name}-${f3d_version_full}*")
-superbuild_add_extract_test("f3d" "${glob_prefix}" "${generator}" "${f3d_extract_dir}" LABELS "F3D")
+include(f3d.suffix)
+set(f3d_package_file_name "${f3d_name}-${f3d_version_full}-${f3d_package_suffix}")
+superbuild_add_extract_test("f3d" "${f3d_package_file_name}" "${generator}" "${f3d_extract_dir}" LABELS "F3D")
 
 function (f3d_add_test name file)
   add_test(

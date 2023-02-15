@@ -6,12 +6,17 @@ on:
   pull_request:
     branches: [ "main" ]
 
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref_name }}'
+  cancel-in-progress: true
+
 jobs:
   build_and_package:
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+        enable_raytracing: [true, false]
 
     runs-on: ${{matrix.os}}
     container: ${{ matrix.os == 'ubuntu-latest' && 'ghcr.io/f3d-app/f3d-ci' || null }}
@@ -32,4 +37,4 @@ jobs:
       uses: ./source/.github/actions/f3d-superbuild/
       with:
         f3d_version: origin/master
-        os: ${{matrix.os}}
+        enable_raytracing: ${{matrix.enable_raytracing}}
