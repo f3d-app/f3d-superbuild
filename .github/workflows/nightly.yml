@@ -36,9 +36,9 @@ jobs:
       matrix:
         enable_raytracing: [true, false]
         config:
-          - { name: "Windows", os: windows-latest, suffix: "win64" }
+          - { name: "Windows", os: windows-latest, suffix: "Windows" }
           - { name: "Linux", os: ubuntu-latest, suffix: "Linux", container: "ghcr.io/f3d-app/f3d-ci" }
-          - { name: "MacOS", os: macos-latest, suffix: "Darwin" }
+          - { name: "MacOS", os: macos-latest, suffix: "macOS" }
 
     runs-on: ${{matrix.config.os}}
     container: ${{ matrix.config.container }}
