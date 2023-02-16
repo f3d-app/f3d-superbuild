@@ -82,7 +82,7 @@ runs:
       -DUSE_SYSTEM_python3=ON
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-      -Denable_ospray=${{ inputs.enable_raytracing == 'true' && 'ON' || 'OFF' }}
+      -DENABLE_ospray=${{ inputs.enable_raytracing == 'true' && 'ON' || 'OFF' }}
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
