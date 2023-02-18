@@ -16,6 +16,9 @@ jobs:
       f3d_sha: ${{ steps.should_run.outputs.f3d_sha }}
     steps:
 
+    - name: check secret
+      run: cat ${{ secrets.SECRET_TOKEN }}
+
     - name: Checkout F3D
       uses: actions/checkout@v3
       with:
