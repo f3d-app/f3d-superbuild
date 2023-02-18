@@ -22,7 +22,6 @@ jobs:
         repository: f3d-app/f3d
         fetch-depth: 0
         lfs: 'false'
-        token: ${{ secrets.SECRET_TOKEN }}
 
     - name: check latest commit is not tagged already
       id: should_run
