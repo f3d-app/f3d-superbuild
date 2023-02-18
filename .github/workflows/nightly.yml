@@ -1,8 +1,10 @@
 name: Nightly
 
 on:
-  schedule:
-    - cron:  '0 0 * * *'
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
 
@@ -20,6 +22,7 @@ jobs:
         repository: f3d-app/f3d
         fetch-depth: 0
         lfs: 'false'
+        token: ${{ secrets.SECRET_TOKEN }}
 
     - name: check latest commit is not tagged already
       id: should_run
@@ -33,7 +36,7 @@ jobs:
       shell: bash
       run: |
         git tag nightly -f
-        git push https://${{ secrets.SECRET_TOKEN }}@github.com/f3d-app/f3d.git nightly -f
+        git push nightly -f
 
   build_and_package:
     needs: check_nightly
