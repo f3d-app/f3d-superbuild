@@ -105,6 +105,6 @@ jobs:
       run: |
         git checkout https://github.com/f3d-app/f3d.git
         cd f3d
-        git checkout ${{ jobs.check_nightly.outputs.f3d_sha}}
+        git checkout ${{ needs.check_nightly.outputs.f3d_sha}}
         git tag nightly -f
         git push https://${{ secrets.SECRET_TOKEN }}@github.com/f3d-app/f3d.git nightly -f
