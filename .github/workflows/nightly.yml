@@ -57,6 +57,15 @@ jobs:
 
     steps:
 
+    - name: Checkout F3D and advance nightly tag
+      if: matrix.config.os == 'ubuntu-latest'
+      run: |
+        git clone https://github.com/f3d-app/f3d.git
+        cd f3d
+        git checkout ${{ needs.check_nightly.outputs.f3d_sha}}
+        git tag nightly -f
+        git push https://${{ secrets.SECRET_TOKEN }}@github.com/f3d-app/f3d.git nightly -f
+
     - name: Checkout
       uses: actions/checkout@v3
       with:
