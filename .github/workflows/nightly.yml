@@ -16,9 +16,6 @@ jobs:
       f3d_sha: ${{ steps.should_run.outputs.f3d_sha }}
     steps:
 
-    - name: check secret
-      run: cat ${{ secrets.SECRET_TOKEN }}
-
     - name: Checkout F3D
       uses: actions/checkout@v3
       with:
@@ -34,12 +31,12 @@ jobs:
         test -z "$(git tag --points-at HEAD)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
         echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-    - name: Advance nightly tag if needed
-      if: ${{ steps.should_run.outputs.should_run == 'true' }}
-      shell: bash
-      run: |
-        git tag nightly -f
-        git push nightly -f
+#    - name: Advance nightly tag if needed
+#      if: ${{ steps.should_run.outputs.should_run == 'true' }}
+#      shell: bash
+#      run: |
+#        git tag nightly -f
+#        git push nightly -f
 
   build_and_package:
     needs: check_nightly
@@ -68,6 +65,9 @@ jobs:
         path: 'source'
         submodules: 'true'
         lfs: 'true'
+
+    - name: check secret
+      run: cat ${{ secrets.SECRET_TOKEN }}
 
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
