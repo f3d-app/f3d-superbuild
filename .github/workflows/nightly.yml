@@ -103,7 +103,7 @@ jobs:
 
     - name: Checkout F3D and advance nightly tag
       run: |
-        git checkout https://github.com/f3d-app/f3d.git
+        git clone https://github.com/f3d-app/f3d.git
         cd f3d
         git checkout ${{ needs.check_nightly.outputs.f3d_sha}}
         git tag nightly -f
