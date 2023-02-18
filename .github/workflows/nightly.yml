@@ -28,13 +28,6 @@ jobs:
         test -z "$(git tag --points-at HEAD)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
         echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-    - name: Advance nightly tag if needed
-      if: ${{ steps.should_run.outputs.should_run == 'true' }}
-      shell: bash
-      run: |
-        git tag nightly -f
-        git push https://${{ secrets.SECRET_TOKEN }}@github.com/f3d-app/f3d.git nightly -f
-
   build_and_package:
     needs: check_nightly
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
@@ -46,7 +39,6 @@ jobs:
           - { name: "Windows", os: windows-latest }
           - { name: "Linux", os: ubuntu-latest, container: "ghcr.io/f3d-app/f3d-ci" }
           - { name: "macOS", os: macos-latest }
-
 
     runs-on: ${{matrix.config.os}}
     container: ${{ matrix.config.container }}
@@ -90,3 +82,25 @@ jobs:
         name: "Nightly"
         body: "Automatically generated nightly binary release"
         artifacts: './build/F3D-*'
+
+  advance_nightly:
+    needs: [check_nightly, build_and_package]
+    if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
+    runs-on: ubuntu-latest
+    name: Advance nightly tag
+
+    steps:
+
+    - name: Checkout F3D
+      uses: actions/checkout@v3
+      with:
+        repository: f3d-app/f3d
+        fetch-depth: 0
+        lfs: 'false'
+        token: ${{ secrets.SECRET_TOKEN }}
+
+    - name: Advance nightly tag
+      run: |
+        git checkout ${{ needs.check_nightly.outputs.f3d_sha}}
+        git tag nightly -f
+        git push origin nightly -f
