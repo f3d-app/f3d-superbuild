@@ -34,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        enable_raytracing: [true, false]
+        enable_raytracing: ['true', 'false']
         config:
           - { name: "Windows", os: windows-latest }
           - { name: "Linux", os: ubuntu-latest, container: "ghcr.io/f3d-app/f3d-ci" }
@@ -67,7 +67,8 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
         tag: nightly
-        assets: "F3D-*-${{ matrix.enable_raytracing == 'true' && 'raytracing' || null }}-${{matrix.config.name}}*"
+        assets: "F3D-*-${{ matrix.enable_raytracing == 'true' && 'raytracing-' || null }}${{matrix.config.name}}*"
+        fail-if-no-assets: false
 
     - name: Publish nightly release
       uses: ncipollo/release-action@v1
