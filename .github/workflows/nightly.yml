@@ -19,7 +19,7 @@ jobs:
       with:
         repository: f3d-app/f3d
         fetch-depth: 0
-        lfs: 'false'
+        lfs: false
 
     - name: check latest commit is not tagged already
       id: should_run
@@ -52,8 +52,8 @@ jobs:
       uses: actions/checkout@v3
       with:
         path: 'source'
-        submodules: 'true'
-        lfs: 'true'
+        submodules: true
+        lfs: true
 
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
@@ -67,7 +67,8 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
         tag: nightly
-        assets: "F3D-*-${{ matrix.enable_raytracing == 'true' && 'raytracing' || null }}-${{matrix.config.name}}*"
+        assets: "F3D-*-${{ matrix.enable_raytracing == true && 'raytracing-' || null }}${{matrix.config.name}}*"
+        fail-if-no-assets: false
 
     - name: Publish nightly release
       uses: ncipollo/release-action@v1
@@ -96,7 +97,7 @@ jobs:
       with:
         repository: f3d-app/f3d
         fetch-depth: 0
-        lfs: 'false'
+        lfs: false
         token: ${{ secrets.SECRET_TOKEN }}
 
     - name: Advance nightly tag

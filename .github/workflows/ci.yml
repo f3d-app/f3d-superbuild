@@ -30,8 +30,8 @@ jobs:
       uses: actions/checkout@v3
       with:
         path: 'source'
-        submodules: 'true'
-        lfs: 'true'
+        submodules: true
+        lfs: true
 
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
