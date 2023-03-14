@@ -78,7 +78,7 @@ if (alembic_enabled)
 endif ()
 
 if (assimp_enabled)
-  f3d_add_test(TestAssimp slime.fbx)
+  f3d_add_test(TestAssimp duck.fbx)
 endif ()
 
 if (draco_enabled)
@@ -86,7 +86,7 @@ if (draco_enabled)
 endif ()
 
 if (occt_enabled)
-  f3d_add_test(TestOCCT cube.stp)
+  f3d_add_test(TestOCCT f3d.stp --up=+Y)
 endif ()
 
 if (ospray_enabled)
