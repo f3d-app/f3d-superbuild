@@ -92,8 +92,28 @@ if (cpack_generator MATCHES "NSIS")
     !include \\\"FileFunc.nsh\\\"\n\
     !include \\\"FileAssociation.nsh\\\"")
 
+  # Read F3D plugin json files to recover the file associations
+  set(F3D_REGISTER_LIST "")
+  file(GLOB plugin_json_files ${superbuild_install_location}/share/f3d/plugins/*.json)
+  foreach(plugin_json_file ${plugin_json_files})
+    file(READ ${plugin_json_file} plugin_json_string)
+    string(JSON readers GET ${plugin_json_string} readers)
+    string(JSON readers_length LENGTH ${readers})
+    math(EXPR readers_length "${readers_length}-1")
+    foreach(reader_idx RANGE ${readers_length})
+      string(JSON reader GET ${readers} ${reader_idx})
+      string(JSON description GET ${reader} description)
+      string(JSON extensions GET ${reader} extensions)
+      string(JSON extensions_length LENGTH ${extensions})
+      math(EXPR extensions_length "${extensions_length}-1")
+      foreach(extension_idx RANGE ${extensions_length})
+        string(JSON extension GET ${extensions} ${extension_idx})
+        list(APPEND F3D_REGISTER_LIST "'${extension}' '${description}'")
+      endforeach()
+    endforeach()
+  endforeach()
+
   # Create association on install
-  set(F3D_REGISTER_LIST "${F3D_FILE_ASSOCIATION_NSIS}")
   list(TRANSFORM F3D_REGISTER_LIST PREPEND "\\\${RegisterExtension} '$INSTDIR\\\\bin\\\\f3d.exe' ")
   list(JOIN F3D_REGISTER_LIST "\n      " F3D_REGISTER_STRING)
   set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
