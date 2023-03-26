@@ -69,12 +69,13 @@ This repository also generate a nightly release of F3D.
  - `ENABLE_pybind11`: OFF by defaut, build pybind11 and F3D python bindings, not packageable
  - `USE_SYSTEM_python3`: OFF by default, can be enabled if available as python is only a build time dependency
  - `f3d_SOURCE_SELECTION`: git by default, let the user choose the version of F3D to build and package
- - `vtk_SOURCE_SELECTION`: commit by default, select the version of VTK to build and package
+ - `vtk_SOURCE_SELECTION`: 9.2.5 by default, select the version of VTK to build and package
+ - `vtk_GIT_TAG`: master by default, when using `-Dvtk_SOURCE_SELECTION=git`, select the branch or commit to build
  - `BUILD_TESTING`: ON by default, required for the packaging step
 
 # License
-see LICENSE
+see the BSD 3-Clause [LICENSE](LICENSE).
 
 # Acknowledgments
-Inspired by/Copied from paraview-superbuild, Copyright (c) 2005-2008 Sandia Corporation, Kitware Inc.
-Uses FileAssociation.nsh, Copyright (c) Vytautas Krivickas from https://nsis.sourceforge.io/File_Association.
+ - Inspired by/Copied from paraview-superbuild, Copyright (c) 2005-2008 Sandia Corporation, Kitware Inc.
+ - Uses FileAssociation.nsh, Copyright (c) Vytautas Krivickas from https://nsis.sourceforge.io/File_Association.
