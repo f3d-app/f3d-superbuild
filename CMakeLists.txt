@@ -77,7 +77,8 @@ function (superbuild_add_packaging)
     set(generators
       TGZ
       TXZ
-      DEB)
+      DEB
+      RPM)
   endif ()
   foreach (generator IN LISTS generators)
     superbuild_add_extra_package_test(f3d "${generator}"

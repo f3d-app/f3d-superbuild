@@ -87,5 +87,12 @@ install(
 if (cpack_generator MATCHES "DEB")
   set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${f3d_url})
   set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Whisley <whisley.santos@gmail.com>")
-  set(CPACK_DEBIAN_PACKAGE_DEPENDS "libbsd0, libxdmcp6, libglvnd0, libxcb1, libc6, libgcc1, libstdc++6, libopengl0, libglx0, libx11-6")
+endif ()  
+
+if (cpack_generator MATCHES "RPM")
+  # Make sure that USE_SYSTEM_python3 is on to generate a valid rpm
+  set(CPACK_RPM_PACKAGE_RELEASE 1)
+  set(CPACK_RPM_PACKAGE_LICENSE BSD-3-Clause)
+  set(CPACK_RPM_PACKAGE_URL ${f3d_url})
+  set(CPACK_RPM_PACKAGE_REQUIRES "libstdc++, glibc-devel, libgcc, glibc, libglvnd-glx, libglvnd-opengl, libX11, libXcursor, libXrender, libXfixes, libXext, libglvnd, libxcb, libXau")
 endif ()  
