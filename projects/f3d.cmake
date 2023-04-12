@@ -33,7 +33,6 @@ superbuild_add_project(f3d
     -DF3D_PYTHON_BINDINGS:BOOL=${pybind11_enabled}
     -DF3D_STRICT_BUILD=ON
     -DF3D_WINDOWS_GUI:BOOL=${f3d_build_for_windows}
-    -DF3D_WINDOWS_INSTALL_LOGOS_FOR_NSIS_PACKAGING:BOOL=${f3d_build_for_windows}
   )
 
 # Installing components that are not part of the standard install
