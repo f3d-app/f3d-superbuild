@@ -13,7 +13,7 @@ superbuild_windows_install_program("f3d" "bin"
 	COMPONENT binaries)
 
 # Package the F3D shell extension
-superbuild_windows_install_plugin("F3DShellExtension.dll" "bin" "bin" 
+superbuild_windows_install_plugin("F3DShellExtension.dll" "bin" "bin"
   SEARCH_DIRECTORIES  "${library_paths}"
   COMPONENT binaries)
 
@@ -67,6 +67,13 @@ install(
 
 ## NSIS Generator specific
 if (cpack_generator MATCHES "NSIS")
+
+  # NSIS Resources
+  file(COPY
+      "${superbuild_source_directory}/resources/logo.ico"
+      "${superbuild_source_directory}/resources/logotype64.bmp"
+    DESTINATION "${superbuild_install_location}/share/f3d/")
+
   set(CPACK_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/NSIS")
 
   set(f3d_ico_relative "share/f3d/logo.ico")
