@@ -8,13 +8,10 @@ superbuild_add_project(alembic
     LICENSE.txt
   DEPENDS imath
   CMAKE_ARGS
-    -DALEMBIC_LIB_INSTALL_DIR:PATH=${alembic_lib_install_dir}
+    -DALEMBIC_LIB_INSTALL_DIR=${alembic_lib_install_dir}
     -DUSE_BINARIES=OFF
     -DUSE_TESTS=OFF
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_MACOSX_RPATH=OFF
     -DCMAKE_INSTALL_RPATH=<INSTALL_DIR>/lib
 )
-
-superbuild_apply_patch(alembic disable-macosx-rpath
-  "Disable macosx rpath force")

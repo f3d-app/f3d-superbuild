@@ -6,6 +6,3 @@ superbuild_add_project(imath
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_MACOSX_RPATH=OFF
 )
-
-superbuild_apply_patch(imath disable-macosx-rpath
-  "Disable macosx rpath force")
