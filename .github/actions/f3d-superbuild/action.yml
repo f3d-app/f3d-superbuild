@@ -144,4 +144,4 @@ runs:
     uses: actions/upload-artifact@v3
     with:
       path: ./build/F3D-*
-      name: F3D-${{inputs.enable_raytracing}}-${{runner.os}}
+      name: F3D-${{runner.os}}-${{inputs.enable_raytracing}}

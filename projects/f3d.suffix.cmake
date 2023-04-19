@@ -2,11 +2,6 @@
 # files have decent names that we can directly upload to the release page.
 set(package_suffix_items)
 
-if (ospray_enabled)
-  list(APPEND package_suffix_items
-    "raytracing")
-endif()
-
 if (APPLE)
   list(APPEND package_suffix_items
     "macOS")
@@ -17,5 +12,10 @@ endif ()
 
 list(APPEND package_suffix_items
   "${CMAKE_SYSTEM_PROCESSOR}")
+
+if (ospray_enabled)
+  list(APPEND package_suffix_items
+    "raytracing")
+endif()
 
 string(REPLACE ";" "-" f3d_package_suffix "${package_suffix_items}")
