@@ -10,8 +10,11 @@ else ()
     "${CMAKE_SYSTEM_NAME}")
 endif ()
 
-list(APPEND package_suffix_items
-  "${CMAKE_SYSTEM_PROCESSOR}")
+if ("${CMAKE_HOST_SYSTEM_PROCESSOR}" MATCHES "^(x86_64||AMD64)$")
+  list(APPEND package_suffix_items "x86_64")
+else()
+  list(APPEND package_suffix_items "unknown")
+endif()
 
 if (ospray_enabled)
   list(APPEND package_suffix_items
