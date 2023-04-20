@@ -6,7 +6,7 @@ on:
       f3d_version:
         description: 'F3D version to build'
         required: true
-        default: 'v1.3.1'
+        default: 'v2.0.0'
       sb_branch:
         description: 'Superbuild branch/tag to use'
         required: true

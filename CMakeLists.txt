@@ -7,7 +7,7 @@ macro (superbuild_setup_variables)
   if (f3d_SOURCE_SELECTION STREQUAL "git")
     # Assuming master; just use the latest version, but let the user set their
     # own version in case it is actually a branch from some other version.
-    set(F3D_VERSION_DEFAULT "1.3.1"
+    set(F3D_VERSION_DEFAULT "2.0.0"
       CACHE STRING "The default version of F3D to use if it cannot be detected")
     mark_as_advanced(F3D_VERSION_DEFAULT)
     set(f3d_default_version "${F3D_VERSION_DEFAULT}")
