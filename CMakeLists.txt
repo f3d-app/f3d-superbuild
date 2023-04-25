@@ -53,6 +53,14 @@ function (superbuild_find_projects var)
     list(APPEND projects
       bzip2
       ffi)
+    if (NOT APPLE)
+      list(APPEND projects
+        fontconfig
+        libxml2
+        gperf
+        utillinux
+        pkgconf)
+    endif ()
   endif ()
 
   if (WIN32)
