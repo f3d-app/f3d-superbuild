@@ -16,6 +16,7 @@ superbuild_add_project(occt
     -DBUILD_MODULE_ModelingData=OFF
     -DBUILD_MODULE_Visualization=OFF
     -DBUILD_DOC_Overview=OFF
+    -DBUILD_LIBRARY_TYPE=Static
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_INSTALL_RPATH=<INSTALL_DIR>/lib
 )
