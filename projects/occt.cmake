@@ -1,4 +1,4 @@
-set(occt_toolkits TKSTEP TKIGES TKMesh)
+set(occt_toolkits TKSTEP TKIGES TKMesh TKXDESTEP TKXDEIGES)
 list(JOIN occt_toolkits "${_superbuild_list_separator}" occt_toolkits_escaped)
 
 superbuild_add_project(occt
