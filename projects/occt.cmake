@@ -5,6 +5,7 @@ superbuild_add_project(occt
   LICENSE_FILES
     LICENSE_LGPL_21.txt
     OCCT_LGPL_EXCEPTION.txt
+  DEPENDS freetype
   CMAKE_ARGS
     -DINSTALL_DIR_BIN:PATH=bin
     -DBUILD_ADDITIONAL_TOOLKITS=${occt_toolkits_escaped}

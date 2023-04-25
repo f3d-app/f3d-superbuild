@@ -30,6 +30,7 @@ function (superbuild_find_projects var)
     draco
     embree
     f3d
+    freetype
     imath
     ispc
     occt
