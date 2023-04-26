@@ -87,7 +87,7 @@ if (draco_enabled)
 endif ()
 
 if (occt_enabled)
-  f3d_add_test(TestOCCT f3d.stp --up=+Y)
+  f3d_add_test(TestOCCT f3d.stp)
 endif ()
 
 if (ospray_enabled)
