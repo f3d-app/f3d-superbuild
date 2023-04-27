@@ -21,11 +21,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        enable_raytracing: [true, false]
+        raytracing_label: [raytracing, no-raytracing]
+        config:
+          - { name: "Windows", os: windows-latest }
+          - { name: "Linux", os: ubuntu-latest, container: "ghcr.io/f3d-app/f3d-ci" }
+          - { name: "macOS", os: macos-latest }
 
-    runs-on: ${{matrix.os}}
-    container: ${{ matrix.os == 'ubuntu-latest' && 'ghcr.io/f3d-app/f3d-ci' || null }}
+
+    runs-on: ${{matrix.config.os}}
+    container: ${{ matrix.config.container }}
 
     env:
       DISPLAY: :0
@@ -44,7 +48,7 @@ jobs:
       uses: ./source/.github/actions/f3d-superbuild/
       with:
         f3d_version: ${{github.event.inputs.f3d_version}}
-        enable_raytracing: ${{matrix.enable_raytracing}}
+        raytracing_label: ${{matrix.raytracing_label}}
 
     - name: Publish assets
       if: ${{ github.event.inputs.publish_assets == 'true' }}

@@ -5,10 +5,10 @@ inputs:
     description: 'F3D version to build'
     required: true
     default: 'origin/master'
-  enable_raytracing:
-    description: 'A flag to enable raytracing'
+  raytracing_label:
+    description: 'A label to enable raytracing'
     required: false
-    default: 'true'
+    default: 'raytracing'
 
 runs:
   using: "composite"
@@ -37,8 +37,8 @@ runs:
     uses: actions/cache@v3
     with:
       path: ${{env.SCCACHE_CACHE}}
-      key: sccache-cache-${{inputs.enable_raytracing}}-${{runner.os}}-0-${{env.DATE_STRING}}
-      restore-keys: sccache-cache-${{inputs.enable_raytracing}}-${{runner.os}}-0
+      key: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-0-${{env.DATE_STRING}}
+      restore-keys: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-0
 
   - name: Start sccache
     shell: bash
@@ -82,7 +82,7 @@ runs:
       -DUSE_SYSTEM_python3=ON
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-      -DENABLE_ospray=${{ inputs.enable_raytracing == 'true' && 'ON' || 'OFF' }}
+      -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
@@ -144,4 +144,4 @@ runs:
     uses: actions/upload-artifact@v3
     with:
       path: ./build/F3D-*
-      name: F3D-${{runner.os}}-${{inputs.enable_raytracing}}
+      name: F3D-${{runner.os}}-${{inputs.raytracing_label}}
