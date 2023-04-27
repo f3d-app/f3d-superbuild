@@ -18,7 +18,7 @@ jobs:
         os: [ubuntu, windows, macos]
         raytracing_label: [raytracing, no-raytracing]
 
-    runs-on: ${{matrix.os}}
+    runs-on: ${{matrix.os}}-latest
     container: ${{ matrix.os == 'ubuntu' && 'ghcr.io/f3d-app/f3d-ci' || null }}
 
     env:
