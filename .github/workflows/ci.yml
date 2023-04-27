@@ -15,14 +15,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu, windows, macos]
         raytracing_label: [raytracing, no-raytracing]
-        config:
-          - { name: "Windows", os: windows-latest }
-          - { name: "Linux", os: ubuntu-latest, container: "ghcr.io/f3d-app/f3d-ci" }
-          - { name: "macOS", os: macos-latest }
 
-    runs-on: ${{matrix.config.os}}
-    container: ${{ matrix.config.container }}
+    runs-on: ${{matrix.os}}
+    container: ${{ matrix.os == 'ubuntu' && 'ghcr.io/f3d-app/f3d-ci' || null }}
 
     env:
       DISPLAY: :0
