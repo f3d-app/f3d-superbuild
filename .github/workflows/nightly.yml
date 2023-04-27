@@ -34,13 +34,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        enable_raytracing: [true, false]
-        config:
-          - { name: "Windows", os: windows-latest }
-          - { name: "Linux", os: ubuntu-latest, container: "ghcr.io/f3d-app/f3d-ci" }
-          - { name: "macOS", os: macos-latest }
+        raytracing_label: [raytracing, no-raytracing]
+        config: # Using a config is needed in order to find the right binaries to delete from the previous nightly
+          - { name: "Windows", os: windows }
+          - { name: "Linux", os: ubuntu, container: "ghcr.io/f3d-app/f3d-ci" }
+          - { name: "macOS", os: macos }
 
-    runs-on: ${{matrix.config.os}}
+    runs-on: ${{matrix.config.os}}-latest
     container: ${{ matrix.config.container }}
 
     env:
@@ -59,7 +59,7 @@ jobs:
       uses: ./source/.github/actions/f3d-superbuild/
       with:
         f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
-        enable_raytracing: ${{matrix.enable_raytracing}}
+        raytracing_label: ${{matrix.raytracing_label}}
 
     - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1
@@ -67,7 +67,7 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
         tag: nightly
-        assets: "F3D-*-${{matrix.config.name}}-*${{ matrix.enable_raytracing == true && '-raytracing' || null }}"
+        assets: "F3D-*-${{matrix.config.name}}-*${{ matrix.raytracing_label == 'raytracing' && '-raytracing' || null }}"
         fail-if-no-assets: false
 
     - name: Publish nightly release
