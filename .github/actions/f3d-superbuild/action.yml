@@ -69,6 +69,7 @@ runs:
       curl -L --output vtk_commit_sha https://raw.githubusercontent.com/f3d-app/f3d/master/.github/actions/vtk_commit_sha
       echo VTK_COMMIT_SHA=`cat ./vtk_commit_sha` >> $GITHUB_ENV
 
+  # OCCT coloring is disabled on macOS because of f3d-app/f3d#792
   - name: Configure
     working-directory: ${{github.workspace}}/build
     shell: bash
@@ -83,7 +84,7 @@ runs:
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
-      -DOCCT_ENABLE_COLORING=${{ runner.os == 'macOS' && 'OFF' || 'ON' }} # f3d-app/f3d#792
+      -DOCCT_ENABLE_COLORING=${{ runner.os == 'macOS' && 'OFF' || 'ON' }}
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
