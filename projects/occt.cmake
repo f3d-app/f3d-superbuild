@@ -40,3 +40,6 @@ superbuild_add_project(occt
     -DINSTALL_DIR_BIN:PATH=bin
     -DUSE_FREETYPE=OFF
 )
+
+superbuild_apply_patch(occt fix-libraries-link-order
+  "Fix libraries link order")

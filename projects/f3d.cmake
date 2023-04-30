@@ -9,7 +9,13 @@ elseif (UNIX)
   set(f3d_build_for_linux TRUE)
 endif ()
 
+set(f3d_plugins_static_build ON)
+if (BUILD_SHARED_LIBS_f3d)
+  set(f3d_plugins_static_build OFF)
+endif ()
+
 superbuild_add_project(f3d
+  BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
     LICENSE.md
     doc/THIRD_PARTY_LICENSES.md
@@ -26,7 +32,7 @@ superbuild_add_project(f3d
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
     -DF3D_MODULE_EXTERNAL_RENDERING=ON
     -DF3D_MODULE_RAYTRACING:BOOL=${ospray_enabled}
-    -DF3D_PLUGINS_STATIC_BUILD:BOOL=OFF
+    -DF3D_PLUGINS_STATIC_BUILD:BOOL=${f3d_plugins_static_build}
     -DF3D_PLUGIN_BUILD_ALEMBIC:BOOL=${alembic_enabled}
     -DF3D_PLUGIN_BUILD_ASSIMP:BOOL=${assimp_enabled}
     -DF3D_PLUGIN_BUILD_DRACO:BOOL=${draco_enabled}
@@ -39,11 +45,31 @@ superbuild_add_project(f3d
 
 # Installing components that are not part of the standard install
 superbuild_project_add_step("extra-install"
-  COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component mimetypes
   COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component configuration
-  COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component sdk
   COMMENT
-    "Installing extra components"
+    "Installing configurations"
   DEPENDEES
     install
 )
+
+if (UNIX)
+  superbuild_project_add_step("extra-install"
+    COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component mimetypes
+    COMMENT
+      "Installing linux mimetypes"
+    DEPENDEES
+      install
+  )
+endif ()
+
+if (BUILD_SHARED_LIBS_f3d)
+  superbuild_project_add_step("extra-install"
+    COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component mimetypes
+    COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component configuration
+    COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component sdk
+    COMMENT
+      "Installing extra components"
+    DEPENDEES
+      install
+  )
+endif ()
