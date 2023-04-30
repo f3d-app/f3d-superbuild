@@ -87,7 +87,7 @@ if (draco_enabled)
 endif ()
 
 if (occt_enabled)
-  f3d_add_test(TestOCCT f3d.stp --cells=0) # A simple OCCT test that work wether coloring is turned on or not
+  f3d_add_test(TestOCCT f3d.stp --cells=0) # A simple OCCT test that work whether coloring is turned on or not
   if (OCCT_ENABLE_COLORING)
     f3d_add_test(TestOCCTColoring f3d.stp)
   endif ()
