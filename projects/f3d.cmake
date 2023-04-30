@@ -33,6 +33,7 @@ superbuild_add_project(f3d
     -DF3D_BINDINGS_PYTHON:BOOL=${pybind11_enabled}
     -DF3D_STRICT_BUILD=ON
     -DF3D_WINDOWS_GUI:BOOL=${f3d_build_for_windows}
+    -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=${OCCT_ENABLE_COLORING}
   )
 
 # Installing components that are not part of the standard install
