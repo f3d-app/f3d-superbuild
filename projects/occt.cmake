@@ -1,4 +1,11 @@
-set(occt_toolkits TKSTEP TKIGES TKMesh TKXDESTEP TKXDEIGES)
+option(OCCT_ENABLE_COLORING "Enable Coloring modules in OCCT" ON)
+mark_as_advanced(OCCT_ENABLE_COLORING)
+
+set(occt_toolkits TKSTEP TKIGES TKMesh)
+if (OCCT_ENABLE_COLORING)
+  list(APPEND occt_toolkits TKXDESTEP TKXDEIGES)
+endif ()
+
 list(JOIN occt_toolkits "${_superbuild_list_separator}" occt_toolkits_escaped)
 
 superbuild_add_project(occt
