@@ -10,7 +10,7 @@ elseif (UNIX)
 endif ()
 
 set(f3d_plugins_static_build ON)
-if (BUILD_SHARED_LIBS_f3d)
+if (BUILD_SHARED_LIBS_f3d AND NOT f3d_build_for_macos)
   set(f3d_plugins_static_build OFF)
 endif ()
 
