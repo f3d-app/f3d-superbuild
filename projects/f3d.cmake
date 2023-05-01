@@ -24,6 +24,7 @@ superbuild_add_project(f3d
     --warn-uninitialized
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_MACOSX_RPATH=OFF
+    -DCMAKE_INSTALL_RPATH=${superbuild_install_location}/lib #Needed as VTK may be build statically
     -DF3D_LINUX_GENERATE_MAN:BOOL=${f3d_build_for_linux}
     -DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=${f3d_build_for_linux}
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
