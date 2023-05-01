@@ -22,7 +22,7 @@ file(GLOB plugin_filenames
   RELATIVE "${superbuild_install_location}/lib"
   "${superbuild_install_location}/lib/f3d-plugin*.dll")
 foreach (plugin_filename IN LISTS plugin_filenames)
-  superbuild_windows_install_plugin("${plugin_filename}" "lib" "lib"
+  superbuild_windows_install_plugin("${plugin_filename}" "bin" "lib"
     SEARCH_DIRECTORIES "${library_paths}"
     COMPONENT binaries)
 endforeach ()
