@@ -150,7 +150,7 @@ runs:
     uses: actions/upload-artifact@v3
     with:
       path: ./build/Testing/Temporary
-      name: f3d-superbuild-tests-artifact-${{runner.os}}-${{inputs.raytracing-label}}-${{inputs.egl-label}}
+      name: f3d-superbuild-tests-artifact-${{runner.os}}-${{inputs.raytracing-label}}-${{inputs.egl_label}}
 
   - name: Cleanup sccache
     working-directory: ${{github.workspace}}
@@ -162,4 +162,4 @@ runs:
     uses: actions/upload-artifact@v3
     with:
       path: ./build/F3D-*
-      name: F3D-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl-label}}
+      name: F3D-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl_label}}
