@@ -8,13 +8,26 @@ endif ()
 
 list(JOIN occt_toolkits "${_superbuild_list_separator}" occt_toolkits_escaped)
 
+if (NOT BUILD_SHARED_LIBS_occt STREQUAL "<same>")
+  set(occt_build_shared ${BUILD_SHARED_LIBS_occt})
+else ()
+  set(occt_build_shared ${BUILD_SHARED_LIBS})
+endif ()
+
+set(occt_build_library_type "Static")
+if (occt_build_shared)
+  set(occt_build_library_type "Shared")
+endif ()
+
 superbuild_add_project(occt
+  BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
     LICENSE_LGPL_21.txt
     OCCT_LGPL_EXCEPTION.txt
   CMAKE_ARGS
     -DBUILD_ADDITIONAL_TOOLKITS=${occt_toolkits_escaped}
     -DBUILD_DOC_Overview=OFF
+    -DBUILD_LIBRARY_TYPE=${occt_build_library_type}
     -DBUILD_MODULE_ApplicationFramework=OFF
     -DBUILD_MODULE_DataExchange=OFF
     -DBUILD_MODULE_Draw=OFF
