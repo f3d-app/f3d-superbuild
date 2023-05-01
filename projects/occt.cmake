@@ -41,5 +41,10 @@ superbuild_add_project(occt
     -DUSE_FREETYPE=OFF
 )
 
-superbuild_apply_patch(occt fix-libraries-link-order
-  "Fix libraries link order")
+if (OCCT_ENABLE_COLORING)
+  superbuild_apply_patch(occt fix-libraries-link-order-coloring
+    "Fix libraries link order for coloring")
+else ()
+  superbuild_apply_patch(occt fix-libraries-link-order
+    "Fix libraries link order")
+endif ()
