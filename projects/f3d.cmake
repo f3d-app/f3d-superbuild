@@ -60,11 +60,9 @@ endif ()
 
 if (BUILD_SHARED_LIBS_f3d)
   superbuild_project_add_step("extra-install"
-    COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component mimetypes
-    COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component configuration
     COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component sdk
     COMMENT
-      "Installing extra components"
+      "Installing SDK"
     DEPENDEES
       install
   )
