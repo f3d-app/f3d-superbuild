@@ -17,16 +17,6 @@ superbuild_windows_install_plugin("F3DShellExtension.dll" "bin" "bin"
   SEARCH_DIRECTORIES  "${library_paths}"
   COMPONENT binaries)
 
-# Package F3D plugins
-file(GLOB plugin_filenames
-  RELATIVE "${superbuild_install_location}/lib"
-  "${superbuild_install_location}/lib/f3d-plugin*.dll")
-foreach (plugin_filename IN LISTS plugin_filenames)
-  superbuild_windows_install_plugin("${plugin_filename}" "bin" "lib"
-    SEARCH_DIRECTORIES "${library_paths}"
-    COMPONENT binaries)
-endforeach ()
-
 # Package supplemental ospray libraries that may be loaded dynamically
 if (ospray_enabled)
   set(osprayextra_libraries

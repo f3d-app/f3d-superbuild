@@ -10,19 +10,6 @@ set(library_paths "${superbuild_install_location}/lib")
 # Package the F3D executable
 superbuild_unix_install_program("${superbuild_install_location}/bin/f3d" "lib" SEARCH_DIRECTORIES "${library_paths}" COMPONENT binaries)
 
-# Package F3D plugins in any
-file(GLOB plugin_filenames
-  RELATIVE "${superbuild_install_location}/lib"
-  "${superbuild_install_location}/lib/libf3d-plugin*.so")
-foreach (plugin_filename IN LISTS plugin_filenames)
-  superbuild_unix_install_module("${plugin_filename}"
-    "lib"
-    "lib"
-    LOADER_PATHS  "${library_paths}"
-    LOCATION      "lib"
-    HAS_SYMLINKS)
-endforeach ()
-
 # Package supplemental ospray libraries that may be loaded dynamically
 if (ospray_enabled)
   set(osprayextra_libraries

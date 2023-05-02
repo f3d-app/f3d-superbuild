@@ -9,8 +9,6 @@ elseif (UNIX)
   set(f3d_build_for_linux TRUE)
 endif ()
 
-set(f3d_plugins_static_build ON)
-
 superbuild_add_project(f3d
   BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
@@ -30,7 +28,7 @@ superbuild_add_project(f3d
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
     -DF3D_MODULE_EXTERNAL_RENDERING=ON
     -DF3D_MODULE_RAYTRACING:BOOL=${ospray_enabled}
-    -DF3D_PLUGINS_STATIC_BUILD:BOOL=${f3d_plugins_static_build}
+    -DF3D_PLUGINS_STATIC_BUILD=ON
     -DF3D_PLUGIN_BUILD_ALEMBIC:BOOL=${alembic_enabled}
     -DF3D_PLUGIN_BUILD_ASSIMP:BOOL=${assimp_enabled}
     -DF3D_PLUGIN_BUILD_DRACO:BOOL=${draco_enabled}
