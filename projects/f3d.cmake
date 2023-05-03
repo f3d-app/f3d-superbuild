@@ -40,7 +40,7 @@ superbuild_add_project(f3d
   )
 
 # Installing components that are not part of the standard install
-superbuild_project_add_step("extra-install"
+superbuild_project_add_step("extra-install-configurations"
   COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component configuration
   COMMENT
     "Installing configurations"
@@ -49,7 +49,7 @@ superbuild_project_add_step("extra-install"
 )
 
 if (UNIX)
-  superbuild_project_add_step("extra-install"
+  superbuild_project_add_step("extra-install-mimetypes"
     COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component mimetypes
     COMMENT
       "Installing linux mimetypes"
@@ -59,7 +59,7 @@ if (UNIX)
 endif ()
 
 if (BUILD_SHARED_LIBS_f3d)
-  superbuild_project_add_step("extra-install"
+  superbuild_project_add_step("extra-install-sdk"
     COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component sdk
     COMMENT
       "Installing SDK"
