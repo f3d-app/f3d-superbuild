@@ -75,13 +75,15 @@ install(
   DIRECTORY   "${superbuild_install_location}/lib/cmake/f3d"
   DESTINATION "lib/cmake"
   COMPONENT   sdk
-  USE_SOURCE_PERMISSIONS)
+  USE_SOURCE_PERMISSIONS
+  OPTIONAL)
 
 install(
   DIRECTORY   "${superbuild_install_location}/include/f3d"
   DESTINATION "include"
   COMPONENT   sdk
-  USE_SOURCE_PERMISSIONS)
+  USE_SOURCE_PERMISSIONS
+  OPTIONAL)
 
 ## Deb Generator specific
 if (cpack_generator MATCHES "DEB")

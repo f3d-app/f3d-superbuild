@@ -1,4 +1,5 @@
 superbuild_add_project(imath
+  BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
     LICENSE.md
   CMAKE_ARGS

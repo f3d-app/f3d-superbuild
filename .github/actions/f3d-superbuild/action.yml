@@ -75,16 +75,20 @@ runs:
     shell: bash
     run: >
       cmake ../source
+      -DBUILD_SHARED_LIBS_alembic=OFF
+      -DBUILD_SHARED_LIBS_assimp=OFF
+      -DBUILD_SHARED_LIBS_imath=OFF
+      -DBUILD_SHARED_LIBS_occt=OFF
+      -DBUILD_SHARED_LIBS_vtk=OFF
       -DCMAKE_BUILD_TYPE=Release
-      -Df3d_SOURCE_SELECTION=git
-      -Df3d_GIT_TAG=${{ inputs.f3d_version }}
-      -Dvtk_SOURCE_SELECTION=git
-      -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
-      -DUSE_SYSTEM_python3=ON
-      -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+      -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
       -DOCCT_ENABLE_COLORING=${{ runner.os == 'macOS' && 'OFF' || 'ON' }}
+      -Df3d_GIT_TAG=${{ inputs.f3d_version }}
+      -Df3d_SOURCE_SELECTION=git
+      -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
+      -Dvtk_SOURCE_SELECTION=git
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
