@@ -48,7 +48,7 @@ superbuild_project_add_step("extra-install-configurations"
     install
 )
 
-if (UNIX)
+if (UNIX AND NOT APPLE)
   superbuild_project_add_step("extra-install-mimetypes"
     COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component mimetypes
     COMMENT

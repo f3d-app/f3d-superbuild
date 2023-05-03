@@ -85,7 +85,6 @@ runs:
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
       -DOCCT_ENABLE_COLORING=${{ runner.os == 'macOS' && 'OFF' || 'ON' }}
-      -DUSE_SYSTEM_python3=ON
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}

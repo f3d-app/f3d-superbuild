@@ -24,7 +24,7 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
-# Bundle F3D and all binaries.
+# Bundle F3D and all binaries
 superbuild_apple_create_app(
   "\${CMAKE_INSTALL_PREFIX}"
   "${f3d_appname}"
