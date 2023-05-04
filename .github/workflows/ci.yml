@@ -19,7 +19,7 @@ jobs:
         raytracing_label: [raytracing, no-raytracing]
 
     runs-on: ${{matrix.os}}-latest
-    container: ${{ matrix.os == 'ubuntu' && 'ghcr.io/f3d-app/f3d-ci' || null }}
+    container: ${{ matrix.os == 'ubuntu' && 'mwestphal/f3d-ci:f3d-ci-superbuild' || null }}
 
     env:
       DISPLAY: :0
