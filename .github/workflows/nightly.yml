@@ -37,7 +37,7 @@ jobs:
         raytracing_label: [raytracing, no-raytracing]
         config: # Using a config is needed in order to find the right binaries to delete from the previous nightly
           - { name: "Windows", os: windows }
-          - { name: "Linux", os: ubuntu, container: "ghcr.io/f3d-app/f3d-ci" }
+          - { name: "Linux", os: ubuntu, container: "ghcr.io/f3d-app/f3d-superbuild-ci" }
           - { name: "macOS", os: macos }
 
     runs-on: ${{matrix.config.os}}-latest
