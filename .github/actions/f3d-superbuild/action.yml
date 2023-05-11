@@ -25,7 +25,7 @@ runs:
     working-directory: ${{github.workspace}}
     shell: bash
     run: |
-      apt install -y flex
+      apt install -y flex bison
       mkdir mesaegl
       cd mesaegl
       git clone https://gitlab.kitware.com/mwestphal/common-superbuild.git source
