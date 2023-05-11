@@ -18,27 +18,6 @@ runs:
   using: "composite"
   steps:
 
-  - name: Build Mesa EGL
-    if: |
-      runner.os == 'Linux' &&
-      inputs.egl_label == 'egl'
-    working-directory: ${{github.workspace}}
-    shell: bash
-    run: |
-      apt install -y flex bison
-      mkdir mesaegl
-      cd mesaegl
-      git clone https://gitlab.kitware.com/mwestphal/common-superbuild.git source
-      cd source
-      git checkout mesa_egl
-      cd ../
-      mkdir build
-      cd build
-      cmake ../source/standalone-mesa -DENABLE_mesa=OFF -DENABLE_mesaegl=ON
-      cmake --build . --parallel 2 --config Release
-      echo "LD_LIBRARY_PATH=$(pwd)/install/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-      echo "LD_PRELOAD=$(pwd)/install/lib/libGL.so" >> $GITHUB_ENV
-
   - name: Install tools Windows
     if: runner.os == 'Windows'
     shell: cmd
