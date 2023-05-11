@@ -25,6 +25,7 @@ runs:
     working-directory: ${{github.workspace}}
     shell: bash
     run: |
+      apt install -y flex
       mkdir mesaegl
       cd mesaegl
       git clone https://gitlab.kitware.com/mwestphal/common-superbuild.git source
