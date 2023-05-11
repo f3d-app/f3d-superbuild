@@ -21,7 +21,7 @@ runs:
   - name: Build Mesa EGL
     if: |
       runner.os == 'Linux' &&
-      egl_label == 'egl'
+      inputs.egl_label == 'egl'
     working-directory: ${{github.workspace}}
     shell: bash
     run: |
@@ -138,7 +138,7 @@ runs:
   - name: Run Xvfb Linux
     if: |
       runner.os == 'Linux' &&
-      egl_label != 'egl'
+      inputs.egl_label != 'egl'
     shell: bash
     run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
 
