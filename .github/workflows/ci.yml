@@ -45,3 +45,4 @@ jobs:
       with:
         f3d_version: origin/master
         raytracing_label: ${{matrix.raytracing_label}}
+        egl_label: ${{matrix.egl_label}}
