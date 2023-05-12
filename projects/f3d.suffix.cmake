@@ -16,6 +16,11 @@ else()
   list(APPEND package_suffix_items "unknown")
 endif()
 
+if (VTK_USE_EGL)
+  list(APPEND package_suffix_items
+    "headless")
+endif()
+
 if (ospray_enabled)
   list(APPEND package_suffix_items
     "raytracing")
