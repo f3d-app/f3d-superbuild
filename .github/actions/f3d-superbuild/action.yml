@@ -151,18 +151,18 @@ runs:
   # Ubuntu 18.04 provided libEGL.so has rendering issues
   # So not all tests can be run
   - name: Test package EGL
-    if: inputs.egl_label != 'egl'
+    if: inputs.egl_label == 'egl'
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: |
       ctest -R sdk -VV
-      ctest -R f3d-exec-exists -VV
-      ctest -R f3d-exec-TestSimple -VV
-      ctest -R f3d-exec-TestThumbnail -VV
-      ctest -R f3d-exec-TestAlembic -VV
-      ctest -R f3d-exec-TestAssimp -VV
-      ctest -R f3d-exec-TestDraco -VV
-      ctest -R f3d-exec-TestOCCT -VV
+      ctest -R f3d-exec-exists$ -VV
+      ctest -R f3d-exec-TestSimple$ -VV
+      ctest -R f3d-exec-TestThumbnail$ -VV
+      ctest -R f3d-exec-TestAlembic$ -VV
+      ctest -R f3d-exec-TestAssimp$ -VV
+      ctest -R f3d-exec-TestDraco$ -VV
+      ctest -R f3d-exec-TestOCCT$ -VV
 
   - name: Upload Tests Artifact
     if: failure()
