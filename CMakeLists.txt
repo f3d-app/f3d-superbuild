@@ -79,6 +79,12 @@ function (superbuild_add_packaging)
       TXZ
       DEB)
   endif ()
+
+  if (vtk_enabled)
+    # Option defined in vtk.cmake
+    list(APPEND superbuild_export_variables VTK_USE_EGL)
+  endif ()
+
   foreach (generator IN LISTS generators)
     superbuild_add_extra_package_test(f3d "${generator}"
       LABELS  "F3D"
