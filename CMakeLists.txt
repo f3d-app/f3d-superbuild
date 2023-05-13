@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 project(f3d-superbuild)
 
+list(INSERT CMAKE_MODULE_PATH 0
+  "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
 macro (superbuild_setup_variables)
   include(SuperbuildVersionMacros)
   if (f3d_SOURCE_SELECTION STREQUAL "git")
@@ -52,6 +55,12 @@ function (superbuild_find_projects var)
     list(APPEND projects
       bzip2
       ffi)
+
+    if (NOT APPLE)
+      list(APPEND projects
+        egl)
+    endif ()
+
   endif ()
 
   if (WIN32)

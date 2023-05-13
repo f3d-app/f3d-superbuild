@@ -95,5 +95,5 @@ endif ()
 
 if (ospray_enabled)
   # This baseline is incorrect, caused by https://github.com/f3d-app/f3d/issues/483
-  f3d_add_test(TestOSPray dragon.vtu -rd --samples=4)
+  f3d_add_test(TestOSPRay dragon.vtu -rd --samples=4)
 endif ()

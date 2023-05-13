@@ -3,16 +3,24 @@ if (ospray_enabled)
   set(vtk_raytracing_enabled YES)
 endif ()
 
+set(vtk_platform_dependencies)
+if (UNIX)
+  if (NOT APPLE)
+    list(APPEND vtk_platform_dependencies egl)
+  endif ()
+endif ()
+
 superbuild_add_project(vtk
   BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
     Copyright.txt
   DEPENDS cxx11 tbb
-  DEPENDS_OPTIONAL ospray
+  DEPENDS_OPTIONAL ospray ${vtk_platform_dependencies}
   CMAKE_ARGS
     -DCMAKE_MACOSX_RPATH=OFF
     -DVTKOSPRAY_ENABLE_DENOISER=${ospray_enabled}
     -DVTK_BUILD_TESTING=OFF
+    -DVTK_DEFAULT_RENDER_WINDOW_HEADLESS=${egl_enabled}
     -DVTK_ENABLE_LOGGING=OFF
     -DVTK_ENABLE_WRAPPING=OFF
     -DVTK_GROUP_ENABLE_Rendering=DEFAULT
@@ -41,6 +49,7 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:STRING=${vtk_raytracing_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2=YES
     -DVTK_MODULE_ENABLE_VTK_TestingCore=YES
+    -DVTK_OPENGL_HAS_EGL=${egl_enabled}
     -DVTK_SMP_ENABLE_SEQUENTIAL=OFF
     -DVTK_SMP_ENABLE_STDTHREAD=OFF
     -DVTK_SMP_ENABLE_TBB=ON

@@ -9,6 +9,10 @@ inputs:
     description: 'A label to enable raytracing'
     required: false
     default: 'raytracing'
+  egl_label:
+    description: 'A label to enable egl rendering'
+    required: false
+    default: 'no-egl'
 
 runs:
   using: "composite"
@@ -83,6 +87,7 @@ runs:
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
+      -DENABLE_egl=${{ inputs.egl_label == 'egl' && 'ON' || 'OFF' }}
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
       -DOCCT_ENABLE_COLORING=${{ runner.os == 'macOS' && 'OFF' || 'ON' }}
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
@@ -111,7 +116,9 @@ runs:
     run: cmake -E remove_directory install
 
   - name: Run Xvfb Linux
-    if: runner.os == 'Linux'
+    if: |
+      runner.os == 'Linux' &&
+      inputs.egl_label != 'egl'
     shell: bash
     run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
 
@@ -134,18 +141,35 @@ runs:
       cp x64\libgallium_wgl.dll ..\build\Testing\test-sdk\TestRendering_build\
 
   - name: Test package
+    if: inputs.egl_label != 'egl'
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: |
       ctest -R sdk -VV
       ctest -R exec -VV
 
+  # Ubuntu 18.04 provided libEGL.so has rendering issues
+  # So not all tests can be run
+  - name: Test package EGL
+    if: inputs.egl_label == 'egl'
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: |
+      ctest -R sdk -VV
+      ctest -R f3d-exec-exists$ -VV
+      ctest -R f3d-exec-TestSimple$ -VV
+      ctest -R f3d-exec-TestThumbnail$ -VV
+      ctest -R f3d-exec-TestAlembic$ -VV
+      ctest -R f3d-exec-TestAssimp$ -VV
+      ctest -R f3d-exec-TestDraco$ -VV
+      ctest -R f3d-exec-TestOCCT$ -VV
+
   - name: Upload Tests Artifact
     if: failure()
     uses: actions/upload-artifact@v3
     with:
       path: ./build/Testing/Temporary
-      name: f3d-superbuild-tests-artifact-${{runner.os}}-${{inputs.enable_raytracing}}
+      name: f3d-superbuild-tests-artifact-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl_label}}
 
   - name: Cleanup sccache
     working-directory: ${{github.workspace}}
@@ -157,4 +181,4 @@ runs:
     uses: actions/upload-artifact@v3
     with:
       path: ./build/F3D-*
-      name: F3D-${{runner.os}}-${{inputs.raytracing_label}}
+      name: F3D-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl_label}}
