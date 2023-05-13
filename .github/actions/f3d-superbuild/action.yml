@@ -87,9 +87,9 @@ runs:
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
+      -DENABLE_egl=${{ inputs.egl_label == 'egl' && 'ON' || 'OFF' }}
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
       -DOCCT_ENABLE_COLORING=${{ runner.os == 'macOS' && 'OFF' || 'ON' }}
-      -DVTK_USE_EGL=${{ inputs.egl_label == 'egl' && 'ON' || 'OFF' }}
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
