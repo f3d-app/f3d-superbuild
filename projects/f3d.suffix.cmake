@@ -16,7 +16,7 @@ else()
   list(APPEND package_suffix_items "unknown")
 endif()
 
-if (VTK_USE_EGL)
+if (egl_enabled)
   list(APPEND package_suffix_items
     "headless")
 endif()
