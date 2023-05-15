@@ -34,12 +34,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [standard]
+        os: [ubuntu, windows, macos]
         raytracing_label: [raytracing, no-raytracing]
-        config: # Using a config is needed in order to find the right binaries to delete from the previous nightly
-          - { name: "Windows", os: windows }
-          - { name: "Linux", os: ubuntu, container: "ghcr.io/f3d-app/f3d-superbuild-ci" }
-          - { name: "macOS", os: macos }
+        build_type: [standard]
         include:
           - egl_label: no-egl
           - build_type: headless
@@ -47,8 +44,8 @@ jobs:
             raytracing_label: raytracing
             egl_label: egl
 
-    runs-on: ${{matrix.config.os}}-latest
-    container: ${{ matrix.config.container }}
+    runs-on: ${{matrix.os}}-latest
+    container: ${{ matrix.os == 'ubuntu' && 'ghcr.io/f3d-app/f3d-superbuild-ci' || null }}
 
     env:
       DISPLAY: :0
@@ -75,7 +72,7 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
         tag: nightly
-        assets: "F3D-*-${{matrix.config.name}}-*${{ matrix.egl_label == 'egl' && '-headless' || null }}${{ matrix.raytracing_label == 'raytracing' && '-raytracing' || null }}"
+        assets: "F3D-*-${{runner.os}}-*${{ matrix.egl_label == 'egl' && '-headless' || null }}${{ matrix.raytracing_label == 'raytracing' && '-raytracing' || null }}"
         fail-if-no-assets: false
 
     - name: Publish nightly release
