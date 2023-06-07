@@ -36,6 +36,7 @@ function (superbuild_find_projects var)
     imath
     ispc
     occt
+    openexr
     openimagedenoise
     openvkl
     ospray
@@ -114,6 +115,7 @@ set(_superbuild_default_alembic ON)
 set(_superbuild_default_assimp ON)
 set(_superbuild_default_draco ON)
 set(_superbuild_default_occt ON)
+set(_superbuild_default_openexr ON)
 set(_superbuild_default_ospray ON)
 set(_superbuild_default_pybind11 OFF)
 
