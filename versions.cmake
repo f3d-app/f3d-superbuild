@@ -18,6 +18,11 @@ superbuild_set_revision(imath
   DOWNLOAD_NAME Imath-v3.1.7.tar.gz
   URL_MD5 5cedab446ab296c080957c3037c6d097)
 
+superbuild_set_revision(openexr
+  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.1.8.tar.gz"
+  DOWNLOAD_NAME openexr-v3.1.8.tar.gz
+  URL_MD5 fa55644d3244ebb37f99b873aaa39d97)
+
 superbuild_set_revision(occt
   URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_6_3.tar.gz"
   DOWNLOAD_NAME occt-V7_6_3.tar.gz

@@ -15,7 +15,7 @@ superbuild_add_project(f3d
     LICENSE.md
     doc/THIRD_PARTY_LICENSES.md
   DEPENDS vtk
-  DEPENDS_OPTIONAL pybind11 alembic assimp draco occt
+  DEPENDS_OPTIONAL pybind11 alembic assimp draco occt openexr
   CMAKE_ARGS
     -Werror=dev
     -Werror=deprecated
@@ -26,6 +26,7 @@ superbuild_add_project(f3d
     -DF3D_LINUX_GENERATE_MAN:BOOL=${f3d_build_for_linux}
     -DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=${f3d_build_for_linux}
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
+    -DF3D_MODULE_EXR=${openexr_enabled}
     -DF3D_MODULE_EXTERNAL_RENDERING=ON
     -DF3D_MODULE_RAYTRACING:BOOL=${ospray_enabled}
     -DF3D_PLUGINS_STATIC_BUILD=ON
