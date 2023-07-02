@@ -82,7 +82,7 @@ runs:
       -DBUILD_SHARED_LIBS_alembic=OFF
       -DBUILD_SHARED_LIBS_assimp=OFF
       -DBUILD_SHARED_LIBS_draco=OFF
-      -DBUILD_SHARED_LIBS_exr=OFF
+      -DBUILD_SHARED_LIBS_openexr=OFF
       -DBUILD_SHARED_LIBS_imath=OFF
       -DBUILD_SHARED_LIBS_occt=OFF
       -DBUILD_SHARED_LIBS_vtk=OFF
