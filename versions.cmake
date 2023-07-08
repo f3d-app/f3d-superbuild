@@ -28,6 +28,11 @@ superbuild_set_revision(occt
   DOWNLOAD_NAME occt-V7_6_3.tar.gz
   URL_MD5 00f8dc72a7cf378598f52e2216a15ea4)
 
+superbuild_set_revision(pybind11
+  URL     "https://github.com/pybind/pybind11/archive/refs/tags/v2.10.4.tar.gz"
+  DOWNLOAD_NAME pybind11-v2.10.4.tar.gz
+  URL_MD5 812eda11d2a114fc0e841faf9626d2c9)
+
 superbuild_set_selectable_source(vtk
   SELECT 9.2.6 DEFAULT
     URL     "https://www.vtk.org/files/release/9.2/VTK-9.2.6.tar.gz"
