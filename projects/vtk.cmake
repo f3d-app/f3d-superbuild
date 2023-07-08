@@ -10,12 +10,20 @@ if (UNIX)
   endif ()
 endif ()
 
+set(vtk_smp_type "STDThread")
+set(vtk_smp_enable_stdthread OFF)
+if (tbb_enabled)
+  set(vtk_smp_type "TBB")
+else ()
+  set(vtk_smp_enable_stdthread ON)
+endif ()
+
 superbuild_add_project(vtk
   BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
     Copyright.txt
-  DEPENDS cxx11 tbb
-  DEPENDS_OPTIONAL ospray ${vtk_platform_dependencies}
+  DEPENDS cxx11
+  DEPENDS_OPTIONAL tbb ospray ${vtk_platform_dependencies}
   CMAKE_ARGS
     -DCMAKE_MACOSX_RPATH=OFF
     -DVTKOSPRAY_ENABLE_DENOISER=${ospray_enabled}
@@ -51,8 +59,8 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_TestingCore=YES
     -DVTK_OPENGL_HAS_EGL=${egl_enabled}
     -DVTK_SMP_ENABLE_SEQUENTIAL=OFF
-    -DVTK_SMP_ENABLE_STDTHREAD=OFF
-    -DVTK_SMP_ENABLE_TBB=ON
-    -DVTK_SMP_IMPLEMENTATION_TYPE=TBB
+    -DVTK_SMP_ENABLE_STDTHREAD=${vtk_smp_enable_stdthread}
+    -DVTK_SMP_ENABLE_TBB=${tbb_enabled}
+    -DVTK_SMP_IMPLEMENTATION_TYPE=${vtk_smp_type}
     -DVTK_VERSIONED_INSTALL=OFF
 )
