@@ -18,6 +18,7 @@ superbuild_add_project(vtk
   DEPENDS_OPTIONAL ospray ${vtk_platform_dependencies}
   CMAKE_ARGS
     -DCMAKE_MACOSX_RPATH=OFF
+    -DKWSYS_NO_EXECINFO=ON
     -DVTKOSPRAY_ENABLE_DENOISER=${ospray_enabled}
     -DVTK_BUILD_TESTING=OFF
     -DVTK_DEFAULT_RENDER_WINDOW_HEADLESS=${egl_enabled}
