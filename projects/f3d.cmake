@@ -24,6 +24,7 @@ superbuild_add_project(f3d
   CMAKE_ARGS
     -Werror=dev
     -Werror=deprecated
+    --warn-uninitialized
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_MACOSX_RPATH=OFF
     -DCMAKE_INSTALL_RPATH=${superbuild_install_location}/lib #Needed as VTK may be build statically
