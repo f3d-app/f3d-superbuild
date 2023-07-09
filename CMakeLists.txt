@@ -117,6 +117,7 @@ set(_superbuild_default_draco ON)
 set(_superbuild_default_occt ON)
 set(_superbuild_default_openexr ON)
 set(_superbuild_default_ospray ON)
+set(_superbuild_default_tbb ON)
 set(_superbuild_default_pybind11 OFF)
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
