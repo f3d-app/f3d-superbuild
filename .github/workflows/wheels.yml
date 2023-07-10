@@ -52,6 +52,7 @@ jobs:
           output-dir: ${{github.workspace}}/wheelhouse
           config-file: ${{github.workspace}}/f3d/pyproject.toml
         env:
+          CIBW_SKIP: 'pp-* *-musl*'
           CIBW_ARCHS: native
           CIBW_ENVIRONMENT: >
             CMAKE_PREFIX_PATH=../../../../f3d-superbuild-build/install
