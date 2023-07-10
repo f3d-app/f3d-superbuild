@@ -59,12 +59,14 @@ jobs:
             F3D_PLUGIN_BUILD_ASSIMP=ON
             F3D_PLUGIN_BUILD_DRACO=ON
             F3D_PLUGIN_BUILD_OCCT=ON
+            F3D_PLUGIN_OCCT_COLORING_SUPPORT=OFF
           CIBW_ENVIRONMENT_PASS_LINUX: >
             CMAKE_PREFIX_PATH
             F3D_PLUGIN_BUILD_ALEMBIC
             F3D_PLUGIN_BUILD_ASSIMP
             F3D_PLUGIN_BUILD_DRACO
             F3D_PLUGIN_BUILD_OCCT
+            F3D_PLUGIN_OCCT_COLORING_SUPPORT
           CIBW_BEFORE_ALL: >
             cmake -S f3d-superbuild -B f3d-superbuild-build
             -DCMAKE_BUILD_TYPE=Release
