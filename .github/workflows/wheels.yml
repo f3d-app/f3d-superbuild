@@ -55,11 +55,11 @@ jobs:
           CIBW_SKIP: 'pp-* *-musl*'
           CIBW_ARCHS: native
           CIBW_ENVIRONMENT: >
-            CMAKE_PREFIX_PATH=../../../../f3d-superbuild-build/install
-            F3D_PLUGIN_BUILD_ALEMBIC=ON
-            F3D_PLUGIN_BUILD_ASSIMP=ON
-            F3D_PLUGIN_BUILD_DRACO=ON
-            F3D_PLUGIN_BUILD_OCCT=ON
+            CMAKE_PREFIX_PATH=./f3d-superbuild-build/install
+            F3D_PLUGIN_BUILD_ALEMBIC=OFF
+            F3D_PLUGIN_BUILD_ASSIMP=OFF
+            F3D_PLUGIN_BUILD_DRACO=OFF
+            F3D_PLUGIN_BUILD_OCCT=OFF
             F3D_PLUGIN_OCCT_COLORING_SUPPORT=OFF
           CIBW_ENVIRONMENT_PASS_LINUX: >
             CMAKE_PREFIX_PATH
@@ -73,11 +73,11 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release
             -DBUILD_SHARED_LIBS=OFF
             -DENABLE_f3d=OFF
-            -DENABLE_alembic=ON
-            -DENABLE_assimp=ON
-            -DENABLE_draco=ON
-            -DENABLE_occt=ON
-            -DENABLE_openexr=ON
+            -DENABLE_alembic=OFF
+            -DENABLE_assimp=OFF
+            -DENABLE_draco=OFF
+            -DENABLE_occt=OFF
+            -DENABLE_openexr=OFF
             -DENABLE_ospray=OFF
             -DENABLE_pybind11=ON
             -DENABLE_tbb=OFF
