@@ -55,7 +55,7 @@ jobs:
           CIBW_SKIP: 'pp-* *-musl*'
           CIBW_ARCHS: native
           CIBW_ENVIRONMENT: >
-            CMAKE_PREFIX_PATH=./f3d-superbuild-build/install
+            CMAKE_PREFIX_PATH=../f3d-superbuild-build/install
             F3D_PLUGIN_BUILD_ALEMBIC=OFF
             F3D_PLUGIN_BUILD_ASSIMP=OFF
             F3D_PLUGIN_BUILD_DRACO=OFF
