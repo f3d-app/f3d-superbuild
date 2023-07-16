@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: 'Meakk/f3d'
-          ref: 'python'
+          ref: 'skbuild'
           fetch-depth: 0
           path: 'f3d'
 
