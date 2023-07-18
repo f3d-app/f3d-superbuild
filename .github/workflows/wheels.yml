@@ -1,6 +1,32 @@
 name: Python wheels
 
-on: [push, pull_request]
+on:
+  workflow_dispatch:
+    inputs:
+      f3d_version:
+        description: 'F3D version to build'
+        required: true
+        default: 'master'
+      enable_alembic:
+        type: boolean
+        description: 'Enable Alembic plugin'
+        default: true
+      enable_assimp:
+        type: boolean
+        description: 'Enable Assimp plugin'
+        default: true
+      enable_draco:
+        type: boolean
+        description: 'Enable Draco plugin'
+        default: true
+      enable_occt:
+        type: boolean
+        description: 'Enable OpenCASCADE plugin'
+        default: true
+      enable_exr:
+        type: boolean
+        description: 'Enable OpenEXR module'
+        default: true
 
 jobs:
   build_wheels:
@@ -21,8 +47,8 @@ jobs:
       - name: Checkout f3d
         uses: actions/checkout@v3
         with:
-          repository: 'Meakk/f3d'
-          ref: 'skbuild'
+          repository: 'f3d-app/f3d'
+          ref: ${{github.event.inputs.f3d_version}}
           fetch-depth: 0
           path: 'f3d'
 
@@ -56,11 +82,13 @@ jobs:
           CIBW_ARCHS: native
           CIBW_ENVIRONMENT: >
             CMAKE_PREFIX_PATH=../f3d-superbuild-build/install
-            F3D_PLUGIN_BUILD_ALEMBIC=OFF
-            F3D_PLUGIN_BUILD_ASSIMP=OFF
-            F3D_PLUGIN_BUILD_DRACO=OFF
-            F3D_PLUGIN_BUILD_OCCT=OFF
-            F3D_PLUGIN_OCCT_COLORING_SUPPORT=OFF
+            F3D_PLUGIN_BUILD_ALEMBIC=${{ github.event.inputs.enable_alembic == 'true' && 'ON' || 'OFF' }}
+            F3D_PLUGIN_BUILD_ASSIMP=${{ github.event.inputs.enable_assimp == 'true' && 'ON' || 'OFF' }}
+            F3D_PLUGIN_BUILD_DRACO=${{ github.event.inputs.enable_draco == 'true' && 'ON' || 'OFF' }}
+            F3D_PLUGIN_BUILD_OCCT=${{ github.event.inputs.enable_occt == 'true' && 'ON' || 'OFF' }}
+            F3D_PLUGIN_OCCT_COLORING_SUPPORT=ON
+            F3D_MODULE_EXR=${{ github.event.inputs.enable_exr == 'true' && 'ON' || 'OFF' }}
+            F3D_MODULE_EXTERNAL_RENDERING=ON
           CIBW_ENVIRONMENT_PASS_LINUX: >
             CMAKE_PREFIX_PATH
             F3D_PLUGIN_BUILD_ALEMBIC
@@ -68,21 +96,23 @@ jobs:
             F3D_PLUGIN_BUILD_DRACO
             F3D_PLUGIN_BUILD_OCCT
             F3D_PLUGIN_OCCT_COLORING_SUPPORT
+            F3D_MODULE_EXR
+            F3D_MODULE_EXTERNAL_RENDERING
           CIBW_BEFORE_ALL: >
             cmake -S f3d-superbuild -B f3d-superbuild-build
             -DCMAKE_BUILD_TYPE=Release
             -DBUILD_SHARED_LIBS=OFF
             -DENABLE_f3d=OFF
-            -DENABLE_alembic=OFF
-            -DENABLE_assimp=OFF
-            -DENABLE_draco=OFF
-            -DENABLE_occt=OFF
-            -DENABLE_openexr=OFF
+            -DENABLE_alembic=${{ github.event.inputs.enable_alembic == 'true' && 'ON' || 'OFF' }}
+            -DENABLE_assimp=${{ github.event.inputs.enable_assimp == 'true' && 'ON' || 'OFF' }}
+            -DENABLE_draco=${{ github.event.inputs.enable_draco == 'true' && 'ON' || 'OFF' }}
+            -DENABLE_occt=${{ github.event.inputs.enable_occt == 'true' && 'ON' || 'OFF' }}
+            -DENABLE_openexr=${{ github.event.inputs.enable_exr == 'true' && 'ON' || 'OFF' }}
             -DENABLE_ospray=OFF
             -DENABLE_pybind11=ON
             -DENABLE_tbb=OFF
             -DENABLE_vtk=ON
-            -DOCCT_ENABLE_COLORING=OFF
+            -DOCCT_ENABLE_COLORING=ON
             -Dvtk_SOURCE_SELECTION=git
             -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }} &&
             cmake --build f3d-superbuild-build
