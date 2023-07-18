@@ -80,25 +80,21 @@ jobs:
         env:
           CIBW_SKIP: 'pp-* *-musl*'
           CIBW_ARCHS: native
-          CIBW_ENVIRONMENT: >
-            CMAKE_PREFIX_PATH=../f3d-superbuild-build/install
-            F3D_PLUGIN_BUILD_ALEMBIC=${{ github.event.inputs.enable_alembic == 'true' && 'ON' || 'OFF' }}
-            F3D_PLUGIN_BUILD_ASSIMP=${{ github.event.inputs.enable_assimp == 'true' && 'ON' || 'OFF' }}
-            F3D_PLUGIN_BUILD_DRACO=${{ github.event.inputs.enable_draco == 'true' && 'ON' || 'OFF' }}
-            F3D_PLUGIN_BUILD_OCCT=${{ github.event.inputs.enable_occt == 'true' && 'ON' || 'OFF' }}
-            F3D_PLUGIN_OCCT_COLORING_SUPPORT=ON
-            F3D_MODULE_EXR=${{ github.event.inputs.enable_exr == 'true' && 'ON' || 'OFF' }}
-            F3D_MODULE_EXTERNAL_RENDERING=ON
+          CIBW_ENVIRONMENT: "\
+            CMAKE_PREFIX_PATH=../f3d-superbuild-build/install \
+            SKBUILD_CMAKE_ARGS=\
+            -DF3D_PLUGIN_BUILD_ALEMBIC=${{ github.event.inputs.enable_alembic == 'true' && 'ON' || 'OFF' }};\
+            -DF3D_PLUGIN_BUILD_ASSIMP=${{ github.event.inputs.enable_assimp == 'true' && 'ON' || 'OFF' }};\
+            -DF3D_PLUGIN_BUILD_DRACO=${{ github.event.inputs.enable_draco == 'true' && 'ON' || 'OFF' }};\
+            -DF3D_PLUGIN_BUILD_OCCT=${{ github.event.inputs.enable_occt == 'true' && 'ON' || 'OFF' }};\
+            -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;\
+            -DF3D_MODULE_EXR=${{ github.event.inputs.enable_exr == 'true' && 'ON' || 'OFF' }};\
+            -DF3D_MODULE_EXTERNAL_RENDERING=ON"
           CIBW_ENVIRONMENT_PASS_LINUX: >
             CMAKE_PREFIX_PATH
-            F3D_PLUGIN_BUILD_ALEMBIC
-            F3D_PLUGIN_BUILD_ASSIMP
-            F3D_PLUGIN_BUILD_DRACO
-            F3D_PLUGIN_BUILD_OCCT
-            F3D_PLUGIN_OCCT_COLORING_SUPPORT
-            F3D_MODULE_EXR
-            F3D_MODULE_EXTERNAL_RENDERING
+            SKBUILD_CMAKE_ARGS
           CIBW_BEFORE_ALL: >
+            echo $SKBUILD_CMAKE_ARGS &&
             cmake -S f3d-superbuild -B f3d-superbuild-build
             -DCMAKE_BUILD_TYPE=Release
             -DBUILD_SHARED_LIBS=OFF
