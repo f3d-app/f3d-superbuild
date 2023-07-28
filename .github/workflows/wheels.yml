@@ -91,6 +91,7 @@ jobs:
           CIBW_REPAIR_WHEEL_COMMAND: ''
           CIBW_BEFORE_ALL: >
             cmake -S f3d-superbuild -B f3d-superbuild-build
+            -DBUILD_SHARED_LIBS=OFF
             -DCMAKE_BUILD_TYPE=Release
             -DENABLE_f3d=OFF
             -DENABLE_alembic=${{ github.event.inputs.enable_alembic == 'true' && 'ON' || 'OFF' }}
