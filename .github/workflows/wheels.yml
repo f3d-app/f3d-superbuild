@@ -23,10 +23,6 @@ on:
         type: boolean
         description: 'Enable OpenCASCADE plugin'
         default: true
-      enable_exr:
-        type: boolean
-        description: 'Enable OpenEXR module'
-        default: true
 
 jobs:
   build_wheels:
@@ -88,16 +84,14 @@ jobs:
             -DF3D_PLUGIN_BUILD_DRACO=${{ github.event.inputs.enable_draco == 'true' && 'ON' || 'OFF' }};\
             -DF3D_PLUGIN_BUILD_OCCT=${{ github.event.inputs.enable_occt == 'true' && 'ON' || 'OFF' }};\
             -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;\
-            -DF3D_MODULE_EXR=${{ github.event.inputs.enable_exr == 'true' && 'ON' || 'OFF' }};\
             -DF3D_MODULE_EXTERNAL_RENDERING=ON\""
           CIBW_ENVIRONMENT_PASS_LINUX: >
             CMAKE_PREFIX_PATH
             SKBUILD_CMAKE_ARGS
+          CIBW_REPAIR_WHEEL_COMMAND: ''
           CIBW_BEFORE_ALL: >
-            echo $SKBUILD_CMAKE_ARGS &&
             cmake -S f3d-superbuild -B f3d-superbuild-build
             -DCMAKE_BUILD_TYPE=Release
-            -DBUILD_SHARED_LIBS=OFF
             -DENABLE_f3d=OFF
             -DENABLE_alembic=${{ github.event.inputs.enable_alembic == 'true' && 'ON' || 'OFF' }}
             -DENABLE_assimp=${{ github.event.inputs.enable_assimp == 'true' && 'ON' || 'OFF' }}
