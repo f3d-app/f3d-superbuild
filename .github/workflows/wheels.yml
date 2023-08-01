@@ -78,16 +78,16 @@ jobs:
         env:
           CIBW_SKIP: 'pp-* *-musl*'
           CIBW_ARCHS: native
-          CIBW_ENVIRONMENT: "\
-            CMAKE_PREFIX_PATH=../f3d-superbuild-build/install \
-            SKBUILD_CMAKE_ARGS=\"\
-            -DF3D_DEPENDENCIES_DIR=${{github.workspace}}/f3d-superbuild-build/install/bin;\
-            -DF3D_PLUGIN_BUILD_ALEMBIC=${{ github.event.inputs.enable_alembic == 'true' && 'ON' || 'OFF' }};\
-            -DF3D_PLUGIN_BUILD_ASSIMP=${{ github.event.inputs.enable_assimp == 'true' && 'ON' || 'OFF' }};\
-            -DF3D_PLUGIN_BUILD_DRACO=${{ github.event.inputs.enable_draco == 'true' && 'ON' || 'OFF' }};\
-            -DF3D_PLUGIN_BUILD_OCCT=${{ github.event.inputs.enable_occt == 'true' && 'ON' || 'OFF' }};\
-            -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;\
-            -DF3D_MODULE_EXTERNAL_RENDERING=ON\""
+          CIBW_ENVIRONMENT: >
+            CMAKE_PREFIX_PATH=../f3d-superbuild-build/install 
+            SKBUILD_CMAKE_ARGS="
+            -DF3D_DEPENDENCIES_DIR=${{github.workspace}}/f3d-superbuild-build/install/bin;
+            -DF3D_PLUGIN_BUILD_ALEMBIC=${{ github.event.inputs.enable_alembic == 'true' && 'ON' || 'OFF' }};
+            -DF3D_PLUGIN_BUILD_ASSIMP=${{ github.event.inputs.enable_assimp == 'true' && 'ON' || 'OFF' }};
+            -DF3D_PLUGIN_BUILD_DRACO=${{ github.event.inputs.enable_draco == 'true' && 'ON' || 'OFF' }};
+            -DF3D_PLUGIN_BUILD_OCCT=${{ github.event.inputs.enable_occt == 'true' && 'ON' || 'OFF' }};
+            -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;
+            -DF3D_MODULE_EXTERNAL_RENDERING=ON"
           CIBW_ENVIRONMENT_PASS_LINUX: >
             CMAKE_PREFIX_PATH
             SKBUILD_CMAKE_ARGS
