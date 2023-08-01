@@ -96,7 +96,7 @@ runs:
       -Df3d_SOURCE_SELECTION=git
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -Dvtk_SOURCE_SELECTION=git
-      ${{ runner.os == 'Windows' && '-G Ninja' || null }}
+      ${{ runner.os == 'Windows' && '-G Ninja -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDLL' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
   - name: Build
