@@ -75,6 +75,7 @@ jobs:
         run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
       - name: Build wheels
+        if: runner.os == 'Linux'
         uses: pypa/cibuildwheel@v2.13.1
         with:
           package-dir: ${{github.workspace}}/f3d
