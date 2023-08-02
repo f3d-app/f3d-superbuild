@@ -88,6 +88,7 @@ jobs:
         env:
           CIBW_SKIP: 'pp-* *-musl*'
           CIBW_ARCHS: native
+          CIBW_BUILD_VERBOSITY: 1
           CIBW_ENVIRONMENT: >
             CMAKE_PREFIX_PATH=../f3d-superbuild-build/install
             SKBUILD_CMAKE_ARGS="
