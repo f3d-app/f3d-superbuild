@@ -47,10 +47,8 @@ jobs:
       - name: Checkout f3d
         uses: actions/checkout@v3
         with:
-          #repository: 'f3d-app/f3d'
-          repository: 'Meakk/f3d'
-          #ref: ${{github.event.inputs.f3d_version}}
-          ref: 'deps'
+          repository: 'f3d-app/f3d'
+          ref: ${{github.event.inputs.f3d_version}}
           fetch-depth: 0
           path: 'f3d'
 
