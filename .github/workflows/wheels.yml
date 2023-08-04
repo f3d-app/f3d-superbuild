@@ -1,32 +1,11 @@
 name: Python wheels
 
+# TODO: use sscache to speed up this workflow
 on:
-  workflow_dispatch:
-    inputs:
-      f3d_version:
-        description: 'F3D version to build'
-        required: true
-        default: 'master'
-      enable_alembic:
-        type: boolean
-        description: 'Enable Alembic plugin'
-        default: true
-      enable_assimp:
-        type: boolean
-        description: 'Enable Assimp plugin'
-        default: true
-      enable_draco:
-        type: boolean
-        description: 'Enable Draco plugin'
-        default: true
-      enable_occt:
-        type: boolean
-        description: 'Enable OpenCASCADE plugin'
-        default: true
-      enable_exr:
-        type: boolean
-        description: 'Enable OpenEXR plugin'
-        default: true
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build_wheels:
@@ -34,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-2019, macOS-11]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
 
     # fetch-depth: 0 is required to get the tags used to determine f3d version
     steps:
@@ -44,11 +23,12 @@ jobs:
           submodules: true
           path: 'f3d-superbuild'
 
+      # TODO: We are currently building wheels for master, it should be possible to select a tag
       - name: Checkout f3d
         uses: actions/checkout@v3
         with:
           repository: 'f3d-app/f3d'
-          ref: ${{github.event.inputs.f3d_version}}
+          ref: 'master'
           fetch-depth: 0
           path: 'f3d'
 
@@ -83,19 +63,19 @@ jobs:
           output-dir: ${{github.workspace}}/wheelhouse
           config-file: ${{github.workspace}}/f3d/pyproject.toml
         env:
-          CIBW_SKIP: 'pp-* *-musl*'
+          # TODO: cross-compile ARM too
           CIBW_ARCHS: native
           CIBW_BUILD_VERBOSITY: 1
           CIBW_ENVIRONMENT: >
             CMAKE_PREFIX_PATH=../f3d-superbuild-build/install
             SKBUILD_CMAKE_ARGS="
             -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/f3d-superbuild-build/install/bin;
-            -DF3D_PLUGIN_BUILD_ALEMBIC=${{ github.event.inputs.enable_alembic == 'true' && 'ON' || 'OFF' }};
-            -DF3D_PLUGIN_BUILD_ASSIMP=${{ github.event.inputs.enable_assimp == 'true' && 'ON' || 'OFF' }};
-            -DF3D_PLUGIN_BUILD_DRACO=${{ github.event.inputs.enable_draco == 'true' && 'ON' || 'OFF' }};
-            -DF3D_PLUGIN_BUILD_OCCT=${{ github.event.inputs.enable_occt == 'true' && 'ON' || 'OFF' }};
+            -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
+            -DF3D_PLUGIN_BUILD_ASSIMP=ON;
+            -DF3D_PLUGIN_BUILD_DRACO=ON;
+            -DF3D_PLUGIN_BUILD_OCCT=ON;
             -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;
-            -DF3D_MODULE_EXR=${{ github.event.inputs.enable_exr == 'true' && 'ON' || 'OFF' }};
+            -DF3D_MODULE_EXR=ON;
             -DF3D_MODULE_EXTERNAL_RENDERING=ON"
           CIBW_ENVIRONMENT_PASS_LINUX: >
             CMAKE_PREFIX_PATH
@@ -106,14 +86,14 @@ jobs:
             -DBUILD_SHARED_LIBS=OFF
             -DCMAKE_BUILD_TYPE=Release
             -DENABLE_f3d=OFF
-            -DENABLE_alembic=${{ github.event.inputs.enable_alembic == 'true' && 'ON' || 'OFF' }}
-            -DENABLE_assimp=${{ github.event.inputs.enable_assimp == 'true' && 'ON' || 'OFF' }}
-            -DENABLE_draco=${{ github.event.inputs.enable_draco == 'true' && 'ON' || 'OFF' }}
-            -DENABLE_occt=${{ github.event.inputs.enable_occt == 'true' && 'ON' || 'OFF' }}
-            -DENABLE_openexr=${{ github.event.inputs.enable_exr == 'true' && 'ON' || 'OFF' }}
+            -DENABLE_alembic=ON
+            -DENABLE_assimp=ON
+            -DENABLE_draco=ON
+            -DENABLE_occt=ON
+            -DENABLE_openexr=ON
             -DENABLE_ospray=OFF
             -DENABLE_pybind11=ON
-            -DENABLE_tbb=OFF
+            -DENABLE_tbb=ON
             -DENABLE_vtk=ON
             -DOCCT_ENABLE_COLORING=ON
             -Dvtk_SOURCE_SELECTION=git
