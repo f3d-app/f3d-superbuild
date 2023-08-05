@@ -10,12 +10,12 @@ if (UNIX)
   endif ()
 endif ()
 
-set(vtk_smp_type "STDThread")
-set(vtk_smp_enable_stdthread OFF)
+set(vtk_smp_type "Sequential")
+set(vtk_smp_enable_sequential OFF)
 if (tbb_enabled)
   set(vtk_smp_type "TBB")
 else ()
-  set(vtk_smp_enable_stdthread ON)
+  set(vtk_smp_enable_sequential ON)
 endif ()
 
 superbuild_add_project(vtk
@@ -58,8 +58,8 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2=YES
     -DVTK_MODULE_ENABLE_VTK_TestingCore=YES
     -DVTK_OPENGL_HAS_EGL=${egl_enabled}
-    -DVTK_SMP_ENABLE_SEQUENTIAL=OFF
-    -DVTK_SMP_ENABLE_STDTHREAD=${vtk_smp_enable_stdthread}
+    -DVTK_SMP_ENABLE_SEQUENTIAL=${vtk_smp_enable_sequential}
+    -DVTK_SMP_ENABLE_STDTHREAD=OFF
     -DVTK_SMP_ENABLE_TBB=${tbb_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE=${vtk_smp_type}
     -DVTK_VERSIONED_INSTALL=OFF
