@@ -65,11 +65,15 @@ This repository also generate a nightly release of F3D.
  - `ENABLE_alembic`: ON by defaut, build and package alembic and the associated F3D plugin
  - `ENABLE_assimp`: ON by defaut, build and package assimp and the associated F3D plugin
  - `ENABLE_draco`: ON by defaut, build and package draco and the associated F3D plugin
+ - `ENABLE_occt`: ON by defaut, build and package occt and the associated F3D plugin
+ - `ENABLE_openexr`: ON by default, build and package OpenEXR and the associated VTK module
  - `ENABLE_ospray`: ON by defaut, build and package ospray and the associated VTK module
+ - `ENABLE_tbb`: ON by default, build and package TBB to enable multi-threading
  - `ENABLE_pybind11`: OFF by defaut, build pybind11 and F3D python bindings, not packageable
  - `USE_SYSTEM_python3`: OFF by default, can be enabled if available as python is only a build time dependency
  - `f3d_SOURCE_SELECTION`: git by default, let the user choose the version of F3D to build and package
- - `vtk_SOURCE_SELECTION`: 9.2.5 by default, select the version of VTK to build and package
+ - `f3d_GIT_TAG`: master by default, when using `-Df3d_SOURCE_SELECTION=git`, select the branch or commit to build
+ - `vtk_SOURCE_SELECTION`: 9.2.6 by default, select the version of VTK to build and package
  - `vtk_GIT_TAG`: master by default, when using `-Dvtk_SOURCE_SELECTION=git`, select the branch or commit to build
  - `BUILD_TESTING`: ON by default, required for the packaging step
 
