@@ -18,6 +18,18 @@ jobs:
 
     steps:
 
+      - name: Install tools Windows
+        if: runner.os == 'Windows'
+        shell: cmd
+        run: |
+          choco install ninja
+          choco install sccache
+
+      - name: Install tools MacOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: brew install sccache
+
       - name: Checkout f3d-superbuild
         uses: actions/checkout@v3
         with:
@@ -84,6 +96,7 @@ jobs:
             CMAKE_PREFIX_PATH
             SKBUILD_CMAKE_ARGS
           CIBW_REPAIR_WHEEL_COMMAND: ''
+          CIBW_MANYLINUX_X86_64_IMAGE: mwestphal/f3d-wheels-ci-superbuild
           CIBW_BEFORE_ALL: bash f3d-superbuild/.github/scripts/before_all.sh ${{ env.VTK_COMMIT_SHA }}
 
       - uses: actions/upload-artifact@v3

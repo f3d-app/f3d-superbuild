@@ -2,6 +2,8 @@
 
 set -e -u
 
+sccache --start-server
+
 cmake -S f3d-superbuild -B f3d-superbuild-build \
         -DBUILD_SHARED_LIBS=OFF \
         -DCMAKE_BUILD_TYPE=Release \
@@ -20,3 +22,5 @@ cmake -S f3d-superbuild -B f3d-superbuild-build \
         -Dvtk_GIT_TAG=$1
 
 cmake --build f3d-superbuild-build
+
+sccache --stop-server
