@@ -30,6 +30,7 @@ jobs:
 
     env:
       DISPLAY: :0
+      SCCACHE_GHA_ENABLED: "true"
 
     steps:
 
