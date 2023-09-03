@@ -16,38 +16,14 @@ inputs:
 
 runs:
   using: "composite"
+
+  env:
+    SCCACHE_GHA_ENABLED: "true"
+
   steps:
 
-  - name: Install tools Windows
-    if: runner.os == 'Windows'
-    shell: cmd
-    run: |
-      choco install ninja
-      choco install sccache
-
-  - name: Install tools MacOS
-    if: runner.os == 'macOS'
-    shell: bash
-    run: brew install sccache
-
-  - name: Initialize sccache environnement
-    shell: bash
-    run: |
-      echo SCCACHE_CACHE=$(sccache --show-stats | grep Local | cut -d '"' -f2) >> $GITHUB_ENV
-      echo DATE_STRING=$(date +'%Y%m%d') >> $GITHUB_ENV
-      sccache --stop-server
-
-  - name: Recover sccache cache
-    uses: actions/cache@v3
-    with:
-      path: ${{env.SCCACHE_CACHE}}
-      key: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-0-${{env.DATE_STRING}}
-      restore-keys: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-0
-
-  - name: Start sccache
-    shell: bash
-    working-directory: ${{github.workspace}}
-    run: sccache --start-server
+  - name: Run sccache-cache
+    uses: mozilla-actions/sccache-action@v0.0.3
 
   - name: Setup msvc Windows
     if: runner.os == 'Windows'
@@ -173,11 +149,10 @@ runs:
       path: ./build/Testing/Temporary
       name: f3d-superbuild-tests-artifact-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl_label}}
 
-  - name: Cleanup sccache
-    working-directory: ${{github.workspace}}
+  - name: Run sccache stat for check
     shell: bash
-    run: sccache --stop-server
-
+    run: ${SCCACHE_PATH} --show-stats
+  
   - name: Upload Artifacts
     if: always()
     uses: actions/upload-artifact@v3
