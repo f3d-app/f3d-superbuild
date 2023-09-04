@@ -5,10 +5,12 @@ set -e -u
 sccache --start-server
 
 cmake -S f3d-superbuild -B f3d-superbuild-build \
+        -DCMAKE_CXX_COMPILER_LAUNCHER=sccache \
+        -DCMAKE_C_COMPILER_LAUNCHER=sccache \
         -DBUILD_SHARED_LIBS=OFF \
         -DCMAKE_BUILD_TYPE=Release \
         -DENABLE_f3d=OFF \
-        -DENABLE_alembic=OFF \
+        -DENABLE_alembic=ON \
         -DENABLE_assimp=OFF \
         -DENABLE_draco=OFF \
         -DENABLE_occt=OFF \
