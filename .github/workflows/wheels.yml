@@ -30,6 +30,22 @@ jobs:
         shell: bash
         run: brew install sccache
 
+      - name: Initialize sccache environnement
+        if: runner.os != 'Linux'
+        shell: bash
+        run: |
+          echo SCCACHE_CACHE=$(sccache --show-stats | grep Local | cut -d '"' -f2) >> $GITHUB_ENV
+          echo DATE_STRING=$(date +'%Y%m%d') >> $GITHUB_ENV
+          sccache --stop-server
+
+      - name: Recover sccache cache
+        if: runner.os != 'Linux'
+        uses: actions/cache@v3
+        with:
+          path: ${{env.SCCACHE_CACHE}}
+          key: sccache-cache-no-raytracing-${{runner.os}}-0-${{env.DATE_STRING}}
+          restore-keys: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-0
+
       - name: Checkout f3d-superbuild
         uses: actions/checkout@v3
         with:
