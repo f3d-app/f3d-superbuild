@@ -11,8 +11,8 @@ cmake -S f3d-superbuild -B f3d-superbuild-build \
         -DCMAKE_BUILD_TYPE=Release \
         -DENABLE_f3d=OFF \
         -DENABLE_alembic=ON \
-        -DENABLE_assimp=OFF \
-        -DENABLE_draco=OFF \
+        -DENABLE_assimp=ON \
+        -DENABLE_draco=ON \
         -DENABLE_occt=OFF \
         -DENABLE_openexr=ON \
         -DENABLE_ospray=OFF \
