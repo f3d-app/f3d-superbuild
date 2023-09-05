@@ -46,3 +46,27 @@ jobs:
         f3d_version: origin/master
         raytracing_label: ${{matrix.raytracing_label}}
         egl_label: ${{matrix.egl_label}}
+
+  python_wheels:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, windows, macos]
+
+    runs-on: ${{matrix.os}}-latest
+
+    env:
+      DISPLAY: :0
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: 'source'
+        submodules: true
+
+    - name: Build python wheels
+      uses: ./source/.github/actions/wheels/
+      with:
+        f3d_version: origin/master

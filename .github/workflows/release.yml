@@ -69,3 +69,47 @@ jobs:
         omitNameDuringUpdate: true
         tag: ${{github.event.inputs.f3d_version}}
         artifacts: './build/F3D-*'
+
+  python_wheels:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, windows, macos]
+
+    runs-on: ${{matrix.os}}-latest
+
+    env:
+      DISPLAY: :0
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: 'source'
+        submodules: true
+        lfs: true
+        ref: ${{ github.event.inputs.sb_branch}}
+
+    - name: Build and package F3D python wheels
+      uses: ./source/.github/actions/wheels/
+      with:
+        f3d_version: ${{github.event.inputs.f3d_version}}
+
+    - name: Publish assets
+      if: ${{ github.event.inputs.publish_assets == 'true' }}
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        replacesArtifacts: true
+        omitBodyDuringUpdate: true
+        omitNameDuringUpdate: true
+        tag: ${{github.event.inputs.f3d_version}}
+        artifacts: './wheelhouse/f3d-*.whl'
+
+#TODO publich to pypi

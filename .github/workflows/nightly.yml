@@ -89,8 +89,59 @@ jobs:
         body: "Automatically generated nightly binary release"
         artifacts: './build/F3D-*'
 
+  python_wheels:
+    needs: check_nightly
+    if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, windows, macos]
+        raytracing_label: [raytracing, no-raytracing]
+
+    runs-on: ${{matrix.os}}-latest
+
+    env:
+      DISPLAY: :0
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: 'source'
+        submodules: true
+        lfs: true
+
+    - name: Build python wheels
+      uses: ./source/.github/actions/wheels/
+      with:
+        f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
+
+    - name: Delete previous nightly release assets
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "f3d-*-${{ runner.os == 'Linux' && 'manylinux' || null }}${{ runner.os == 'Windows' && 'win' || null }}${{ runner.os == 'macOS' && 'macosx' || null }}_*.whl"
+        fail-if-no-assets: false
+
+    - name: Publish nightly python wheels
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        tag: nightly
+        name: "Nightly"
+        body: "Automatically generated nightly binary python wheels"
+        artifacts: './wheelhouse/f3d-*.whl'
+
   advance_nightly:
-    needs: [check_nightly, build_and_package]
+    needs: [check_nightly, build_and_package, python_wheels]
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     runs-on: ubuntu-latest
     name: Advance nightly tag
