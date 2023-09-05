@@ -1,6 +1,5 @@
 name: Python wheels
 
-# TODO: use sscache to speed up this workflow
 on:
   push:
     branches: [ "main" ]
@@ -15,14 +14,27 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
-    # fetch-depth: 0 is required to get the tags used to determine f3d version
     steps:
+
       - name: Checkout f3d-superbuild
         uses: actions/checkout@v3
         with:
           submodules: true
-          path: 'f3d-superbuild'
+          path: 'fsb'
 
+      - name: fsbb directory
+        shell: bash
+        working-directory: ${{github.workspace}}
+        run: mkdir fsbb
+
+      - name: Cache fsb
+        id: cache-fsb
+        uses: actions/cache@v3
+        with:
+          path: fsbb/install
+          key: fsbb-${{runner.os}}-00
+
+      # fetch-depth: 0 is required to get the tags used to determine f3d version
       # TODO: We are currently building wheels for master, it should be possible to select a tag
       - name: Checkout f3d
         uses: actions/checkout@v3
@@ -57,6 +69,7 @@ jobs:
         run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
       - name: Build wheels
+        if: steps.cache-fsb.outputs.cache-hit != 'true'
         uses: pypa/cibuildwheel@v2.13.1
         with:
           package-dir: ${{github.workspace}}/f3d
@@ -68,9 +81,9 @@ jobs:
           CIBW_ARCHS: native
           CIBW_BUILD_VERBOSITY: 1
           CIBW_ENVIRONMENT: >
-            CMAKE_PREFIX_PATH=../f3d-superbuild-build/install
+            CMAKE_PREFIX_PATH=../fsb/install
             SKBUILD_CMAKE_ARGS="
-            -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/f3d-superbuild-build/install/bin;
+            -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
             -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
             -DF3D_PLUGIN_BUILD_ASSIMP=ON;
             -DF3D_PLUGIN_BUILD_DRACO=ON;
@@ -83,7 +96,7 @@ jobs:
             SKBUILD_CMAKE_ARGS
           CIBW_REPAIR_WHEEL_COMMAND: ''
           CIBW_BEFORE_ALL: >
-            cmake -S f3d-superbuild -B f3d-superbuild-build
+            cmake -S fsb -B fsbb
             -DBUILD_SHARED_LIBS=OFF
             -DCMAKE_BUILD_TYPE=Release
             -DENABLE_f3d=OFF
@@ -99,7 +112,35 @@ jobs:
             -DOCCT_ENABLE_COLORING=ON
             -Dvtk_SOURCE_SELECTION=git
             -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }} &&
-            cmake --build f3d-superbuild-build
+            cmake --build fsbb
+
+      - name: Build wheels
+        if: steps.cache-fsb.outputs.cache-hit == 'true'
+        uses: pypa/cibuildwheel@v2.13.1
+        with:
+          package-dir: ${{github.workspace}}/f3d
+          output-dir: ${{github.workspace}}/wheelhouse
+          config-file: ${{github.workspace}}/f3d/pyproject.toml
+        env:
+          CIBW_SKIP: '*-musl*'
+          # TODO: cross-compile ARM too
+          CIBW_ARCHS: native
+          CIBW_BUILD_VERBOSITY: 1
+          CIBW_ENVIRONMENT: >
+            CMAKE_PREFIX_PATH=../fsb/install
+            SKBUILD_CMAKE_ARGS="
+            -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
+            -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
+            -DF3D_PLUGIN_BUILD_ASSIMP=ON;
+            -DF3D_PLUGIN_BUILD_DRACO=ON;
+            -DF3D_PLUGIN_BUILD_OCCT=ON;
+            -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;
+            -DF3D_MODULE_EXR=ON;
+            -DF3D_MODULE_EXTERNAL_RENDERING=ON"
+          CIBW_ENVIRONMENT_PASS_LINUX: >
+            CMAKE_PREFIX_PATH
+            SKBUILD_CMAKE_ARGS
+          CIBW_REPAIR_WHEEL_COMMAND: ''
 
       - uses: actions/upload-artifact@v3
         with:
