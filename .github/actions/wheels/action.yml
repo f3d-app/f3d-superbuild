@@ -55,7 +55,7 @@ runs:
     shell: bash
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
-  - name: Build wheels
+  - name: Build superbuild and wheels
     if: steps.cache-fsb.outputs.cache-hit != 'true'
     uses: pypa/cibuildwheel@v2.13.1
     with:
@@ -83,7 +83,7 @@ runs:
         SKBUILD_CMAKE_ARGS
       CIBW_REPAIR_WHEEL_COMMAND: ''
       CIBW_BEFORE_ALL: >
-        cmake -S fsb -B fsbb
+        cmake -S f3d-superbuild -B fsbb
         -DBUILD_SHARED_LIBS=OFF
         -DCMAKE_BUILD_TYPE=Release
         -DENABLE_f3d=OFF
@@ -101,7 +101,7 @@ runs:
         -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }} &&
         cmake --build fsbb
 
-  - name: Build wheels
+  - name: Build wheels with cache
     if: steps.cache-fsb.outputs.cache-hit == 'true'
     uses: pypa/cibuildwheel@v2.13.1
     with:
