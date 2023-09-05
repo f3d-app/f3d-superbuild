@@ -68,5 +68,3 @@ jobs:
 
     - name: Build python wheels
       uses: ./source/.github/actions/wheels/
-      with:
-        f3d_version: origin/master
