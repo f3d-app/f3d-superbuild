@@ -7,6 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
+  # TODO: cross-compile ARM too
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -23,18 +24,6 @@ jobs:
           submodules: true
           path: 'fsb'
 
-      - name: fsbb directory
-        shell: bash
-        working-directory: ${{github.workspace}}
-        run: mkdir fsbb
-
-      - name: Cache fsb
-        id: cache-fsb
-        uses: actions/cache@v3
-        with:
-          path: fsbb/install
-          key: fsbb-${{runner.os}}-00
-
       # fetch-depth: 0 is required to get the tags used to determine f3d version
       # TODO: We are currently building wheels for master, it should be possible to select a tag
       - name: Checkout f3d
@@ -50,6 +39,18 @@ jobs:
         shell: bash
         run: |
           echo VTK_COMMIT_SHA=`cat ./f3d/.github/actions/vtk_commit_sha` >> $GITHUB_ENV
+
+      - name: fsbb directory
+        shell: bash
+        working-directory: ${{github.workspace}}
+        run: mkdir fsbb
+
+      - name: Cache fsb
+        id: cache-fsb
+        uses: actions/cache@v3
+        with:
+          path: fsbb/install
+          key: fsbb-${{runner.os}}-00
 
       - name: Setup Ninja Windows
         if: runner.os == 'Windows'
@@ -69,7 +70,21 @@ jobs:
         shell: bash
         run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
-      - name: Build wheels
+      - name: SKBuild cmake args
+        shell: bash
+        run: >
+          echo "SKBUILD_CMAKE_ARGS=
+                  -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
+                  -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
+                  -DF3D_PLUGIN_BUILD_ASSIMP=ON;
+                  -DF3D_PLUGIN_BUILD_DRACO=ON;
+                  -DF3D_PLUGIN_BUILD_OCCT=ON;
+                  -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;
+                  -DF3D_MODULE_EXR=ON;
+                  -DF3D_MODULE_EXTERNAL_RENDERING=ON"
+           >> $GITHUB_ENV
+
+      - name: Build superbuild and wheels
         if: steps.cache-fsb.outputs.cache-hit != 'true'
         uses: pypa/cibuildwheel@v2.13.1
         with:
@@ -78,20 +93,11 @@ jobs:
           config-file: ${{github.workspace}}/f3d/pyproject.toml
         env:
           CIBW_SKIP: '*-musl*'
-          # TODO: cross-compile ARM too
           CIBW_ARCHS: native
           CIBW_BUILD_VERBOSITY: 1
           CIBW_ENVIRONMENT: >
             CMAKE_PREFIX_PATH=../fsbb/install
-            SKBUILD_CMAKE_ARGS="
-            -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
-            -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
-            -DF3D_PLUGIN_BUILD_ASSIMP=ON;
-            -DF3D_PLUGIN_BUILD_DRACO=ON;
-            -DF3D_PLUGIN_BUILD_OCCT=ON;
-            -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;
-            -DF3D_MODULE_EXR=ON;
-            -DF3D_MODULE_EXTERNAL_RENDERING=ON"
+            SKBUILD_CMAKE_ARGS=${{ env.SKBUILD_CMAKE_ARGS }}
           CIBW_ENVIRONMENT_PASS_LINUX: >
             CMAKE_PREFIX_PATH
             SKBUILD_CMAKE_ARGS
@@ -115,7 +121,7 @@ jobs:
             -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }} &&
             cmake --build fsbb
 
-      - name: Build wheels
+      - name: Build wheels using cache
         if: steps.cache-fsb.outputs.cache-hit == 'true'
         uses: pypa/cibuildwheel@v2.13.1
         with:
@@ -124,20 +130,11 @@ jobs:
           config-file: ${{github.workspace}}/f3d/pyproject.toml
         env:
           CIBW_SKIP: '*-musl*'
-          # TODO: cross-compile ARM too
           CIBW_ARCHS: native
           CIBW_BUILD_VERBOSITY: 1
           CIBW_ENVIRONMENT: >
             CMAKE_PREFIX_PATH=../fsbb/install
-            SKBUILD_CMAKE_ARGS="
-            -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
-            -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
-            -DF3D_PLUGIN_BUILD_ASSIMP=ON;
-            -DF3D_PLUGIN_BUILD_DRACO=ON;
-            -DF3D_PLUGIN_BUILD_OCCT=ON;
-            -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;
-            -DF3D_MODULE_EXR=ON;
-            -DF3D_MODULE_EXTERNAL_RENDERING=ON"
+            SKBUILD_CMAKE_ARGS=${{ env.SKBUILD_CMAKE_ARGS }}
           CIBW_ENVIRONMENT_PASS_LINUX: >
             CMAKE_PREFIX_PATH
             SKBUILD_CMAKE_ARGS
