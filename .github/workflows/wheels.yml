@@ -9,11 +9,12 @@ on:
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu, windows, macOS]
+
+    runs-on: ${{ matrix.os }}-latest
 
     steps:
 
@@ -22,18 +23,6 @@ jobs:
         with:
           submodules: true
           path: 'fsb'
-
-      - name: fsbb directory
-        shell: bash
-        working-directory: ${{github.workspace}}
-        run: mkdir fsbb
-
-      - name: Cache fsb
-        id: cache-fsb
-        uses: actions/cache@v3
-        with:
-          path: fsbb/install
-          key: fsbb-${{runner.os}}-00
 
       # fetch-depth: 0 is required to get the tags used to determine f3d version
       # TODO: We are currently building wheels for master, it should be possible to select a tag
@@ -50,6 +39,18 @@ jobs:
         shell: bash
         run: |
           echo VTK_COMMIT_SHA=`cat ./f3d/.github/actions/vtk_commit_sha` >> $GITHUB_ENV
+
+      - name: fsbb directory
+        shell: bash
+        working-directory: ${{github.workspace}}
+        run: mkdir fsbb
+
+      - name: Cache fsb
+        id: cache-fsb
+        uses: actions/cache@v3
+        with:
+          path: fsbb/install
+          key: fsbb-${{runner.os}}-${{VTK_COMMIT_SHA}}-0
 
       - name: Setup Ninja Windows
         if: runner.os == 'Windows'
