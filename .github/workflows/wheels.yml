@@ -60,7 +60,7 @@ jobs:
 
       - name: Setup MSVC Windows
         if: runner.os == 'Windows'
-        uses: TheMrMilchmann/setup-msvc-dev@v2
+        uses: TheMrMilchmann/setup-msvc-dev@v2.0.1
         with:
           arch: x64
 
@@ -82,7 +82,7 @@ jobs:
           CIBW_ARCHS: native
           CIBW_BUILD_VERBOSITY: 1
           CIBW_ENVIRONMENT: >
-            CMAKE_PREFIX_PATH=../fsb/install
+            CMAKE_PREFIX_PATH=../fsbb/install
             SKBUILD_CMAKE_ARGS="
             -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
             -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
@@ -128,7 +128,7 @@ jobs:
           CIBW_ARCHS: native
           CIBW_BUILD_VERBOSITY: 1
           CIBW_ENVIRONMENT: >
-            CMAKE_PREFIX_PATH=../fsb/install
+            CMAKE_PREFIX_PATH=../fsbb/install
             SKBUILD_CMAKE_ARGS="
             -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
             -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
