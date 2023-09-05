@@ -83,7 +83,7 @@ runs:
         SKBUILD_CMAKE_ARGS
       CIBW_REPAIR_WHEEL_COMMAND: ''
       CIBW_BEFORE_ALL: >
-        cmake -S f3d-superbuild -B fsbb
+        cmake -S source -B fsbb
         -DBUILD_SHARED_LIBS=OFF
         -DCMAKE_BUILD_TYPE=Release
         -DENABLE_f3d=OFF
