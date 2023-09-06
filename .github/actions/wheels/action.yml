@@ -99,7 +99,9 @@ runs:
         -DOCCT_ENABLE_COLORING=ON
         -Dvtk_SOURCE_SELECTION=git
         -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }} &&
-        cmake --build fsbb
+        cmake --build fsbb &&
+        mkdir -p /output
+        cp -r fsbb/install /output/fsbb_install
 
   - name: Build wheels with cache
     if: steps.cache-fsb.outputs.cache-hit == 'true'
@@ -127,6 +129,12 @@ runs:
         CMAKE_PREFIX_PATH
         SKBUILD_CMAKE_ARGS
       CIBW_REPAIR_WHEEL_COMMAND: ''
+
+  - name: Copy cache back
+    shell: bash
+    if: runner.os == 'Linux'
+    working-directory: ${{github.workspace}}
+    run: cp -r ./wheelhouse/fsbb_install ./fsbb/install
 
   # TODO test the wheels
   - uses: actions/upload-artifact@v3
