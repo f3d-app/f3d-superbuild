@@ -100,7 +100,7 @@ runs:
         -Dvtk_SOURCE_SELECTION=git
         -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }} &&
         cmake --build fsbb &&
-        mkdir -p /output
+        mkdir -p /output &&
         cp -r fsbb/install /output/fsbb_install
 
   - name: Build wheels with cache
