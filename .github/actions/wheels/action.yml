@@ -131,6 +131,7 @@ runs:
       CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Copy cache back
+    if: steps.cache-fsb.outputs.cache-hit != 'true'
     shell: bash
     if: runner.os == 'Linux'
     working-directory: ${{github.workspace}}
