@@ -131,9 +131,10 @@ runs:
       CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Copy cache back
-    if: steps.cache-fsb.outputs.cache-hit != 'true'
+    if: |
+      runner.os == 'Linux' &&
+      steps.cache-fsb.outputs.cache-hit != 'true'
     shell: bash
-    if: runner.os == 'Linux'
     working-directory: ${{github.workspace}}
     run: cp -r ./wheelhouse/fsbb_install ./fsbb/install
 
