@@ -112,4 +112,4 @@ jobs:
         tag: ${{github.event.inputs.f3d_version}}
         artifacts: './wheelhouse/f3d-*.whl'
 
-#TODO publich to pypi
+#TODO publish to pypi
