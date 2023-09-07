@@ -5,6 +5,9 @@ inputs:
     description: 'F3D version to build'
     required: true
     default: 'master'
+  use_cache:
+    description: 'Whether to use superbuild cache or not'
+    default: 'true'
 
 runs:
   using: "composite"
@@ -36,7 +39,7 @@ runs:
     with:
       path: fsbb/install
       key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-0
-      lookup-only: true
+      lookup-only: ${{ inputs.use_cache && false || true }}
 
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'
@@ -57,7 +60,9 @@ runs:
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
   - name: Build superbuild and wheels
-    if: steps.cache-fsb.outputs.cache-hit != 'true'
+    if: |
+      steps.cache-fsb.outputs.cache-hit != 'true' ||
+      inputs.use_cache != 'true'
     uses: pypa/cibuildwheel@v2.13.1
     with:
       package-dir: ${{github.workspace}}/f3d
@@ -105,7 +110,9 @@ runs:
         cp -r fsbb/install /output/fsbb_install
 
   - name: Build wheels with cache
-    if: steps.cache-fsb.outputs.cache-hit == 'true'
+    if: |
+      steps.cache-fsb.outputs.cache-hit == 'true' &&
+      inputs.use_cache == 'true'
     uses: pypa/cibuildwheel@v2.13.1
     with:
       package-dir: ${{github.workspace}}/f3d
