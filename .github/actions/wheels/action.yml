@@ -39,7 +39,7 @@ runs:
     with:
       path: fsbb/install
       key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-0
-      lookup-only: ${{ inputs.use_cache && false || true }}
+      lookup-only: ${{ inputs.use_cache == 'true' && false || true }}
 
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'
