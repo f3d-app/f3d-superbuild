@@ -116,6 +116,7 @@ jobs:
       uses: ./source/.github/actions/wheels/
       with:
         f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
+        use_cache: false
 
     - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1

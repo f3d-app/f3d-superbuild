@@ -95,6 +95,7 @@ jobs:
       uses: ./source/.github/actions/wheels/
       with:
         f3d_version: ${{github.event.inputs.f3d_version}}
+        use_cache: false
 
     - name: Publish assets
       if: ${{ github.event.inputs.publish_assets == 'true' }}
