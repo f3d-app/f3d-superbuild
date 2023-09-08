@@ -124,6 +124,8 @@ runs:
       CIBW_SKIP: '*-musl*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
+      CIBW_TEST_REQUIRES: pytest
+      CIBW_TEST_COMMAND: "pytest"
       CIBW_ENVIRONMENT: >
         CMAKE_PREFIX_PATH=../fsbb/install
         SKBUILD_CMAKE_ARGS="
