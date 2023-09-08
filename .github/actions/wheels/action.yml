@@ -88,6 +88,8 @@ runs:
         CMAKE_PREFIX_PATH
         SKBUILD_CMAKE_ARGS
       CIBW_REPAIR_WHEEL_COMMAND: ''
+      CIBW_TEST_REQUIRES: pytest
+      CIBW_TEST_COMMAND: "pytest"
       CIBW_BEFORE_ALL: >
         cmake -S source -B fsbb
         -DBUILD_SHARED_LIBS=OFF
