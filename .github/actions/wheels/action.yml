@@ -1,0 +1,153 @@
+name: 'F3D Python wheels'
+description: 'Build and package F3D Python wheels'
+inputs:
+  f3d_version:
+    description: 'F3D version to build'
+    required: true
+    default: 'master'
+  use_cache:
+    description: 'Whether to use superbuild cache or not'
+    default: 'true'
+
+runs:
+  using: "composite"
+  steps:
+
+  # fetch-depth: 0 is required to get the tags used to determine f3d version
+  - name: Checkout f3d
+    uses: actions/checkout@v3
+    with:
+      repository: 'f3d-app/f3d'
+      ref: ${{inputs.f3d_version}}
+      fetch-depth: 0
+      path: 'f3d'
+
+  - name: Recover VTK version to build
+    working-directory: ${{github.workspace}}
+    shell: bash
+    run: |
+      echo VTK_COMMIT_SHA=`cat ./f3d/.github/actions/vtk_commit_sha` >> $GITHUB_ENV
+
+  - name: fsbb directory
+    shell: bash
+    working-directory: ${{github.workspace}}
+    run: mkdir fsbb
+
+  - name: Cache fsb
+    if: inputs.use_cache == 'true'
+    id: cache-fsb
+    uses: actions/cache@v3
+    with:
+      path: fsbb/install
+      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-0
+
+  - name: Setup Ninja Windows
+    if: runner.os == 'Windows'
+    shell: bash
+    run: |
+      choco install ninja
+      echo CMAKE_GENERATOR=Ninja >> $GITHUB_ENV
+
+  - name: Setup MSVC Windows
+    if: runner.os == 'Windows'
+    uses: TheMrMilchmann/setup-msvc-dev@v2.0.1
+    with:
+      arch: x64
+
+  - name: Escaping backslashes Windows
+    if: runner.os == 'Windows'
+    shell: bash
+    run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
+
+  - name: Build superbuild and wheels
+    if: |
+      steps.cache-fsb.outputs.cache-hit != 'true' ||
+      inputs.use_cache != 'true'
+    uses: pypa/cibuildwheel@v2.13.1
+    with:
+      package-dir: ${{github.workspace}}/f3d
+      output-dir: ${{github.workspace}}/wheelhouse
+      config-file: ${{github.workspace}}/f3d/pyproject.toml
+    env:
+      CIBW_SKIP: '*-musl*'
+      # TODO: cross-compile ARM too
+      CIBW_ARCHS: native
+      CIBW_BUILD_VERBOSITY: 1
+      CIBW_ENVIRONMENT: >
+        CMAKE_PREFIX_PATH=../fsbb/install
+        SKBUILD_CMAKE_ARGS="
+        -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
+        -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
+        -DF3D_PLUGIN_BUILD_ASSIMP=ON;
+        -DF3D_PLUGIN_BUILD_DRACO=ON;
+        -DF3D_PLUGIN_BUILD_OCCT=ON;
+        -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;
+        -DF3D_MODULE_EXR=ON;
+        -DF3D_MODULE_EXTERNAL_RENDERING=ON"
+      CIBW_ENVIRONMENT_PASS_LINUX: >
+        CMAKE_PREFIX_PATH
+        SKBUILD_CMAKE_ARGS
+      CIBW_REPAIR_WHEEL_COMMAND: ''
+      CIBW_BEFORE_ALL: >
+        cmake -S source -B fsbb
+        -DBUILD_SHARED_LIBS=OFF
+        -DCMAKE_BUILD_TYPE=Release
+        -DENABLE_f3d=OFF
+        -DENABLE_alembic=ON
+        -DENABLE_assimp=ON
+        -DENABLE_draco=ON
+        -DENABLE_occt=ON
+        -DENABLE_openexr=ON
+        -DENABLE_ospray=OFF
+        -DENABLE_pybind11=ON
+        -DENABLE_tbb=ON
+        -DENABLE_vtk=ON
+        -DOCCT_ENABLE_COLORING=ON
+        -Dvtk_SOURCE_SELECTION=git
+        -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }} &&
+        cmake --build fsbb &&
+        mkdir -p /output &&
+        cp -r fsbb/install /output/fsbb_install
+
+  - name: Build wheels with cache
+    if: |
+      steps.cache-fsb.outputs.cache-hit == 'true' &&
+      inputs.use_cache == 'true'
+    uses: pypa/cibuildwheel@v2.13.1
+    with:
+      package-dir: ${{github.workspace}}/f3d
+      output-dir: ${{github.workspace}}/wheelhouse
+      config-file: ${{github.workspace}}/f3d/pyproject.toml
+    env:
+      CIBW_SKIP: '*-musl*'
+      CIBW_ARCHS: native
+      CIBW_BUILD_VERBOSITY: 1
+      CIBW_ENVIRONMENT: >
+        CMAKE_PREFIX_PATH=../fsbb/install
+        SKBUILD_CMAKE_ARGS="
+        -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
+        -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
+        -DF3D_PLUGIN_BUILD_ASSIMP=ON;
+        -DF3D_PLUGIN_BUILD_DRACO=ON;
+        -DF3D_PLUGIN_BUILD_OCCT=ON;
+        -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;
+        -DF3D_MODULE_EXR=ON;
+        -DF3D_MODULE_EXTERNAL_RENDERING=ON"
+      CIBW_ENVIRONMENT_PASS_LINUX: >
+        CMAKE_PREFIX_PATH
+        SKBUILD_CMAKE_ARGS
+      CIBW_REPAIR_WHEEL_COMMAND: ''
+
+  - name: Copy cache back
+    if: |
+      runner.os == 'Linux' &&
+      steps.cache-fsb.outputs.cache-hit != 'true'
+    shell: bash
+    working-directory: ${{github.workspace}}
+    run: cp -r ./wheelhouse/fsbb_install ./fsbb/install
+
+  # TODO test the wheels
+  - uses: actions/upload-artifact@v3
+    with:
+      name: ${{ runner.os }}-wheels
+      path: ./wheelhouse/f3d-*.whl
