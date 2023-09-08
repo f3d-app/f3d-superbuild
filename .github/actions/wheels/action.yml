@@ -89,7 +89,7 @@ runs:
         SKBUILD_CMAKE_ARGS
       CIBW_REPAIR_WHEEL_COMMAND: ''
       CIBW_TEST_REQUIRES: pytest
-      CIBW_TEST_COMMAND: "pytest"
+      CIBW_TEST_COMMAND: "pytest {project}"
       CIBW_BEFORE_ALL: >
         cmake -S source -B fsbb
         -DBUILD_SHARED_LIBS=OFF
@@ -125,7 +125,7 @@ runs:
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_TEST_REQUIRES: pytest
-      CIBW_TEST_COMMAND: "pytest"
+      CIBW_TEST_COMMAND: "pytest {project}"
       CIBW_ENVIRONMENT: >
         CMAKE_PREFIX_PATH=../fsbb/install
         SKBUILD_CMAKE_ARGS="
