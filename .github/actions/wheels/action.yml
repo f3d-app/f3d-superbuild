@@ -90,7 +90,7 @@ runs:
       CIBW_REPAIR_WHEEL_COMMAND: ''
       CIBW_TEST_REQUIRES: pytest
       CIBW_BEFORE_TEST_LINUX: >
-        yum install -y xvfb
+        yum install -y xvfb &&
         Xvfb $DISPLAY -screen 0 1280x1024x24 &
       CIBW_TEST_COMMAND: "pytest {project}"
       CIBW_BEFORE_ALL: >
@@ -129,7 +129,7 @@ runs:
       CIBW_BUILD_VERBOSITY: 1
       CIBW_TEST_REQUIRES: pytest
       CIBW_BEFORE_TEST_LINUX: >
-        yum install -y xvfb
+        yum install -y xvfb &&
         Xvfb $DISPLAY -screen 0 1280x1024x24 &
       CIBW_TEST_COMMAND: "pytest {project}"
       CIBW_ENVIRONMENT: >
