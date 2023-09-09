@@ -89,9 +89,9 @@ runs:
         SKBUILD_CMAKE_ARGS
       CIBW_REPAIR_WHEEL_COMMAND: ''
       CIBW_BEFORE_ALL: >
-        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh
+        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }}
       CIBW_BEFORE_ALL_LINUX: >
-        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh &&
+        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }}&&
         mkdir -p /output &&
         cp -r fsbb/install /output/fsbb_install
 

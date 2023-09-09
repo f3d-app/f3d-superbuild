@@ -14,5 +14,5 @@ cmake -S ./source -B ./fsbb      \
   -DENABLE_vtk=ON            \
   -DOCCT_ENABLE_COLORING=ON  \
   -Dvtk_SOURCE_SELECTION=git \
-  -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
+  -Dvtk_GIT_TAG=$1
 cmake --build ./fsbb
