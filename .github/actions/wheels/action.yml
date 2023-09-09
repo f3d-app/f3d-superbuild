@@ -99,9 +99,7 @@ runs:
         SKBUILD_CMAKE_ARGS
       CIBW_REPAIR_WHEEL_COMMAND: ''
       CIBW_TEST_REQUIRES: pytest
-      CIBW_BEFORE_TEST_LINUX: >
-        yum install -y xvfb &&
-        Xvfb $DISPLAY -screen 0 1280x1024x24 &
+      CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
       CIBW_TEST_COMMAND: "pytest {project}"
       CIBW_BEFORE_ALL: >
         cmake -S source -B fsbb
@@ -140,7 +138,6 @@ runs:
       CIBW_MANYLINUX_X86_64_IMAGE: mwestphal/f3d-wheels-ci-superbuild
       CIBW_TEST_REQUIRES: pytest
       CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/action/wheels/copy_mesa.sh
-      CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
       CIBW_TEST_COMMAND: cd {project} && pytest
       CIBW_ENVIRONMENT: >
         CMAKE_PREFIX_PATH=../fsbb/install
