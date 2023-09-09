@@ -39,7 +39,7 @@ runs:
     uses: actions/cache@v3
     with:
       path: fsbb/install
-      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-0
+      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-1
 
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'
@@ -89,41 +89,9 @@ runs:
         SKBUILD_CMAKE_ARGS
       CIBW_REPAIR_WHEEL_COMMAND: ''
       CIBW_BEFORE_ALL: >
-        cmake -S source -B fsbb
-        -DBUILD_SHARED_LIBS=OFF
-        -DCMAKE_BUILD_TYPE=Release
-        -DENABLE_f3d=OFF
-        -DENABLE_alembic=ON
-        -DENABLE_assimp=ON
-        -DENABLE_draco=ON
-        -DENABLE_occt=ON
-        -DENABLE_openexr=ON
-        -DENABLE_ospray=OFF
-        -DENABLE_pybind11=ON
-        -DENABLE_tbb=ON
-        -DENABLE_vtk=ON
-        -DOCCT_ENABLE_COLORING=ON
-        -Dvtk_SOURCE_SELECTION=git
-        -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }} &&
-        cmake --build fsbb
+        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh
       CIBW_BEFORE_ALL_LINUX: >
-        cmake -S source -B fsbb
-        -DBUILD_SHARED_LIBS=OFF
-        -DCMAKE_BUILD_TYPE=Release
-        -DENABLE_f3d=OFF
-        -DENABLE_alembic=ON
-        -DENABLE_assimp=ON
-        -DENABLE_draco=ON
-        -DENABLE_occt=ON
-        -DENABLE_openexr=ON
-        -DENABLE_ospray=OFF
-        -DENABLE_pybind11=ON
-        -DENABLE_tbb=ON
-        -DENABLE_vtk=ON
-        -DOCCT_ENABLE_COLORING=ON
-        -Dvtk_SOURCE_SELECTION=git
-        -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }} &&
-        cmake --build fsbb &&
+        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh &&
         mkdir -p /output &&
         cp -r fsbb/install /output/fsbb_install
 
