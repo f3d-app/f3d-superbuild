@@ -59,9 +59,11 @@ runs:
     shell: bash
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
-  - name: Test env
+  - name: Set needed env variables
     shell: bash
-    run: echo "TEST_ENV=\"Testing env\"" >> $GITHUB_ENV
+    run: |
+      echo "CMAKE_PREFIX_PATH=../fsbb/install" >> $GITHUB_ENV
+      echo "SKBUILD_CMAKE_ARGS= -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_PLUGIN_BUILD_ALEMBIC=ON;-DF3D_PLUGIN_BUILD_ASSIMP=ON;-DF3D_PLUGIN_BUILD_DRACO=ON;-DF3D_PLUGIN_BUILD_OCCT=ON;-DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;-DF3D_MODULE_EXR=ON;-DF3D_MODULE_EXTERNAL_RENDERING=ON"
 
   - name: Build superbuild and wheels
     if: |
@@ -77,17 +79,6 @@ runs:
       # TODO: cross-compile ARM too
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
-      CIBW_ENVIRONMENT: >
-        CMAKE_PREFIX_PATH=../fsbb/install
-        SKBUILD_CMAKE_ARGS="
-        -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
-        -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
-        -DF3D_PLUGIN_BUILD_ASSIMP=ON;
-        -DF3D_PLUGIN_BUILD_DRACO=ON;
-        -DF3D_PLUGIN_BUILD_OCCT=ON;
-        -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;
-        -DF3D_MODULE_EXR=ON;
-        -DF3D_MODULE_EXTERNAL_RENDERING=ON"
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
         SKBUILD_CMAKE_ARGS
@@ -112,20 +103,7 @@ runs:
       CIBW_SKIP: '*-musl*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
-      CIBW_ENVIRONMENT: >
-        TEST_ENV=${{env.TEST_ENV}}
-        CMAKE_PREFIX_PATH=../fsbb/install
-        SKBUILD_CMAKE_ARGS="
-        -DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;
-        -DF3D_PLUGIN_BUILD_ALEMBIC=ON;
-        -DF3D_PLUGIN_BUILD_ASSIMP=ON;
-        -DF3D_PLUGIN_BUILD_DRACO=ON;
-        -DF3D_PLUGIN_BUILD_OCCT=ON;
-        -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;
-        -DF3D_MODULE_EXR=ON;
-        -DF3D_MODULE_EXTERNAL_RENDERING=ON"
       CIBW_ENVIRONMENT_PASS_LINUX: >
-        TEST_ENV
         CMAKE_PREFIX_PATH
         SKBUILD_CMAKE_ARGS
       CIBW_REPAIR_WHEEL_COMMAND: ''
