@@ -127,10 +127,9 @@ runs:
       CIBW_SKIP: '*-musl*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
+      CIBW_MANYLINUX_X86_64_IMAGE: mwestphal/f3d-wheels-ci-superbuild
       CIBW_TEST_REQUIRES: pytest
-      CIBW_BEFORE_TEST_LINUX: >
-        yum install -y xvfb &&
-        Xvfb $DISPLAY -screen 0 1280x1024x24 &
+      CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
       CIBW_TEST_COMMAND: "pytest {project}"
       CIBW_ENVIRONMENT: >
         CMAKE_PREFIX_PATH=../fsbb/install
