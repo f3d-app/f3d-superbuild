@@ -59,6 +59,16 @@ runs:
     shell: bash
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
+  - name: Install Mesa Windows
+    shell: cmd
+    if: runner.os == 'Windows'
+    working-directory: ${{github.workspace}}
+    run: |
+      mkdir mesa
+      cd mesa
+      curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.0.1/mesa3d-22.0.1-release-msvc.7z
+      "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+
   - name: Build superbuild and wheels
     if: |
       steps.cache-fsb.outputs.cache-hit != 'true' ||
@@ -129,8 +139,9 @@ runs:
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: mwestphal/f3d-wheels-ci-superbuild
       CIBW_TEST_REQUIRES: pytest
+      CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/action/wheels/copy_mesa.sh
       CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
-      CIBW_TEST_COMMAND: "pytest {project}"
+      CIBW_TEST_COMMAND: cd {project} && pytest
       CIBW_ENVIRONMENT: >
         CMAKE_PREFIX_PATH=../fsbb/install
         SKBUILD_CMAKE_ARGS="
