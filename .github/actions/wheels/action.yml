@@ -21,6 +21,7 @@ runs:
       ref: ${{inputs.f3d_version}}
       fetch-depth: 0
       path: 'f3d'
+      lfs: true
 
   - name: Recover VTK version to build
     working-directory: ${{github.workspace}}
@@ -65,6 +66,16 @@ runs:
       echo "CMAKE_PREFIX_PATH=../fsbb/install" >> $GITHUB_ENV
       echo "SKBUILD_CMAKE_ARGS=-DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_PLUGIN_BUILD_ALEMBIC=ON;-DF3D_PLUGIN_BUILD_ASSIMP=ON;-DF3D_PLUGIN_BUILD_DRACO=ON;-DF3D_PLUGIN_BUILD_OCCT=ON;-DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;-DF3D_MODULE_EXR=ON;-DF3D_MODULE_EXTERNAL_RENDERING=ON" >> $GITHUB_ENV
 
+  - name: Install Mesa Windows
+    shell: cmd
+    if: runner.os == 'Windows'
+    working-directory: ${{github.workspace}}
+    run: |
+      mkdir mesa
+      cd mesa
+      curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.0.1/mesa3d-22.0.1-release-msvc.7z
+      "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+
   - name: Build superbuild and wheels
     if: |
       steps.cache-fsb.outputs.cache-hit != 'true' ||
@@ -79,6 +90,9 @@ runs:
       # TODO: cross-compile ARM too
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
+      CIBW_TEST_REQUIRES: pytest
+      CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
+      CIBW_TEST_COMMAND: cd {package} && pytest -s {package}/python/testing
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
         SKBUILD_CMAKE_ARGS
@@ -103,6 +117,9 @@ runs:
       CIBW_SKIP: '*-musl*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
+      CIBW_TEST_REQUIRES: pytest
+      CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
+      CIBW_TEST_COMMAND: cd {package} && pytest -s {package}/python/testing
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
         SKBUILD_CMAKE_ARGS
@@ -118,6 +135,7 @@ runs:
 
   # TODO test the wheels
   - uses: actions/upload-artifact@v3
+    if: always()
     with:
       name: ${{ runner.os }}-wheels
       path: ./wheelhouse/f3d-*.whl
