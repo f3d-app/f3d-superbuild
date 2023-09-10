@@ -11,47 +11,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_and_package:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu, windows, macos]
-        raytracing_label: [raytracing, no-raytracing]
-        build_type: [standard]
-        include:
-          - egl_label: no-egl
-          - build_type: headless
-            os: ubuntu
-            raytracing_label: raytracing
-            egl_label: egl
-
-    runs-on: ${{matrix.os}}-latest
-    container: ${{ matrix.os == 'ubuntu' && 'ghcr.io/f3d-app/f3d-superbuild-ci' || null }}
-
-    env:
-      DISPLAY: :0
-
-    steps:
-
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        path: 'source'
-        submodules: true
-        lfs: true
-
-    - name: Build and package F3D
-      uses: ./source/.github/actions/f3d-superbuild/
-      with:
-        f3d_version: origin/master
-        raytracing_label: ${{matrix.raytracing_label}}
-        egl_label: ${{matrix.egl_label}}
-
   python_wheels:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu, windows, macos]
+        os: [ubuntu]
 
     runs-on: ${{matrix.os}}-latest
 
