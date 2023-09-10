@@ -92,7 +92,7 @@ runs:
       CIBW_BUILD_VERBOSITY: 1
       CIBW_TEST_REQUIRES: pytest
       CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
-      CIBW_TEST_COMMAND: cd {package} && pytest -s {package}/python/testing
+      CIBW_TEST_COMMAND: cd {package} && python -m pytest -s {package}/python/testing
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
         SKBUILD_CMAKE_ARGS
@@ -119,7 +119,7 @@ runs:
       CIBW_BUILD_VERBOSITY: 1
       CIBW_TEST_REQUIRES: pytest
       CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project} {package}
-      CIBW_TEST_COMMAND: cd {package} && pytest -s {package}/python/testing
+      CIBW_TEST_COMMAND: cd {package} && python -m pytest -s {package}/python/testing
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
         SKBUILD_CMAKE_ARGS
