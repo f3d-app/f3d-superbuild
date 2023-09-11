@@ -14,6 +14,6 @@ cmake -S ./source -B ./fsbb      \
   -DENABLE_vtk=ON            \
   -DOCCT_ENABLE_COLORING=ON  \
   -Dvtk_SOURCE_SELECTION=git \
-  -DCMAKE_CXX_FLAGS='-D_GLIBCXX_USE_CXX11_ABI=0' \
+  -DCMAKE_CXX_FLAGS='-D_GLIBCXX_USE_CXX11_ABI=1' \
   -Dvtk_GIT_TAG=$1
 cmake --build ./fsbb

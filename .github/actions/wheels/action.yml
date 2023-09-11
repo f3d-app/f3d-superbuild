@@ -39,7 +39,7 @@ runs:
     uses: actions/cache@v3
     with:
       path: fsbb/install
-      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-3
+      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-4
 
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'
@@ -63,7 +63,7 @@ runs:
     shell: bash
     run: |
       echo "CMAKE_PREFIX_PATH=../fsbb/install" >> $GITHUB_ENV
-      echo "SKBUILD_CMAKE_ARGS=-DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_PLUGIN_BUILD_ALEMBIC=ON;-DF3D_PLUGIN_BUILD_ASSIMP=ON;-DF3D_PLUGIN_BUILD_DRACO=ON;-DF3D_PLUGIN_BUILD_OCCT=ON;-DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;-DF3D_MODULE_EXR=ON;-DF3D_MODULE_EXTERNAL_RENDERING=ON -DCMAKE_CXX_FLAGS='-D_GLIBCXX_USE_CXX11_ABI=0'" >> $GITHUB_ENV
+      echo "SKBUILD_CMAKE_ARGS=-DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_PLUGIN_BUILD_ALEMBIC=ON;-DF3D_PLUGIN_BUILD_ASSIMP=ON;-DF3D_PLUGIN_BUILD_DRACO=ON;-DF3D_PLUGIN_BUILD_OCCT=ON;-DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;-DF3D_MODULE_EXR=ON;-DF3D_MODULE_EXTERNAL_RENDERING=ON -DCMAKE_CXX_FLAGS='-D_GLIBCXX_USE_CXX11_ABI=1'" >> $GITHUB_ENV
 
   - name: Build superbuild and wheels
     if: |
@@ -126,6 +126,7 @@ runs:
 
   # TODO test the wheels
   - uses: actions/upload-artifact@v3
+    if: always()
     with:
       name: ${{ runner.os }}-wheels
       path: ./wheelhouse/f3d-*.whl
