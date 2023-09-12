@@ -151,7 +151,8 @@ runs:
       dir
       cd f3d
       dir
-      ..\..\dependencies\Dependencies.exe -chain f3d.dll
+      cd bin
+      ..\..\..\dependencies\Dependencies.exe -chain f3d.dll
 
   # TODO test the wheels
   - uses: actions/upload-artifact@v3
