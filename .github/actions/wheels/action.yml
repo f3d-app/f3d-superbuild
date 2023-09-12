@@ -148,8 +148,10 @@ runs:
     run: |
       cd wheelhouse
       "C:\Program Files\7-Zip\7z.exe" x f3d-2.1.0-cp311-cp311-win_amd64.whl
+      dir
       cd f3d
-      ..\dependencies\Dependencies.exe -chain f3d.dll
+      dir
+      ..\..\dependencies\Dependencies.exe -chain f3d.dll
 
   # TODO test the wheels
   - uses: actions/upload-artifact@v3
