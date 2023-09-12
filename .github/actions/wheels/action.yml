@@ -76,6 +76,16 @@ runs:
       curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.0.1/mesa3d-22.0.1-release-msvc.7z
       "C:\Program Files\7-Zip\7z.exe" x mesa.7z
 
+  - name: Install Dependencies Windows
+    shell: cmd
+    if: runner.os == 'Windows'
+    working-directory: ${{github.workspace}}
+    run: |
+      mkdir dependencies
+      cd dependencies
+      curl.exe -L --output dependencies.zip --url https://github.com/lucasg/Dependencies/releases/download/v1.11.1/Dependencies_x64_Release.zip
+      "C:\Program Files\7-Zip\7z.exe" x dependencies.zip
+
   - name: Build superbuild and wheels
     if: |
       steps.cache-fsb.outputs.cache-hit != 'true' ||
@@ -86,7 +96,7 @@ runs:
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl*'
+      CIBW_BUILD: cp311-*
       # TODO: cross-compile ARM too
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
@@ -114,7 +124,7 @@ runs:
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl*'
+      CIBW_BUILD: cp311-*
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_TEST_REQUIRES: pytest
@@ -130,6 +140,16 @@ runs:
     shell: bash
     working-directory: ${{github.workspace}}
     run: cp -r ./wheelhouse/fsbb_install ./fsbb/install
+
+  - name: Check wheel dependencies
+    shell: cmd
+    if: runner.os == 'Windows'
+    working-directory: ${{github.workspace}}
+    run: |
+      cd wheelhouse
+      "C:\Program Files\7-Zip\7z.exe" x f3d-2.1.0-cp311-cp311-win_amd64.whl
+      cd f3d
+      ..\dependencies\Dependencies.exe -chain f3d.dll
 
   # TODO test the wheels
   - uses: actions/upload-artifact@v3
