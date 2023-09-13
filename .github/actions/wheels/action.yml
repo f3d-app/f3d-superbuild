@@ -21,6 +21,7 @@ runs:
       ref: ${{inputs.f3d_version}}
       fetch-depth: 0
       path: 'f3d'
+      lfs: true
 
   - name: Recover VTK version to build
     working-directory: ${{github.workspace}}
