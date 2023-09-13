@@ -110,7 +110,7 @@ runs:
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: mwestphal/f3d-wheels-ci-superbuild
       CIBW_TEST_REQUIRES: pytest
-      CIBW_TEST_COMMAND: xvfb-run pytest -s {package}/python/testing/test_camera.py
+      CIBW_TEST_COMMAND: pytest -s {package}/python/testing/test_camera.py
       CIBW_ENVIRONMENT_PASS_LINUX: >
         DISPLAY
         CMAKE_PREFIX_PATH
