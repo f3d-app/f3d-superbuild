@@ -17,22 +17,56 @@ on:
         default: 'false'
 
 jobs:
-  build_and_package:
+  windows:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu, windows, macos]
         raytracing_label: [raytracing, no-raytracing]
-        build_type: [standard]
-        include:
-          - egl_label: no-egl
-          - build_type: headless
-            os: ubuntu
-            raytracing_label: raytracing
-            egl_label: egl
 
-    runs-on: ${{matrix.os}}-latest
-    container: ${{ matrix.os == 'ubuntu' && 'ghcr.io/f3d-app/f3d-superbuild-ci' || null }}
+    runs-on: windows-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: 'source'
+        submodules: true
+        lfs: true
+        ref: ${{ github.event.inputs.sb_branch}}
+
+    - name: Build and package F3D
+      uses: ./source/.github/actions/f3d-superbuild/
+      with:
+        f3d_version: ${{github.event.inputs.f3d_version}}
+        raytracing_label: ${{matrix.raytracing_label}}
+
+    - name: Publish assets
+      if: ${{ github.event.inputs.publish_assets == 'true' }}
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        replacesArtifacts: true
+        omitBodyDuringUpdate: true
+        omitNameDuringUpdate: true
+        tag: ${{github.event.inputs.f3d_version}}
+        artifacts: './build/F3D-*'
+
+  linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        raytracing_label: [raytracing, no-raytracing]
+        egl_label: [egl, no-egl]
+        build_type: [standard]
+
+    runs-on: ubuntu-latest
+    container: ghcr.io/f3d-app/f3d-superbuild-ci
 
     env:
       DISPLAY: :0
@@ -53,6 +87,53 @@ jobs:
         f3d_version: ${{github.event.inputs.f3d_version}}
         raytracing_label: ${{matrix.raytracing_label}}
         egl_label: ${{matrix.egl_label}}
+
+    - name: Publish assets
+      if: ${{ github.event.inputs.publish_assets == 'true' }}
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        replacesArtifacts: true
+        omitBodyDuringUpdate: true
+        omitNameDuringUpdate: true
+        tag: ${{github.event.inputs.f3d_version}}
+        artifacts: './build/F3D-*'
+
+  macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        raytracing_label: [raytracing, no-raytracing]
+        cpu: [x86_64]
+        include:
+          - cpu: arm64
+            raytracing_label: no-raytracing
+
+    runs-on: macos-latest
+
+    env:
+      CMAKE_OSX_ARCHITECTURES: ${{matrix.cpu}}
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: 'source'
+        submodules: true
+        lfs: true
+        ref: ${{ github.event.inputs.sb_branch}}
+
+    - name: Build and package F3D
+      uses: ./source/.github/actions/f3d-superbuild/
+      with:
+        f3d_version: ${{github.event.inputs.f3d_version}}
+        raytracing_label: ${{matrix.raytracing_label}}
 
     - name: Publish assets
       if: ${{ github.event.inputs.publish_assets == 'true' }}

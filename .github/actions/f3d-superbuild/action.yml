@@ -187,4 +187,4 @@ runs:
     uses: actions/upload-artifact@v3
     with:
       path: ./build/F3D-*
-      name: F3D-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl_label}}
+      name: F3D-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl_label == 'egl' && 'headless' || 'desktop'}}-${{ runner.os == 'macOS' && env.CMAKE_OSX_ARCHITECTURES || 'x86_64' }}

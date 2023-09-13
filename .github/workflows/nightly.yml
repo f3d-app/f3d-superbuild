@@ -28,24 +28,65 @@ jobs:
         test -z "$(git tag --points-at HEAD)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
         echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-  build_and_package:
+  windows:
     needs: check_nightly
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu, windows, macos]
         raytracing_label: [raytracing, no-raytracing]
-        build_type: [standard]
-        include:
-          - egl_label: no-egl
-          - build_type: headless
-            os: ubuntu
-            raytracing_label: raytracing
-            egl_label: egl
 
-    runs-on: ${{matrix.os}}-latest
-    container: ${{ matrix.os == 'ubuntu' && 'ghcr.io/f3d-app/f3d-superbuild-ci' || null }}
+    runs-on: windows-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: 'source'
+        submodules: true
+        lfs: true
+
+    - name: Build and package F3D
+      uses: ./source/.github/actions/f3d-superbuild/
+      with:
+        f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
+        raytracing_label: ${{matrix.raytracing_label}}
+
+    - name: Delete previous nightly release assets
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "F3D-*-Windows-*"
+        fail-if-no-assets: false
+
+    - name: Publish nightly release
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        tag: nightly
+        name: "Nightly"
+        body: "Automatically generated nightly binary release"
+        artifacts: './build/F3D-*'
+
+  linux:
+    needs: check_nightly
+    if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        raytracing_label: [raytracing, no-raytracing]
+        egl_label: [no-egl, egl]
+
+    runs-on: ubuntu-latest
+    container: ghcr.io/f3d-app/f3d-superbuild-ci
 
     env:
       DISPLAY: :0
@@ -72,7 +113,62 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
         tag: nightly
-        assets: "F3D-*-${{runner.os}}-*${{ matrix.egl_label == 'egl' && '-headless' || null }}${{ matrix.raytracing_label == 'raytracing' && '-raytracing' || null }}"
+        assets: "F3D-*-Linux-*"
+        fail-if-no-assets: false
+
+    - name: Publish nightly release
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        tag: nightly
+        name: "Nightly"
+        body: "Automatically generated nightly binary release"
+        artifacts: './build/F3D-*'
+
+  macos:
+    needs: check_nightly
+    if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        raytracing_label: [raytracing, no-raytracing]
+        cpu: [x86_64]
+        include:
+          - cpu: arm64
+            raytracing_label: no-raytracing
+
+    runs-on: macos-latest
+
+    env:
+      CMAKE_OSX_ARCHITECTURES: ${{matrix.cpu}}
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: 'source'
+        submodules: true
+        lfs: true
+
+    - name: Build and package F3D
+      uses: ./source/.github/actions/f3d-superbuild/
+      with:
+        f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
+        raytracing_label: ${{matrix.raytracing_label}}
+
+    - name: Delete previous nightly release assets
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "F3D-*-macOS-*"
         fail-if-no-assets: false
 
     - name: Publish nightly release
