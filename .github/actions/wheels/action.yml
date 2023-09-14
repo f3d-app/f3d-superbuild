@@ -128,6 +128,8 @@ runs:
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_TEST_REQUIRES: pytest
+      CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project} {package}
+      CIBW_TEST_COMMAND: python -m pytest -s {package}/python/testing
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
         SKBUILD_CMAKE_ARGS
@@ -142,6 +144,7 @@ runs:
     run: cp -r ./wheelhouse/fsbb_install ./fsbb/install
 
   - name: Check wheel dependencies
+    if: always()
     shell: cmd
     if: runner.os == 'Windows'
     working-directory: ${{github.workspace}}
@@ -152,7 +155,7 @@ runs:
       cd f3d
       dir
       cd bin
-      ..\..\..\dependencies\Dependencies.exe -chain f3d.dll
+      ..\..\..\dependencies\Dependencies.exe -modules f3d.dll
 
   # TODO test the wheels
   - uses: actions/upload-artifact@v3
