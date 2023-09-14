@@ -14,6 +14,7 @@ runs:
   steps:
 
   # fetch-depth: 0 is required to get the tags used to determine f3d version
+  # lfs: true is needed for testing, use LFS cache action instead TODO
   - name: Checkout f3d
     uses: actions/checkout@v3
     with:
@@ -21,6 +22,7 @@ runs:
       ref: ${{inputs.f3d_version}}
       fetch-depth: 0
       path: 'f3d'
+      lfs: true
 
   - name: Recover VTK version to build
     working-directory: ${{github.workspace}}
@@ -79,16 +81,22 @@ runs:
       # TODO: cross-compile ARM too
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
+      CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
+        DISPLAY
         SKBUILD_CMAKE_ARGS
-      CIBW_REPAIR_WHEEL_COMMAND: ''
+        VTK_COMMIT_SHA
       CIBW_BEFORE_ALL: >
         bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }}
       CIBW_BEFORE_ALL_LINUX: >
-        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }}&&
+        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }} &&
         mkdir -p /output &&
         cp -r fsbb/install /output/fsbb_install
+      CIBW_TEST_REQUIRES: pytest
+      CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
+      CIBW_TEST_COMMAND: pytest -s {package}/python/testing
+      CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Build wheels with cache
     if: |
@@ -103,9 +111,14 @@ runs:
       CIBW_SKIP: '*-musl*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
+      CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
+        DISPLAY
         SKBUILD_CMAKE_ARGS
+      CIBW_TEST_REQUIRES: pytest
+      CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
+      CIBW_TEST_COMMAND: pytest -s {package}/python/testing
       CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Copy cache back
@@ -116,8 +129,8 @@ runs:
     working-directory: ${{github.workspace}}
     run: cp -r ./wheelhouse/fsbb_install ./fsbb/install
 
-  # TODO test the wheels
   - uses: actions/upload-artifact@v3
+    if: always()
     with:
       name: ${{ runner.os }}-wheels
       path: ./wheelhouse/f3d-*.whl
