@@ -12,16 +12,18 @@ endif ()
 
 list(LENGTH CMAKE_OSX_ARCHITECTURES osx_arch_count)
 
+if ("${osx_arch_count}" GREATER 1)
+  message(FATAL_ERROR "Universal OSX build is not supported yet")
+endif()
+
 if (NOT APPLE OR "${osx_arch_count}" EQUAL 0)
   if ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "^(x86_64||AMD64)$")
     list(APPEND package_suffix_items "x86_64")
   else()
     list(APPEND package_suffix_items "unknown")
   endif()
-elseif ("${osx_arch_count}" EQUAL 1)
-  list(APPEND package_suffix_items "${CMAKE_OSX_ARCHITECTURES}")
 else ()
-  list(APPEND package_suffix_items "universal")
+  list(APPEND package_suffix_items "${CMAKE_OSX_ARCHITECTURES}")
 endif()
 
 if (egl_enabled)

@@ -63,7 +63,6 @@ jobs:
       matrix:
         raytracing_label: [raytracing, no-raytracing]
         egl_label: [egl, no-egl]
-        build_type: [standard]
 
     runs-on: ubuntu-latest
     container: ghcr.io/f3d-app/f3d-superbuild-ci
