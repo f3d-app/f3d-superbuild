@@ -72,6 +72,8 @@ jobs:
         include:
           - cpu: arm64
             raytracing_label: no-raytracing
+          - cpu: 'x86_64;arm64' # universal
+            raytracing_label: no-raytracing
 
     runs-on: macos-latest
 

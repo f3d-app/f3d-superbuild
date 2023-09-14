@@ -91,7 +91,7 @@ runs:
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DENABLE_egl=${{ inputs.egl_label == 'egl' && 'ON' || 'OFF' }}
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
-      -DENABLE_exodus=${{ env.CMAKE_OSX_ARCHITECTURES == 'arm64' && 'OFF' || 'ON' }}
+      -DENABLE_exodus=${{ contains(env.CMAKE_OSX_ARCHITECTURES, 'arm64') && 'OFF' || 'ON' }}
       -DOCCT_ENABLE_COLORING=${{ runner.os == 'macOS' && 'OFF' || 'ON' }}
       -DUSE_SYSTEM_python3=ON
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
@@ -147,7 +147,7 @@ runs:
   - name: Test package
     if: |
       inputs.egl_label != 'egl' &&
-      env.CMAKE_OSX_ARCHITECTURES != 'arm64'
+      contains(env.CMAKE_OSX_ARCHITECTURES, 'arm64')
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: |
