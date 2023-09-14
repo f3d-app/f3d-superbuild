@@ -146,7 +146,6 @@ runs:
   - name: Check wheel dependencies
     if: always()
     shell: cmd
-    if: runner.os == 'Windows'
     working-directory: ${{github.workspace}}
     run: |
       cd wheelhouse
