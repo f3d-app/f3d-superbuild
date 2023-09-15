@@ -28,7 +28,7 @@ superbuild_add_project(vtk
   LICENSE_FILES
     Copyright.txt
   DEPENDS cxx11
-  DEPENDS_OPTIONAL tbb ospray ${vtk_platform_dependencies}
+  DEPENDS_OPTIONAL tbb ospray exodus ${vtk_platform_dependencies}
   CMAKE_ARGS
     -DCMAKE_MACOSX_RPATH=OFF
     -DVTKOSPRAY_ENABLE_DENOISER=${ospray_enabled}
