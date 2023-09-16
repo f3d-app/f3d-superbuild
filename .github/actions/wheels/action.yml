@@ -88,7 +88,7 @@ runs:
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
       # TODO: cross-compile ARM too
-      CIBW_SKIP: '*-musl* cp37-*'
+      CIBW_BUILD: 'pp311-*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
@@ -117,7 +117,7 @@ runs:
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl* p37-*'
+      CIBW_BUILD: 'pp311-*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
@@ -128,7 +128,7 @@ runs:
       CIBW_TEST_REQUIRES: pytest
       CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
       CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
-      CIBW_TEST_COMMAND: pytest -s {package}/python/testing
+      CIBW_TEST_COMMAND: pytest -s {project}/source/.github/actions/^Ceels/test_utils.py
       CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Copy cache back
