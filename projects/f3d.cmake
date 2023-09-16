@@ -38,6 +38,7 @@ superbuild_add_project(f3d
     -DF3D_PLUGIN_BUILD_ALEMBIC:BOOL=${alembic_enabled}
     -DF3D_PLUGIN_BUILD_ASSIMP:BOOL=${assimp_enabled}
     -DF3D_PLUGIN_BUILD_DRACO:BOOL=${draco_enabled}
+    -DF3D_PLUGIN_BUILD_EXODUS:BOOL=${exodus_enabled}
     -DF3D_PLUGIN_BUILD_OCCT:BOOL=${occt_enabled}
     -DF3D_BINDINGS_PYTHON:BOOL=${f3d_build_python_bindings}
     -DF3D_STRICT_BUILD=ON

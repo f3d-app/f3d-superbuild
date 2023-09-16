@@ -91,6 +91,7 @@ runs:
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DENABLE_egl=${{ inputs.egl_label == 'egl' && 'ON' || 'OFF' }}
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
+      -DENABLE_exodus=${{ contains(env.CMAKE_OSX_ARCHITECTURES, 'arm64') && 'OFF' || 'ON' }}
       -DOCCT_ENABLE_COLORING=${{ runner.os == 'macOS' && 'OFF' || 'ON' }}
       -DUSE_SYSTEM_python3=ON
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
@@ -144,7 +145,9 @@ runs:
       cp x64\libgallium_wgl.dll ..\build\Testing\test-sdk\TestRendering_build\
 
   - name: Test package
-    if: inputs.egl_label != 'egl'
+    if: |
+      inputs.egl_label != 'egl' &&
+      !contains(env.CMAKE_OSX_ARCHITECTURES, 'arm64')
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: |
@@ -184,4 +187,4 @@ runs:
     uses: actions/upload-artifact@v3
     with:
       path: ./build/F3D-*
-      name: F3D-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl_label}}
+      name: F3D-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl_label == 'egl' && 'headless' || 'desktop'}}-${{ runner.os == 'macOS' && env.CMAKE_OSX_ARCHITECTURES || 'x86_64' }}

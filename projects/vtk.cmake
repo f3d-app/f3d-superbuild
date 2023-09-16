@@ -3,6 +3,11 @@ if (ospray_enabled)
   set(vtk_raytracing_enabled YES)
 endif ()
 
+set(vtk_ioexodus_enabled NO)
+if (exodus_enabled)
+  set(vtk_ioexodus_enabled YES)
+endif ()
+
 set(vtk_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
@@ -23,7 +28,7 @@ superbuild_add_project(vtk
   LICENSE_FILES
     Copyright.txt
   DEPENDS cxx11
-  DEPENDS_OPTIONAL tbb ospray ${vtk_platform_dependencies}
+  DEPENDS_OPTIONAL tbb ospray exodus ${vtk_platform_dependencies}
   CMAKE_ARGS
     -DCMAKE_MACOSX_RPATH=OFF
     -DVTKOSPRAY_ENABLE_DENOISER=${ospray_enabled}
@@ -38,7 +43,7 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_FiltersGeneral=YES
     -DVTK_MODULE_ENABLE_VTK_FiltersGeometry=YES
     -DVTK_MODULE_ENABLE_VTK_IOCityGML=YES
-    -DVTK_MODULE_ENABLE_VTK_IOExodus=YES
+    -DVTK_MODULE_ENABLE_VTK_IOExodus:STRING=${vtk_ioexodus_enabled}
     -DVTK_MODULE_ENABLE_VTK_IOGeometry=YES
     -DVTK_MODULE_ENABLE_VTK_IOImage=YES
     -DVTK_MODULE_ENABLE_VTK_IOImport=YES

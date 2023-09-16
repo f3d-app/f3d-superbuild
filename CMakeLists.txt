@@ -32,6 +32,7 @@ function (superbuild_find_projects var)
     cxx11
     draco
     embree
+    exodus
     f3d
     imath
     ispc
@@ -114,6 +115,7 @@ set(_superbuild_default_f3d ON)
 set(_superbuild_default_alembic ON)
 set(_superbuild_default_assimp ON)
 set(_superbuild_default_draco ON)
+set(_superbuild_default_exodus ON)
 set(_superbuild_default_occt ON)
 set(_superbuild_default_openexr ON)
 set(_superbuild_default_ospray ON)
