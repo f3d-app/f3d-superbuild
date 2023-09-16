@@ -11,93 +11,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  windows:
-    strategy:
-      fail-fast: false
-      matrix:
-        raytracing_label: [raytracing, no-raytracing]
-
-    runs-on: windows-latest
-
-    steps:
-
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        path: 'source'
-        submodules: true
-        lfs: true
-
-    - name: Build and package F3D
-      uses: ./source/.github/actions/f3d-superbuild/
-      with:
-        f3d_version: origin/master
-        raytracing_label: ${{matrix.raytracing_label}}
-
-  linux:
-    strategy:
-      fail-fast: false
-      matrix:
-        raytracing_label: [raytracing, no-raytracing]
-        egl_label: [no-egl, egl]
-
-    runs-on: ubuntu-latest
-    container: ghcr.io/f3d-app/f3d-superbuild-ci
-
-    env:
-      DISPLAY: :0
-
-    steps:
-
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        path: 'source'
-        submodules: true
-        lfs: true
-
-    - name: Build and package F3D
-      uses: ./source/.github/actions/f3d-superbuild/
-      with:
-        f3d_version: origin/master
-        raytracing_label: ${{matrix.raytracing_label}}
-        egl_label: ${{matrix.egl_label}}
-
-  macos:
-    strategy:
-      fail-fast: false
-      matrix:
-        raytracing_label: [raytracing, no-raytracing]
-        cpu: [x86_64]
-        include:
-          - cpu: arm64
-            raytracing_label: no-raytracing
-
-    runs-on: macos-latest
-
-    env:
-      CMAKE_OSX_ARCHITECTURES: ${{matrix.cpu}}
-
-    steps:
-
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        path: 'source'
-        submodules: true
-        lfs: true
-
-    - name: Build and package F3D
-      uses: ./source/.github/actions/f3d-superbuild/
-      with:
-        f3d_version: origin/master
-        raytracing_label: ${{matrix.raytracing_label}}
 
   python_wheels:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu, windows, macos]
+        os: [windows]
 
     runs-on: ${{matrix.os}}-latest
 

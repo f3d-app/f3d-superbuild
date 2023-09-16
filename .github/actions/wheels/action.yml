@@ -41,7 +41,7 @@ runs:
     uses: actions/cache@v3
     with:
       path: fsbb/install
-      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-1
+      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-2
 
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'
@@ -65,19 +65,29 @@ runs:
     shell: bash
     run: |
       echo "CMAKE_PREFIX_PATH=../fsbb/install" >> $GITHUB_ENV
-      echo "SKBUILD_CMAKE_ARGS=-DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_PLUGIN_BUILD_ALEMBIC=ON;-DF3D_PLUGIN_BUILD_ASSIMP=ON;-DF3D_PLUGIN_BUILD_DRACO=ON;-DF3D_PLUGIN_BUILD_OCCT=ON;-DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;-DF3D_MODULE_EXR=ON;-DF3D_MODULE_EXTERNAL_RENDERING=ON" >> $GITHUB_ENV
+      echo "SKBUILD_CMAKE_ARGS=-DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin" >> $GITHUB_ENV
+
+  - name: Install Mesa Windows
+    shell: cmd
+    if: runner.os == 'Windows'
+    working-directory: ${{github.workspace}}
+    run: |
+      mkdir mesa
+      cd mesa
+      curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.0.1/mesa3d-22.0.1-release-msvc.7z
+      "C:\Program Files\7-Zip\7z.exe" x mesa.7z
 
   - name: Build superbuild and wheels
     if: |
       steps.cache-fsb.outputs.cache-hit != 'true' ||
       inputs.use_cache != 'true'
-    uses: pypa/cibuildwheel@v2.13.1
+    uses: pypa/cibuildwheel@v2.14.1
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl*'
+      CIBW_BUILD: cp311-win_amd64
       # TODO: cross-compile ARM too
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
@@ -95,20 +105,19 @@ runs:
         cp -r fsbb/install /output/fsbb_install
       CIBW_TEST_REQUIRES: pytest
       CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
-      CIBW_TEST_COMMAND: pytest -s {package}/python/testing
       CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Build wheels with cache
     if: |
       steps.cache-fsb.outputs.cache-hit == 'true' &&
       inputs.use_cache == 'true'
-    uses: pypa/cibuildwheel@v2.13.1
+    uses: pypa/cibuildwheel@v2.14.1
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl*'
+      CIBW_BUILD: cp311-win_amd64
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
@@ -118,6 +127,7 @@ runs:
         SKBUILD_CMAKE_ARGS
       CIBW_TEST_REQUIRES: pytest
       CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
+      CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
       CIBW_TEST_COMMAND: pytest -s {package}/python/testing
       CIBW_REPAIR_WHEEL_COMMAND: ''
 
