@@ -14,6 +14,7 @@ runs:
   steps:
 
   # fetch-depth: 0 is required to get the tags used to determine f3d version
+  # lfs: true is needed for testing, use LFS cache action instead TODO
   - name: Checkout f3d
     uses: actions/checkout@v3
     with:
@@ -21,6 +22,7 @@ runs:
       ref: ${{inputs.f3d_version}}
       fetch-depth: 0
       path: 'f3d'
+      lfs: true
 
   - name: Recover VTK version to build
     working-directory: ${{github.workspace}}
@@ -59,6 +61,16 @@ runs:
     shell: bash
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
+  - name: Download and extract Mesa Windows
+    shell: cmd
+    if: runner.os == 'Windows'
+    working-directory: ${{github.workspace}}
+    run: |
+      mkdir mesa
+      cd mesa
+      curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.0.1/mesa3d-22.0.1-release-msvc.7z
+      "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+
   - name: Set needed env variables
     shell: bash
     run: |
@@ -69,43 +81,56 @@ runs:
     if: |
       steps.cache-fsb.outputs.cache-hit != 'true' ||
       inputs.use_cache != 'true'
-    uses: pypa/cibuildwheel@v2.13.1
+    uses: pypa/cibuildwheel@v2.14.1
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl*'
-      # TODO: cross-compile ARM too
+      # TODO: cross-compile ARM and PyPy too
+      CIBW_SKIP: '*-musl* cp37-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
+      CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
+        DISPLAY
         SKBUILD_CMAKE_ARGS
-      CIBW_REPAIR_WHEEL_COMMAND: ''
+        VTK_COMMIT_SHA
       CIBW_BEFORE_ALL: >
         bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }}
       CIBW_BEFORE_ALL_LINUX: >
-        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }}&&
+        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }} &&
         mkdir -p /output &&
         cp -r fsbb/install /output/fsbb_install
+      CIBW_TEST_REQUIRES: pytest
+      CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
+      CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
+      CIBW_TEST_COMMAND: pytest -s {package}/python/testing
+      CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Build wheels with cache
     if: |
       steps.cache-fsb.outputs.cache-hit == 'true' &&
       inputs.use_cache == 'true'
-    uses: pypa/cibuildwheel@v2.13.1
+    uses: pypa/cibuildwheel@v2.14.1
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl*'
+      CIBW_SKIP: '*-musl* cp37-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
+      CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
+        DISPLAY
         SKBUILD_CMAKE_ARGS
+      CIBW_TEST_REQUIRES: pytest
+      CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
+      CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
+      CIBW_TEST_COMMAND: pytest -s {package}/python/testing
       CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Copy cache back
@@ -116,8 +141,8 @@ runs:
     working-directory: ${{github.workspace}}
     run: cp -r ./wheelhouse/fsbb_install ./fsbb/install
 
-  # TODO test the wheels
   - uses: actions/upload-artifact@v3
+    if: always()
     with:
       name: ${{ runner.os }}-wheels
       path: ./wheelhouse/f3d-*.whl
