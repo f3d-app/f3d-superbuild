@@ -88,7 +88,7 @@ runs:
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
       # TODO: cross-compile ARM too
-      CIBW_BUILD: 'pp311-*'
+      CIBW_BUILD: 'pp310-*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
@@ -117,7 +117,7 @@ runs:
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_BUILD: 'pp311-*'
+      CIBW_BUILD: 'pp310-*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
