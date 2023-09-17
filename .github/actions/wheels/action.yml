@@ -128,7 +128,7 @@ runs:
       CIBW_TEST_REQUIRES: pytest
       CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
       CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
-      CIBW_TEST_COMMAND: pytest -s {project}/source/.github/actions/^Ceels/test_utils.py
+      CIBW_TEST_COMMAND: pytest -s {project}/source/.github/actions/wheels/test_utils.py
       CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Copy cache back
