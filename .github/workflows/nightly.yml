@@ -59,7 +59,7 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
         tag: nightly
-        assets: "F3D-*-Windows-*"
+        assets: "F3D-*-Windows-x86_64${{ matrix.raytracing_label == 'raytracing' && '-raytracing' || null }}.*"
         fail-if-no-assets: false
 
     - name: Publish nightly release
@@ -113,7 +113,7 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
         tag: nightly
-        assets: "F3D-*-Linux-*"
+        assets: "F3D-*-Linux-x86_64${{ matrix.egl_label == 'egl' && '-headless' || null }}${{ matrix.raytracing_label == 'raytracing' && '-raytracing' || null }}.*"
         fail-if-no-assets: false
 
     - name: Publish nightly release
@@ -168,7 +168,7 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
         tag: nightly
-        assets: "F3D-*-macOS-*"
+        assets: "F3D-*-macOS-${{ matrix.cpu}}-${{ matrix.raytracing_label == 'raytracing' && '-raytracing' || null }}.*"
         fail-if-no-assets: false
 
     - name: Publish nightly release
