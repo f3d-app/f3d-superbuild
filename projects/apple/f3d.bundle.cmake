@@ -31,14 +31,12 @@ superbuild_apple_create_app(
   "${superbuild_install_location}/f3d.app/Contents/MacOS/f3d"
   CLEAN
   SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
-  ADDITIONAL_LIBRARIES ${additional_libraries}
-  COMPONENT app)
+  ADDITIONAL_LIBRARIES ${additional_libraries})
 
 # Package Info.plist
 install(
   FILES       "${superbuild_install_location}/f3d.app/Contents/Info.plist"
-  DESTINATION "${f3d_appname}/Contents"
-  COMPONENT   app)
+  DESTINATION "${f3d_appname}/Contents")
 
 ## Package F3D resources
 
@@ -49,7 +47,6 @@ f3d_package_all_licenses()
 install(
   DIRECTORY   "${superbuild_install_location}/f3d.app/Contents/Resources"
   DESTINATION "${f3d_appname}/Contents"
-  COMPONENT   resources
   USE_SOURCE_PERMISSIONS)
 
 ## DragNDrop Generator specific

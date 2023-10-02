@@ -9,13 +9,11 @@ set(library_paths "${superbuild_install_location}/bin")
 
 # Package the F3D executable
 superbuild_windows_install_program("f3d" "bin"
-	SEARCH_DIRECTORIES "${library_paths}"
-	COMPONENT binaries)
+	SEARCH_DIRECTORIES "${library_paths}")
 
 # Package the F3D shell extension
 superbuild_windows_install_plugin("F3DShellExtension.dll" "bin" "bin"
-  SEARCH_DIRECTORIES  "${library_paths}"
-  COMPONENT binaries)
+  SEARCH_DIRECTORIES  "${library_paths}")
 
 # Package supplemental ospray libraries that may be loaded dynamically
 if (ospray_enabled)
@@ -29,8 +27,7 @@ if (ospray_enabled)
 
   foreach (osprayextra_library IN LISTS osprayextra_libraries)
     superbuild_windows_install_plugin("${osprayextra_library}.dll" "bin" "bin"
-      SEARCH_DIRECTORIES "${library_paths}"
-      COMPONENT binaries)
+      SEARCH_DIRECTORIES "${library_paths}")
   endforeach ()
 endif ()
 
@@ -43,7 +40,6 @@ f3d_package_all_licenses()
 install(
   DIRECTORY   "${superbuild_install_location}/share/f3d/"
   DESTINATION "share/f3d/"
-  COMPONENT   resources
   USE_SOURCE_PERMISSIONS)
 
 ## Package libf3d SDK
@@ -51,21 +47,18 @@ install(
 install(
   DIRECTORY   "${superbuild_install_location}/lib/cmake/f3d"
   DESTINATION "lib/cmake"
-  COMPONENT   sdk
   USE_SOURCE_PERMISSIONS
   OPTIONAL)
 
 install(
   DIRECTORY   "${superbuild_install_location}/include/f3d"
   DESTINATION "include"
-  COMPONENT   sdk
   USE_SOURCE_PERMISSIONS
   OPTIONAL)
 
 install(
   FILES       "${superbuild_install_location}/lib/f3d.lib"
   DESTINATION "lib"
-  COMPONENT   sdk
   OPTIONAL)
 
 ## NSIS Generator specific

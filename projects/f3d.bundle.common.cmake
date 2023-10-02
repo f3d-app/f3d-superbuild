@@ -22,7 +22,7 @@ set(CPACK_THREADS 0)
 
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${f3d_version_full}-${f3d_package_suffix}")
 
-set(superbuild_bundle_system_librairies_component "system")
+set(superbuild_bundle_system_libraries_component "")
 
 # Manage licenses packaging
 function (f3d_package_all_licenses)
@@ -49,8 +49,7 @@ function (f3d_package_all_licenses)
     if (EXISTS "${superbuild_install_location}/share/licenses/${project}")
       install(
         DIRECTORY   "${superbuild_install_location}/share/licenses/${project}"
-        DESTINATION "${f3d_license_path}"
-        COMPONENT   resources)
+        DESTINATION "${f3d_license_path}")
     else ()
       message(FATAL_ERROR "${superbuild_install_location}/share/licenses/${project} does not exist, aborting.")
     endif ()
