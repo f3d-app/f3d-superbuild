@@ -9,11 +9,11 @@ set(library_paths "${superbuild_install_location}/bin")
 
 # Package the F3D executable
 superbuild_windows_install_program("f3d" "bin"
-	SEARCH_DIRECTORIES "${library_paths}")
+	SEARCH_DIRECTORIES "${library_paths}" COMPONENT "")
 
 # Package the F3D shell extension
 superbuild_windows_install_plugin("F3DShellExtension.dll" "bin" "bin"
-  SEARCH_DIRECTORIES  "${library_paths}")
+  SEARCH_DIRECTORIES  "${library_paths}" COMPONENT "")
 
 # Package supplemental ospray libraries that may be loaded dynamically
 if (ospray_enabled)
@@ -27,7 +27,7 @@ if (ospray_enabled)
 
   foreach (osprayextra_library IN LISTS osprayextra_libraries)
     superbuild_windows_install_plugin("${osprayextra_library}.dll" "bin" "bin"
-      SEARCH_DIRECTORIES "${library_paths}")
+      SEARCH_DIRECTORIES "${library_paths}" COMPONENT "")
   endforeach ()
 endif ()
 

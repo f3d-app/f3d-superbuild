@@ -23,6 +23,7 @@ set(CPACK_THREADS 0)
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${f3d_version_full}-${f3d_package_suffix}")
 
 set(superbuild_bundle_system_libraries_component "")
+set(superbuild_bundle_default_component "")
 
 # Manage licenses packaging
 function (f3d_package_all_licenses)
