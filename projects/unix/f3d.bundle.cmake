@@ -8,7 +8,7 @@ include(f3d.bundle.common)
 set(library_paths "${superbuild_install_location}/lib")
 
 # Package the F3D executable
-superbuild_unix_install_program("${superbuild_install_location}/bin/f3d" "lib" SEARCH_DIRECTORIES "${library_paths}" COMPONENT binaries)
+superbuild_unix_install_program("${superbuild_install_location}/bin/f3d" "lib" SEARCH_DIRECTORIES "${library_paths}")
 
 # Package supplemental ospray libraries that may be loaded dynamically
 if (ospray_enabled)
@@ -59,29 +59,25 @@ foreach (f3d_resource_dir IN LISTS f3d_resource_dirs)
   install(
     DIRECTORY   "${superbuild_install_location}/share/${f3d_resource_dir}"
     DESTINATION "share"
-    COMPONENT   resources
     USE_SOURCE_PERMISSIONS)
 endforeach ()
 
 # Individual files to package
 install(
   FILES   "${superbuild_install_location}/share/man/man1/f3d.1.gz"
-  DESTINATION "share/man/man1"
-  COMPONENT   resources)
+  DESTINATION "share/man/man1")
 
 ## Package libf3d SDK
 
 install(
   DIRECTORY   "${superbuild_install_location}/lib/cmake/f3d"
   DESTINATION "lib/cmake"
-  COMPONENT   sdk
   USE_SOURCE_PERMISSIONS
   OPTIONAL)
 
 install(
   DIRECTORY   "${superbuild_install_location}/include/f3d"
   DESTINATION "include"
-  COMPONENT   sdk
   USE_SOURCE_PERMISSIONS
   OPTIONAL)
 
