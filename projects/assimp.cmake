@@ -18,6 +18,3 @@ superbuild_add_project(assimp
     -DCMAKE_BUILD_TYPE=Release
     -DCMAKE_MACOSX_RPATH=OFF
 )
-
-superbuild_apply_patch(assimp remove-debug-flags-windows
-  "Remove Windows debug flags")
