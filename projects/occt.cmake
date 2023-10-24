@@ -29,6 +29,7 @@ superbuild_add_project(occt
     -DBUILD_DOC_Overview=OFF
     -DBUILD_LIBRARY_TYPE=${occt_build_library_type}
     -DBUILD_MODULE_ApplicationFramework=OFF
+    -DBUILD_MODULE_DETools=OFF
     -DBUILD_MODULE_DataExchange=OFF
     -DBUILD_MODULE_Draw=OFF
     -DBUILD_MODULE_FoundationClasses=OFF
