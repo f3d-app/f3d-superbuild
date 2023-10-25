@@ -45,6 +45,9 @@ superbuild_add_project(occt
 superbuild_apply_patch(occt remove-unneeded-includes
   "Remove uneeded includes")
 
+superbuild_apply_patch(occt remove-unneeded-quotes-warning-msvc
+  "Remove uneeded quotes for a MSVC warning")
+
 if (OCCT_ENABLE_COLORING)
   superbuild_apply_patch(occt fix-libraries-link-order-coloring
     "Fix libraries link order for coloring")
