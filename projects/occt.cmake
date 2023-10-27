@@ -29,6 +29,7 @@ superbuild_add_project(occt
     -DBUILD_DOC_Overview=OFF
     -DBUILD_LIBRARY_TYPE=${occt_build_library_type}
     -DBUILD_MODULE_ApplicationFramework=OFF
+    -DBUILD_MODULE_DETools=OFF
     -DBUILD_MODULE_DataExchange=OFF
     -DBUILD_MODULE_Draw=OFF
     -DBUILD_MODULE_FoundationClasses=OFF
@@ -40,6 +41,12 @@ superbuild_add_project(occt
     -DINSTALL_DIR_BIN:PATH=bin
     -DUSE_FREETYPE=OFF
 )
+
+superbuild_apply_patch(occt remove-unneeded-includes
+  "Remove uneeded includes")
+
+superbuild_apply_patch(occt remove-unneeded-quotes-warning-msvc
+  "Remove uneeded quotes for a MSVC warning")
 
 if (OCCT_ENABLE_COLORING)
   superbuild_apply_patch(occt fix-libraries-link-order-coloring

@@ -4,9 +4,9 @@ superbuild_set_revision(alembic
   URL_MD5 fcd5b5492a005057e11b601b60ac9a49)
 
 superbuild_set_revision(assimp
-  URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.2.5.tar.gz"
-  DOWNLOAD_NAME assimp-v5.2.5.tar.gz
-  URL_MD5 0b5a5a2714f1126b9931cdb95f512c91)
+  URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.3.1.tar.gz"
+  DOWNLOAD_NAME assimp-v5.3.1.tar.gz
+  URL_MD5 835357be3c1e70120fe2d5a52542ce55)
 
 superbuild_set_revision(draco
   URL     "https://github.com/google/draco/archive/refs/tags/1.5.6.tar.gz"
@@ -14,19 +14,19 @@ superbuild_set_revision(draco
   URL_MD5 dbe3a9e286ee5b79016470349d78b2a3)
 
 superbuild_set_revision(imath
-  URL     "https://github.com/AcademySoftwareFoundation/Imath/archive/refs/tags/v3.1.7.tar.gz"
-  DOWNLOAD_NAME Imath-v3.1.7.tar.gz
-  URL_MD5 5cedab446ab296c080957c3037c6d097)
-
-superbuild_set_revision(openexr
-  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.1.8.tar.gz"
-  DOWNLOAD_NAME openexr-v3.1.8.tar.gz
-  URL_MD5 fa55644d3244ebb37f99b873aaa39d97)
+  URL     "https://github.com/AcademySoftwareFoundation/Imath/archive/refs/tags/v3.1.9.tar.gz"
+  DOWNLOAD_NAME Imath-v3.1.9.tar.gz
+  URL_MD5 97f1cbfb86b88ddfde42b7df1f1494db)
 
 superbuild_set_revision(occt
-  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_6_3.tar.gz"
-  DOWNLOAD_NAME occt-V7_6_3.tar.gz
-  URL_MD5 00f8dc72a7cf378598f52e2216a15ea4)
+  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_7_2.tar.gz"
+  DOWNLOAD_NAME occt-V7_7_2.tar.gz
+  URL_MD5 21d56d4f96eb6fdc65435ea559b6d19c)
+
+superbuild_set_revision(openexr
+  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.2.1.tar.gz"
+  DOWNLOAD_NAME openexr-v3.2.1.tar.gz
+  URL_MD5 1d5bb07433ec641cf3bb1b519a27ea6f)
 
 superbuild_set_selectable_source(vtk
   SELECT 9.2.6 DEFAULT
