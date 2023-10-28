@@ -42,7 +42,7 @@ runs:
     with:
       path: ${{env.SCCACHE_CACHE}}
       key: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-0-${{env.DATE_STRING}}
-      restore-keys: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-0
+      restore-keys: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-1
 
   - name: Start sccache
     shell: bash
