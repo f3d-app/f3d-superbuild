@@ -141,11 +141,16 @@ runs:
     working-directory: ${{github.workspace}}
     run: cp -r ./wheelhouse/fsbb_install ./fsbb/install
 
+  - name: tarball
+    if: failure()
+    shell: bash
+    run: tar -czvf artifact.tgz ${{github.workspace}}
+
   - uses: actions/upload-artifact@v3
     if: failure()
     with:
-      name: ${{ runner.os }}-wheels
-      path: ${{github.workspace}}
+      name: ${{ runner.os }}-artifact
+      path: ${{github.workspace}}/artifact.tgz
 
   - uses: actions/upload-artifact@v3
     if: always()
