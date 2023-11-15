@@ -88,7 +88,7 @@ runs:
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
       # TODO: cross-compile ARM and PyPy too
-      CIBW_SKIP: '*-musl* cp37-* pp*'
+      CIBW_SKIP: '*-musl* cp37-* cp38-* cp39-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
@@ -119,7 +119,7 @@ runs:
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl* cp37-* pp*'
+      CIBW_SKIP: '*-musl* cp37-* cp38-* cp39-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
@@ -140,6 +140,12 @@ runs:
     shell: bash
     working-directory: ${{github.workspace}}
     run: cp -r ./wheelhouse/fsbb_install ./fsbb/install
+
+  - uses: actions/upload-artifact@v3
+    if: failure()
+    with:
+      name: ${{ runner.os }}-wheels
+      path: ${{github.workspace}}
 
   - uses: actions/upload-artifact@v3
     if: always()
