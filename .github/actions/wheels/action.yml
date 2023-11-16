@@ -144,7 +144,7 @@ runs:
   - name: tarball
     if: failure()
     shell: bash
-    run: tar -czvf artifact.tgz ${{github.workspace}}
+    run: tar -czvf artifact.tgz /var/folders/
 
   - uses: actions/upload-artifact@v3
     if: failure()
