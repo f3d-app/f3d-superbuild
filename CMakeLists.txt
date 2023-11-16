@@ -47,7 +47,6 @@ function (superbuild_find_projects var)
     png
     pybind11
     python3
-    pythonsetuptools
     rkcommon
     sqlite
     szip
