@@ -147,7 +147,7 @@ runs:
     working-directory: ${{github.workspace}}
     run: |
       mkdir artifact
-      cp -r  /var/folders/* ./artifact/
+      cp -r  /var/folders/3s/* ./artifact/
       tar -czvf artifact.tgz ./artifact
 
   - uses: actions/upload-artifact@v3
