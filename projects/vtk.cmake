@@ -30,7 +30,7 @@ superbuild_add_project(vtk
   DEPENDS cxx11
   DEPENDS_OPTIONAL tbb ospray exodus ${vtk_platform_dependencies}
   CMAKE_ARGS
-    -DCMAKE_MACOSX_RPATH=OFF
+    -DCMAKE_MACOSX_RPATH=ON
     -DVTKOSPRAY_ENABLE_DENOISER=${ospray_enabled}
     -DVTK_BUILD_TESTING=OFF
     -DVTK_DEFAULT_RENDER_WINDOW_HEADLESS=${egl_enabled}
