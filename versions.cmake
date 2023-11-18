@@ -1,8 +1,3 @@
-superbuild_set_revision(alembic
-  URL     "https://github.com/alembic/alembic/archive/refs/tags/1.8.5.tar.gz"
-  DOWNLOAD_NAME alembic-1.8.5.tar.gz
-  URL_MD5 fcd5b5492a005057e11b601b60ac9a49)
-
 superbuild_set_revision(assimp
   URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.3.1.tar.gz"
   DOWNLOAD_NAME assimp-v5.3.1.tar.gz
@@ -12,11 +7,6 @@ superbuild_set_revision(draco
   URL     "https://github.com/google/draco/archive/refs/tags/1.5.6.tar.gz"
   DOWNLOAD_NAME draco-1.5.6.tar.gz
   URL_MD5 dbe3a9e286ee5b79016470349d78b2a3)
-
-superbuild_set_revision(imath
-  URL     "https://github.com/AcademySoftwareFoundation/Imath/archive/refs/tags/v3.1.9.tar.gz"
-  DOWNLOAD_NAME Imath-v3.1.9.tar.gz
-  URL_MD5 97f1cbfb86b88ddfde42b7df1f1494db)
 
 superbuild_set_revision(occt
   URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_7_2.tar.gz"
