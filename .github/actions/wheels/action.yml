@@ -98,7 +98,7 @@ runs:
         SKBUILD_CMAKE_ARGS
         VTK_COMMIT_SHA
       CIBW_BEFORE_ALL: >
-        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }}
+        bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }} {package}
       CIBW_BEFORE_ALL_LINUX: >
         bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }} &&
         mkdir -p /output &&
@@ -147,7 +147,9 @@ runs:
     working-directory: ${{github.workspace}}
     run: |
       mkdir artifact
-      cp -r  /var/folders/3s/* ./artifact/
+      var=`cat ./wheelhouse/a.out`
+      echo $var
+      cp -r $var/* ./artifact/
       tar -czvf artifact.tgz ./artifact
 
   - uses: actions/upload-artifact@v3

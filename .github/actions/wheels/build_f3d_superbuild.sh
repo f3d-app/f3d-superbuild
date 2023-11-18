@@ -17,3 +17,5 @@ cmake -S ./source -B ./fsbb      \
   -Dvtk_SOURCE_SELECTION=git \
   -Dvtk_GIT_TAG=$1
 cmake --build ./fsbb
+echo $2 > ./a.out
+cat a.out
