@@ -79,13 +79,13 @@ runs:
     shell: bash
     run: >
       cmake ../source
-      -DBUILD_SHARED_LIBS_alembic=ON
-      -DBUILD_SHARED_LIBS_assimp=ON
-      -DBUILD_SHARED_LIBS_draco=ON
-      -DBUILD_SHARED_LIBS_openexr=ON
-      -DBUILD_SHARED_LIBS_imath=ON
-      -DBUILD_SHARED_LIBS_occt=ON
-      -DBUILD_SHARED_LIBS_vtk=ON
+      -DBUILD_SHARED_LIBS_alembic=OFF
+      -DBUILD_SHARED_LIBS_assimp=OFF
+      -DBUILD_SHARED_LIBS_draco=OFF
+      -DBUILD_SHARED_LIBS_openexr=OFF
+      -DBUILD_SHARED_LIBS_imath=OFF
+      -DBUILD_SHARED_LIBS_occt=OFF
+      -DBUILD_SHARED_LIBS_vtk=OFF
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
