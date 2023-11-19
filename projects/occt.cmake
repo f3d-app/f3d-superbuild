@@ -36,7 +36,7 @@ superbuild_add_project(occt
     -DBUILD_MODULE_ModelingAlgorithms:BOOL=OFF
     -DBUILD_MODULE_ModelingData:BOOL=OFF
     -DBUILD_MODULE_Visualization:BOOL=OFF
-    -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
+    -DCMAKE_INSTALL_RPATH:PATH=<INSTALL_DIR>/lib
     -DINSTALL_DIR_BIN:PATH=bin
     -DUSE_FREETYPE:BOOL=OFF
 )
