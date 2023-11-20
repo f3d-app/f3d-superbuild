@@ -25,25 +25,23 @@ superbuild_add_project(f3d
     -Werror=dev
     -Werror=deprecated
     --warn-uninitialized
-    -DCMAKE_BUILD_TYPE=Release
-    -DCMAKE_MACOSX_RPATH=OFF
-    -DCMAKE_INSTALL_RPATH=${superbuild_install_location}/lib #Needed as VTK may be build statically
+    -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     -DF3D_LINUX_GENERATE_MAN:BOOL=${f3d_build_for_linux}
     -DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=${f3d_build_for_linux}
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
-    -DF3D_MODULE_EXR=${openexr_enabled}
-    -DF3D_MODULE_EXTERNAL_RENDERING=ON
+    -DF3D_MODULE_EXR:BOOL=${openexr_enabled}
+    -DF3D_MODULE_EXTERNAL_RENDERING:BOOL=ON
     -DF3D_MODULE_RAYTRACING:BOOL=${ospray_enabled}
-    -DF3D_PLUGINS_STATIC_BUILD=ON
+    -DF3D_PLUGINS_STATIC_BUILD:BOOL=ON
     -DF3D_PLUGIN_BUILD_ALEMBIC:BOOL=${alembic_enabled}
     -DF3D_PLUGIN_BUILD_ASSIMP:BOOL=${assimp_enabled}
     -DF3D_PLUGIN_BUILD_DRACO:BOOL=${draco_enabled}
     -DF3D_PLUGIN_BUILD_EXODUS:BOOL=${exodus_enabled}
     -DF3D_PLUGIN_BUILD_OCCT:BOOL=${occt_enabled}
     -DF3D_BINDINGS_PYTHON:BOOL=${f3d_build_python_bindings}
-    -DF3D_STRICT_BUILD=ON
+    -DF3D_STRICT_BUILD:BOOL=ON
     -DF3D_WINDOWS_GUI:BOOL=${f3d_build_for_windows}
-    -DF3D_PLUGIN_OCCT_COLORING_SUPPORT=${OCCT_ENABLE_COLORING}
+    -DF3D_PLUGIN_OCCT_COLORING_SUPPORT:STRING=${OCCT_ENABLE_COLORING}
   )
 
 # Installing components that are not part of the standard install

@@ -41,7 +41,7 @@ runs:
     uses: actions/cache@v3
     with:
       path: fsbb/install
-      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-3
+      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-4
 
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'

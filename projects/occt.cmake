@@ -25,21 +25,20 @@ superbuild_add_project(occt
     LICENSE_LGPL_21.txt
     OCCT_LGPL_EXCEPTION.txt
   CMAKE_ARGS
-    -DBUILD_ADDITIONAL_TOOLKITS=${occt_toolkits_escaped}
-    -DBUILD_DOC_Overview=OFF
-    -DBUILD_LIBRARY_TYPE=${occt_build_library_type}
-    -DBUILD_MODULE_ApplicationFramework=OFF
-    -DBUILD_MODULE_DETools=OFF
-    -DBUILD_MODULE_DataExchange=OFF
-    -DBUILD_MODULE_Draw=OFF
-    -DBUILD_MODULE_FoundationClasses=OFF
-    -DBUILD_MODULE_ModelingAlgorithms=OFF
-    -DBUILD_MODULE_ModelingData=OFF
-    -DBUILD_MODULE_Visualization=OFF
-    -DCMAKE_BUILD_TYPE=Release
-    -DCMAKE_INSTALL_RPATH=<INSTALL_DIR>/lib
+    -DBUILD_ADDITIONAL_TOOLKITS:STRING=${occt_toolkits_escaped}
+    -DBUILD_DOC_Overview:BOOL=OFF
+    -DBUILD_LIBRARY_TYPE:STRING=${occt_build_library_type}
+    -DBUILD_MODULE_ApplicationFramework:BOOL=OFF
+    -DBUILD_MODULE_DETools:BOOL=OFF
+    -DBUILD_MODULE_DataExchange:BOOL=OFF
+    -DBUILD_MODULE_Draw:BOOL=OFF
+    -DBUILD_MODULE_FoundationClasses:BOOL=OFF
+    -DBUILD_MODULE_ModelingAlgorithms:BOOL=OFF
+    -DBUILD_MODULE_ModelingData:BOOL=OFF
+    -DBUILD_MODULE_Visualization:BOOL=OFF
+    -DCMAKE_INSTALL_RPATH:PATH=<INSTALL_DIR>/lib
     -DINSTALL_DIR_BIN:PATH=bin
-    -DUSE_FREETYPE=OFF
+    -DUSE_FREETYPE:BOOL=OFF
 )
 
 superbuild_apply_patch(occt remove-unneeded-includes
