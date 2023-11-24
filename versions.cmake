@@ -19,9 +19,9 @@ superbuild_set_revision(openexr
   URL_MD5 1d5bb07433ec641cf3bb1b519a27ea6f)
 
 superbuild_set_selectable_source(vtk
-  SELECT 9.2.6 DEFAULT
-    URL     "https://www.vtk.org/files/release/9.2/VTK-9.2.6.tar.gz"
-    URL_MD5 d855cbabdf423f2839e1419ecc5f6700
+  SELECT 9.3.0 DEFAULT
+    URL     "https://www.vtk.org/files/release/9.3/VTK-9.3.0.tar.gz"
+    URL_MD5 8b4dbb0ec85a6c0cf39803b6f891a8f2
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
     GIT_TAG        "origin/master"
