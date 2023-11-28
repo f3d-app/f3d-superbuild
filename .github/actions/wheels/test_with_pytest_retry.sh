@@ -1,35 +1,37 @@
 #!/bin/bash
+set -uo pipefail
 
-
-# Recover python version major.minor
-python_version=`python --version`
-python_version=`cut -d ' ' -f 2 <<< "$python_version"`
-python_version=`cut -d '.' -f 1,2 <<< "$python_version"`
+# Get Python major.minor version
+python_version=$(python --version)
+python_version=${python_version#* }
+python_version=${python_version%.*}
+echo "Python version: $python_version"
 
 # Recover system information
-machine=`uname -s`
+machine=$(uname -s)
 
 # Try once in general
-# Twice with macOS and python 3.12 to work around this issue:
-# https://github.com/pytest-dev/pytest/issues/11647
+# Twice with macOS and python 3.12
 max_retry=1
-if test "$python_version" = "3.12"
+if [[ $python_version == '3.12' && $machine == 'Darwin' ]]
 then
-  if test "$machine" = "Darwin"
-  then
-    max_retry=2
-  fi
+  max_retry=2
 fi
 
-# Run pytest command multiple times if needed to pass and it failed with -11
+# Run pytest command multiple times if needed to pass
 echo "Trying pytest a maximum of $max_retry times"
 counter=0
-until [ "$counter" -ge $max_retry ]
+while [[ $counter -lt $max_retry ]]
 do
-   pytest -s $1/python/testing
-   retVal=$?
-   if [ $retVal -ne -11 ]; then
-     exit $retVal
-   fi
+  # Exit if the test succeeds.
+  pytest -s "$1/python/testing" && exit 1
+  if [[ $? == '11' ]]
+  then
    ((counter++))
+   echo "Try $counter failed! Tries remaining: $((max_retry - counter))"
+   continue
+  else
+    echo "Failed!"
+    exit 1
+  fi
 done
