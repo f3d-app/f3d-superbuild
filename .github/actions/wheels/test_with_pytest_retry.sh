@@ -25,13 +25,14 @@ while [[ $counter -lt $max_retry ]]
 do
   # Exit if the test succeeds.
   python -X faulthandler -X dev -m pytest -s "$1/python/testing" && exit 1
-  if [[ $? == '11' ]]
+  result=$?
+  if [[ result == '11' ]]
   then
    ((counter++))
    echo "Try $counter failed! Tries remaining: $((max_retry - counter))"
    continue
   else
-    echo "Failed!"
-    exit 1
+    echo "Not retrying"
+    exit $result
   fi
 done
