@@ -24,7 +24,7 @@ counter=0
 while [[ $counter -lt $max_retry ]]
 do
   # Exit if the test succeeds.
-  python -X faulthandler -X dev -m pytest -s "$1/python/testing" && exit 0
+  python -X faulthandler -X dev -m pytest -s "$1/python/testing"
   result=$?
   echo $result
   if [[ result -eq 11 ]]
