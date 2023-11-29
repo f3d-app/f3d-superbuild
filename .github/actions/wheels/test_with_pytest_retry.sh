@@ -26,7 +26,8 @@ do
   # Exit if the test succeeds.
   python -X faulthandler -X dev -m pytest -s "$1/python/testing" && exit 0
   result=$?
-  if [[ result == '11' ]]
+  echo $result
+  if [[ result -eq 11 ]]
   then
    ((counter++))
    echo "Try $counter failed! Tries remaining: $((max_retry - counter))"
