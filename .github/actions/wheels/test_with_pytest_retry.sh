@@ -27,7 +27,7 @@ do
   pytest -s "$1/python/testing"
   result=$?
   echo $result
-  if [[ result -eq 11 ]]
+  if [[ result -eq 139 ]]
   then
    ((counter++))
    echo "Try $counter failed! Tries remaining: $((max_retry - counter))"
