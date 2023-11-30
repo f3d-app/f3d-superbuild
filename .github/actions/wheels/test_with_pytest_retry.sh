@@ -11,11 +11,11 @@ echo "Python version: $python_version"
 machine=$(uname -s)
 
 # Try once in general
-# Twice with macOS and python 3.12
+# Three time with macOS and python 3.12
 max_retry=1
 if [[ $python_version == '3.12' && $machine == 'Darwin' ]]
 then
-  max_retry=2
+  max_retry=3
 fi
 
 # Run pytest command multiple times if needed to pass
@@ -23,10 +23,12 @@ echo "Trying pytest a maximum of $max_retry times"
 counter=0
 while [[ $counter -lt $max_retry ]]
 do
-  # Exit if the test succeeds.
+  # Run pytest and recover result
   pytest -s "$1/python/testing"
   result=$?
   echo $result
+
+  # Retry only if result is 139 (segfault)
   if [[ result -eq 139 ]]
   then
    ((counter++))
@@ -37,3 +39,6 @@ do
     exit $result
   fi
 done
+
+# max_retry reached, exit in failure
+exit 1
