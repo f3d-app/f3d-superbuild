@@ -11,7 +11,7 @@ echo "Python version: $python_version"
 machine=$(uname -s)
 
 # Try once in general
-# Three time with macOS and python 3.12
+# Ten time with macOS and python 3.12
 max_retry=1
 if [[ $python_version == '3.12' && $machine == 'Darwin' ]]
 then
