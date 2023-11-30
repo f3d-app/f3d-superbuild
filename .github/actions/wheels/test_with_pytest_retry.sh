@@ -15,7 +15,7 @@ machine=$(uname -s)
 max_retry=1
 if [[ $python_version == '3.12' && $machine == 'Darwin' ]]
 then
-  max_retry=300
+  max_retry=10
 fi
 
 # Run pytest command multiple times if needed to pass
