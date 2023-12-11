@@ -56,3 +56,17 @@ function (f3d_package_all_licenses)
     endif ()
   endforeach ()
 endfunction ()
+
+# Manage OpenUSD plugin descriptors
+function (f3d_package_usd_plugins)
+  cmake_parse_arguments(USD_PLUGINS "" "DESTINATION" "" ${ARGN})
+
+  if (NOT DEFINED USD_PLUGINS_DESTINATION)
+    message(FATAL_ERROR "f3d_package_usd_plugins is called without DESTINATION")
+  endif ()
+
+  install(
+    DIRECTORY   "${superbuild_install_location}/lib/usd"
+    DESTINATION "${USD_PLUGINS_DESTINATION}"
+    USE_SOURCE_PERMISSIONS)
+endfunction ()

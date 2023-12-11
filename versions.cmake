@@ -18,6 +18,11 @@ superbuild_set_revision(openexr
   DOWNLOAD_NAME openexr-v3.2.1.tar.gz
   URL_MD5 1d5bb07433ec641cf3bb1b519a27ea6f)
 
+superbuild_set_revision(openusd
+  URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v23.05.zip"
+  DOWNLOAD_NAME openusd-v23.05.tar.gz
+  URL_MD5 7318076a73ee76ac4221c63f01b2906f)
+
 superbuild_set_selectable_source(vtk
   SELECT 9.3.0 DEFAULT
     URL     "https://www.vtk.org/files/release/9.3/VTK-9.3.0.tar.gz"

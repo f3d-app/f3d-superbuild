@@ -38,6 +38,11 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
+# OpenUSD plugin descriptors
+if (openusd_enabled)
+  f3d_package_usd_plugins(DESTINATION "lib")
+endif()
+
 ## Package F3D resources
 
 # Package all licenses
