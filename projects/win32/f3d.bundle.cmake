@@ -5,7 +5,7 @@ include(f3d.bundle.common)
 ## Package binaries
 
 # Set where library will be found by fixup_bundle.py
-set(library_paths "${superbuild_install_location}/bin" "${superbuild_install_location}/lib")
+set(library_paths "${superbuild_install_location}/bin")
 
 # Package the F3D executable
 superbuild_windows_install_program("f3d" "bin"

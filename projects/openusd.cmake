@@ -15,6 +15,11 @@ superbuild_add_project(openusd
     -DPXR_INSTALL_LOCATION:STRING=../lib/usd
 )
 
+# Upstream issue: https://github.com/PixarAnimationStudios/OpenUSD/issues/1471
 superbuild_apply_patch(openusd onetbb "Add support for oneTBB")
+
+# For some reason, pdb files and parallel build on Windows are causing issues
 superbuild_apply_patch(openusd msvc-defaults "Remove PDB generation and parallel build")
+
+# Upstream issue: https://github.com/PixarAnimationStudios/OpenUSD/issues/2490
 superbuild_apply_patch(openusd install-bin "Install Windows DLL in bin directory")
