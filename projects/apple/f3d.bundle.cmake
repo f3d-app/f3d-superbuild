@@ -38,6 +38,11 @@ install(
   FILES       "${superbuild_install_location}/f3d.app/Contents/Info.plist"
   DESTINATION "${f3d_appname}/Contents")
 
+# OpenUSD plugin descriptors
+if (openusd_enabled)
+  f3d_package_usd_plugins(DESTINATION "${f3d_appname}/Contents/plugin")
+endif()
+
 ## Package F3D resources
 
 # Package all licenses

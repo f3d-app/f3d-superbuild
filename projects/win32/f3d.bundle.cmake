@@ -31,6 +31,11 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
+# OpenUSD plugin descriptors
+if (openusd_enabled)
+  f3d_package_usd_plugins(DESTINATION "bin")
+endif()
+
 ## Package F3D resources
 
 # Package all licenses
@@ -68,7 +73,7 @@ if (cpack_generator MATCHES "NSIS")
   file(COPY
       "${superbuild_source_directory}/resources/logo.ico"
       "${superbuild_source_directory}/resources/logotype64.bmp"
-    DESTINATION "${superbuild_install_location}/share/f3d/")
+    DESTINATION "${superbuild_install_location}/share/f3d")
 
   set(CPACK_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/NSIS")
 

@@ -31,6 +31,7 @@ function (superbuild_find_projects var)
   list(APPEND projects
     alembic
     assimp
+    boost
     cxx11
     draco
     embree
@@ -53,6 +54,7 @@ function (superbuild_find_projects var)
     sqlite
     szip
     tbb
+    openusd
     vtk
     xz
     zlib)
@@ -123,8 +125,9 @@ set(_superbuild_default_exodus ON)
 set(_superbuild_default_occt ON)
 set(_superbuild_default_openexr ON)
 set(_superbuild_default_ospray ON)
-set(_superbuild_default_tbb ON)
 set(_superbuild_default_pybind11 OFF)
+set(_superbuild_default_tbb ON)
+set(_superbuild_default_openusd ON)
 set(_superbuild_ospray_default_selection "2.7.1")
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")

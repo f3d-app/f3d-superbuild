@@ -85,6 +85,7 @@ runs:
       -DBUILD_SHARED_LIBS_openexr=OFF
       -DBUILD_SHARED_LIBS_imath=OFF
       -DBUILD_SHARED_LIBS_occt=OFF
+      -DBUILD_SHARED_LIBS_openusd=ON
       -DBUILD_SHARED_LIBS_vtk=OFF
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
@@ -170,6 +171,7 @@ runs:
       ctest -R f3d-exec-TestAssimp$ -VV
       ctest -R f3d-exec-TestDraco$ -VV
       ctest -R f3d-exec-TestOCCT$ -VV
+      ctest -R f3d-exec-TestUSD$ -VV
 
   - name: Upload Tests Artifact
     if: failure()
