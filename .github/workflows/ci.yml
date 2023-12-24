@@ -126,5 +126,5 @@ jobs:
 
     - uses: actions/download-artifact@v4
       with:
-        pattern: *-wheels
+        pattern: "*-wheels"
         path: dist
