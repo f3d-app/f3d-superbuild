@@ -125,8 +125,7 @@ jobs:
     steps:
 
     - name: Download Python wheels artifact
-      id: download-artifact
       uses: actions/download-artifact@master
       with:
-        pattern: *-wheels
+        name: *-wheels
         path: dist
