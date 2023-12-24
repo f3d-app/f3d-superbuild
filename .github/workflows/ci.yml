@@ -115,17 +115,11 @@ jobs:
     - name: Build python wheels
       uses: ./source/.github/actions/wheels/
 
-  publish-to-testpypi:
-    name: Publish Python wheels to TestPyPI
-    needs: [python_wheels]
+  pypi_publish:
+    strategy:
+      fail-fast: false
+
     runs-on: ubuntu-latest
-
-    environment:
-      name: testpypi
-      url: https://test.pypi.org/p/f3d
-
-    permissions:
-      id-token: write  # IMPORTANT: mandatory for trusted publishing
 
     steps:
 
@@ -134,8 +128,3 @@ jobs:
       with:
         pattern: *-wheels
         path: dist/
-
-    - name: Publish distribution to TestPyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        repository-url: https://test.pypi.org/legacy/
