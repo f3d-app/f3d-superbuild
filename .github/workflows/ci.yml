@@ -116,6 +116,7 @@ jobs:
       uses: ./source/.github/actions/wheels/
 
   pypi-publish:
+    needs: python_wheels
     strategy:
       fail-fast: false
 
