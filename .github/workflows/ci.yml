@@ -115,16 +115,11 @@ jobs:
     - name: Build python wheels
       uses: ./source/.github/actions/wheels/
 
-  python_wheels_b:
+  pypi-publish:
     strategy:
       fail-fast: false
-      matrix:
-        os: [ubuntu, windows, macos]
 
-    runs-on: ${{matrix.os}}-latest
-
-    env:
-      DISPLAY: :0
+    runs-on: ubuntu-latest
 
     steps:
 
