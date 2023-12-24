@@ -8,10 +8,14 @@ if (exodus_enabled)
   set(vtk_ioexodus_enabled YES)
 endif ()
 
+set(vtk_use_x NO)
 set(vtk_platform_dependencies)
 if (UNIX)
   if (NOT APPLE)
     list(APPEND vtk_platform_dependencies egl)
+    if (NOT egl_enabled)
+      set(vtk_use_x YES)
+    endif ()
   endif ()
 endif ()
 
@@ -66,5 +70,6 @@ superbuild_add_project(vtk
     -DVTK_SMP_ENABLE_STDTHREAD:BOOL=OFF
     -DVTK_SMP_ENABLE_TBB:BOOL=${tbb_enabled}
     -DVTK_SMP_IMPLEMENTATION_TYPE:STRING=${vtk_smp_type}
+    -DVTK_USE_X:BOOL=${vtk_use_x}
     -DVTK_VERSIONED_INSTALL:BOOL=OFF
 )
