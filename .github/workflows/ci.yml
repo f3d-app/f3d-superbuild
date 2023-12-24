@@ -116,7 +116,6 @@ jobs:
       uses: ./source/.github/actions/wheels/
 
   pypi-publish:
-    needs: [python_wheels]
     strategy:
       fail-fast: false
 
@@ -124,9 +123,11 @@ jobs:
 
     steps:
 
-    - name: Download Python wheels artifact
-      id: download-artifact
-      uses: actions/download-artifact@master
+    - name: Checkout
+      uses: actions/checkout@v3
       with:
-        pattern: *-wheels
-        path: dist
+        path: 'source'
+        submodules: true
+
+    - name: Build python wheels
+      uses: ./source/.github/actions/wheels/
