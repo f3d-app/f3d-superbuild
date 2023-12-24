@@ -115,16 +115,24 @@ jobs:
     - name: Build python wheels
       uses: ./source/.github/actions/wheels/
 
-  pypi_publish:
+  python_wheels_b:
     strategy:
       fail-fast: false
+      matrix:
+        os: [ubuntu, windows, macos]
 
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}-latest
+
+    env:
+      DISPLAY: :0
 
     steps:
 
-    - name: Download all the dists
-      uses: actions/download-artifact@v3
+    - name: Checkout
+      uses: actions/checkout@v3
       with:
-        pattern: *-wheels
-        path: dist/
+        path: 'source'
+        submodules: true
+
+    - name: Build python wheels
+      uses: ./source/.github/actions/wheels/
