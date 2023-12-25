@@ -129,3 +129,8 @@ jobs:
         pattern: wheels-*
         merge-multiple: true
         path: artifacts
+
+  - name: Extract Wheels
+    shell: bash
+    working-directory: ${{github.workspace}}/artifacts
+    run: unzip './*.zip'
