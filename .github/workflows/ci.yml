@@ -121,6 +121,11 @@ jobs:
       fail-fast: false
 
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/f3d
+    permissions:
+      id-token: write
 
     steps:
 
@@ -128,9 +133,14 @@ jobs:
       with:
         pattern: wheels-*
         merge-multiple: true
-        path: artifacts
+        path: dist
 
     - name: Extract Wheels
       shell: bash
-      working-directory: ${{github.workspace}}/artifacts
-      run: unzip 'wheels-*.zip'
+      working-directory: ${{github.workspace}}/dist
+      run: ls
+
+    - name: Publish package distributions to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
