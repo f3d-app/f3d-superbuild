@@ -133,7 +133,4 @@ jobs:
   - name: Extract Wheels
     shell: bash
     working-directory: ${{github.workspace}}/artifacts
-    run: |
-      unzip wheels-Linux.zip
-      unzip wheels-macOS.zip
-      unzip wheels-Windows.zip
+    run: unzip wheels-Linux.zip
