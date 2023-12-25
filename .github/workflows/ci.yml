@@ -130,7 +130,7 @@ jobs:
         merge-multiple: true
         path: artifacts
 
-  - name: Extract Wheels
-    shell: bash
-    working-directory: ${{github.workspace}}/artifacts
-    run: unzip wheels-Linux.zip
+    - name: Extract Wheels
+      shell: bash
+      working-directory: ${{github.workspace}}/artifacts
+      run: unzip 'wheels-*.zip'
