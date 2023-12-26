@@ -41,8 +41,8 @@ runs:
     uses: actions/cache@v3
     with:
       path: ${{env.SCCACHE_CACHE}}
-      key: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-0-${{env.DATE_STRING}}
-      restore-keys: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-0
+      key: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-${{ runner.os == 'macOS' && env.CMAKE_OSX_ARCHITECTURES || 'x86_64' }}-0-${{env.DATE_STRING}}
+      restore-keys: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-${{ runner.os == 'macOS' && env.CMAKE_OSX_ARCHITECTURES || 'x86_64' }}-0
 
   - name: Start sccache
     shell: bash
