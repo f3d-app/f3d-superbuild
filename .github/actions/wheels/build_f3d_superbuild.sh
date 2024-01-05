@@ -1,6 +1,12 @@
 #!/bin/bash
 cmake -S ./source -B ./fsbb           \
-  -DBUILD_SHARED_LIBS=OFF             \
+  -DBUILD_SHARED_LIBS=ON              \
+  -DBUILD_SHARED_LIBS_alembic=OFF     \
+  -DBUILD_SHARED_LIBS_assimp=OFF      \
+  -DBUILD_SHARED_LIBS_draco=OFF       \
+  -DBUILD_SHARED_LIBS_openexr=OFF     \
+  -DBUILD_SHARED_LIBS_imath=OFF       \
+  -DBUILD_SHARED_LIBS_occt=OFF        \
   -DCMAKE_BUILD_TYPE=Release          \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
   -DENABLE_f3d=OFF                    \
@@ -9,7 +15,7 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_draco=ON                   \
   -DENABLE_occt=ON                    \
   -DENABLE_openexr=ON                 \
-  -DENABLE_openusd=ON                 \
+  -DENABLE_openusd=OFF                \
   -DENABLE_ospray=OFF                 \
   -DENABLE_pybind11=ON                \
   -DENABLE_tbb=ON                     \
