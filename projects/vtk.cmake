@@ -8,6 +8,11 @@ if (exodus_enabled)
   set(vtk_ioexodus_enabled YES)
 endif ()
 
+set(vtk_ioopenvdb_enabled NO)
+if (openvdb_enabled)
+  set(vtk_ioopenvdb_enabled YES)
+endif ()
+
 set(vtk_use_x NO)
 set(vtk_platform_dependencies)
 if (UNIX)
@@ -32,7 +37,7 @@ superbuild_add_project(vtk
   LICENSE_FILES
     Copyright.txt
   DEPENDS cxx11
-  DEPENDS_OPTIONAL tbb ospray exodus ${vtk_platform_dependencies}
+  DEPENDS_OPTIONAL tbb ospray exodus openvdb ${vtk_platform_dependencies}
   CMAKE_ARGS
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${ospray_enabled}
     -DVTK_BUILD_TESTING:BOOL=OFF
@@ -51,6 +56,7 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_IOImage:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOImport:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOPLY:STRING=YES
+    -DVTK_MODULE_ENABLE_VTK_IOOpenVDB:STRING=${vtk_ioopenvdb_enabled}
     -DVTK_MODULE_ENABLE_VTK_IOParallel:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOXML:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_ImagingCore:STRING=YES
