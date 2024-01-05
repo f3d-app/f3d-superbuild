@@ -23,6 +23,11 @@ superbuild_set_revision(openusd
   DOWNLOAD_NAME openusd-v23.05.tar.gz
   URL_MD5 7318076a73ee76ac4221c63f01b2906f)
 
+superbuild_set_revision(openvdb
+  URL "https://github.com/AcademySoftwareFoundation/openvdb/archive/refs/tags/v11.0.0.tar.gz"
+  DOWNLOAD_NAME openvdb-v11.0.0.tar.gz
+  URL_MD5 025f4fc4db58419341a4991f1a16174a)
+
 superbuild_set_selectable_source(vtk
   SELECT 9.3.0 DEFAULT
     URL     "https://www.vtk.org/files/release/9.3/VTK-9.3.0.tar.gz"

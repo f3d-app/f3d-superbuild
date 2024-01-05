@@ -1,0 +1,35 @@
+From 2da63bf76ba370840c5f3cb2f88b2a28c47bf2d7 Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Wed, 3 Jan 2024 19:46:04 +0100
+Subject: [PATCH] visible deps
+
+---
+ cmake/FindOpenVDB.cmake | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/cmake/FindOpenVDB.cmake b/cmake/FindOpenVDB.cmake
+index c4213c8..d988db6 100644
+--- a/cmake/FindOpenVDB.cmake
++++ b/cmake/FindOpenVDB.cmake
+@@ -692,13 +692,11 @@ endif()
+ 
+ set(_OPENVDB_HIDDEN_DEPENDENCIES)
+ 
+-if(NOT OPENVDB_USE_STATIC_LIBS)
+-  if(OpenVDB_USES_BLOSC)
+-    list(APPEND _OPENVDB_HIDDEN_DEPENDENCIES Blosc::blosc)
+-  endif()
+-  if(OpenVDB_USES_ZLIB)
+-    list(APPEND _OPENVDB_HIDDEN_DEPENDENCIES ZLIB::ZLIB)
+-  endif()
++if(OpenVDB_USES_BLOSC)
++  list(APPEND _OPENVDB_VISIBLE_DEPENDENCIES Blosc::blosc)
++endif()
++if(OpenVDB_USES_ZLIB)
++  list(APPEND _OPENVDB_VISIBLE_DEPENDENCIES ZLIB::ZLIB)
+ endif()
+ 
+ if(openvdb_je IN_LIST OpenVDB_FIND_COMPONENTS)
+-- 
+2.43.0
+

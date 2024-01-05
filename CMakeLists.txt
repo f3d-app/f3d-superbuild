@@ -33,6 +33,8 @@ function (superbuild_find_projects var)
     assimp
     boost
     cxx11
+    cxx17
+    boost
     draco
     embree
     exodus
@@ -40,10 +42,12 @@ function (superbuild_find_projects var)
     hdf5
     imath
     ispc
+    lz4
     netcdf
     occt
     openexr
     openimagedenoise
+    openvdb
     openvkl
     ospray
     ospraymaterials
@@ -57,6 +61,8 @@ function (superbuild_find_projects var)
     openusd
     vtk
     xz
+    blosc
+    zstd
     zlib)
 
   if (UNIX)
@@ -104,6 +110,12 @@ function (superbuild_add_packaging)
 
 endfunction ()
 
+if (NOT CMAKE_OSX_ARCHITECTURES EQUAL "arm64")
+  set(boost_libraries
+    iostreams # Required by openvdb
+    system)
+endif ()
+
 function (superbuild_add_tests)
   add_subdirectory("${CMAKE_SOURCE_DIR}/testing" "${CMAKE_BINARY_DIR}/Testing")
 endfunction ()
@@ -123,6 +135,7 @@ set(_superbuild_default_assimp ON)
 set(_superbuild_default_draco ON)
 set(_superbuild_default_exodus ON)
 set(_superbuild_default_occt ON)
+set(_superbuild_default_openvdb ON)
 set(_superbuild_default_openexr ON)
 set(_superbuild_default_ospray ON)
 set(_superbuild_default_pybind11 OFF)

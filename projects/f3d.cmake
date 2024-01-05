@@ -20,7 +20,7 @@ superbuild_add_project(f3d
     LICENSE.md
     doc/THIRD_PARTY_LICENSES.md
   DEPENDS vtk
-  DEPENDS_OPTIONAL pybind11 alembic assimp draco occt openexr openusd
+  DEPENDS_OPTIONAL pybind11 alembic assimp draco occt openexr openusd openvdb
   CMAKE_ARGS
     -Werror=dev
     -Werror=deprecated
@@ -39,6 +39,7 @@ superbuild_add_project(f3d
     -DF3D_PLUGIN_BUILD_EXODUS:BOOL=${exodus_enabled}
     -DF3D_PLUGIN_BUILD_OCCT:BOOL=${occt_enabled}
     -DF3D_PLUGIN_BUILD_USD:BOOL=${openusd_enabled}
+    -DF3D_PLUGIN_BUILD_VDB:BOOL=${openvdb_enabled}
     -DF3D_BINDINGS_PYTHON:BOOL=${f3d_build_python_bindings}
     -DF3D_STRICT_BUILD:BOOL=ON
     -DF3D_WINDOWS_GUI:BOOL=${f3d_build_for_windows}
