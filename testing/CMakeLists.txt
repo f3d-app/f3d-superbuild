@@ -101,3 +101,7 @@ endif ()
 if (openusd_enabled)
   f3d_add_test(TestUSD primitives.usda)
 endif ()
+
+if (openvdb_enabled)
+  f3d_add_test(TestVDB icosahedron.vdb)
+endif ()
