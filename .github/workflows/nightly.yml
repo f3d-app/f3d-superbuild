@@ -257,3 +257,31 @@ jobs:
         git checkout ${{ needs.check_nightly.outputs.f3d_sha}}
         git tag nightly -f
         git push origin nightly -f
+
+  pypi-publish:
+    needs: [check_nightly, python_wheels]
+    if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
+    strategy:
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/f3d
+
+    permissions:
+      id-token: write
+
+    steps:
+
+    - uses: actions/download-artifact@v4
+      with:
+        pattern: wheels-*
+        merge-multiple: true
+        path: dist
+
+    - name: Publish package distributions to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
