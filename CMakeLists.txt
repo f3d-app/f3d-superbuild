@@ -34,7 +34,6 @@ function (superbuild_find_projects var)
     boost
     cxx11
     cxx17
-    boost
     draco
     embree
     exodus
@@ -110,11 +109,14 @@ function (superbuild_add_packaging)
 
 endfunction ()
 
-if (NOT CMAKE_OSX_ARCHITECTURES EQUAL "arm64")
-  set(boost_libraries
-    iostreams # Required by openvdb
-    system)
+if (${CMAKE_OSX_ARCHITECTURES} MATCHES "arm64")
+  set(boost_extra_options
+      architecture=arm)
 endif ()
+
+set(boost_libraries
+  iostreams # Required by openvdb
+  system)
 
 function (superbuild_add_tests)
   add_subdirectory("${CMAKE_SOURCE_DIR}/testing" "${CMAKE_BINARY_DIR}/Testing")
