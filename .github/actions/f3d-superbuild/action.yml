@@ -109,7 +109,7 @@ runs:
   - name: Build
     working-directory: ${{github.workspace}}/build
     shell: bash
-    run: cmake --build . --parallel 2 --config Release
+    run: cmake --build . --config Release
 
   - name: Package
     working-directory: ${{github.workspace}}/build
