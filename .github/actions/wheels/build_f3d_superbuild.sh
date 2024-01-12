@@ -13,7 +13,7 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_openvdb=OFF                \
   -DENABLE_ospray=OFF                 \
   -DENABLE_pybind11=ON                \
-  -DENABLE_tbb=ON                     \
+  -DENABLE_tbb=OFF                    \
   -DENABLE_vtk=ON                     \
   -DOCCT_ENABLE_COLORING=ON           \
   -DUSE_SYSTEM_python3=ON             \
