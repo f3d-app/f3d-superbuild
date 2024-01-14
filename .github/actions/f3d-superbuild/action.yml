@@ -105,18 +105,20 @@ runs:
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
+  # Rerun the build as ispc can sometimes segfault on Windows
   - name: Build
     working-directory: ${{github.workspace}}/build
     shell: bash
-    run: cmake --build . --config Release
+    run: cmake --build . --config Release || cmake --build . --config Release
 
+  # Rerun cpack as it can fail on macOS: https://github.com/actions/runner-images/issues/7522
   - name: Package
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: |
       cmake ./
-      ctest -R cpack -VV
-      ctest -R extract -VV
+      ctest -R cpack -VV || ctest --rerun-failed -VV
+      ctest -R extract -VV || ctest --rerun-failed -VV
 
   - name: Clean install
     working-directory: ${{github.workspace}}/build
