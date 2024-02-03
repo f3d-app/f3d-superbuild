@@ -38,7 +38,7 @@ runs:
       sccache --stop-server
 
   - name: Recover sccache cache
-    uses: actions/cache@v3
+    uses: actions/cache@v4
     with:
       path: ${{env.SCCACHE_CACHE}}
       key: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-${{ runner.os == 'macOS' && env.CMAKE_OSX_ARCHITECTURES || 'x86_64' }}-0-${{env.DATE_STRING}}
@@ -51,7 +51,7 @@ runs:
 
   - name: Setup msvc Windows
     if: runner.os == 'Windows'
-    uses: TheMrMilchmann/setup-msvc-dev@v2
+    uses: TheMrMilchmann/setup-msvc-dev@v3
     with:
       arch: x64
 
@@ -179,7 +179,7 @@ runs:
 
   - name: Upload Tests Artifact
     if: failure()
-    uses: actions/upload-artifact@v3
+    uses: actions/upload-artifact@v4
     with:
       path: ./build/Testing/Temporary
       name: f3d-superbuild-tests-artifact-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl_label}}
@@ -191,7 +191,7 @@ runs:
 
   - name: Upload Artifacts
     if: always()
-    uses: actions/upload-artifact@v3
+    uses: actions/upload-artifact@v4
     with:
       path: ./build/F3D-*
       name: F3D-${{runner.os}}-${{inputs.raytracing_label}}-${{inputs.egl_label == 'egl' && 'headless' || 'desktop'}}-${{ runner.os == 'macOS' && env.CMAKE_OSX_ARCHITECTURES || 'x86_64' }}
