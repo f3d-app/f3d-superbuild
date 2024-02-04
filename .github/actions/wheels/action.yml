@@ -16,7 +16,7 @@ runs:
   # fetch-depth: 0 is required to get the tags used to determine f3d version
   # lfs: true is needed for testing, use LFS cache action instead TODO
   - name: Checkout f3d
-    uses: actions/checkout@v3
+    uses: actions/checkout@v4
     with:
       repository: 'f3d-app/f3d'
       ref: ${{inputs.f3d_version}}
@@ -38,7 +38,7 @@ runs:
   - name: Cache fsb
     if: inputs.use_cache == 'true'
     id: cache-fsb
-    uses: actions/cache@v3
+    uses: actions/cache@v4
     with:
       path: fsbb/install
       key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-7
@@ -52,7 +52,7 @@ runs:
 
   - name: Setup MSVC Windows
     if: runner.os == 'Windows'
-    uses: TheMrMilchmann/setup-msvc-dev@v2.0.1
+    uses: TheMrMilchmann/setup-msvc-dev@v3
     with:
       arch: x64
 
