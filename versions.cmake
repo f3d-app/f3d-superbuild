@@ -5,7 +5,7 @@ superbuild_set_revision(assimp
 
 superbuild_set_revision(draco
   URL     "https://github.com/google/draco/archive/refs/tags/1.5.6.tar.gz"
-  DOWNLOAD_NAME draco-1.5.6.tar.gz
+  DOWNLOAD_NAME draco-1.5.7.tar.gz
   URL_MD5 dbe3a9e286ee5b79016470349d78b2a3)
 
 superbuild_set_revision(occt
