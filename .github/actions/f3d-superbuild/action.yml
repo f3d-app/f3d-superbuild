@@ -33,6 +33,7 @@ runs:
   - name: Initialize sccache environnement
     shell: bash
     run: |
+      sccache --start-server
       echo SCCACHE_CACHE=$(sccache --show-stats | grep Local | cut -d '"' -f2) >> $GITHUB_ENV
       echo DATE_STRING=$(date +'%Y%m%d') >> $GITHUB_ENV
       sccache --stop-server
