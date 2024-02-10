@@ -151,7 +151,7 @@ runs:
       cp x64\libgallium_wgl.dll ..\build\Testing\test-sdk\TestRendering_build\
 
   - name: Test package
-    if: !contains(env.CMAKE_OSX_ARCHITECTURES, 'arm64')
+    if: env.CMAKE_OSX_ARCHITECTURES != 'arm64'
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: |
