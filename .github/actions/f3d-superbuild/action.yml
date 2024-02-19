@@ -178,6 +178,17 @@ runs:
       ctest -R f3d-exec-TestOCCT$ -VV
       ctest -R f3d-exec-TestUSD$ -VV
 
+  # on macOS arm64, grid rendering has some issues,
+  # test only some tests that do not uses grid.
+  # https://github.com/f3d-app/f3d/issues/1276
+  - name: Test package EGL
+    if: env.CMAKE_OSX_ARCHITECTURES == 'arm64'
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: |
+      ctest -R f3d-exec-exists$ -VV
+      ctest -R f3d-exec-TestThumbnail$ -VV
+
   - name: Upload Tests Artifact
     if: failure()
     uses: actions/upload-artifact@v4
