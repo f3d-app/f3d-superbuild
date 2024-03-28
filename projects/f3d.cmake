@@ -55,6 +55,14 @@ superbuild_project_add_step("extra-install-configurations"
     install
 )
 
+superbuild_project_add_step("extra-install-colormaps"
+  COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component colormaps
+  COMMENT
+    "Installing colormaps"
+  DEPENDEES
+    install
+)
+
 if (UNIX AND NOT APPLE)
   superbuild_project_add_step("extra-install-mimetypes"
     COMMAND ${CMAKE_COMMAND} --install <BINARY_DIR> --component mimetypes
