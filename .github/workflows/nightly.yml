@@ -281,7 +281,7 @@ jobs:
         updateOnlyUnreleased: true
         tag: nightly
         name: "Nightly"
-        body: "Automatically generated nightly binary python wheels"
+        body: "Automatically generated nightly binary release"
         artifacts: './wheelhouse/f3d-*.whl'
 
   advance_nightly:
