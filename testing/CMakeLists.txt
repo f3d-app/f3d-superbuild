@@ -72,8 +72,11 @@ set_tests_properties(f3d-exec-exists
 # Use f3d executable to ensure dependecies can be loaded and renders correctly
 f3d_add_test(TestSimple cow.vtp)
 f3d_add_test(TestSimpleColor dragon.vtu --colormap-file=viridis)
-f3d_add_test(TestSplat small.splat)
 f3d_add_test(TestThumbnail dragon.vtu --config=thumbnail)
+
+if (NOT APPLE)
+  f3d_add_test(TestSplat small.splat)
+endif ()
 
 if (alembic_enabled)
   f3d_add_test(TestAlembic suzanne.abc)
