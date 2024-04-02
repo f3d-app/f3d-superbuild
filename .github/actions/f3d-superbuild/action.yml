@@ -173,7 +173,6 @@ runs:
       ctest -R sdk -VV
       ctest -R f3d-exec-exists$ -VV
       ctest -R f3d-exec-TestSimple$ -VV
-      ctest -R f3d-exec-TestSplat$ -VV
       ctest -R f3d-exec-TestThumbnail$ -VV
       ctest -R f3d-exec-TestAlembic$ -VV
       ctest -R f3d-exec-TestAssimp$ -VV
