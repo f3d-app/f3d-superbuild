@@ -139,6 +139,14 @@ runs:
     with:
       path: ${{github.workspace}}\build\Testing\test-extraction\bin
 
+  - name: Setup Directories mesa
+    if: runner.os == 'Windows'
+    working-directory: ${{github.workspace}}
+    shell: cmd
+    run: |
+      mkdir build\Testing\test-sdk\
+      mkdir build\Testing\test-sdk\TestRendering_build
+
   - name: Install Mesa Windows test-sdk
     if: runner.os == 'Windows'
     uses: ./source/.github/actions/mesa-install-bin
