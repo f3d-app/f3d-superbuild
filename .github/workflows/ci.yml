@@ -67,37 +67,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        cpu: [x86_64, arm64]
         raytracing_label: [raytracing, no-raytracing]
-        cpu: [x86_64]
+        include:
+          - cpu: x86_64
+            macos: macos-latest
+          - cpu: arm64
+            macos: macos-14
 
-    runs-on: macos-latest
-
-    env:
-      CMAKE_OSX_ARCHITECTURES: ${{matrix.cpu}}
-
-    steps:
-
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        path: 'source'
-        submodules: true
-        lfs: true
-
-    - name: Build and package F3D
-      uses: ./source/.github/actions/f3d-superbuild/
-      with:
-        f3d_version: origin/master
-        raytracing_label: ${{matrix.raytracing_label}}
-
-  macos_arm:
-    strategy:
-      fail-fast: false
-      matrix:
-        raytracing_label: [no-raytracing]
-        cpu: [arm64]
-
-    runs-on: macos-14
+    runs-on: ${{matrix.macos}}
 
     env:
       CMAKE_OSX_ARCHITECTURES: ${{matrix.cpu}}
