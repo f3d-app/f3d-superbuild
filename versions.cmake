@@ -1,7 +1,7 @@
 superbuild_set_revision(assimp
-  URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.3.1.tar.gz"
-  DOWNLOAD_NAME assimp-v5.3.1.tar.gz
-  URL_MD5 835357be3c1e70120fe2d5a52542ce55)
+  URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.4.0.tar.gz"
+  DOWNLOAD_NAME assimp-v5.4.0.tar.gz
+  URL_MD5 2e3cb3c1440e4f93c93c1748c4ca3cf5)
 
 superbuild_set_revision(draco
   URL     "https://github.com/google/draco/archive/refs/tags/1.5.6.tar.gz"
@@ -9,14 +9,14 @@ superbuild_set_revision(draco
   URL_MD5 dbe3a9e286ee5b79016470349d78b2a3)
 
 superbuild_set_revision(occt
-  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_7_2.tar.gz"
-  DOWNLOAD_NAME occt-V7_7_2.tar.gz
-  URL_MD5 21d56d4f96eb6fdc65435ea559b6d19c)
+  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_8_1.tar.gz"
+  DOWNLOAD_NAME occt-V7_8_1.tar.gz
+  URL_MD5 a1ae2c20422dd7a4352758667f34851f)
 
 superbuild_set_revision(openexr
-  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.2.1.tar.gz"
-  DOWNLOAD_NAME openexr-v3.2.1.tar.gz
-  URL_MD5 1d5bb07433ec641cf3bb1b519a27ea6f)
+  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.2.4.tar.gz"
+  DOWNLOAD_NAME openexr-v3.2.4.tar.gz
+  URL_MD5 83b23b937b3a76fd37680422f41b81b7)
 
 superbuild_set_revision(openusd
   URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v23.05.zip"
