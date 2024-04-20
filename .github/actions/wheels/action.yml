@@ -107,7 +107,6 @@ runs:
       CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
       CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
       CIBW_TEST_COMMAND: bash ${{ runner.os == 'Linux' && '/host' || null }}${{github.workspace}}/source/.github/actions/wheels/test_with_pytest_retry.sh {package}
-      CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Build wheels with cache
     if: |
@@ -131,7 +130,6 @@ runs:
       CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
       CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
       CIBW_TEST_COMMAND: bash ${{ runner.os == 'Linux' && '/host' || null }}${{github.workspace}}/source/.github/actions/wheels/test_with_pytest_retry.sh {package}
-      CIBW_REPAIR_WHEEL_COMMAND: ''
 
   - name: Copy cache back
     if: |
