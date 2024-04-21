@@ -18,3 +18,6 @@ superbuild_add_project(assimp
     -DASSIMP_NO_EXPORT:BOOL=ON
     -DASSIMP_WARNINGS_AS_ERRORS:BOOL=OFF
 )
+
+superbuild_apply_patch(assimp revert-fbx-bone-anim
+  "Revert bone anim regression")
