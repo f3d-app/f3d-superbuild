@@ -9,9 +9,9 @@ superbuild_set_revision(draco
   URL_MD5 dbe3a9e286ee5b79016470349d78b2a3)
 
 superbuild_set_revision(occt
-  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_7_2.tar.gz"
-  DOWNLOAD_NAME occt-V7_7_2.tar.gz
-  URL_MD5 21d56d4f96eb6fdc65435ea559b6d19c)
+  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_8_1.tar.gz"
+  DOWNLOAD_NAME occt-V7_8_1.tar.gz
+  URL_MD5 a1ae2c20422dd7a4352758667f34851f)
 
 superbuild_set_revision(openexr
   URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.2.1.tar.gz"
