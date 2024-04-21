@@ -46,11 +46,3 @@ superbuild_apply_patch(occt remove-unneeded-includes
 
 superbuild_apply_patch(occt remove-unneeded-quotes-warning-msvc
   "Remove uneeded quotes for a MSVC warning")
-
-if (OCCT_ENABLE_COLORING)
-  superbuild_apply_patch(occt fix-libraries-link-order-coloring
-    "Fix libraries link order for coloring")
-else ()
-  superbuild_apply_patch(occt fix-libraries-link-order
-    "Fix libraries link order")
-endif ()
