@@ -39,6 +39,3 @@ superbuild_apply_patch(occt remove-unneeded-includes
 
 superbuild_apply_patch(occt remove-unneeded-quotes-warning-msvc
   "Remove uneeded quotes for a MSVC warning")
-
-superbuild_apply_patch(occt remove-delete-fix-segfault
-  "Remove a delete to prevent segfault with static build")
