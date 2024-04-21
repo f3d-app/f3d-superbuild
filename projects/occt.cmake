@@ -1,6 +1,3 @@
-option(OCCT_ENABLE_COLORING "Enable Coloring modules in OCCT" ON)
-mark_as_advanced(OCCT_ENABLE_COLORING)
-
 set(occt_toolkits TKDESTEP TKDEIGES TKMesh)
 list(JOIN occt_toolkits "${_superbuild_list_separator}" occt_toolkits_escaped)
 
