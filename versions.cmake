@@ -14,9 +14,9 @@ superbuild_set_revision(occt
   URL_MD5 21d56d4f96eb6fdc65435ea559b6d19c)
 
 superbuild_set_revision(openexr
-  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.2.1.tar.gz"
-  DOWNLOAD_NAME openexr-v3.2.1.tar.gz
-  URL_MD5 1d5bb07433ec641cf3bb1b519a27ea6f)
+  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.2.4.tar.gz"
+  DOWNLOAD_NAME openexr-v3.2.4.tar.gz
+  URL_MD5 83b23b937b3a76fd37680422f41b81b7)
 
 superbuild_set_revision(openusd
   URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v23.05.zip"
