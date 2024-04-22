@@ -1,7 +1,7 @@
 superbuild_set_revision(assimp
-  URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.3.1.tar.gz"
-  DOWNLOAD_NAME assimp-v5.3.1.tar.gz
-  URL_MD5 835357be3c1e70120fe2d5a52542ce55)
+  URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.4.0.tar.gz"
+  DOWNLOAD_NAME assimp-v5.4.0.tar.gz
+  URL_MD5 2e3cb3c1440e4f93c93c1748c4ca3cf5)
 
 superbuild_set_revision(draco
   URL     "https://github.com/google/draco/archive/refs/tags/1.5.6.tar.gz"
