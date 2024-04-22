@@ -91,10 +91,9 @@ if (draco_enabled)
 endif ()
 
 if (occt_enabled)
-  f3d_add_test(TestOCCT f3d.stp --scalars=f3d_reserved) # A simple OCCT test that work whether coloring is turned on or not
-  if (OCCT_ENABLE_COLORING)
-    f3d_add_test(TestOCCTColoring f3d.stp)
-  endif ()
+  # This test is needed because cell coloring does not work on macOS CI: https://github.com/f3d-app/f3d/issues/792
+  f3d_add_test(TestOCCT f3d.stp --scalars=f3d_reserved)
+  f3d_add_test(TestOCCTColoring f3d.stp)
 endif ()
 
 if (ospray_enabled)
