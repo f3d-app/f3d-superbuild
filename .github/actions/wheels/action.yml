@@ -62,14 +62,10 @@ runs:
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
   - name: Download and extract Mesa Windows
-    shell: cmd
     if: runner.os == 'Windows'
-    working-directory: ${{github.workspace}}
-    run: |
-      mkdir mesa
-      cd mesa
-      curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.0.1/mesa3d-22.0.1-release-msvc.7z
-      "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+    uses: f3d-app/install-mesa-windows-action@v1
+    with:
+      path: ${{github.workspace}}\mesa
 
   - name: Set needed env variables
     shell: bash
