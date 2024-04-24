@@ -61,7 +61,8 @@ runs:
     shell: bash
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
-  - name: Prepare directory
+  # Should be remove once https://github.com/f3d-app/install-mesa-windows-action/pull/6 is released
+  - name: Prepare mesa directory
     if: runner.os == 'Windows'
     shell: bash
     run: mkdir mesa
@@ -71,11 +72,6 @@ runs:
     uses: f3d-app/install-mesa-windows-action@v1
     with:
       path: ${{github.workspace}}\mesa
-
-  - name: Escaping backslashes Windows
-    if: runner.os == 'Windows'
-    shell: bash
-    run: ls ./mesa
 
   - name: Set needed env variables
     shell: bash
