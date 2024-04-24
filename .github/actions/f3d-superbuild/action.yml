@@ -134,7 +134,7 @@ runs:
 
   - name: Install Mesa Windows extraction
     if: runner.os == 'Windows'
-    uses: ./source/.github/actions/mesa-install-bin
+    uses: f3d-app/install-mesa-windows-action@v1
     with:
       path: ${{github.workspace}}\build\Testing\test-extraction\bin
 
@@ -148,7 +148,7 @@ runs:
 
   - name: Install Mesa Windows test-sdk
     if: runner.os == 'Windows'
-    uses: ./source/.github/actions/mesa-install-bin
+    uses: f3d-app/install-mesa-windows-action@v1
     with:
       path: ${{github.workspace}}\build\Testing\test-sdk\TestRendering_build
 
