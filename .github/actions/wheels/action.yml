@@ -61,6 +61,11 @@ runs:
     shell: bash
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
+  - name: Prepare directory
+    if: runner.os == 'Windows'
+    shell: bash
+    run: mkdir mesa
+
   - name: Download and extract Mesa Windows
     if: runner.os == 'Windows'
     uses: f3d-app/install-mesa-windows-action@v1
