@@ -67,6 +67,11 @@ runs:
     with:
       path: ${{github.workspace}}\mesa
 
+  - name: Escaping backslashes Windows
+    if: runner.os == 'Windows'
+    shell: bash
+    run: ls ./mesa
+
   - name: Set needed env variables
     shell: bash
     run: |
