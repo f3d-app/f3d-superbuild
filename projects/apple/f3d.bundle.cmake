@@ -56,5 +56,14 @@ install(
 
 ## DragNDrop Generator specific
 if (cpack_generator MATCHES "DragNDrop")
+
+  # Configure to replace the app name in the script.
+  configure_file(
+    "${CMAKE_CURRENT_LIST_DIR}/files/f3d-dmg-setup.scpt.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/f3d-dmg-setup.scpt"
+    @ONLY)
+
   set(CPACK_PACKAGE_ICON "${superbuild_install_location}/f3d.app/Contents/Resources/logo.icns")
+  set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_LIST_DIR}/files/f3d-dmg-background.tif")
+  set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/f3d-dmg-setup.scpt")
 endif()
