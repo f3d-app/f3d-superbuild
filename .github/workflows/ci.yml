@@ -77,9 +77,6 @@ jobs:
 
     runs-on: ${{matrix.macos}}
 
-    env:
-      CMAKE_OSX_ARCHITECTURES: ${{matrix.cpu}}
-
     steps:
 
     - name: Checkout
@@ -94,6 +91,7 @@ jobs:
       with:
         f3d_version: origin/master
         raytracing_label: ${{matrix.raytracing_label}}
+        cpu: ${{matrix.cpu}}
 
   python_wheels:
     strategy:
