@@ -109,7 +109,7 @@ function (superbuild_add_packaging)
 
 endfunction ()
 
-if (${CMAKE_OSX_ARCHITECTURES} MATCHES "arm64")
+if (${CMAKE_OSX_ARCHITECTURES} MATCHES "arm64" OR ${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm64")
   set(boost_extra_options
       architecture=arm)
 endif ()
