@@ -145,9 +145,6 @@ jobs:
 
     runs-on: ${{matrix.macos}}
 
-    env:
-      CMAKE_OSX_ARCHITECTURES: ${{matrix.cpu}}
-
     steps:
 
     - name: Checkout
@@ -162,6 +159,7 @@ jobs:
       with:
         f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
         raytracing_label: ${{matrix.raytracing_label}}
+        cpu: ${{matrix.cpu}}
 
     - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1
