@@ -111,7 +111,7 @@ jobs:
         raytracing_label: [raytracing, no-raytracing]
         include:
           - cpu: x86_64
-            macos: macos-12
+            macos: macos-13
           - cpu: arm64
             macos: macos-14
 
@@ -154,7 +154,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-12]
+        os: [ubuntu-latest, windows-latest, macos-13]
 
     runs-on: ${{matrix.os}}
 
