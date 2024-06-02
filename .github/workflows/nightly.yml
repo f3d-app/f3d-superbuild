@@ -132,6 +132,8 @@ jobs:
         artifacts: './build/F3D-*'
 
   macos:
+    needs: check_nightly
+    if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     strategy:
       fail-fast: false
       matrix:
