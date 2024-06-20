@@ -19,6 +19,7 @@ set(CPACK_RESOURCE_FILE_LICENSE "${superbuild_install_location}/share/licenses/f
 set(CPACK_CREATE_DESKTOP_LINKS f3d)
 set(CPACK_STRIP_FILES TRUE)
 set(CPACK_THREADS 0)
+set(CPACK_PACKAGE_RELOCATABLE TRUE)
 
 set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${f3d_version_full}-${f3d_package_suffix}")
 

@@ -98,3 +98,12 @@ if (cpack_generator MATCHES "DEB")
     set(CPACK_DEBIAN_PACKAGE_DEPENDS "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libglx0")
   endif ()
 endif ()  
+
+if (cpack_generator MATCHES "RPM")
+  # Make sure that USE_SYSTEM_python3 is on to generate a valid rpm
+  set(CPACK_RPM_PACKAGE_RELEASE 1)
+  set(CPACK_RPM_PACKAGE_LICENSE BSD-3-Clause)
+  set(CPACK_RPM_PACKAGE_URL ${f3d_url})
+  set(CPACK_RPM_PACKAGE_AUTOREQPROV " no")
+  set(CPACK_RPM_PACKAGE_REQUIRES "libstdc++, glibc-devel, libgcc, glibc, libglvnd-glx, libglvnd-opengl, libX11, libXcursor, libXrender, libXfixes, libXext, libglvnd, libxcb, libXau")
+endif ()  
