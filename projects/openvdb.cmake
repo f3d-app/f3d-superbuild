@@ -35,7 +35,7 @@ superbuild_add_extra_cmake_args(
   -DOPENVDB_USE_STATIC_LIBS:BOOL=${openvdb_build_static}
 )
 
-# https://github.com/AcademySoftwareFoundation/openvdb/issues/1747 
+# https://github.com/AcademySoftwareFoundation/openvdb/issues/1747
 superbuild_apply_patch(openvdb decrease-gcc-min-ver
   "Decrease GCC minimum version")
 
@@ -49,5 +49,9 @@ superbuild_apply_patch(openvdb fix-visible-dependencies-link
   "Fix visible dependencies link")
 
 # https://github.com/AcademySoftwareFoundation/openvdb/issues/1630
-superbuild_apply_patch(openvdb remove-lib-prefix-static 
+superbuild_apply_patch(openvdb remove-lib-prefix-static
  "Remove lib prefix with static lib")
+
+# https://github.com/AcademySoftwareFoundation/openvdb/pull/1860
+superbuild_apply_patch(openvdb fix-cmake-CMP0167-error
+ "Fix an issue with cmake CMP0167 policy")
