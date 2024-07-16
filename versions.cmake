@@ -29,9 +29,9 @@ superbuild_set_revision(openvdb
   URL_MD5 025f4fc4db58419341a4991f1a16174a)
 
 superbuild_set_selectable_source(vtk
-  SELECT 9.3.0 DEFAULT
-    URL     "https://www.vtk.org/files/release/9.3/VTK-9.3.0.tar.gz"
-    URL_MD5 8b4dbb0ec85a6c0cf39803b6f891a8f2
+  SELECT 9.3.1 DEFAULT
+    URL     "https://www.vtk.org/files/release/9.3/VTK-9.3.1.tar.gz"
+    URL_MD5 1b237485ca2eaaf676e2031a71e82d0d
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
     GIT_TAG        "origin/master"
