@@ -68,9 +68,9 @@ foreach (f3d_resource_dir IN LISTS f3d_resource_dirs)
 endforeach ()
 
 # Individual files to package
-install(
-  FILES   "${superbuild_install_location}/share/man/man1/f3d.1.gz"
-  DESTINATION "share/man/man1")
+#install(
+#  FILES   "${superbuild_install_location}/share/man/man1/f3d.1.gz"
+# DESTINATION "share/man/man1")
 
 ## Package libf3d SDK
 
