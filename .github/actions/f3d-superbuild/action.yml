@@ -76,7 +76,7 @@ runs:
     shell: bash
     run: |
       curl -L --output vtk_commit_sha https://raw.githubusercontent.com/f3d-app/f3d/master/.github/actions/vtk_commit_sha
-      echo VTK_COMMIT_SHA=090fee41018cc78706319173ad0346f068c71d5a >> $GITHUB_ENV
+      echo VTK_COMMIT_SHA=d06894bdeb457e9e4a2c826c5b242eabf842e602 >> $GITHUB_ENV
 
   # OCCT coloring is disabled on macOS because of f3d-app/f3d#792
   - name: Configure
