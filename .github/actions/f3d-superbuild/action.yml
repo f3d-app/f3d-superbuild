@@ -46,8 +46,8 @@ runs:
     uses: actions/cache@v4
     with:
       path: ${{env.SCCACHE_CACHE}}
-      key: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-${{inputs.cpu}}-1-${{env.DATE_STRING}}
-      restore-keys: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-${{inputs.cpu}}-1
+      key: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-${{inputs.cpu}}-0-${{env.DATE_STRING}}
+      restore-keys: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-${{inputs.cpu}}-0
 
   - name: Start sccache
     shell: bash
@@ -76,7 +76,7 @@ runs:
     shell: bash
     run: |
       curl -L --output vtk_commit_sha https://raw.githubusercontent.com/f3d-app/f3d/master/.github/actions/vtk_commit_sha
-      echo VTK_COMMIT_SHA=99d37deecc7daa8ea3602415a0aae5d166229599 >> $GITHUB_ENV
+      echo VTK_COMMIT_SHA=7b6fc60fef640d069c4d999e0c23b1d3c00ed791 >> $GITHUB_ENV
 
   # OCCT coloring is disabled on macOS because of f3d-app/f3d#792
   - name: Configure
