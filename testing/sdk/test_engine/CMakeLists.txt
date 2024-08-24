@@ -22,3 +22,4 @@ target_link_libraries(test_engine f3d::libf3d)
 
 # make sure the libf3d API is compatible with C++11
 set_target_properties(test_engine PROPERTIES CXX_STANDARD 11)
+target_compile_definitions(test_engine PRIVATE F3D_DISABLE_CXX17_API)
