@@ -26,7 +26,7 @@ superbuild_add_project(f3d
     -Werror=deprecated
     --warn-uninitialized
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
-    -DF3D_LINUX_GENERATE_MAN:BOOL=${f3d_build_for_linux}
+    -DF3D_LINUX_GENERATE_MAN:BOOL=OFF
     -DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=${f3d_build_for_linux}
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
     -DF3D_MODULE_EXR:BOOL=${openexr_enabled}
