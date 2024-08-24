@@ -1,4 +1,4 @@
-set(occt_toolkits TKSTEP TKIGES TKMesh TKXDESTEP TKXDEIGES)
+set(occt_toolkits TKSTEP TKIGES TKMesh TKXDESTEP TKXDEIGES TKBinXCAF)
 list(JOIN occt_toolkits "${_superbuild_list_separator}" occt_toolkits_escaped)
 
 if (NOT BUILD_SHARED_LIBS_occt STREQUAL "<same>")
