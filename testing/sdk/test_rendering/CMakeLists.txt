@@ -6,3 +6,4 @@ find_package(f3d REQUIRED)
 
 add_executable(test_rendering main.cxx)
 target_link_libraries(test_rendering f3d::libf3d)
+target_compile_definitions(test_rendering PRIVATE F3D_DISABLE_CXX17_API)

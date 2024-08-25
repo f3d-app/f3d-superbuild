@@ -1,0 +1,86 @@
+From eca8ead71891a225a4ef782a7fa9b2ec82d8cb3d Mon Sep 17 00:00:00 2001
+From: David Thompson <david.thompson@kitware.com>
+Date: Mon, 12 Aug 2024 12:52:02 -0400
+Subject: [PATCH] Fix `token::Singleton()` to work in static builds.
+
+This change matches dcthomp/token!8.
+---
+ .../token/vtktoken/token/Singletons.cxx       | 21 +++++++++++++++++--
+ ThirdParty/token/vtktoken/token/Singletons.h  | 20 ++++++++++++++++++
+ 2 files changed, 39 insertions(+), 2 deletions(-)
+
+diff --git a/ThirdParty/token/vtktoken/token/Singletons.cxx b/ThirdParty/token/vtktoken/token/Singletons.cxx
+index 0a3e4a9f4df..7f5a1d61fe7 100644
+--- a/ThirdParty/token/vtktoken/token/Singletons.cxx
++++ b/ThirdParty/token/vtktoken/token/Singletons.cxx
+@@ -1,15 +1,32 @@
+ #include "token/Singletons.h"
+ 
++#include <cstdlib>
++#include <mutex>
++
+ token_BEGIN_NAMESPACE
+ namespace {
+ 
+-TypeContainer s_singletons;
++TypeContainer* s_singletons = nullptr;
++std::mutex s_singletonsMutex;
+ 
+ } // anonymous namespace
+ 
+ TypeContainer& singletons()
+ {
+-  return s_singletons;
++  std::lock_guard<std::mutex> guard(s_singletonsMutex);
++  if (!s_singletons)
++  {
++    s_singletons = new TypeContainer;
++    atexit(finalizeSingletons);
++  }
++  return *s_singletons;
++}
++
++void finalizeSingletons()
++{
++  //std::lock_guard<std::mutex> guard(s_singletonsMutex);
++  delete s_singletons;
++  s_singletons = nullptr;
+ }
+ 
+ token_CLOSE_NAMESPACE
+diff --git a/ThirdParty/token/vtktoken/token/Singletons.h b/ThirdParty/token/vtktoken/token/Singletons.h
+index 5b30ee15e54..202d1aa7ac7 100644
+--- a/ThirdParty/token/vtktoken/token/Singletons.h
++++ b/ThirdParty/token/vtktoken/token/Singletons.h
+@@ -6,8 +6,28 @@
+ 
+ token_BEGIN_NAMESPACE
+ 
++/// Return a container of singleton objects indexed by their type.
++///
++/// Because the index is based on the type of the object being
++/// contained (it is a checksum computed on the typename-string),
++/// there can be only zero or one objects of a given type in the
++/// container.
+ TOKEN_EXPORT TypeContainer& singletons();
+ 
++/// Destroy the container holding all registered singleton objects.
++///
++/// The destructors of any contained objects will be called.
++/// This function is invoked at exit, but if your application
++/// needs to ensure objects are released before the other
++/// destructors are called (since no ordering is guaranteed for
++/// statically-allocated objects), you may call this at any time.
++///
++/// Libraries should not invoke this function; if your library
++/// uses this singleton container, your code run at exit should
++/// simply remove any stored objects rather than forcing all of
++/// the application's singletons to be destroyed.
++TOKEN_EXPORT void finalizeSingletons();
++
+ token_CLOSE_NAMESPACE
+ 
+ #endif // token_Singletons
+-- 
+GitLab
+
