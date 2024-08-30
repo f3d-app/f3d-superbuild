@@ -22,37 +22,15 @@ runs:
   using: "composite"
   steps:
 
-  - name: Install tools Windows
+  - name: Install ninja Windows
     if: runner.os == 'Windows'
     shell: cmd
-    run: |
-      choco install ninja
-      choco install sccache
+    run: choco install ninja
 
-  - name: Install tools MacOS
-    if: runner.os == 'macOS'
-    shell: bash
-    run: brew install sccache
-
-  - name: Initialize sccache environnement
-    shell: bash
-    run: |
-      sccache --start-server
-      echo SCCACHE_CACHE=$(sccache --show-stats | grep Local | cut -d '"' -f2) >> $GITHUB_ENV
-      echo DATE_STRING=$(date +'%Y%m%d') >> $GITHUB_ENV
-      sccache --stop-server
-
-  - name: Recover sccache cache
-    uses: actions/cache@v4
+  - name: Install and setup sccache
+    uses: f3d-app/sccache-setup-action@v1
     with:
-      path: ${{env.SCCACHE_CACHE}}
-      key: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-${{inputs.cpu}}-0-${{env.DATE_STRING}}
-      restore-keys: sccache-cache-${{inputs.raytracing_label}}-${{runner.os}}-${{inputs.cpu}}-0
-
-  - name: Start sccache
-    shell: bash
-    working-directory: ${{github.workspace}}
-    run: sccache --start-server
+      key: ${{inputs.raytracing_label}}-${{runner.os}}-${{inputs.cpu}}-0
 
   - name: Setup msvc Windows
     if: runner.os == 'Windows'
@@ -195,10 +173,10 @@ runs:
       path: ./build/Testing/Temporary
       name: f3d-superbuild-tests-artifact-${{runner.os}}-${{inputs.cpu}}-${{inputs.raytracing_label}}-${{inputs.egl_label}}
 
-  - name: Cleanup sccache
+  - name: Check sccache results
     working-directory: ${{github.workspace}}
     shell: bash
-    run: sccache --stop-server
+    run: sccache --show-stats
 
   - name: Upload Artifacts
     if: always()
