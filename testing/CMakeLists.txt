@@ -92,7 +92,7 @@ endif ()
 
 if (occt_enabled)
   # This test is needed because cell coloring does not work on macOS CI: https://github.com/f3d-app/f3d/issues/792
-  f3d_add_test(TestOCCT f3d.stp --scalars=f3d_reserved)
+  f3d_add_test(TestOCCT f3d.stp --scalar-coloring=0)
   f3d_add_test(TestOCCTColoring f3d.stp)
 endif ()
 
