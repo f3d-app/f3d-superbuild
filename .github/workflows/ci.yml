@@ -11,7 +11,29 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+
+  cache_lfs:
+    runs-on: ubuntu-latest
+    name: Update LFS data cache
+    outputs:
+      lfs_sha: ${{ steps.lfs_sha_recover.outputs.lfs_sha }}
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        path: 'source'
+        fetch-depth: 1
+        lfs: false
+
+    - name: Cache LFS Data
+      id: lfs_sha_recover
+      uses: f3d-app/lfs-data-cache-action@v1
+      with:
+        cache_postfix: cache-0
+
   windows:
+    needs: cache_lfs
     strategy:
       fail-fast: false
       matrix:
@@ -26,15 +48,17 @@ jobs:
       with:
         path: 'source'
         submodules: true
-        lfs: true
+        lfs: false
 
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
       with:
         f3d_version: origin/master
         raytracing_label: ${{matrix.raytracing_label}}
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
   linux:
+    needs: cache_lfs
     strategy:
       fail-fast: false
       matrix:
@@ -54,7 +78,7 @@ jobs:
       with:
         path: 'source'
         submodules: true
-        lfs: true
+        lfs: false
 
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
@@ -62,8 +86,10 @@ jobs:
         f3d_version: origin/master
         raytracing_label: ${{matrix.raytracing_label}}
         egl_label: ${{matrix.egl_label}}
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
   macos:
+    needs: cache_lfs
     strategy:
       fail-fast: false
       matrix:
@@ -84,7 +110,7 @@ jobs:
       with:
         path: 'source'
         submodules: true
-        lfs: true
+        lfs: false
 
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
@@ -92,6 +118,7 @@ jobs:
         f3d_version: origin/master
         raytracing_label: ${{matrix.raytracing_label}}
         cpu: ${{matrix.cpu}}
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
   python_wheels:
     strategy:
