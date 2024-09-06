@@ -29,8 +29,29 @@ jobs:
         test -z "$(git tag --points-at HEAD)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
         echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
-  windows:
+  cache_lfs:
     needs: check_nightly
+    runs-on: ubuntu-latest
+    name: Update LFS data cache
+    outputs:
+      lfs_sha: ${{ steps.lfs_sha_recover.outputs.lfs_sha }}
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        path: 'source'
+        fetch-depth: 1
+        lfs: false
+
+    - name: Cache LFS Data
+      id: lfs_sha_recover
+      uses: f3d-app/lfs-data-cache-action@v1
+      with:
+        cache_postfix: cache-0
+
+  windows:
+    needs: cache_lfs
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     strategy:
       fail-fast: false
@@ -53,6 +74,7 @@ jobs:
       with:
         f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
         raytracing_label: ${{matrix.raytracing_label}}
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1
@@ -78,7 +100,7 @@ jobs:
         artifacts: './build/F3D-*'
 
   linux:
-    needs: check_nightly
+    needs: cache_lfs
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     strategy:
       fail-fast: false
@@ -107,6 +129,7 @@ jobs:
         f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
         raytracing_label: ${{matrix.raytracing_label}}
         egl_label: ${{matrix.egl_label}}
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1
@@ -132,7 +155,7 @@ jobs:
         artifacts: './build/F3D-*'
 
   macos:
-    needs: check_nightly
+    needs: cache_lfs
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     strategy:
       fail-fast: false
@@ -162,6 +185,7 @@ jobs:
         f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
         raytracing_label: ${{matrix.raytracing_label}}
         cpu: ${{matrix.cpu}}
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1
