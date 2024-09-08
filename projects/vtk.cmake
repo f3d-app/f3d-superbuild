@@ -79,8 +79,3 @@ superbuild_add_project(vtk
     -DVTK_USE_X:BOOL=${vtk_use_x}
     -DVTK_VERSIONED_INSTALL:BOOL=OFF
 )
-
-# This patch is temporary and will be merged upstream soon
-# Let's remove it as soon as possible because it breaks compilation with VTK releases
-superbuild_apply_patch(vtk fix-static-build
-  "Fix vtk::token static build")
