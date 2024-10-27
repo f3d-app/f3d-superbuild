@@ -1,0 +1,13 @@
+diff --git a/Common/ExecutionModel/vtkFilteringInformationKeyManager.cxx b/Common/ExecutionModel/vtkFilteringInformationKeyManager.cxx
+index 5c46b14eda..7dba2601fd 100644
+--- a/Common/ExecutionModel/vtkFilteringInformationKeyManager.cxx
++++ b/Common/ExecutionModel/vtkFilteringInformationKeyManager.cxx
+@@ -74,7 +74,7 @@ void vtkFilteringInformationKeyManager::ClassInitialize()
+   // The cell-metadata class cannot register its finalizer upon construction
+   // of the registrar since CommonDataModel cannot depend on CommonExecutionModel.
+   // So, we always register a finalizer for cell-grid responders.
+-  vtkFilteringInformationKeyManager::AddFinalizer([]() { vtkCellMetadata::ClearResponders(); });
++//  vtkFilteringInformationKeyManager::AddFinalizer([]() { vtkCellMetadata::ClearResponders(); });
+ }
+ 
+ //------------------------------------------------------------------------------
