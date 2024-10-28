@@ -14,14 +14,11 @@ if (openvdb_enabled)
 endif ()
 
 set(vtk_use_x NO)
+set(vtk_use_egl NO)
 set(vtk_platform_dependencies)
-if (UNIX)
-  if (NOT APPLE)
-    list(APPEND vtk_platform_dependencies egl)
-    if (NOT egl_enabled)
-      set(vtk_use_x YES)
-    endif ()
-  endif ()
+if (UNIX AND NOT APPLE)
+  set(vtk_use_x YES)
+  set(vtk_use_egl YES)
 endif ()
 
 set(vtk_smp_type "Sequential")
@@ -41,7 +38,6 @@ superbuild_add_project(vtk
   CMAKE_ARGS
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${ospray_enabled}
     -DVTK_BUILD_TESTING:BOOL=OFF
-    -DVTK_DEFAULT_RENDER_WINDOW_HEADLESS:BOOL=${egl_enabled}
     -DVTK_ENABLE_LOGGING:BOOL=OFF
     -DVTK_ENABLE_WRAPPING:BOOL=OFF
     -DVTK_GROUP_ENABLE_Rendering:STRING=DEFAULT
@@ -71,7 +67,7 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:STRING=${vtk_raytracing_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_TestingCore:STRING=YES
-    -DVTK_OPENGL_HAS_EGL:BOOL=${egl_enabled}
+    -DVTK_OPENGL_HAS_EGL:BOOL=${vtk_use_egl}
     -DVTK_SMP_ENABLE_SEQUENTIAL:BOOL=${vtk_smp_enable_sequential}
     -DVTK_SMP_ENABLE_STDTHREAD:BOOL=OFF
     -DVTK_SMP_ENABLE_TBB:BOOL=${tbb_enabled}

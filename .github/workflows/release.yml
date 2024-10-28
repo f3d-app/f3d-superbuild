@@ -62,7 +62,6 @@ jobs:
       fail-fast: false
       matrix:
         raytracing_label: [raytracing, no-raytracing]
-        egl_label: [egl, no-egl]
 
     runs-on: ubuntu-latest
     container: ghcr.io/f3d-app/f3d-superbuild-ci
@@ -85,7 +84,6 @@ jobs:
       with:
         f3d_version: ${{github.event.inputs.f3d_version}}
         raytracing_label: ${{matrix.raytracing_label}}
-        egl_label: ${{matrix.egl_label}}
 
     - name: Publish assets
       if: ${{ github.event.inputs.publish_assets == 'true' }}

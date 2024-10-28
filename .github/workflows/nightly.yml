@@ -106,7 +106,6 @@ jobs:
       fail-fast: false
       matrix:
         raytracing_label: [raytracing, no-raytracing]
-        egl_label: [no-egl, egl]
 
     runs-on: ubuntu-latest
     container: ghcr.io/f3d-app/f3d-superbuild-ci
@@ -128,7 +127,6 @@ jobs:
       with:
         f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
         raytracing_label: ${{matrix.raytracing_label}}
-        egl_label: ${{matrix.egl_label}}
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Delete previous nightly release assets
@@ -137,7 +135,7 @@ jobs:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
         tag: nightly
-        assets: "F3D-*-Linux-x86_64${{ matrix.egl_label == 'egl' && '-headless' || null }}${{ matrix.raytracing_label == 'raytracing' && '-raytracing' || null }}.*"
+        assets: "F3D-*-Linux-x86_64${{ matrix.raytracing_label == 'raytracing' && '-raytracing' || null }}.*"
         fail-if-no-assets: false
 
     - name: Publish nightly release

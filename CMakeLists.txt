@@ -68,12 +68,6 @@ function (superbuild_find_projects var)
     list(APPEND projects
       bzip2
       ffi)
-
-    if (NOT APPLE)
-      list(APPEND projects
-        egl)
-    endif ()
-
   endif ()
 
   if (WIN32)

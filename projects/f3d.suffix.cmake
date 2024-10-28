@@ -26,11 +26,6 @@ else ()
   list(APPEND package_suffix_items "${CMAKE_OSX_ARCHITECTURES}")
 endif()
 
-if (egl_enabled)
-  list(APPEND package_suffix_items
-    "headless")
-endif()
-
 if (ospray_enabled)
   list(APPEND package_suffix_items
     "raytracing")
