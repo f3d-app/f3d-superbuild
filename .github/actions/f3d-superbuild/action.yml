@@ -117,9 +117,7 @@ runs:
 
   # Ubuntu provided libEGL.so has rendering issues, so use X backend for now
   - name: Run Xvfb Linux
-    if: |
-      runner.os == 'Linux' &&
-      inputs.egl_label != 'egl'
+    if: runner.os == 'Linux'
     shell: bash
     run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
 
