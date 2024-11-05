@@ -19,6 +19,7 @@ macro (superbuild_setup_variables)
   elseif (f3d_SOURCE_SELECTION STREQUAL "source")
     # If it is a git repo, we'll get it that way.
     set(f3d_default_version "")
+#bug ?
   else ()
     # The selection is the version number; use it.
     set(f3d_default_version "${f3d_SOURCE_SELECTION}")
