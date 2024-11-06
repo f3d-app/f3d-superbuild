@@ -107,19 +107,13 @@ runs:
     shell: bash
     run: |
       cmake ./
-      ctest -R cpack -VV || ctest --rerun-failed -VV
-      ctest -R extract -VV || ctest --rerun-failed -VV
+      ctest -R cpack --no-tests=error --output-on-failure
+      ctest -R extract --no-tests=error --output-on-failure
 
   - name: Clean install
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: cmake -E remove_directory install
-
-  # Ubuntu provided libEGL.so has rendering issues, so use X backend for now
-  - name: Run Xvfb Linux
-    if: runner.os == 'Linux'
-    shell: bash
-    run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
 
   - name: Install Mesa Windows extraction
     if: runner.os == 'Windows'
@@ -160,12 +154,28 @@ runs:
     shell: bash
     run: echo "F3D_CTEST_EXCEPTIONS=(TestSimple)|(TestAlembic)|(TestDraco)|(TestOCCT)|(TestOCCTColoring)|(TestUSD)|(TestVDB)" >> $GITHUB_ENV
 
-  - name: Test package
+  - name: Test sdk
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: |
-      ctest -R sdk -VV
-      ctest -R exec -E "${{ env.F3D_CTEST_EXCEPTIONS }}" -VV
+      ctest -R sdk --no-tests=error --output-on-failure
+
+  - name: Test headless rendering
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: |
+      ctest -R RenderingHeadless --no-tests=error --output-on-failure
+
+  - name: Run Xvfb Linux
+    if: runner.os == 'Linux'
+    shell: bash
+    run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
+
+  - name: Run all executable test
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: |
+      ctest -R exec -E "${{ env.F3D_CTEST_EXCEPTIONS }}" --no-tests=error --output-on-failure
 
   - name: Upload Tests Artifact
     if: failure()
