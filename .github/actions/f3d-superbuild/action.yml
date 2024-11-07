@@ -87,6 +87,7 @@ runs:
       -Dospray_SOURCE_SELECTION=2.7.1
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -Dvtk_SOURCE_SELECTION=git
+      ${{ runner.os == 'Linux' && '-DENABLE_egl=ON -DENABLE_osmesa=ON' || null }}
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
@@ -135,6 +136,12 @@ runs:
     with:
       path: ${{github.workspace}}\build\Testing\test-sdk\TestRendering_build
 
+  # XXX: No test is not a failure here as MacOS bundle does not support SDK
+  - name: Test sdk
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: ctest -R sdk --output-on-failure
+
   # on macOS CI, texture rendering has some issues,
   # https://github.com/f3d-app/f3d/issues/792
   - name: Set CI test exception for macOS x86_64
@@ -154,18 +161,14 @@ runs:
     shell: bash
     run: echo "F3D_CTEST_EXCEPTIONS=(TestSimple)|(TestAlembic)|(TestDraco)|(TestOCCT)|(TestOCCTColoring)|(TestUSD)|(TestVDB)" >> $GITHUB_ENV
 
-  - name: Test sdk
-    working-directory: ${{github.workspace}}/build
-    shell: bash
-    run: ctest -R sdk --no-tests=error --output-on-failure
-
-  # on linux CI, only GLX test require a Xorg server
+  # on linux CI, GLX test require a Xorg server
+  # Ubuntu 20.04 provided libEGL.so has rendering issues
   - name: Set CI test exception for macOS x86_64
     if: |
       runner.os == 'macOS' &&
       inputs.cpu == 'x86_64'
     shell: bash
-    run: echo "F3D_CTEST_EXCEPTIONS=(TestRenderingGLX)" >> $GITHUB_ENV
+    run: echo "F3D_CTEST_EXCEPTIONS=(TestRenderingGLX)|(TestOCCTColoring)|(TestSimpleColor)|(TestSplat)|(TestOSPRay)" >> $GITHUB_ENV
 
   - name: Test executable
     working-directory: ${{github.workspace}}/build
@@ -177,17 +180,11 @@ runs:
     shell: bash
     run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
 
-  # Remove linux CI test exception before running with Xvfb
-  - name: Set CI test exception for macOS x86_64
-    if: runner.os == 'Linux'
-    shell: bash
-    run: echo "F3D_CTEST_EXCEPTIONS=" >> $GITHUB_ENV
-
   - name: Test executable with Xvfb
     if: runner.os == 'Linux'
     working-directory: ${{github.workspace}}/build
     shell: bash
-    run: ctest -R exec -E "${{ env.F3D_CTEST_EXCEPTIONS }}" --no-tests=error --output-on-failure
+    run: ctest -R exec --no-tests=error --output-on-failure
 
   - name: Upload Tests Artifact
     if: failure()

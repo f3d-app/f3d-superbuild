@@ -13,12 +13,16 @@ if (openvdb_enabled)
   set(vtk_ioopenvdb_enabled YES)
 endif ()
 
+# XXX: Not listed as an optional dependencies
+# as egl is a use system project
+set(vtk_egl_enabled NO)
+if (egl_enabled)
+  set(vtk_egl_enabled YES)
+endif ()
+
 set(vtk_use_x NO)
-set(vtk_use_egl NO)
-set(vtk_platform_dependencies)
 if (UNIX AND NOT APPLE)
   set(vtk_use_x YES)
-  set(vtk_use_egl YES)
 endif ()
 
 set(vtk_smp_type "Sequential")
@@ -34,7 +38,7 @@ superbuild_add_project(vtk
   LICENSE_FILES
     Copyright.txt
   DEPENDS cxx11
-  DEPENDS_OPTIONAL tbb ospray exodus openvdb ${vtk_platform_dependencies}
+  DEPENDS_OPTIONAL tbb ospray exodus openvdb
   CMAKE_ARGS
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${ospray_enabled}
     -DVTK_BUILD_TESTING:BOOL=OFF
@@ -67,7 +71,7 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:STRING=${vtk_raytracing_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_TestingCore:STRING=YES
-    -DVTK_OPENGL_HAS_EGL:BOOL=${vtk_use_egl}
+    -DVTK_OPENGL_HAS_EGL:BOOL=${vtk_egl_enabled}
     -DVTK_SMP_ENABLE_SEQUENTIAL:BOOL=${vtk_smp_enable_sequential}
     -DVTK_SMP_ENABLE_STDTHREAD:BOOL=OFF
     -DVTK_SMP_ENABLE_TBB:BOOL=${tbb_enabled}
