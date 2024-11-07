@@ -109,7 +109,7 @@ runs:
     shell: bash
     run: |
       cmake ./
-      ctest -R cpack --no-tests=error --output-on-failure || ctest -R cpack --no-tests=error --output-on-failure
+      ctest -R cpack --no-tests=error --output-on-failure || ctest --rerun-failed -VV
       ctest -R extract --no-tests=error --output-on-failure
 
   - name: Clean install
