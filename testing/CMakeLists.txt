@@ -74,8 +74,26 @@ f3d_add_test(TestSimple cow.vtp)
 f3d_add_test(TestSimpleColor dragon.vtu --colormap-file=viridis)
 f3d_add_test(TestThumbnail dragon.vtu --config=thumbnail)
 
+if (WIN32)
+  f3d_add_test(TestRenderingWGL dragon.vtu --rendering-backend=wgl)
+endif ()
+
+if (UNIX AND NOT APPLE)
+  # XXX: This test requires a Xorg server running
+  f3d_add_test(TestRenderingGLX dragon.vtu --rendering-backend=glx)
+endif ()
+
 if (NOT APPLE)
   f3d_add_test(TestSplat small.splat)
+endif ()
+
+if (egl_enabled)
+  # XXX: Once Ubuntu 22.04 is used for CI, this test should use coloring
+  f3d_add_test(TestRenderingHeadlessEGL cow.vtp --rendering-backend=egl)
+endif ()
+
+if (osmesa_enabled)
+  f3d_add_test(TestRenderingHeadlessOSMESA dragon.vtu --rendering-backend=osmesa)
 endif ()
 
 if (alembic_enabled)
@@ -92,7 +110,7 @@ endif ()
 
 if (occt_enabled)
   # This test is needed because cell coloring does not work on macOS CI: https://github.com/f3d-app/f3d/issues/792
-  f3d_add_test(TestOCCT f3d.stp --scalar-coloring=0)
+  f3d_add_test(TestOCCT f3d.stp --scalar-coloring=false)
   f3d_add_test(TestOCCTColoring f3d.stp)
 endif ()
 

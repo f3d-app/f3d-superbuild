@@ -1,0 +1,1 @@
+superbuild_add_project(egl MUST_USE_SYSTEM)

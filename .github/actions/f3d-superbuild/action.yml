@@ -9,10 +9,6 @@ inputs:
     description: 'A label to enable raytracing'
     required: false
     default: 'raytracing'
-  egl_label:
-    description: 'A label to enable egl rendering'
-    required: false
-    default: 'no-egl'
   cpu:
     description: 'CPU architecture to build for'
     required: false
@@ -84,7 +80,6 @@ runs:
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
-      -DENABLE_egl=${{ inputs.egl_label == 'egl' && 'ON' || 'OFF' }}
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
       -DUSE_SYSTEM_python3=ON
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
@@ -92,6 +87,7 @@ runs:
       -Dospray_SOURCE_SELECTION=2.7.1
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -Dvtk_SOURCE_SELECTION=git
+      ${{ runner.os == 'Linux' && '-DENABLE_egl=ON -DENABLE_osmesa=ON' || null }}
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
 
@@ -106,26 +102,20 @@ runs:
     shell: bash
     run: cmake --build . --config Release || cmake --build . --config Release
 
+  # Run cmake to update f3d-version.cmake
   # Rerun cpack as it can fail on macOS: https://github.com/actions/runner-images/issues/7522
   - name: Package
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: |
       cmake ./
-      ctest -R cpack -VV || ctest --rerun-failed -VV
-      ctest -R extract -VV || ctest --rerun-failed -VV
+      ctest -R cpack --no-tests=error --output-on-failure || ctest --rerun-failed -VV
+      ctest -R extract --no-tests=error --output-on-failure
 
   - name: Clean install
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: cmake -E remove_directory install
-
-  - name: Run Xvfb Linux
-    if: |
-      runner.os == 'Linux' &&
-      inputs.egl_label != 'egl'
-    shell: bash
-    run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
 
   - name: Install Mesa Windows extraction
     if: runner.os == 'Windows'
@@ -147,13 +137,11 @@ runs:
     with:
       path: ${{github.workspace}}\build\Testing\test-sdk\TestRendering_build
 
-  # Ubuntu 18.04 provided libEGL.so has rendering issues
-  - name: Set CI test exception for linux egl
-    if: |
-      runner.os == 'linux' &&
-      inputs.egl_label == 'egl'
+  # XXX: No test is not a failure here as MacOS bundle does not support SDK
+  - name: Test sdk
+    working-directory: ${{github.workspace}}/build
     shell: bash
-    run: echo "F3D_CTEST_EXCEPTIONS=(TestOCCTColoring)|(TestSimpleColor)|(TestSplat)|(TestOSPRay)" >> $GITHUB_ENV
+    run: ctest -R sdk --output-on-failure
 
   # on macOS CI, texture rendering has some issues,
   # https://github.com/f3d-app/f3d/issues/792
@@ -174,19 +162,35 @@ runs:
     shell: bash
     run: echo "F3D_CTEST_EXCEPTIONS=(TestSimple)|(TestAlembic)|(TestDraco)|(TestOCCT)|(TestOCCTColoring)|(TestUSD)|(TestVDB)" >> $GITHUB_ENV
 
-  - name: Test package
+  # on linux CI, GLX test require a Xorg server
+  # Ubuntu 20.04 provided libEGL.so has rendering issues
+  - name: Set CI test exception for EGL rendering on Linux
+    if: runner.os == 'Linux'
+    shell: bash
+    run: echo "F3D_CTEST_EXCEPTIONS=(TestRenderingGLX)|(TestOCCTColoring)|(TestSimpleColor)|(TestSplat)|(TestOSPRay)" >> $GITHUB_ENV
+
+  - name: Test executable
     working-directory: ${{github.workspace}}/build
     shell: bash
-    run: |
-      ctest -R sdk -VV
-      ctest -R exec -E "${{ env.F3D_CTEST_EXCEPTIONS }}" -VV
+    run: ctest -R exec -E "${{ env.F3D_CTEST_EXCEPTIONS }}" --no-tests=error --output-on-failure
+
+  - name: Run Xvfb Linux
+    if: runner.os == 'Linux'
+    shell: bash
+    run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
+
+  - name: Test executable with Xvfb
+    if: runner.os == 'Linux'
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: ctest -R exec --no-tests=error --output-on-failure
 
   - name: Upload Tests Artifact
     if: failure()
     uses: actions/upload-artifact@v4
     with:
       path: ./build/Testing/Temporary
-      name: f3d-superbuild-tests-artifact-${{runner.os}}-${{inputs.cpu}}-${{inputs.raytracing_label}}-${{inputs.egl_label}}
+      name: f3d-superbuild-tests-artifact-${{runner.os}}-${{inputs.cpu}}-${{inputs.raytracing_label}}
 
   - name: Check sccache results
     working-directory: ${{github.workspace}}
@@ -198,4 +202,4 @@ runs:
     uses: actions/upload-artifact@v4
     with:
       path: ./build/F3D-*
-      name: F3D-${{runner.os}}-${{inputs.cpu}}-${{inputs.raytracing_label}}-${{inputs.egl_label == 'egl' && 'headless' || 'desktop'}}
+      name: F3D-${{runner.os}}-${{inputs.cpu}}-${{inputs.raytracing_label}}

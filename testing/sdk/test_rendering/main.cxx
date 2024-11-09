@@ -3,7 +3,7 @@
 
 int main()
 {
-  f3d::engine eng(f3d::window::Type::NATIVE_OFFSCREEN);
+  f3d::engine eng = f3d::engine::create(true);
   f3d::window& win = eng.getWindow();
   win.render();
 }

@@ -71,9 +71,9 @@ function (superbuild_find_projects var)
 
     if (NOT APPLE)
       list(APPEND projects
-        egl)
+         egl
+         osmesa)
     endif ()
-
   endif ()
 
   if (WIN32)

@@ -63,7 +63,6 @@ jobs:
       fail-fast: false
       matrix:
         raytracing_label: [raytracing, no-raytracing]
-        egl_label: [no-egl, egl]
 
     runs-on: ubuntu-latest
     container: ghcr.io/f3d-app/f3d-superbuild-ci
@@ -85,7 +84,6 @@ jobs:
       with:
         f3d_version: origin/master
         raytracing_label: ${{matrix.raytracing_label}}
-        egl_label: ${{matrix.egl_label}}
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
   macos:
