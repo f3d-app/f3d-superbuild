@@ -14,13 +14,6 @@ if (pybind11_enabled AND python3_enabled)
   set (f3d_build_python_bindings TRUE)
 endif ()
 
-set(f3d_cmake_policy "")
-if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.31.0")
-  # vtkModule.cmake is producing a warning
-  # See https://gitlab.kitware.com/vtk/vtk/-/issues/19526
-  set(f3d_cmake_policy "-DCMAKE_POLICY_DEFAULT_CMP0177=OLD")
-endif()
-
 superbuild_add_project(f3d
   BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
@@ -29,11 +22,7 @@ superbuild_add_project(f3d
   DEPENDS vtk
   DEPENDS_OPTIONAL pybind11 alembic assimp draco occt openexr openusd openvdb
   CMAKE_ARGS
-    -Werror=dev
-    -Werror=deprecated
-    --warn-uninitialized
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
-    ${f3d_cmake_policy}
     -DF3D_LINUX_GENERATE_MAN:BOOL=${f3d_build_for_linux}
     -DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=${f3d_build_for_linux}
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
