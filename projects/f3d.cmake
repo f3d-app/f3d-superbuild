@@ -22,9 +22,6 @@ superbuild_add_project(f3d
   DEPENDS vtk
   DEPENDS_OPTIONAL pybind11 alembic assimp draco occt openexr openusd openvdb
   CMAKE_ARGS
-    -Werror=dev
-    -Werror=deprecated
-    --warn-uninitialized
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     -DF3D_LINUX_GENERATE_MAN:BOOL=${f3d_build_for_linux}
     -DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=${f3d_build_for_linux}
