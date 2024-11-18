@@ -19,7 +19,7 @@ superbuild_add_project(f3d
   LICENSE_FILES
     LICENSE.md
     doc/THIRD_PARTY_LICENSES.md
-  DEPENDS vtk
+  DEPENDS vtk cxx17
   DEPENDS_OPTIONAL pybind11 alembic assimp draco occt openexr openusd openvdb
   CMAKE_ARGS
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib

@@ -19,9 +19,9 @@ superbuild_set_revision(openexr
   URL_MD5 83b23b937b3a76fd37680422f41b81b7)
 
 superbuild_set_revision(openusd
-  URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v23.05.zip"
-  DOWNLOAD_NAME openusd-v23.05.tar.gz
-  URL_MD5 7318076a73ee76ac4221c63f01b2906f)
+  URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v24.11.tar.gz"
+  DOWNLOAD_NAME openusd-v24.11.tar.gz
+  URL_MD5 f31b5a37817c5dd81be5b49ae819fc64)
 
 superbuild_set_revision(openvdb
   URL "https://github.com/AcademySoftwareFoundation/openvdb/archive/refs/tags/v11.0.0.tar.gz"
