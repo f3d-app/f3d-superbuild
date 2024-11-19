@@ -14,7 +14,6 @@ endfunction()
 
 check_variable_defined(f3d_BINDINGS_JAVA)
 check_variable_defined(f3d_BINDINGS_PYTHON)
-check_variable_defined(f3d_MODULE_EXTERNAL_RENDERING)
 check_variable_defined(f3d_MODULE_RAYTRACING)
 
 add_executable(test_engine main.cxx)
