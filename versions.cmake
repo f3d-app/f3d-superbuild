@@ -30,7 +30,7 @@ superbuild_set_revision(openvdb
 
 superbuild_set_revision(imgui
   URL "https://github.com/ocornut/imgui/archive/refs/tags/v1.91.5.tar.gz"
-  DOWNLOAD_NAME openvdb-v1.91.5.tar.gz
+  DOWNLOAD_NAME imgui-v1.91.5.tar.gz
   URL_MD5 264b2c35eaa1ab1595eb9afe080b4e1a)
 
 superbuild_set_selectable_source(vtk
@@ -49,7 +49,7 @@ superbuild_set_selectable_source(f3d
     DOWNLOAD_NAME f3d-v2.5.0.tar.gz
     URL_MD5 f2db6b0b13b8a7b2a447a84ad2a258b1
   SELECT git CUSTOMIZABLE DEFAULT
-    GIT_REPOSITORY "https://github.com/Meakk/f3d.git"
+    GIT_REPOSITORY "https://github.com/f3d-app/f3d.git"
     GIT_TAG        "origin/master"
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-f3d")
