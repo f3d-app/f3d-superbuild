@@ -28,6 +28,11 @@ superbuild_set_revision(openvdb
   DOWNLOAD_NAME openvdb-v11.0.0.tar.gz
   URL_MD5 025f4fc4db58419341a4991f1a16174a)
 
+superbuild_set_revision(imgui
+  URL "https://github.com/ocornut/imgui/archive/refs/tags/v1.91.5.tar.gz"
+  DOWNLOAD_NAME imgui-v1.91.5.tar.gz
+  URL_MD5 264b2c35eaa1ab1595eb9afe080b4e1a)
+
 superbuild_set_selectable_source(vtk
   SELECT 9.3.1 DEFAULT
     URL     "https://www.vtk.org/files/release/9.3/VTK-9.3.1.tar.gz"

@@ -40,6 +40,7 @@ function (superbuild_find_projects var)
     f3d
     hdf5
     imath
+    imgui
     ispc
     lz4
     netcdf
@@ -136,6 +137,7 @@ set(_superbuild_default_alembic ON)
 set(_superbuild_default_assimp ON)
 set(_superbuild_default_draco ON)
 set(_superbuild_default_exodus ON)
+set(_superbuild_default_imgui ON)
 set(_superbuild_default_occt ON)
 set(_superbuild_default_openvdb ON)
 set(_superbuild_default_openexr ON)

@@ -65,8 +65,9 @@ This repository also generate a nightly release of F3D.
  - `ENABLE_alembic`: ON by defaut, build and package alembic and the associated F3D plugin
  - `ENABLE_assimp`: ON by defaut, build and package assimp and the associated F3D plugin
  - `ENABLE_draco`: ON by defaut, build and package draco and the associated F3D plugin
+ - `ENABLE_imgui`: ON by default, build and package imgui and the associated F3D module
  - `ENABLE_occt`: ON by defaut, build and package occt and the associated F3D plugin
- - `ENABLE_openexr`: ON by default, build and package OpenEXR and the associated VTK module
+ - `ENABLE_openexr`: ON by default, build and package OpenEXR and the associated F3D module
  - `ENABLE_ospray`: ON by defaut, build and package ospray and the associated VTK module
  - `ENABLE_tbb`: ON by default, build and package TBB to enable multi-threading
  - `ENABLE_pybind11`: OFF by defaut, build pybind11 and F3D python bindings, not packageable
