@@ -7,6 +7,7 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_alembic=ON                 \
   -DENABLE_assimp=ON                  \
   -DENABLE_draco=ON                   \
+  -DENABLE_imgui=ON                   \
   -DENABLE_occt=ON                    \
   -DENABLE_openexr=ON                 \
   -DENABLE_openusd=OFF                \

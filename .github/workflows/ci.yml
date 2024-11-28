@@ -53,7 +53,7 @@ jobs:
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
       with:
-        f3d_version: origin/master
+        f3d_version: origin/imgui2
         raytracing_label: ${{matrix.raytracing_label}}
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
@@ -82,7 +82,7 @@ jobs:
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
       with:
-        f3d_version: origin/master
+        f3d_version: origin/imgui2
         raytracing_label: ${{matrix.raytracing_label}}
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
@@ -113,7 +113,7 @@ jobs:
     - name: Build and package F3D
       uses: ./source/.github/actions/f3d-superbuild/
       with:
-        f3d_version: origin/master
+        f3d_version: origin/imgui2
         raytracing_label: ${{matrix.raytracing_label}}
         cpu: ${{matrix.cpu}}
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}

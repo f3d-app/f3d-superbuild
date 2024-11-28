@@ -73,6 +73,7 @@ runs:
       -DBUILD_SHARED_LIBS_draco=OFF
       -DBUILD_SHARED_LIBS_openexr=OFF
       -DBUILD_SHARED_LIBS_imath=OFF
+      -DBUILD_SHARED_LIBS_imgui=OFF
       -DBUILD_SHARED_LIBS_occt=OFF
       -DBUILD_SHARED_LIBS_openusd=ON
       -DBUILD_SHARED_LIBS_openvdb=OFF
