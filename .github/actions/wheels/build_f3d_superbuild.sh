@@ -7,11 +7,13 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_alembic=ON                 \
   -DENABLE_assimp=ON                  \
   -DENABLE_draco=ON                   \
+  -DENABLE_egl=ON                     \
   -DENABLE_imgui=ON                   \
   -DENABLE_occt=ON                    \
   -DENABLE_openexr=ON                 \
   -DENABLE_openusd=OFF                \
   -DENABLE_openvdb=OFF                \
+  -DENABLE_osmesa=ON                  \
   -DENABLE_ospray=OFF                 \
   -DENABLE_pybind11=ON                \
   -DENABLE_tbb=OFF                    \
