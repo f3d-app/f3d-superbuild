@@ -34,9 +34,9 @@ superbuild_set_revision(imgui
   URL_MD5 264b2c35eaa1ab1595eb9afe080b4e1a)
 
 superbuild_set_selectable_source(vtk
-  SELECT 9.3.1 DEFAULT
-    URL     "https://www.vtk.org/files/release/9.3/VTK-9.3.1.tar.gz"
-    URL_MD5 1b237485ca2eaaf676e2031a71e82d0d
+  SELECT 9.4.0 DEFAULT
+    URL     "https://www.vtk.org/files/release/9.4/VTK-9.4.0.tar.gz"
+    URL_MD5 9b40877d92e1dd13d4e84af0a3a7e676
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
     GIT_TAG        "origin/master"
@@ -44,10 +44,10 @@ superbuild_set_selectable_source(vtk
     SOURCE_DIR "source-vtk")
 
 superbuild_set_selectable_source(f3d
-  SELECT 2.5.0
-    URL     "https://github.com/f3d-app/f3d/archive/refs/tags/v2.5.0.tar.gz"
-    DOWNLOAD_NAME f3d-v2.5.0.tar.gz
-    URL_MD5 f2db6b0b13b8a7b2a447a84ad2a258b1
+  SELECT 2.5.1
+    URL     "https://github.com/f3d-app/f3d/archive/refs/tags/v2.5.1.tar.gz"
+    DOWNLOAD_NAME f3d-v2.5.1.tar.gz
+    URL_MD5 4aeba0f3a3427cb0f1d2cf28bd0838e7
   SELECT git CUSTOMIZABLE DEFAULT
     GIT_REPOSITORY "https://github.com/f3d-app/f3d.git"
     GIT_TAG        "origin/master"
