@@ -41,7 +41,7 @@ runs:
     uses: actions/cache@v4
     with:
       path: fsbb/install
-      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-0
+      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-1
 
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'
@@ -93,7 +93,7 @@ runs:
       CIBW_SKIP: '*-musl* cp37-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
-      CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
+      CIBW_MANYLINUX_X86_64_IMAGE: mwestphal/f3d-wheels-ci-superbuild
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
         DISPLAY
@@ -123,7 +123,7 @@ runs:
       CIBW_SKIP: '*-musl* cp37-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
-      CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
+      CIBW_MANYLINUX_X86_64_IMAGE: mwestphal/f3d-wheels-ci-superbuild
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
         DISPLAY
