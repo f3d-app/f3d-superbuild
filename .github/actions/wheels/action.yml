@@ -83,7 +83,7 @@ runs:
     if: |
       steps.cache-fsb.outputs.cache-hit != 'true' ||
       inputs.use_cache != 'true'
-    uses: pypa/cibuildwheel@v2.16.5
+    uses: pypa/cibuildwheel@v2.22.0
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
@@ -114,7 +114,7 @@ runs:
     if: |
       steps.cache-fsb.outputs.cache-hit == 'true' &&
       inputs.use_cache == 'true'
-    uses: pypa/cibuildwheel@v2.16.5
+    uses: pypa/cibuildwheel@v2.22.0
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
