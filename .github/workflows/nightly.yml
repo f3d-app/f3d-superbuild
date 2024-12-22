@@ -51,7 +51,7 @@ jobs:
         cache_postfix: cache-0
 
   windows:
-    needs: cache_lfs
+    needs: [check_nightly, cache_lfs]
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     strategy:
       fail-fast: false
@@ -100,7 +100,7 @@ jobs:
         artifacts: './build/F3D-*'
 
   linux:
-    needs: cache_lfs
+    needs: [check_nightly, cache_lfs]
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     strategy:
       fail-fast: false
@@ -153,7 +153,7 @@ jobs:
         artifacts: './build/F3D-*'
 
   macos:
-    needs: cache_lfs
+    needs: [check_nightly, cache_lfs]
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     strategy:
       fail-fast: false
@@ -209,7 +209,7 @@ jobs:
         artifacts: './build/F3D-*'
 
   python_wheels:
-    needs: check_nightly
+    needs: [check_nightly, cache_lfs]
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     strategy:
       fail-fast: false
@@ -235,6 +235,7 @@ jobs:
       with:
         f3d_version: ${{ needs.check_nightly.outputs.f3d_sha}}
         use_cache: false
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1

@@ -119,6 +119,7 @@ jobs:
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
   python_wheels:
+    needs: cache_lfs
     strategy:
       fail-fast: false
       matrix:
@@ -139,3 +140,5 @@ jobs:
 
     - name: Build python wheels
       uses: ./source/.github/actions/wheels/
+      with:
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
