@@ -26,6 +26,11 @@ runs:
       path: 'f3d'
       lfs: false
 
+  - name: check lfs
+    working-directory: ${{github.workspace}}
+    shell: bash
+    run: ls -lah ./f3d/data/
+
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
     with:
@@ -33,6 +38,11 @@ runs:
       lfs_sha: ${{inputs.lfs_sha}}
       cache_postfix: cache-0
       target_directory: 'f3d'
+
+  - name: check lfs
+    working-directory: ${{github.workspace}}
+    shell: bash
+    run: ls -lah ./f3d/data/
 
   - name: Recover VTK version to build
     working-directory: ${{github.workspace}}
