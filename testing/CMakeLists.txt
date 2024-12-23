@@ -24,7 +24,7 @@ function (f3d_add_test name file)
             "${CMAKE_SOURCE_DIR}/testing/data/${file}"
             "--resolution=300,300"
             "--output=${CMAKE_BINARY_DIR}/Testing/Temporary/${name}.png"
-            "--ref=${CMAKE_SOURCE_DIR}/testing/baselines/${name}.png"
+            "--reference=${CMAKE_SOURCE_DIR}/testing/baselines/${name}.png"
             ${ARGN})
   set_tests_properties(f3d-exec-${name}
     PROPERTIES
@@ -116,7 +116,7 @@ endif ()
 
 if (ospray_enabled)
   # This baseline is incorrect, caused by https://github.com/f3d-app/f3d/issues/483
-  f3d_add_test(TestOSPRay dragon.vtu -rd --samples=4)
+  f3d_add_test(TestOSPRay dragon.vtu -rd --raytracing-samples=4)
 endif ()
 
 if (openusd_enabled)
