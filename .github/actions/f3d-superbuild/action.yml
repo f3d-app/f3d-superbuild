@@ -90,7 +90,7 @@ runs:
       -Dvtk_SOURCE_SELECTION=git
       ${{ runner.os == 'Linux' && '-DENABLE_egl=ON -DENABLE_osmesa=ON' || null }}
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
-      ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=10.15' || null }}
+      ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=12.0' || null }}
 
   - name: Disable LFS during the build
     working-directory: ${{github.workspace}}
