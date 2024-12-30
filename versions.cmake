@@ -1,7 +1,7 @@
 superbuild_set_revision(assimp
-  URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.4.2.tar.gz"
-  DOWNLOAD_NAME assimp-v5.4.2.tar.gz
-  URL_MD5 1bdc63f5f0b45683c16e339f7f3a0f2c)
+  URL     "https://github.com/assimp/assimp/archive/refs/tags/v5.4.3.tar.gz"
+  DOWNLOAD_NAME assimp-v5.4.3.tar.gz
+  URL_MD5 fd64a9a57a3d81940ba7fc4a3a946502)
 
 superbuild_set_revision(draco
   URL     "https://github.com/google/draco/archive/refs/tags/1.5.6.tar.gz"
@@ -14,9 +14,9 @@ superbuild_set_revision(occt
   URL_MD5 21d56d4f96eb6fdc65435ea559b6d19c)
 
 superbuild_set_revision(openexr
-  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.2.4.tar.gz"
-  DOWNLOAD_NAME openexr-v3.2.4.tar.gz
-  URL_MD5 83b23b937b3a76fd37680422f41b81b7)
+  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.3.2.tar.gz"
+  DOWNLOAD_NAME openexr-v3.3.2.tar.gz
+  URL_MD5 0ca7b46575537ff495d9914166aafa65)
 
 superbuild_set_revision(openusd
   URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v24.11.tar.gz"
@@ -24,9 +24,9 @@ superbuild_set_revision(openusd
   URL_MD5 f31b5a37817c5dd81be5b49ae819fc64)
 
 superbuild_set_revision(openvdb
-  URL "https://github.com/AcademySoftwareFoundation/openvdb/archive/refs/tags/v11.0.0.tar.gz"
-  DOWNLOAD_NAME openvdb-v11.0.0.tar.gz
-  URL_MD5 025f4fc4db58419341a4991f1a16174a)
+  URL "https://github.com/AcademySoftwareFoundation/openvdb/archive/refs/tags/v12.0.0.tar.gz"
+  DOWNLOAD_NAME openvdb-v12.0.0.tar.gz
+  URL_MD5 c5cd16784b6b42aaa956b574042f374d)
 
 superbuild_set_revision(imgui
   URL "https://github.com/ocornut/imgui/archive/refs/tags/v1.91.5.tar.gz"
