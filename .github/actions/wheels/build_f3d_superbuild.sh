@@ -2,7 +2,7 @@
 cmake -S ./source -B ./fsbb           \
   -DBUILD_SHARED_LIBS=OFF             \
   -DCMAKE_BUILD_TYPE=Release          \
-  -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
+  -DCMAKE_OSX_DEPLOYMENT_TARGET=12.0  \
   -DENABLE_f3d=OFF                    \
   -DENABLE_alembic=ON                 \
   -DENABLE_assimp=ON                  \

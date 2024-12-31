@@ -31,7 +31,6 @@ function (superbuild_find_projects var)
   list(APPEND projects
     alembic
     assimp
-    boost
     cxx11
     cxx17
     draco
@@ -109,15 +108,6 @@ function (superbuild_add_packaging)
   endforeach ()
 
 endfunction ()
-
-if (${CMAKE_OSX_ARCHITECTURES} MATCHES "arm64" OR ${CMAKE_SYSTEM_PROCESSOR} MATCHES "arm64")
-  set(boost_extra_options
-      architecture=arm)
-endif ()
-
-set(boost_libraries
-  iostreams # Required by openvdb
-  system)
 
 function (superbuild_add_tests)
   add_subdirectory("${CMAKE_SOURCE_DIR}/testing" "${CMAKE_BINARY_DIR}/Testing")
