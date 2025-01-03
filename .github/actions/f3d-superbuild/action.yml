@@ -83,7 +83,7 @@ runs:
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
       -DUSE_SYSTEM_python3=ON
-      -Df3d_GIT_TAG=940b72662afb197a63437992c279e69ec7ad9e8c
+      -Df3d_GIT_TAG=5dc197b58459b018479dd84544304786253786d9
       -Df3d_SOURCE_SELECTION=git
       -Dospray_SOURCE_SELECTION=2.7.1
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
