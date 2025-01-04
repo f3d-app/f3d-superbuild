@@ -19,7 +19,7 @@ runs:
     uses: actions/checkout@v4
     with:
       repository: 'mwestphal/f3d'
-      ref: 111014d97360c87802c02504a5f7c182a7b6fe1c
+      ref: b958b548424e037fd4229b64b92328838c1aee59
       fetch-depth: 0
       path: 'f3d'
       lfs: true
