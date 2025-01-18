@@ -44,10 +44,10 @@ superbuild_set_selectable_source(vtk
     SOURCE_DIR "source-vtk")
 
 superbuild_set_selectable_source(f3d
-  SELECT 2.5.1
-    URL     "https://github.com/f3d-app/f3d/archive/refs/tags/v2.5.1.tar.gz"
-    DOWNLOAD_NAME f3d-v2.5.1.tar.gz
-    URL_MD5 4aeba0f3a3427cb0f1d2cf28bd0838e7
+  SELECT 3.0.0
+    URL     "https://github.com/f3d-app/f3d/archive/refs/tags/v3.0.0.tar.gz"
+    DOWNLOAD_NAME f3d-v3.0.0.tar.gz
+    URL_MD5 630e6fc7e6d6fb4de5eb6adabb28eac2
   SELECT git CUSTOMIZABLE DEFAULT
     GIT_REPOSITORY "https://github.com/f3d-app/f3d.git"
     GIT_TAG        "origin/master"
