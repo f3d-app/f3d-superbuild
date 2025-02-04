@@ -104,13 +104,13 @@ runs:
     run: cmake --build . --config Release || cmake --build . --config Release
 
   # Run cmake to update f3d-version.cmake
-  # Rerun cpack as it can fail on macOS: https://github.com/actions/runner-images/issues/7522
+  # Rerun cpack until it passes as it can fail on macOS: https://github.com/actions/runner-images/issues/7522
   - name: Package
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: |
       cmake ./
-      ctest -R cpack --no-tests=error --output-on-failure || ctest --rerun-failed -VV
+      ctest -R cpack --no-tests=error --output-on-failure --repeat until-pass:10
       ctest -R extract --no-tests=error --output-on-failure
 
   - name: Clean install
