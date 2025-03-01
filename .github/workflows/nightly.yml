@@ -282,7 +282,7 @@ jobs:
         git push origin nightly -f
 
   pypi-publish:
-    needs: [check_nightly, python_wheels]
+    needs: [check_nightly, python_wheels, advance_nightly]
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     strategy:
       fail-fast: false
