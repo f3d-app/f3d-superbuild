@@ -59,7 +59,7 @@ runs:
     working-directory: ${{github.workspace}}
     shell: bash
     run: |
-      curl -s https://raw.githubusercontent.com/f3d-app/f3d/master/.github/workflows/versions.json | jq -r '.vtk_commit_sha' >> $GITHUB_ENV
+      echo VTK_COMMIT_SHA=`curl -s https://raw.githubusercontent.com/f3d-app/f3d/master/.github/workflows/versions.json | jq -r '.vtk_commit_sha'` >> $GITHUB_ENV
 
   # OCCT coloring is disabled on macOS because of f3d-app/f3d#792
   - name: Configure
