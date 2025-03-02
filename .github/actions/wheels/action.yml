@@ -28,7 +28,7 @@ runs:
     working-directory: ${{github.workspace}}
     shell: bash
     run: |
-      echo VTK_COMMIT_SHA=`cat ./f3d/.github/actions/vtk_commit_sha` >> $GITHUB_ENV
+      echo VTK_COMMIT_SHA=`jq -r '.vtk_commit_sha' ./f3d/.github/workflows/versions.json` >> $GITHUB_ENV
 
   - name: fsbb directory
     shell: bash
