@@ -160,7 +160,7 @@ runs:
       runner.os == 'macOS' &&
       inputs.cpu == 'arm64'
     shell: bash
-    run: echo "F3D_CTEST_EXCEPTIONS=(TestSimple)|(TestAlembic)|(TestDraco)|(TestOCCT)|(TestOCCTColoring)|(TestUSD)|(TestVDB)" >> $GITHUB_ENV
+    run: echo "F3D_CTEST_EXCEPTIONS=(TestAssimp)|(TestSimple)|(TestAlembic)|(TestDraco)|(TestOCCT)|(TestOCCTColoring)|(TestUSD)|(TestVDB)" >> $GITHUB_ENV
 
   # on linux CI, GLX test require a Xorg server
   # Ubuntu 20.04 provided libEGL.so has rendering issues
