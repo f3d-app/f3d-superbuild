@@ -17,7 +17,29 @@ on:
         default: 'false'
 
 jobs:
+
+  cache_lfs:
+    runs-on: ubuntu-latest
+    name: Update LFS data cache
+    outputs:
+      lfs_sha: ${{ steps.lfs_sha_recover.outputs.lfs_sha }}
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        path: 'source'
+        fetch-depth: 1
+        lfs: false
+
+    - name: Cache LFS Data
+      id: lfs_sha_recover
+      uses: f3d-app/lfs-data-cache-action@v1
+      with:
+        cache_postfix: cache-0
+
   windows:
+    needs: cache_lfs
     strategy:
       fail-fast: false
       matrix:
@@ -32,7 +54,7 @@ jobs:
       with:
         path: 'source'
         submodules: true
-        lfs: true
+        lfs: false
         ref: ${{ github.event.inputs.sb_branch}}
 
     - name: Build and package F3D
@@ -40,6 +62,7 @@ jobs:
       with:
         f3d_version: ${{github.event.inputs.f3d_version}}
         raytracing_label: ${{matrix.raytracing_label}}
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Publish assets
       if: ${{ github.event.inputs.publish_assets == 'true' }}
@@ -58,6 +81,7 @@ jobs:
         artifacts: './build/F3D-*'
 
   linux:
+    needs: cache_lfs
     strategy:
       fail-fast: false
       matrix:
@@ -76,7 +100,7 @@ jobs:
       with:
         path: 'source'
         submodules: true
-        lfs: true
+        lfs: false
         ref: ${{ github.event.inputs.sb_branch}}
 
     - name: Build and package F3D
@@ -84,6 +108,7 @@ jobs:
       with:
         f3d_version: ${{github.event.inputs.f3d_version}}
         raytracing_label: ${{matrix.raytracing_label}}
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Publish assets
       if: ${{ github.event.inputs.publish_assets == 'true' }}
@@ -102,6 +127,7 @@ jobs:
         artifacts: './build/F3D-*'
 
   macos:
+    needs: cache_lfs
     strategy:
       fail-fast: false
       matrix:
@@ -122,7 +148,7 @@ jobs:
       with:
         path: 'source'
         submodules: true
-        lfs: true
+        lfs: false
         ref: ${{ github.event.inputs.sb_branch}}
 
     - name: Build and package F3D
@@ -131,6 +157,7 @@ jobs:
         f3d_version: ${{github.event.inputs.f3d_version}}
         raytracing_label: ${{matrix.raytracing_label}}
         cpu: ${{matrix.cpu}}
+        lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Publish assets
       if: ${{ github.event.inputs.publish_assets == 'true' }}
