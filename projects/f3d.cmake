@@ -23,7 +23,7 @@ superbuild_add_project(f3d
   DEPENDS_OPTIONAL pybind11 alembic assimp draco imgui occt openexr openusd openvdb
   CMAKE_ARGS
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
-    -DF3D_LINUX_GENERATE_MAN:BOOL=${f3d_build_for_linux}
+    -DF3D_LINUX_GENERATE_MAN:BOOL=OFF
     -DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=${f3d_build_for_linux}
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
     -DF3D_MODULE_EXR:BOOL=${openexr_enabled}
@@ -40,7 +40,7 @@ superbuild_add_project(f3d
     -DF3D_BINDINGS_PYTHON:BOOL=${f3d_build_python_bindings}
     -DF3D_BINDINGS_PYTHON_GENERATE_STUBS:BOOL=${f3d_build_python_bindings}
     -DF3D_STRICT_BUILD:BOOL=OFF
-    -DF3D_WINDOWS_GUI:BOOL=${f3d_build_for_windows}
+    -DF3D_WINDOWS_GUI:BOOL=OFF
     -DF3D_PLUGIN_OCCT_COLORING_SUPPORT:BOOL=ON
   )
 
