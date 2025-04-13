@@ -2,6 +2,7 @@ set(f3d_extract_dir "${CMAKE_CURRENT_BINARY_DIR}/test-extraction")
 if (WIN32)
   set(generator "ZIP")
   set(f3d_exe "${f3d_extract_dir}/bin/f3d.exe")
+  set(f3d_console_exe "${f3d_extract_dir}/bin/f3d-console.exe")
 elseif (APPLE)
   set(generator "DragNDrop")
   include(f3d-appname)
@@ -21,6 +22,21 @@ function (f3d_add_test name file)
   add_test(
     NAME    "f3d-exec-${name}"
     COMMAND "${f3d_exe}"
+            "${CMAKE_SOURCE_DIR}/testing/data/${file}"
+            "--resolution=300,300"
+            "--output=${CMAKE_BINARY_DIR}/Testing/Temporary/${name}.png"
+            "--reference=${CMAKE_SOURCE_DIR}/testing/baselines/${name}.png"
+            ${ARGN})
+  set_tests_properties(f3d-exec-${name}
+    PROPERTIES
+      LABELS  "F3D"
+      DEPENDS "f3d-exec-exists")
+endfunction ()
+
+function (f3d_add_console_test name file)
+  add_test(
+    NAME    "f3d-console-exec-${name}"
+    COMMAND "${f3d_console_exe}"
             "${CMAKE_SOURCE_DIR}/testing/data/${file}"
             "--resolution=300,300"
             "--output=${CMAKE_BINARY_DIR}/Testing/Temporary/${name}.png"
@@ -76,6 +92,16 @@ f3d_add_test(TestThumbnail dragon.vtu --config=thumbnail)
 
 if (WIN32)
   f3d_add_test(TestRenderingWGL dragon.vtu --rendering-backend=wgl)
+
+  add_test(
+    NAME    "f3d-console-exec-exists"
+    COMMAND "${CMAKE_COMMAND}" -E md5sum ${f3d_console_exe})
+  set_tests_properties(f3d-console-exec-exists
+    PROPERTIES
+      LABELS  "F3D"
+      DEPENDS "extract-f3d-${generator}")
+
+  f3d_add_console_test(TestSimple cow.vtp)
 endif ()
 
 if (UNIX AND NOT APPLE)

@@ -11,6 +11,10 @@ set(library_paths "${superbuild_install_location}/bin")
 superbuild_windows_install_program("f3d" "bin"
 	SEARCH_DIRECTORIES "${library_paths}" COMPONENT "")
 
+# Package the F3D console executable
+superbuild_windows_install_program("f3d-console" "bin"
+	SEARCH_DIRECTORIES "${library_paths}" COMPONENT "")
+
 # Package the F3D shell extension
 superbuild_windows_install_plugin("F3DShellExtension.dll" "bin" "bin"
   SEARCH_DIRECTORIES  "${library_paths}" COMPONENT "")
