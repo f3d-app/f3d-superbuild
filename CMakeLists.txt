@@ -31,6 +31,7 @@ function (superbuild_find_projects var)
   list(APPEND projects
     alembic
     assimp
+    blosc
     cxx11
     cxx17
     draco
@@ -46,6 +47,7 @@ function (superbuild_find_projects var)
     occt
     openexr
     openimagedenoise
+    openusd
     openvdb
     openvkl
     ospray
@@ -57,10 +59,8 @@ function (superbuild_find_projects var)
     sqlite
     szip
     tbb
-    openusd
     vtk
     xz
-    blosc
     zstd
     zlib)
 

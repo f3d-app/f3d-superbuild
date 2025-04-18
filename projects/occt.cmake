@@ -1,4 +1,4 @@
-set(occt_toolkits TKSTEP TKIGES TKMesh TKXDESTEP TKXDEIGES TKBinXCAF)
+set(occt_toolkits TKDESTEP TKDEIGES TKMesh TKBinXCAF)
 list(JOIN occt_toolkits "${_superbuild_list_separator}" occt_toolkits_escaped)
 
 if (NOT BUILD_SHARED_LIBS_occt STREQUAL "<same>")
@@ -33,9 +33,3 @@ superbuild_add_project(occt
     -DINSTALL_DIR_BIN:PATH=bin
     -DUSE_FREETYPE:BOOL=OFF
 )
-
-superbuild_apply_patch(occt remove-unneeded-includes
-  "Remove uneeded includes")
-
-superbuild_apply_patch(occt remove-unneeded-quotes-warning-msvc
-  "Remove uneeded quotes for a MSVC warning")
