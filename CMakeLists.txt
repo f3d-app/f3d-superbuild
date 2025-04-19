@@ -52,6 +52,7 @@ function (superbuild_find_projects var)
     openvkl
     ospray
     ospraymaterials
+    pkgconf
     png
     pybind11
     python3
@@ -72,7 +73,8 @@ function (superbuild_find_projects var)
     if (NOT APPLE)
       list(APPEND projects
          egl
-         osmesa)
+         osmesa
+         utillinux)
     endif ()
   endif ()
 
