@@ -33,7 +33,7 @@ superbuild_add_project(f3d
     -DF3D_PLUGIN_BUILD_ALEMBIC:BOOL=${alembic_enabled}
     -DF3D_PLUGIN_BUILD_ASSIMP:BOOL=${assimp_enabled}
     -DF3D_PLUGIN_BUILD_DRACO:BOOL=${draco_enabled}
-    -DF3D_PLUGIN_BUILD_EXODUS:BOOL=${exodus_enabled}
+    -DF3D_PLUGIN_BUILD_HDF:BOOL=${f3dhdf_enabled}
     -DF3D_PLUGIN_BUILD_OCCT:BOOL=${occt_enabled}
     -DF3D_PLUGIN_BUILD_USD:BOOL=${openusd_enabled}
     -DF3D_PLUGIN_BUILD_VDB:BOOL=${openvdb_enabled}
