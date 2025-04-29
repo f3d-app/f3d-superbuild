@@ -4,7 +4,9 @@ if (ospray_enabled)
 endif ()
 
 set(vtk_ioexodus_enabled NO)
-if (exodus_enabled)
+set(vtk_iohdf_enabled NO)
+if (f3dhdf_enabled)
+  set(vtk_iohdf_enabled YES)
   set(vtk_ioexodus_enabled YES)
 endif ()
 
@@ -38,7 +40,7 @@ superbuild_add_project(vtk
   LICENSE_FILES
     Copyright.txt
   DEPENDS cxx11
-  DEPENDS_OPTIONAL tbb ospray exodus openvdb
+  DEPENDS_OPTIONAL tbb ospray f3dhdf openvdb
   CMAKE_ARGS
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${ospray_enabled}
     -DVTK_BUILD_TESTING:BOOL=OFF
@@ -52,6 +54,7 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_FiltersGeometry:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOCityGML:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOExodus:STRING=${vtk_ioexodus_enabled}
+    -DVTK_MODULE_ENABLE_VTK_IOHDF:STRING=${vtk_iohdf_enabled}
     -DVTK_MODULE_ENABLE_VTK_IOGeometry:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOImage:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOImport:STRING=YES
