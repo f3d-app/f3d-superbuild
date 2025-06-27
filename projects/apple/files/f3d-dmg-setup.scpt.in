@@ -12,6 +12,7 @@ on run argv
             open
             delay 1
             set open_attempts to 5
+            close
           on error errStr number errorNumber
             set open_attempts to open_attempts + 1
             log "Error during open attempt: " & errStr
