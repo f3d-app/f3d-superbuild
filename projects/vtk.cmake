@@ -5,9 +5,11 @@ endif ()
 
 set(vtk_ioexodus_enabled NO)
 set(vtk_iohdf_enabled NO)
+set(vtk_ionetcdf_enabled NO)
 if (f3dhdf_enabled)
   set(vtk_iohdf_enabled YES)
   set(vtk_ioexodus_enabled YES)
+  set(vtk_ionetcdf_enabled YES)
 endif ()
 
 set(vtk_ioopenvdb_enabled NO)
@@ -58,6 +60,7 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_IOGeometry:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOImage:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOImport:STRING=YES
+    -DVTK_MODULE_ENABLE_VTK_IONetCDF:STRING=${vtk_ionetcdf_enabled}
     -DVTK_MODULE_ENABLE_VTK_IOPLY:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOOpenVDB:STRING=${vtk_ioopenvdb_enabled}
     -DVTK_MODULE_ENABLE_VTK_IOParallel:STRING=YES
