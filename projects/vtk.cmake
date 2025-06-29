@@ -5,6 +5,7 @@ endif ()
 
 set(vtk_ioexodus_enabled NO)
 set(vtk_iohdf_enabled NO)
+set(vtk_ionetcdf_enabled NO)
 if (f3dhdf_enabled)
   set(vtk_iohdf_enabled YES)
   set(vtk_ioexodus_enabled YES)
