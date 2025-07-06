@@ -34,9 +34,9 @@ superbuild_set_revision(imgui
   URL_MD5 753efbcac27275c9dcf9c5da0abec626)
 
 superbuild_set_selectable_source(vtk
-  SELECT 9.4.2 DEFAULT
-    URL     "https://www.vtk.org/files/release/9.4/VTK-9.4.2.tar.gz"
-    URL_MD5 90d070d56d2607e200df0b56fde92cd4
+  SELECT 9.5.0 DEFAULT
+    URL     "https://www.vtk.org/files/release/9.5/VTK-9.5.0.tar.gz"
+    URL_MD5 3c2543fae68ac131955a5517c1e47514
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
     GIT_TAG        "origin/master"
