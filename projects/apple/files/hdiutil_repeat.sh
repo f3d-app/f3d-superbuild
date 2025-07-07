@@ -6,13 +6,13 @@
 
 set -e
 
-if [ "$1" != "create" ]; then
-  # If it isn't an `hdiutil create` command, just run and exit normally
+if [ "$1" != "create" && "$1" != "detach" ]; then
+  # If it isn't an `hdiutil create` or `hdiutil detach` command, just run and exit normally
   hdiutil "$@"
   exit 0
 fi
 
-# For an `hdiutil create` command, try repeatedly, up to 10 times
+# Try repeatedly, up to 10 times
 # This prevents spurious errors caused by a race condition with XProtect
 # See https://github.com/actions/runner-images/issues/7522
 i=0
