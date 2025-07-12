@@ -36,7 +36,7 @@ runs:
   - name: Install and setup sccache
     uses: f3d-app/sccache-setup-action@v1
     with:
-      key: ${{inputs.raytracing_label}}-${{runner.os}}-${{inputs.cpu}}-0
+      key: ${{inputs.raytracing_label}}-${{runner.os}}-${{inputs.cpu}}-1
 
   - name: Setup msvc Windows
     if: runner.os == 'Windows'
