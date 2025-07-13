@@ -19,7 +19,7 @@ i=0
 until
 hdiutil "$@"
 do
-if [ $i -eq 10 ]; then exit 1; fi
+if [ $i -eq 50 ]; then exit 1; fi
 i=$((i+1))
 sleep 1
 done
