@@ -71,6 +71,7 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_InteractionWidgets:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_RenderingAnnotation:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_RenderingCore:STRING=YES
+    -DVTK_MODULE_ENABLE_VTK_RenderingGridAxes:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_RenderingLabel:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_RenderingOpenGL2:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:STRING=${vtk_raytracing_enabled}
