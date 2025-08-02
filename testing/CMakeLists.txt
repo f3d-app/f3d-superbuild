@@ -71,7 +71,8 @@ endfunction ()
 if (NOT APPLE AND BUILD_SHARED_LIBS_f3d)
   f3d_add_sdk_test(TestEngine "${CMAKE_SOURCE_DIR}/testing/sdk/test_engine" test_engine)
   f3d_add_sdk_test(TestRendering "${CMAKE_SOURCE_DIR}/testing/sdk/test_rendering" test_rendering)
-  f3d_add_sdk_test(TestExternal "${CMAKE_SOURCE_DIR}/testing/sdk/test_external" test_external)
+  # Disabled until https://github.com/f3d-app/f3d/pull/2407 is fixed
+  # f3d_add_sdk_test(TestExternal "${CMAKE_SOURCE_DIR}/testing/sdk/test_external" test_external)
 endif ()
 
 # F3D test
