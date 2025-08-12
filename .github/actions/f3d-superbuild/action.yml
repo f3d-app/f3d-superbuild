@@ -84,7 +84,7 @@ runs:
       -DUSE_SYSTEM_python3=ON
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
-      -Dospray_SOURCE_SELECTION=2.7.1
+      -Dospray_SOURCE_SELECTION=2.12.0
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -Dvtk_SOURCE_SELECTION=git
       ${{ runner.os == 'Linux' && '-DENABLE_egl=ON -DENABLE_osmesa=ON' || null }}
