@@ -138,7 +138,6 @@ set(_superbuild_default_ospray ON)
 set(_superbuild_default_pybind11 OFF)
 set(_superbuild_default_tbb ON)
 set(_superbuild_default_openusd ON)
-set(_superbuild_ospray_default_selection "2.7.1")
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
