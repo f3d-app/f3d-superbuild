@@ -13,8 +13,17 @@ if (ospray_enabled)
     openvkl_module_cpu_device_4
     openvkl_module_cpu_device_8
     openvkl_module_cpu_device_16
-    ospray_module_denoiser
-    ospray_module_ispc)
+    ospray_module_denoiser)
+
+
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND osprayextra_libraries
+      ispcrt_device_cpu
+      ospray_module_cpu)
+  else ()
+    list(APPEND osprayextra_libraries
+      ospray_module_ispc)
+  endif ()
 
   foreach (osprayextra_library IN LISTS osprayextra_libraries)
     if (EXISTS "${superbuild_install_location}/lib/lib${osprayextra_library}.dylib")
