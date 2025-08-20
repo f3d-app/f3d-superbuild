@@ -18,7 +18,7 @@ if (ospray_enabled)
 
   if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
     list(APPEND osprayextra_libraries
-      ispcrt_device_cpu
+#ispcrt_device_cpu TODO
       openvkl_module_cpu_device_4
       openvkl_module_cpu_device_8
       openvkl_module_cpu_device_16
