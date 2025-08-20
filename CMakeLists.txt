@@ -110,6 +110,8 @@ function (superbuild_add_packaging)
       TIMEOUT 6400)
   endforeach ()
 
+  list(APPEND superbuild_export_variables
+    ospray_SOURCE_SELECTION)
 endfunction ()
 
 function (superbuild_add_tests)
