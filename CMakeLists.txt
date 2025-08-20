@@ -104,14 +104,16 @@ function (superbuild_add_packaging)
       TXZ
       DEB)
   endif ()
+
+  list(APPEND superbuild_export_variables
+    ospray_SOURCE_SELECTION)
+
   foreach (generator IN LISTS generators)
     superbuild_add_extra_package_test(f3d "${generator}"
       LABELS  "F3D"
       TIMEOUT 6400)
   endforeach ()
 
-  list(APPEND superbuild_export_variables
-    ospray_SOURCE_SELECTION)
 endfunction ()
 
 function (superbuild_add_tests)
