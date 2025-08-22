@@ -8,6 +8,16 @@ superbuild_set_revision(draco
   DOWNLOAD_NAME draco-1.5.7.tar.gz
   URL_MD5 b91def257264152be35c62f82f805d25)
 
+superbuild_set_selectable_source(embree
+  # https://github.com/embree/embree/releases
+  SELECTS_WITH ospray
+  SELECT 2.7.1
+    URL     "https://www.paraview.org/files/dependencies/embree-v3.13.1.tar.gz"
+    URL_MD5 71453f1e9af48a95090112e493982898
+  SELECT 2.12.0
+    URL     "https://www.paraview.org/files/dependencies/embree-4.2.0.tar.gz"
+    URL_MD5 9e6abbfb230a2ea07e80fa193ed94186)
+
 superbuild_set_revision(imgui
   URL "https://github.com/ocornut/imgui/archive/refs/tags/v1.92.1.tar.gz"
   DOWNLOAD_NAME imgui-v1.92.1.tar.gz
