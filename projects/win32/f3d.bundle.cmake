@@ -33,8 +33,8 @@ if (ospray_enabled)
          ispcrt_device_cpu
          ospray_module_cpu)
   else ()
-  list(APPEND osprayextra_libraries
-       ospray_module_ispc)
+    list(APPEND osprayextra_libraries
+         ospray_module_ispc)
   endif ()
 
   foreach (osprayextra_library IN LISTS osprayextra_libraries)

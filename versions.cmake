@@ -8,6 +8,8 @@ superbuild_set_revision(draco
   DOWNLOAD_NAME draco-1.5.7.tar.gz
   URL_MD5 b91def257264152be35c62f82f805d25)
 
+# Force embree to 4.2.0 when using OSPRay 2.12.0 because of
+# https://github.com/f3d-app/f3d-superbuild/issues/260
 superbuild_set_selectable_source(embree
   # https://github.com/embree/embree/releases
   SELECTS_WITH ospray
