@@ -104,6 +104,10 @@ function (superbuild_add_packaging)
       TXZ
       DEB)
   endif ()
+
+  list(APPEND superbuild_export_variables
+    ospray_SOURCE_SELECTION)
+
   foreach (generator IN LISTS generators)
     superbuild_add_extra_package_test(f3d "${generator}"
       LABELS  "F3D"
@@ -138,7 +142,6 @@ set(_superbuild_default_ospray ON)
 set(_superbuild_default_pybind11 OFF)
 set(_superbuild_default_tbb ON)
 set(_superbuild_default_openusd ON)
-set(_superbuild_ospray_default_selection "2.7.1")
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "

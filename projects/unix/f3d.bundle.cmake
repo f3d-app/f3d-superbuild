@@ -16,6 +16,15 @@ if (ospray_enabled)
     openvkl_module_cpu_device
     ospray_module_denoiser)
 
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+    list(APPEND osprayextra_libraries
+      ispcrt_device_cpu
+      openvkl_module_cpu_device_4
+      openvkl_module_cpu_device_8
+      openvkl_module_cpu_device_16
+      ospray_module_cpu)
+  endif ()
+
   foreach (osprayextra_library IN LISTS osprayextra_libraries)
     file(GLOB lib_filenames
       RELATIVE "${superbuild_install_location}/lib"
