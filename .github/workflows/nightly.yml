@@ -259,6 +259,45 @@ jobs:
         body: "Automatically generated nightly binary release"
         artifacts: './wheelhouse/f3d-*.whl'
 
+  wasm_npm:
+    needs: check_nightly
+    if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
+    strategy:
+      fail-fast: false
+
+    runs-on: ubuntu-22.04
+
+    steps:
+
+    - name: Create package
+      run: npm pack f3d-app/f3d
+
+    - name: Rename package
+      run: for file in f3d-*.tgz ; do mv $file ${file//f3d-/f3d-web-} ; done
+
+    - name: Delete previous nightly release assets
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "f3d-web-*.tgz"
+        fail-if-no-assets: false
+
+    - name: Publish nightly npm package
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        tag: nightly
+        name: "Nightly"
+        body: "Automatically generated nightly binary release"
+        artifacts: './f3d-web-*.tgz'
+
   advance_nightly:
     needs: [check_nightly, windows, linux, macos, python_wheels]
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
