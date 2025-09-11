@@ -251,7 +251,7 @@ jobs:
 
     steps:
     - name: Create package
-      run: npm pack f3d-app/f3d#${{inputs.f3d_version}}
+      run: npm pack f3d-app/f3d#${{github.event.inputs.f3d_version}}
 
     - name: Rename package
       run: for file in f3d-*.tgz ; do mv $file ${file//f3d-/f3d-web-} ; done
