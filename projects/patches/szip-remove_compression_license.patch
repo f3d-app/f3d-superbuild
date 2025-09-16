@@ -1,0 +1,22 @@
+diff --git a/COPYING b/COPYING
+index ac25215..ea4a80b 100644
+--- a/COPYING
++++ b/COPYING
+@@ -26,17 +26,3 @@ royalty-free, nonexclusive sublicense to use SZIP decompression software
+ routines and underlying patents is hereby granted by ICs, LLC, to all users 
+ of and in conjunction with HDF data storage and retrieval file format and 
+ software library products.
+-
+-Revocable (in the event of breach by the user or if required by law), 
+-royalty-free, nonexclusive sublicense to use SZIP compression software 
+-routines and underlying patents for non-commercial, scientific use only 
+-is hereby granted by ICs, LLC, to users of and in conjunction with HDF 
+-data storage and retrieval file format and software library products.
+-
+-For commercial use license to SZIP compression software routines and 
+-underlying patents, please contact ICs, LLC, at 
+-    Address: ICs, LLC, 2040 Warren Wagon Road, P.O. Box 2236 
+-             McCall, ID  83638
+-    Phone: (208) 315-2877.  Fax: (208) 634-7720.
+-    Email: support@ics4chips.com
+-

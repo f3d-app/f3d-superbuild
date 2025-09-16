@@ -1,0 +1,68 @@
+# Duplicate of common-superbuild embree.cmake
+# with a CMake fix, required until we can bump to embree 4.4
+# see https://github.com/f3d-app/f3d-superbuild/issues/260
+set(embree_isas)
+if (CMAKE_SYSTEM_PROCESSOR STREQUAL "amd64" OR
+    CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64" OR
+    CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+  list(APPEND embree_isas
+    -DEMBREE_ISA_AVX:BOOL=ON
+    -DEMBREE_ISA_AVX2:BOOL=ON
+    -DEMBREE_ISA_AVX512KNL:BOOL=OFF
+    -DEMBREE_ISA_AVX512SKX_8_WIDE:BOOL=OFF
+    -DEMBREE_ISA_SSE2:BOOL=ON
+    -DEMBREE_ISA_SSE42:BOOL=ON)
+  # MSVC does not support avx512
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" OR
+      # Neither does GCC before 4.9.0.
+      (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
+       CMAKE_CXX_COMPILER_VERSION VERSION_LESS "4.9.0"))
+    list(APPEND embree_isas
+      -DEMBREE_ISA_AVX512:BOOL=OFF
+      -DEMBREE_ISA_AVX512SKX:BOOL=OFF)
+  else ()
+    list(APPEND embree_isas
+      -DEMBREE_ISA_AVX512:BOOL=ON
+      -DEMBREE_ISA_AVX512SKX:BOOL=ON)
+  endif ()
+elseif (CMAKE_SYSTEM_PROCESSOR MATCHES "arm64" OR
+        CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+  list(APPEND embree_isas
+    -DEMBREE_ISA_NEON:BOOL=ON
+    -DEMBREE_ISA_NEON2X:BOOL=ON)
+endif ()
+
+superbuild_add_project(embree
+  DEPENDS ispc tbb cxx11
+  LICENSE_FILES
+    LICENSE.txt
+  SPDX_LICENSE_IDENTIFIER
+    Apache-2.0
+  SPDX_COPYRIGHT_TEXT
+    "Copyright (c) Intel Corporation"
+  CMAKE_ARGS
+    ${embree_isas}
+    -DBUILD_TESTING:BOOL=OFF
+    -DEMBREE_ISPC_EXECUTABLE:PATH=<INSTALL_DIR>/bin/ispc
+    -DEMBREE_ISPC_SUPPORT:BOOL=ON
+    -DEMBREE_GEOMETRY_HAIR:BOOL=ON
+    -DEMBREE_GEOMETRY_LINES:BOOL=OFF
+    -DEMBREE_GEOMETRY_QUADS:BOOL=OFF
+    -DEMBREE_GEOMETRY_SUBDIV:BOOL=OFF
+    -DEMBREE_TUTORIALS:BOOL=OFF
+    -DCMAKE_INSTALL_LIBDIR:STRING=lib
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    -DCMAKE_INSTALL_NAME_DIR:STRING=<INSTALL_DIR>/lib)
+
+if (MSVC_VERSION EQUAL 1900)
+  superbuild_append_flags(cxx_flags "-d2SSAOptimizer-" PROJECT_ONLY)
+endif()
+
+if (embree_SOURCE_SELECTION STREQUAL "2.7.1")
+  # embree_SOURCE_SELECTION actually contains the version of ospray selected.
+  # ospray 2.7.1 uses embree version 3.13.1
+  #
+  # Apply operator fix from https://github.com/RenderKit/embree/commit/cda4cf1919bb2a748e78915fbd6e421a1056638d
+  superbuild_apply_patch(embree 3.13.1-fix-output-operators
+    "Apply operator fix")
+endif()

@@ -1,0 +1,55 @@
+From ec09862dac870c1b66dbb578bb892401a7455780 Mon Sep 17 00:00:00 2001
+From: Ben Boeckel <ben.boeckel@kitware.com>
+Date: Mon, 11 Sep 2023 08:17:21 -0400
+Subject: [PATCH] tasking_system_init: force SIMD off with `RKCOMMON_NO_SIMD`
+
+When the TBB backend is in use, the intrinsics headers are included
+through them. Instead of checking "do we already have the macros set",
+just force them to be no-op macro expansions via a local macro name
+instead when `RKCOMMON_NO_SIMD` is requested.
+
+Fixes: #9
+---
+ rkcommon/tasking/detail/tasking_system_init.cpp | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/rkcommon/tasking/detail/tasking_system_init.cpp b/rkcommon/tasking/detail/tasking_system_init.cpp
+index f63e162..67aca08 100644
+--- a/rkcommon/tasking/detail/tasking_system_init.cpp
++++ b/rkcommon/tasking/detail/tasking_system_init.cpp
+@@ -33,16 +33,20 @@
+ #define _MM_SET_DENORMALS_ZERO_MODE(x) \
+   (_mm_setcsr((_mm_getcsr() & ~_MM_DENORMALS_ZERO_MASK) | (x)))
+ #endif
++
++#define RKCOMMON_MM_SET_DENORMALS_ZERO_MODE(x)                                 \
++  _MM_SET_DENORMALS_ZERO_MODE(x)
++#define RKCOMMON_MM_SET_FLUSH_ZERO_MODE(x)                                     \
++  _MM_SET_FLUSH_ZERO_MODE(x)
++
+ #else
+-#if !defined(_MM_SET_DENORMALS_ZERO_MODE)
+-#define _MM_SET_FLUSH_ZERO_MODE(x)                                             \
++#define RKCOMMON_MM_SET_FLUSH_ZERO_MODE(x)                                     \
+   do {                                                                         \
+   } while (0)
+-#define _MM_SET_DENORMALS_ZERO_MODE(x)                                         \
++#define RKCOMMON_MM_SET_DENORMALS_ZERO_MODE(x)                                 \
+   do {                                                                         \
+   } while (0)
+ #endif
+-#endif
+ 
+ // rkcommon
+ #include "../../common.h"
+@@ -91,8 +95,8 @@ namespace rkcommon {
+     void initTaskingSystem(int numThreads, bool flushDenormals)
+     {
+       if (flushDenormals) {
+-        _MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
+-        _MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
++        RKCOMMON_MM_SET_FLUSH_ZERO_MODE(_MM_FLUSH_ZERO_ON);
++        RKCOMMON_MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
+       }
+ 
+       g_tasking_handle = make_unique<tasking_system_handle>(numThreads);
