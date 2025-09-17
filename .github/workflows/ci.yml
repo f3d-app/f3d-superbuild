@@ -41,6 +41,9 @@ jobs:
 
     runs-on: windows-2022
 
+    env:
+      CMAKE_POLICY_VERSION_MINIMUM: 3.5
+
     steps:
 
     - name: Checkout
@@ -69,6 +72,7 @@ jobs:
 
     env:
       DISPLAY: :0
+      CMAKE_POLICY_VERSION_MINIMUM: 3.5
 
     steps:
 
@@ -100,6 +104,9 @@ jobs:
             macos: macos-14
 
     runs-on: ${{matrix.macos}}
+
+    env:
+      CMAKE_POLICY_VERSION_MINIMUM: 3.5
 
     steps:
 
