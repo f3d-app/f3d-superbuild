@@ -286,12 +286,10 @@ jobs:
       with:
         pattern: f3d-web-*
 
-    - run: npm publish --access public --tag next f3d-web-*.tgz
-      if: contains(github.event.inputs.f3d_version, 'RC')
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    - run: npm publish --access public f3d-web-*.tgz
-      if: ${{contains(github.event.inputs.f3d_version, 'RC')}}
+    - run: >
+        npm publish
+        --access public
+        ${{ contains(github.event.inputs.f3d_version, 'RC') && '--tag next' || null }} 
+        f3d-web-*.tgz
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
