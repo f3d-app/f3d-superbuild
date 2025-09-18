@@ -281,15 +281,18 @@ jobs:
     permissions:
       id-token: write
 
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
     steps:
-    - uses: actions/download-artifact@v4
+    - name: Download package
+      uses: actions/download-artifact@v4
       with:
         pattern: f3d-web-*
 
-    - run: >
+    - name: Publish package
+      run: >
         npm publish
         --access public
         ${{ contains(github.event.inputs.f3d_version, 'RC') && '--tag next' || null }} 
         f3d-web-*.tgz
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
