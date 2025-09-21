@@ -257,6 +257,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Install recent node
+      uses: actions/setup-node@v5
+      with:
+        node-version: 22
+
     - name: Create package
       run: npm pack f3d-app/f3d#${{github.event.inputs.f3d_version}}
 
