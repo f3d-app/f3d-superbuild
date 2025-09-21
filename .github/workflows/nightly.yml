@@ -275,6 +275,10 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
+    - name: Install recent node
+      uses: actions/setup-node@v5
+      with:
+        node-version: 22
 
     - name: Create package
       run: npm pack f3d-app/f3d#${{needs.check_nightly.outputs.f3d_sha}}
