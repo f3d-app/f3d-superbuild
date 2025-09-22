@@ -27,7 +27,7 @@ jobs:
       continue-on-error: true
       run: |
         test -z "$(git tag --points-at HEAD)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
-        echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        echo "f3d_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
   cache_lfs:
     needs: check_nightly
