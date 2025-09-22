@@ -12,6 +12,16 @@ concurrency:
 
 jobs:
 
+  wasm_npm:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Create package
+      run: npm pack f3d-app/f3d#424d62940fa9135c727249ba43f8c30f16a97e35
+
+    - name: Rename package
+      run: for file in f3d-*.tgz ; do mv $file ${file//f3d-/f3d-web-} ; done
+
   cache_lfs:
     runs-on: ubuntu-latest
     name: Update LFS data cache
