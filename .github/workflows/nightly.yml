@@ -13,6 +13,7 @@ jobs:
     outputs:
       should_run: ${{ steps.should_run.outputs.should_run }}
       f3d_sha: ${{ steps.should_run.outputs.f3d_sha }}
+      f3d_short_sha: ${{ steps.should_run.outputs.f3d_short_sha }}
     steps:
 
     - name: Checkout F3D
@@ -27,7 +28,8 @@ jobs:
       continue-on-error: true
       run: |
         test -z "$(git tag --points-at HEAD)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
-        echo "f3d_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+        echo "f3d_short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
   cache_lfs:
     needs: check_nightly
@@ -281,7 +283,7 @@ jobs:
         node-version: 22
 
     - name: Create package
-      run: npm pack f3d-app/f3d#${{needs.check_nightly.outputs.f3d_sha}}
+      run: npm pack f3d-app/f3d#${{needs.check_nightly.outputs.f3d_short_sha}}
 
     - name: Rename package
       run: for file in f3d-*.tgz ; do mv $file ${file//f3d-/f3d-web-} ; done
