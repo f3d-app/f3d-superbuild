@@ -39,6 +39,11 @@ superbuild_set_revision(openvdb
   DOWNLOAD_NAME openvdb-v12.0.1.tar.gz
   URL_MD5 e9b07f14aadb7da50d12154f9234763d)
 
+superbuild_set_revision(webp
+  URL     "https://github.com/webmproject/libwebp/archive/refs/tags/v1.6.0.tar.gz"
+  DOWNLOAD_NAME webp-v1.6.0.tar.gz
+  URL_MD5 d498caf9323a24ce3ed40b84c22a32cd)
+
 superbuild_set_selectable_source(vtk
   SELECT 9.5.0 DEFAULT
     URL     "https://www.vtk.org/files/release/9.5/VTK-9.5.0.tar.gz"

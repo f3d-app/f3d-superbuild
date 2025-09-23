@@ -18,6 +18,7 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_pybind11=ON                \
   -DENABLE_tbb=OFF                    \
   -DENABLE_vtk=ON                     \
+  -DENABLE_webp=ON                    \
   -DUSE_SYSTEM_python3=ON             \
   -Dvtk_SOURCE_SELECTION=git          \
   -Dvtk_GIT_TAG=$1

@@ -62,6 +62,7 @@ function (superbuild_find_projects var)
     szip
     tbb
     vtk
+    webp
     xz
     zstd
     zlib)
@@ -138,10 +139,11 @@ set(_superbuild_default_imgui ON)
 set(_superbuild_default_occt ON)
 set(_superbuild_default_openvdb ON)
 set(_superbuild_default_openexr ON)
+set(_superbuild_default_openusd ON)
 set(_superbuild_default_ospray ON)
 set(_superbuild_default_pybind11 OFF)
 set(_superbuild_default_tbb ON)
-set(_superbuild_default_openusd ON)
+set(_superbuild_default_webp ON)
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "

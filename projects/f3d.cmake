@@ -20,7 +20,7 @@ superbuild_add_project(f3d
     LICENSE.md
     doc/THIRD_PARTY_LICENSES.md
   DEPENDS vtk cxx17
-  DEPENDS_OPTIONAL pybind11 alembic assimp draco imgui occt openexr openusd openvdb
+  DEPENDS_OPTIONAL pybind11 alembic assimp draco imgui occt openexr openusd openvdb webp
   CMAKE_ARGS
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     -DF3D_LINUX_GENERATE_MAN:BOOL=${f3d_build_for_linux}
@@ -29,6 +29,7 @@ superbuild_add_project(f3d
     -DF3D_MODULE_EXR:BOOL=${openexr_enabled}
     -DF3D_MODULE_RAYTRACING:BOOL=${ospray_enabled}
     -DF3D_MODULE_UI:BOOL=${imgui_enabled}
+    -DF3D_MODULE_WEBP:BOOL=${webp_enabled}
     -DF3D_PLUGINS_STATIC_BUILD:BOOL=ON
     -DF3D_PLUGIN_BUILD_ALEMBIC:BOOL=${alembic_enabled}
     -DF3D_PLUGIN_BUILD_ASSIMP:BOOL=${assimp_enabled}

@@ -41,7 +41,7 @@ runs:
     uses: actions/cache@v4
     with:
       path: fsbb/install
-      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-6
+      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-7
 
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'
@@ -77,7 +77,7 @@ runs:
     shell: bash
     run: |
       echo "CMAKE_PREFIX_PATH=../fsbb/install" >> $GITHUB_ENV
-      echo "SKBUILD_CMAKE_ARGS=-DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_BINDINGS_PYTHON_WINDOWS_BUILD_DLL_FIXUP=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_PLUGIN_BUILD_ALEMBIC=ON;-DF3D_PLUGIN_BUILD_ASSIMP=ON;-DF3D_PLUGIN_BUILD_DRACO=ON;-DF3D_PLUGIN_BUILD_OCCT=ON;-DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;-DF3D_MODULE_EXR=ON;-DF3D_MODULE_UI=ON;-DF3D_BUILD_APPLICATION=OFF;-DF3D_MACOS_BUNDLE=OFF" >> $GITHUB_ENV
+      echo "SKBUILD_CMAKE_ARGS=-DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_BINDINGS_PYTHON_WINDOWS_BUILD_DLL_FIXUP=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_PLUGIN_BUILD_ALEMBIC=ON;-DF3D_PLUGIN_BUILD_ASSIMP=ON;-DF3D_PLUGIN_BUILD_DRACO=ON;-DF3D_PLUGIN_BUILD_OCCT=ON;-DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;-DF3D_MODULE_EXR=ON;-DF3D_MODULE_UI=ON;-DF3D_MODULE_WEBP=ON;-DF3D_BUILD_APPLICATION=OFF;-DF3D_MACOS_BUNDLE=OFF" >> $GITHUB_ENV
 
   - name: Build superbuild and wheels
     if: |

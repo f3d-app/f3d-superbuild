@@ -78,6 +78,7 @@ runs:
       -DBUILD_SHARED_LIBS_openusd=ON
       -DBUILD_SHARED_LIBS_openvdb=OFF
       -DBUILD_SHARED_LIBS_vtk=OFF
+      -DBUILD_SHARED_LIBS_webp=OFF
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
