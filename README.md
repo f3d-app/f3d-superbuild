@@ -71,6 +71,7 @@ This repository also generate a nightly release of F3D.
  - `ENABLE_ospray`: ON by defaut, build and package ospray and the associated VTK module
  - `ENABLE_tbb`: ON by default, build and package TBB to enable multi-threading
  - `ENABLE_pybind11`: OFF by defaut, build pybind11 and F3D python bindings, not packageable
+ - `ENABLE_webp`: ON by defaut, build and package WebP and the associated F3D module
  - `USE_SYSTEM_python3`: OFF by default, can be enabled if available as python is only a build time dependency
  - `f3d_SOURCE_SELECTION`: git by default, let the user choose the version of F3D to build and package
  - `f3d_GIT_TAG`: master by default, when using `-Df3d_SOURCE_SELECTION=git`, select the branch or commit to build
