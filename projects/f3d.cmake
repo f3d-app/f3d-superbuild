@@ -18,7 +18,7 @@ superbuild_add_project(f3d
   BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
     LICENSE.md
-    doc/THIRD_PARTY_LICENSES.md
+    THIRD_PARTY_LICENSES.md
   DEPENDS vtk cxx17
   DEPENDS_OPTIONAL pybind11 alembic assimp draco imgui occt openexr openusd openvdb webp
   CMAKE_ARGS
