@@ -32,4 +32,5 @@ superbuild_add_project(occt
     -DCMAKE_INSTALL_RPATH:PATH=<INSTALL_DIR>/lib
     -DINSTALL_DIR_BIN:PATH=bin
     -DUSE_FREETYPE:BOOL=OFF
+    -DUSE_XLIB:BOOL=OFF
 )
