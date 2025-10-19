@@ -288,6 +288,12 @@ jobs:
     - name: Rename package
       run: for file in f3d-*.tgz ; do mv $file ${file//f3d-/f3d-web-} ; done
 
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: f3d-web
+        path: f3d-web-*.tgz
+
     - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1
       with:

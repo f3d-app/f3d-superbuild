@@ -146,3 +146,27 @@ jobs:
 
     - name: Build python wheels
       uses: ./source/.github/actions/wheels/
+
+  wasm_npm:
+    strategy:
+      fail-fast: false
+
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Install recent node
+      uses: actions/setup-node@v5
+      with:
+        node-version: 22
+
+    - name: Create package
+      run: npm pack f3d-app/f3d#${{needs.check_nightly.outputs.f3d_short_sha}}
+
+    - name: Rename package
+      run: for file in f3d-*.tgz ; do mv $file ${file//f3d-/f3d-web-} ; done
+
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: f3d-web
+        path: f3d-web-*.tgz
