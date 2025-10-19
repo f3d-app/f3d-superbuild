@@ -186,6 +186,14 @@ runs:
     shell: bash
     run: ctest -R exec --no-tests=error --output-on-failure
 
+  - name: Install and test .deb package
+    if: runner.os == 'Linux'
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: |
+      dpkg -i F3D-*.deb
+      f3d ../source/testing/data/cow.vtp --resolution=300,300 --output=./Testing/Temporary/TestDeb.png --reference=../source/testing/baselines/TestSimple.png
+
   - name: Upload Tests Artifact
     if: failure()
     uses: actions/upload-artifact@v4
