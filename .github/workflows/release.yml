@@ -248,6 +248,7 @@ jobs:
         path: dist
 
     - name: Publish package distributions to PyPi
+      if: ${{ github.event.inputs.publish_assets == 'true' }}
       uses: pypa/gh-action-pypi-publish@release/v1
 
   wasm-package:
@@ -255,6 +256,12 @@ jobs:
       fail-fast: false
 
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
     steps:
     - name: Install recent node
@@ -274,7 +281,8 @@ jobs:
         name: f3d-web
         path: f3d-web-*.tgz
 
-    - name: Publish npm package
+    - name: Publish npm package to github release
+      if: ${{ github.event.inputs.publish_assets == 'true' }}
       uses: ncipollo/release-action@v1
       with:
         owner: f3d-app
@@ -289,26 +297,8 @@ jobs:
         tag: ${{github.event.inputs.f3d_version}}
         artifacts: './f3d-web-*.tgz'
 
-  npm-publish:
-    needs: wasm-package
-    strategy:
-      fail-fast: false
-
-    runs-on: ubuntu-latest
-
-    permissions:
-      id-token: write
-
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-    steps:
-    - name: Download package
-      uses: actions/download-artifact@v4
-      with:
-        pattern: f3d-web-*
-
-    - name: Publish package
+    - name: Publish npm package to npm
+      if: ${{ github.event.inputs.publish_assets == 'true' }}
       run: >
         npm publish
         --access public
