@@ -160,7 +160,7 @@ jobs:
         node-version: 22
 
     - name: Create package
-      run: npm pack f3d-app/f3d#${{needs.check_nightly.outputs.f3d_short_sha}}
+      run: npm pack f3d-app/f3d
 
     - name: Rename package
       run: for file in f3d-*.tgz ; do mv $file ${file//f3d-/f3d-web-} ; done
