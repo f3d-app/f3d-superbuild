@@ -121,7 +121,7 @@ runs:
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl* cp37-* cp38-* pp*'
+      CIBW_SKIP: '*-musl* cp38-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
