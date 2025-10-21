@@ -302,7 +302,13 @@ jobs:
       if: ${{ github.event.inputs.publish_assets == 'true' }}
       run: >
         npm publish
-        --provenance
         --access public
         ${{ contains(github.event.inputs.f3d_version, 'RC') && '--tag next' || null }} 
         f3d-web-*.tgz
+
+    - name: Upload npm log on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        path: /home/runner/.npm/_logs/*.log
+        name: f3d-npm-log
