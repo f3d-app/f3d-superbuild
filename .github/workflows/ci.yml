@@ -162,6 +162,13 @@ jobs:
     - name: Create package
       run: npm pack f3d-app/f3d
 
+    - name: Upload npm log on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        path: /home/runner/.npm/_logs/*.log
+        name: f3d-npm-log
+
     - name: Rename package
       run: for file in f3d-*.tgz ; do mv $file ${file//f3d-/f3d-web-} ; done
 
