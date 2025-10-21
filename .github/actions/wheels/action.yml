@@ -41,7 +41,7 @@ runs:
     uses: actions/cache@v4
     with:
       path: fsbb/install
-      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-8
+      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-9
 
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'
@@ -83,14 +83,14 @@ runs:
     if: |
       steps.cache-fsb.outputs.cache-hit != 'true' ||
       inputs.use_cache != 'true'
-    uses: pypa/cibuildwheel@v2.22.0
+    uses: pypa/cibuildwheel@v3.2.1
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
       # TODO: cross-compile ARM and PyPy too
-      CIBW_SKIP: '*-musl* cp37-* cp38-* pp*'
+      CIBW_SKIP: '*-musl* cp38-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
@@ -115,13 +115,13 @@ runs:
     if: |
       steps.cache-fsb.outputs.cache-hit == 'true' &&
       inputs.use_cache == 'true'
-    uses: pypa/cibuildwheel@v2.22.0
+    uses: pypa/cibuildwheel@v3.2.1
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl* cp37-* cp38-* pp*'
+      CIBW_SKIP: '*-musl* cp38-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
