@@ -168,9 +168,9 @@ jobs:
         raytracing_label: [raytracing, no-raytracing]
         include:
           - cpu: x86_64
-            macos: macos-13
+            macos: macos-15-intel
           - cpu: arm64
-            macos: macos-14
+            macos: macos-15
 
     runs-on: ${{matrix.macos}}
 
