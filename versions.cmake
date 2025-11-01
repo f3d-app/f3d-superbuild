@@ -20,24 +20,24 @@ superbuild_set_revision(imgui
   URL_MD5 68a3126462b7f2ebcd9b0d0c7dda93ad)
 
 superbuild_set_revision(occt
-  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_9_1.tar.gz"
-  DOWNLOAD_NAME occt-V7_9_1.tar.gz
-  URL_MD5 56898327dd2d8aa36221048def0715e2)
+  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_9_2.tar.gz"
+  DOWNLOAD_NAME occt-V7_9_2.tar.gz
+  URL_MD5 62fa1b44155b6ab49307d5af9b24e456)
 
 superbuild_set_revision(openexr
-  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.3.4.tar.gz"
-  DOWNLOAD_NAME openexr-v3.3.4.tar.gz
-  URL_MD5 50c69abdabe667a0a821f28d1fa34f0f)
+  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.4.2.tar.gz"
+  DOWNLOAD_NAME openexr-v3.4.2.tar.gz
+  URL_MD5 99e17d39afd1c260274f4aa73f34b8de)
 
 superbuild_set_revision(openusd
-  URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v25.05.01.tar.gz"
-  DOWNLOAD_NAME openusd-v25.05.01.tar.gz
-  URL_MD5 f7f6f265639b16f44d8ee9104fbf34bb)
+  URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v25.11.tar.gz"
+  DOWNLOAD_NAME openusd-v25.11.tar.gz
+  URL_MD5 c5d35692ad9809cad046037f1512b1b4)
 
 superbuild_set_revision(openvdb
-  URL "https://github.com/AcademySoftwareFoundation/openvdb/archive/refs/tags/v12.0.1.tar.gz"
-  DOWNLOAD_NAME openvdb-v12.0.1.tar.gz
-  URL_MD5 e9b07f14aadb7da50d12154f9234763d)
+  URL "https://github.com/AcademySoftwareFoundation/openvdb/archive/refs/tags/v12.1.1.tar.gz"
+  DOWNLOAD_NAME openvdb-v12.1.1.tar.gz
+  URL_MD5 bdf802a109a18b4bf1bd302debabb90f)
 
 superbuild_set_revision(webp
   URL     "https://github.com/webmproject/libwebp/archive/refs/tags/v1.6.0.tar.gz"
