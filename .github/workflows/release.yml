@@ -303,7 +303,7 @@ jobs:
       run: >
         npm publish
         --access public
-        ${{ contains(github.event.inputs.f3d_version, 'RC') && '--tag next' || null }} 
+        ${{ contains(github.event.inputs.f3d_version, 'RC') && '--tag rc' || null }} 
         f3d-web-*.tgz
 
     - name: Upload npm log on failure
