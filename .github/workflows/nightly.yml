@@ -13,7 +13,6 @@ jobs:
     outputs:
       should_run: ${{ steps.should_run.outputs.should_run }}
       f3d_sha: ${{ steps.should_run.outputs.f3d_sha }}
-      f3d_short_sha: ${{ steps.should_run.outputs.f3d_short_sha }}
     steps:
 
     - name: Checkout F3D
@@ -29,7 +28,6 @@ jobs:
       run: |
         test -z "$(git tag --points-at HEAD)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
         echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-        echo "f3d_short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
   cache_lfs:
     needs: check_nightly
@@ -281,9 +279,23 @@ jobs:
       uses: actions/setup-node@v5
       with:
         node-version: 22
+          
+    - name: Checkout f3d
+      uses: actions/checkout@v4
+      with:
+        repository: 'f3d-app/f3d'
+        ref: ${{needs.check_nightly.outputs.f3d_sha}}
+        fetch-depth: 1
+        path: 'f3d'
+        lfs: false
+
+    - name: Generate nightly version
+      working-directory: ${{github.workspace}}/f3d
+      run: npm version $(jq -r '.version' package.json)-nightly.$(date +%Y%m%d)
 
     - name: Create package
-      run: npm pack f3d-app/f3d#${{needs.check_nightly.outputs.f3d_short_sha}}
+      working-directory: ${{github.workspace}}/f3d
+      run: npm pack
 
     - name: Upload npm log on failure
       if: failure()
@@ -293,13 +305,14 @@ jobs:
         name: f3d-npm-log
 
     - name: Rename package
+      working-directory: ${{github.workspace}}/f3d
       run: for file in f3d-*.tgz ; do mv $file ${file//f3d-/f3d-web-} ; done
 
     - uses: actions/upload-artifact@v4
       if: always()
       with:
         name: f3d-web
-        path: f3d-web-*.tgz
+        path: f3d/f3d-web-*.tgz
 
     - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1
@@ -322,7 +335,15 @@ jobs:
         tag: nightly
         name: "Nightly"
         body: "Automatically generated nightly binary release"
-        artifacts: './f3d-web-*.tgz'
+        artifacts: './f3d/f3d-web-*.tgz'
+
+    - name: Publish npm package to npm
+      working-directory: ${{github.workspace}}/f3d
+      run: >
+        npm publish
+        --access public
+        --tag nightly
+        f3d-web-*.tgz
 
   advance_nightly:
     needs: [check_nightly, windows, linux, macos, python_wheels]
