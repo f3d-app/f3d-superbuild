@@ -353,7 +353,7 @@ jobs:
         f3d-web-*.tgz
 
   advance_nightly:
-    needs: [check_nightly, windows, linux, macos, python_wheels]
+    needs: [check_nightly, windows, linux, macos, python_wheels, wasm_npm]
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     runs-on: ubuntu-latest
     name: Advance nightly tag
