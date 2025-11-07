@@ -274,11 +274,18 @@ jobs:
 
     runs-on: ubuntu-22.04
 
+    permissions:
+      id-token: write
+
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
     steps:
     - name: Install recent node
       uses: actions/setup-node@v5
       with:
         node-version: 22
+        registry-url: 'https://registry.npmjs.org'
           
     - name: Checkout f3d
       uses: actions/checkout@v4
@@ -291,7 +298,7 @@ jobs:
 
     - name: Generate nightly version
       working-directory: ${{github.workspace}}/f3d
-      run: npm version $(jq -r '.version' package.json)-nightly.$(date +%Y%m%d)
+      run: npm version $(jq -r '.version' package.json)-nightly.$(date +%Y%m%d) --no-git-tag-version
 
     - name: Create package
       working-directory: ${{github.workspace}}/f3d
@@ -346,7 +353,7 @@ jobs:
         f3d-web-*.tgz
 
   advance_nightly:
-    needs: [check_nightly, windows, linux, macos, python_wheels]
+    needs: [check_nightly, windows, linux, macos, python_wheels, wasm_npm]
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
     runs-on: ubuntu-latest
     name: Advance nightly tag
