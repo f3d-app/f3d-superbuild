@@ -22,11 +22,11 @@ jobs:
       with:
         repository: 'f3d-app/f3d'
         cache_postfix: f3d-cache-0
-        target_directory: 'lfs-data'
+        target_directory: 'f3d-lfs-data'
 
     - name: Archive LFS data
       run: |
-        zip -r f3d-lfs-data.zip lfs-data.zip
+        zip -r f3d-lfs-data.zip f3d-lfs-data
         ls .
 
   cache_lfs:
