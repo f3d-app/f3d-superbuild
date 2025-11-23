@@ -40,10 +40,11 @@ jobs:
       with:
         repository: 'f3d-app/f3d'
         cache_postfix: f3d-cache-0
-        target_directory: 'lfs-data'
+        lfs_sha: ${{ needs.check_nightly.outputs.f3d_sha}}
+        target_directory: 'f3d-lfs-data'
 
     - name: Archive LFS data
-      run: zip -r f3d-lfs-data.zip lfs-data.zip
+      run: zip -r f3d-lfs-data.zip f3d-lfs-data
 
     - name: Delete previous nightly release assets
       uses: mknejp/delete-release-assets@v1
@@ -325,7 +326,7 @@ jobs:
       with:
         node-version: 22
         registry-url: 'https://registry.npmjs.org'
-          
+
     - name: Checkout f3d
       uses: actions/checkout@v4
       with:
