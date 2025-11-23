@@ -29,6 +29,45 @@ jobs:
         test -z "$(git tag --points-at HEAD)" && echo "should_run=true" >> $GITHUB_OUTPUT || echo "should_run=false" >> $GITHUB_OUTPUT
         echo "f3d_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
+  f3d_lfs_data:
+    needs: check_nightly
+    runs-on: ubuntu-latest
+    name: Recover and package F3D lfs data
+    steps:
+
+    - name: Cache F3D LFS Data and copy to directory
+      uses: f3d-app/lfs-data-cache-action@v1
+      with:
+        repository: 'f3d-app/f3d'
+        cache_postfix: f3d-cache-0
+        target_directory: 'lfs-data'
+
+    - name: Archive LFS data
+      run: zip -r f3d-lfs-data.zip lfs-data.zip
+
+    - name: Delete previous nightly release assets
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "f3d-lfs-data.zip"
+        fail-if-no-assets: false
+
+    - name: Publish nightly lfs package
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        tag: nightly
+        name: "Nightly"
+        body: "Automatically generated nightly binary release"
+        artifacts: './f3d-lfs-data.zip'
+
   cache_lfs:
     needs: check_nightly
     runs-on: ubuntu-latest
