@@ -34,7 +34,7 @@ jobs:
     - name: Archive LFS data
       run: zip -r f3d-lfs-data.zip f3d-lfs-data
 
-    - name: Publish npm package to github release
+    - name: Publish nightly lfs package
       uses: ncipollo/release-action@v1
       with:
         owner: f3d-app
