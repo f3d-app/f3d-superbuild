@@ -18,6 +18,37 @@ on:
 
 jobs:
 
+  f3d_lfs_data:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.publish_assets == 'true' }}
+    name: Recover and package F3D lfs data
+    steps:
+
+    - name: Cache F3D LFS Data and copy to directory
+      uses: f3d-app/lfs-data-cache-action@v1
+      with:
+        repository: 'f3d-app/f3d'
+        cache_postfix: f3d-cache-0
+        target_directory: 'f3d-lfs-data'
+
+    - name: Archive LFS data
+      run: zip -r f3d-lfs-data.zip f3d-lfs-data
+
+    - name: Publish lfs package
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        replacesArtifacts: true
+        omitBodyDuringUpdate: true
+        omitNameDuringUpdate: true
+        tag: ${{github.event.inputs.f3d_version}}
+        artifacts: './f3d-lfs-data.zip'
+
   cache_lfs:
     runs-on: ubuntu-latest
     name: Update LFS data cache
