@@ -85,3 +85,6 @@ superbuild_add_project(vtk
     -DVTK_USE_X:BOOL=${vtk_use_x}
     -DVTK_VERSIONED_INSTALL:BOOL=OFF
 )
+
+superbuild_apply_patch(vtk remove-vasprintf
+  "Remove vasprintf definition")

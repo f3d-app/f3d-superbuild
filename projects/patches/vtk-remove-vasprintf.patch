@@ -1,0 +1,19 @@
+diff --git a/ThirdParty/hdf5/vtkhdf5/src/H5private.h b/ThirdParty/hdf5/vtkhdf5/src/H5private.h
+index 85e450afa4..134da8b476 100644
+--- a/ThirdParty/hdf5/vtkhdf5/src/H5private.h
++++ b/ThirdParty/hdf5/vtkhdf5/src/H5private.h
+@@ -878,14 +878,6 @@ H5_DLL H5_ATTR_CONST int Nflock(int fd, int operation);
+ #define HDunsetenv(S) unsetenv(S)
+ #endif
+ 
+-#ifndef HDvasprintf
+-#ifdef H5_HAVE_VASPRINTF
+-#define HDvasprintf(RET, FMT, A) vasprintf(RET, FMT, A)
+-#else
+-H5_DLL int HDvasprintf(char **bufp, const char *fmt, va_list _ap);
+-#endif
+-#endif
+-
+ #ifndef HDwrite
+ #define HDwrite(F, M, Z) write(F, M, Z)
+ #endif
