@@ -37,6 +37,7 @@ else ()
   set(vtk_smp_enable_sequential ON)
 endif ()
 
+# H5_HAVE_VASPRINTF is needed for ci-build-wheel
 superbuild_add_project(vtk
   BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
@@ -44,6 +45,7 @@ superbuild_add_project(vtk
   DEPENDS cxx11
   DEPENDS_OPTIONAL tbb ospray f3dhdf openvdb
   CMAKE_ARGS
+    -DH5_HAVE_VASPRINTF=0
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${ospray_enabled}
     -DVTK_BUILD_TESTING:BOOL=OFF
     -DVTK_ENABLE_LOGGING:BOOL=OFF
@@ -56,13 +58,13 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_FiltersGeometry:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOCityGML:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOExodus:STRING=${vtk_ioexodus_enabled}
-    -DVTK_MODULE_ENABLE_VTK_IOHDF:STRING=${vtk_iohdf_enabled}
     -DVTK_MODULE_ENABLE_VTK_IOGeometry:STRING=YES
+    -DVTK_MODULE_ENABLE_VTK_IOHDF:STRING=${vtk_iohdf_enabled}
     -DVTK_MODULE_ENABLE_VTK_IOImage:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOImport:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IONetCDF:STRING=${vtk_ionetcdf_enabled}
-    -DVTK_MODULE_ENABLE_VTK_IOPLY:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOOpenVDB:STRING=${vtk_ioopenvdb_enabled}
+    -DVTK_MODULE_ENABLE_VTK_IOPLY:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOParallel:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOXML:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_ImagingCore:STRING=YES
@@ -85,6 +87,3 @@ superbuild_add_project(vtk
     -DVTK_USE_X:BOOL=${vtk_use_x}
     -DVTK_VERSIONED_INSTALL:BOOL=OFF
 )
-
-superbuild_apply_patch(vtk remove-vasprintf
-  "Remove vasprintf definition")
