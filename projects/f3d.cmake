@@ -38,6 +38,7 @@ superbuild_add_project(f3d
     -DF3D_PLUGIN_BUILD_OCCT:BOOL=${occt_enabled}
     -DF3D_PLUGIN_BUILD_USD:BOOL=${openusd_enabled}
     -DF3D_PLUGIN_BUILD_VDB:BOOL=${openvdb_enabled}
+    -DF3D_BINDINGS_C:BOOL=ON
     -DF3D_BINDINGS_PYTHON:BOOL=${f3d_build_python_bindings}
     -DF3D_BINDINGS_PYTHON_GENERATE_STUBS:BOOL=${f3d_build_python_bindings}
     -DF3D_STRICT_BUILD:BOOL=OFF
