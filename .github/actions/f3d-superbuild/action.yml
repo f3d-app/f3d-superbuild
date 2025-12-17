@@ -198,10 +198,14 @@ runs:
   - name: Build and test libf3d C++ examples using system installed f3d
     shell: bash
     run: |
-      GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/f3d-app/f3d f3d_source
-      cmake -B f3d_examples -S f3d_source/examples/libf3d -DBUILD_TESTING=ON
-      cmake --build f3d_examples --config Release
-      ctest --test-dir f3d_examples --no-tests=error -C Release -VV
+      git clone --no-checkout https://github.com/f3d-app/f3d f3d_examples
+      cd f3d_examples
+      git sparse-checkout init --cone
+      git sparse-checkout set examples
+      git checkout master
+      cmake -B ./examples_build -S ./examples/libf3d -DBUILD_TESTING=ON
+      cmake --build examples_build --config Release
+      ctest --test-dir examples_build --no-tests=error -C Release -VV
 
   - name: Upload Tests Artifact
     if: failure()
