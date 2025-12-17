@@ -21,16 +21,6 @@ runs:
   using: "composite"
   steps:
 
-  - name: Checkout F3D examples
-    uses: actions/checkout@v4
-    with:
-      repository: f3d-app/f3d
-      ref: ${{ inputs.f3d_version }}
-      sparse-checkout: examples
-      path: f3d_source
-      fetch-depth: 1
-      lfs: false
-
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
     with:
@@ -204,21 +194,11 @@ runs:
       dpkg -i F3D-*.deb
       f3d ../source/testing/data/cow.vtp --resolution=300,300 --output=./Testing/Temporary/TestDeb.png --reference=../source/testing/baselines/TestSimple.png
 
-  - name: Checkout F3D examples
-    uses: actions/checkout@v4
-    with:
-      repository: f3d-app/f3d
-      ref: ${{ inputs.f3d_version }}
-      sparse-checkout: examples
-      path: f3d_source
-      fetch-depth: 1
-      lfs: false
-
   # TODO C examples
   - name: Build and test libf3d C++ examples using system installed f3d
     shell: bash
     run: |
-      mkdir f3d_source/examples/libf3d/build
+      GIT_LFS_SKIP_SMUDGE=1 git clone https://github.com/f3d-app/f3d f3d_source
       cmake -B f3d_examples -S f3d_source/examples/libf3d -DBUILD_TESTING=ON
       cmake --build f3d_examples --config Release
       ctest --test-dir f3d_examples --no-tests=error -C Release -VV
