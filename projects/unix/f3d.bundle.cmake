@@ -95,6 +95,14 @@ install(
   USE_SOURCE_PERMISSIONS
   OPTIONAL)
 
+## Package C bindings
+superbuild_unix_install_module("${superbuild_install_location}/lib/libf3d_c_api.so"
+  "lib"
+  "lib"
+  LOADER_PATHS  "${library_paths}"
+  LOCATION      "lib"
+  HAS_SYMLINKS)
+
 ## Deb Generator specific
 if (cpack_generator MATCHES "DEB")
   set(CPACK_DEBIAN_PACKAGE_HOMEPAGE ${f3d_url})

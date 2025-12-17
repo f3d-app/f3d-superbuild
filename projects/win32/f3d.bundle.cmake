@@ -78,6 +78,16 @@ install(
   DESTINATION "lib"
   OPTIONAL)
 
+## Package C bindings
+
+superbuild_windows_install_plugin("${superbuild_install_location}/bin/f3d_c_api.dll" "bin" "bin"
+  SEARCH_DIRECTORIES "${library_paths}" COMPONENT "")
+
+install(
+  FILES       "${superbuild_install_location}/lib/f3d_c_api.lib"
+  DESTINATION "lib"
+  OPTIONAL)
+
 ## NSIS Generator specific
 if (cpack_generator MATCHES "NSIS")
 
