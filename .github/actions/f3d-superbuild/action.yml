@@ -21,6 +21,16 @@ runs:
   using: "composite"
   steps:
 
+  - name: Checkout F3D examples
+    uses: actions/checkout@v4
+    with:
+      repository: f3d-app/f3d
+      ref: ${{ inputs.f3d_version }}
+      sparse-checkout: examples
+      path: f3d_source
+      fetch-depth: 1
+      lfs: false
+
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
     with:
@@ -197,9 +207,10 @@ runs:
   - name: Checkout F3D examples
     uses: actions/checkout@v4
     with:
-      repository: 'f3d-app/f3d'
+      repository: f3d-app/f3d
       ref: ${{ inputs.f3d_version }}
-      path: 'f3d_source'
+      sparse-checkout: examples
+      path: f3d_source
       fetch-depth: 1
       lfs: false
 
