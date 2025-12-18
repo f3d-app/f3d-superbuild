@@ -23,7 +23,9 @@ runs:
 
   - name: Build and test libf3d C++ examples using system installed f3d
     shell: bash
-    run: git lfs --version
+    run: |
+      git clone https://github.com/f3d-app/f3d f3d_source
+      ls -lah ./f3d_source/examples/libf3d/cpp/tests/data/
 
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
