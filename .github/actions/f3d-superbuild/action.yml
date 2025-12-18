@@ -21,6 +21,21 @@ runs:
   using: "composite"
   steps:
 
+  - name: Checkout F3D examples
+    uses: actions/checkout@v4
+    with:
+      repository: f3d-app/f3d
+      ref: ${{ inputs.f3d_version }}
+      token: ${{ secrets.SECRET_TOKEN }} 
+      sparse-checkout: examples
+      path: f3d_source
+      fetch-depth: 1
+      lfs: true
+
+  - name: Build and test libf3d C++ examples using system installed f3d
+    shell: bash
+    run: ls -lah ./f3d_source
+
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
     with:
@@ -194,18 +209,12 @@ runs:
       dpkg -i F3D-*.deb
       f3d ../source/testing/data/cow.vtp --resolution=300,300 --output=./Testing/Temporary/TestDeb.png --reference=../source/testing/baselines/TestSimple.png
 
-  # TODO C examples
   - name: Build and test libf3d C++ examples using system installed f3d
     shell: bash
     run: |
-      git clone --no-checkout https://github.com/f3d-app/f3d f3d_examples
-      cd f3d_examples
-      git sparse-checkout init --cone
-      git sparse-checkout set examples
-      git checkout master
-      cmake -B ./examples_build -S ./examples/libf3d -DBUILD_TESTING=ON
-      cmake --build examples_build --config Release
-      ctest --test-dir examples_build --no-tests=error -C Release -VV
+      cmake -B f3d_examples -S f3d_source/examples/libf3d -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON
+      cmake --build f3d_examples --config Release
+      ctest --test-dir f3d_examples --no-tests=error -C Release -VV
 
   - name: Upload Tests Artifact
     if: failure()
