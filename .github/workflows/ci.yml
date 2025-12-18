@@ -57,6 +57,7 @@ jobs:
       uses: ./source/.github/actions/f3d-superbuild/
       with:
         f3d_version: origin/master
+        f3d_token: ${{ secrets.SECRET_TOKEN }}
         raytracing_label: ${{matrix.raytracing_label}}
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
@@ -87,6 +88,7 @@ jobs:
       uses: ./source/.github/actions/f3d-superbuild/
       with:
         f3d_version: origin/master
+        f3d_token: ${{ secrets.SECRET_TOKEN }}
         raytracing_label: ${{matrix.raytracing_label}}
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
@@ -121,6 +123,7 @@ jobs:
       uses: ./source/.github/actions/f3d-superbuild/
       with:
         f3d_version: origin/master
+        f3d_token: ${{ secrets.SECRET_TOKEN }}
         raytracing_label: ${{matrix.raytracing_label}}
         cpu: ${{matrix.cpu}}
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}

@@ -5,6 +5,9 @@ inputs:
     description: 'F3D version to build'
     required: true
     default: 'origin/master'
+  f3d_token:
+    description: 'token to checkout f3d'
+    required: true
   raytracing_label:
     description: 'A label to enable raytracing'
     required: false
@@ -26,7 +29,7 @@ runs:
     with:
       repository: f3d-app/f3d
       ref: ${{ inputs.f3d_version }}
-      token: ${{ secrets.SECRET_TOKEN }} 
+      token: ${{ inputs.f3d_token }}
       sparse-checkout: examples
       path: f3d_source
       fetch-depth: 1
