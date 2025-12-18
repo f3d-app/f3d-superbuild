@@ -5,9 +5,6 @@ inputs:
     description: 'F3D version to build'
     required: true
     default: 'origin/master'
-  f3d_token:
-    description: 'token to checkout f3d'
-    required: true
   raytracing_label:
     description: 'A label to enable raytracing'
     required: false
@@ -24,20 +21,9 @@ runs:
   using: "composite"
   steps:
 
-  - name: Checkout F3D examples
-    uses: actions/checkout@v4
-    with:
-      repository: f3d-app/f3d
-      ref: ${{ inputs.f3d_version }}
-      token: ${{ inputs.f3d_token }}
-      sparse-checkout: examples
-      path: f3d_source
-      fetch-depth: 1
-      lfs: true
-
   - name: Build and test libf3d C++ examples using system installed f3d
     shell: bash
-    run: ls -lah ./f3d_source
+    run: git lfs --version
 
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
