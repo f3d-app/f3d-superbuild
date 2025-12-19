@@ -186,6 +186,16 @@ runs:
     shell: bash
     run: ctest -R exec --no-tests=error --output-on-failure
 
+  - name: Build and test libf3d C and C++ examples using package
+    if: |
+      runner.os == 'Linux' ||
+      runner.os == 'Windows'
+    shell: bash
+    run: |
+      cmake -B f3d_examples -S build/superbuild/f3d/src/examples/libf3d/ -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON -Df3d_DIR=build/Testing/test-extraction/lib/cmake/f3d/
+      cmake --build f3d_examples --config Release
+      ctest --test-dir f3d_examples --no-tests=error -C Release -VV
+
   - name: Install and test .deb package
     if: runner.os == 'Linux'
     working-directory: ${{github.workspace}}/build
@@ -194,12 +204,13 @@ runs:
       dpkg -i F3D-*.deb
       f3d ../source/testing/data/cow.vtp --resolution=300,300 --output=./Testing/Temporary/TestDeb.png --reference=../source/testing/baselines/TestSimple.png
 
-  - name: Build and test libf3d C++ examples using system installed f3d
+  - name: Build and test libf3d C and C++ examples using system installed f3d
+    if: runner.os == 'Linux'
     shell: bash
     run: |
-      cmake -B f3d_examples -S build/superbuild/f3d/src/examples/libf3d/ -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON
-      cmake --build f3d_examples --config Release
-      ctest --test-dir f3d_examples --no-tests=error -C Release -VV
+      cmake -B f3d_examples_sys -S build/superbuild/f3d/src/examples/libf3d/ -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON
+      cmake --build f3d_examples_sys --config Release
+      ctest --test-dir f3d_examples_sys --no-tests=error -C Release -VV
 
   - name: Upload Tests Artifact
     if: failure()
