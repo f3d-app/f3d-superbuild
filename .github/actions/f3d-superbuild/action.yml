@@ -21,12 +21,6 @@ runs:
   using: "composite"
   steps:
 
-  - name: Build and test libf3d C++ examples using system installed f3d
-    shell: bash
-    run: |
-      git clone https://github.com/f3d-app/f3d f3d_source
-      ls -lah ./f3d_source/examples/libf3d/cpp/tests/data/
-
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
     with:
@@ -203,7 +197,7 @@ runs:
   - name: Build and test libf3d C++ examples using system installed f3d
     shell: bash
     run: |
-      cmake -B f3d_examples -S f3d_source/examples/libf3d -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON
+      cmake -B f3d_examples -S build/superbuild/f3d/src/examples/libf3d/ -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON
       cmake --build f3d_examples --config Release
       ctest --test-dir f3d_examples --no-tests=error -C Release -VV
 
