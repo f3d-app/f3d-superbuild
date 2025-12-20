@@ -193,7 +193,7 @@ runs:
     shell: bash
     run: |
       ls -lah build/Testing/test-extraction/lib/cmake/f3d
-      cmake -B f3d_examples -S build/superbuild/f3d/src/examples/libf3d/ -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON -Df3d_DIR=build/Testing/test-extraction/lib/cmake/f3d/
+      cmake -B f3d_examples -S build/superbuild/f3d/src/examples/libf3d/ -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON -Df3d_DIR=$(pwd)/build/Testing/test-extraction/lib/cmake/f3d/
       cmake --build f3d_examples --config Release
       ctest --test-dir f3d_examples --no-tests=error -C Release -VV
 
