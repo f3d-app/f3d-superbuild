@@ -21,6 +21,18 @@ runs:
   using: "composite"
   steps:
 
+  - name: Clone f3d example with lfs data
+    if: |
+      runner.os == 'Linux' ||
+      runner.os == 'Windows'
+    working-directory: ${{github.workspace}}
+    shell: bash
+    run: |
+      git clone --no-checkout --filter=tree:0 https://github.com/f3d-app/f3d f3d_examples_src
+      cd f3d_examples_src
+      git sparse-checkout set --no-cone /examples
+      git checkout ${{inputs.f3d_version}}
+
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
     with:
@@ -192,10 +204,9 @@ runs:
       runner.os == 'Windows'
     shell: bash
     run: |
-      ls -lah build/Testing/test-extraction/lib/cmake/f3d
-      cmake -B f3d_examples -S build/superbuild/f3d/src/examples/libf3d/ -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON -Df3d_DIR=$(pwd)/build/Testing/test-extraction/lib/cmake/f3d/
-      cmake --build f3d_examples --config Release
-      ctest --test-dir f3d_examples --no-tests=error -C Release -VV
+      cmake -B f3d_examples_build -S f3d_examples_src -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON -Df3d_DIR=$(pwd)/build/Testing/test-extraction/lib/cmake/f3d/
+      cmake --build f3d_examples_build --config Release
+      ctest --test-dir f3d_examples_build --no-tests=error -C Release -VV
 
   - name: Install and test .deb package
     if: runner.os == 'Linux'
@@ -209,7 +220,7 @@ runs:
     if: runner.os == 'Linux'
     shell: bash
     run: |
-      cmake -B f3d_examples_sys -S build/superbuild/f3d/src/examples/libf3d/ -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON
+      cmake -B f3d_examples_sys -S f3d_examples_src -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON
       cmake --build f3d_examples_sys --config Release
       ctest --test-dir f3d_examples_sys --no-tests=error -C Release -VV
 
