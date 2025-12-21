@@ -33,7 +33,7 @@ runs:
       git sparse-checkout set --no-cone /examples
       git checkout ${{inputs.f3d_version}}
       cd ../
-      ls f3d_examples_src/examples/libf3d/
+      ls f3d_examples_src
 
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
