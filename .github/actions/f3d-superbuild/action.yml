@@ -21,23 +21,21 @@ runs:
   using: "composite"
   steps:
 
+  # clone ONLY f3d examples with lfs data
   - name: Clone f3d example with lfs data
-    if: runner.os == 'Linux'
-    working-directory: ${{github.workspace}}
-    shell: bash
-    run: |
-      git clone --no-checkout --filter=tree:0 https://github.com/f3d-app/f3d f3d_examples_src
-      cd f3d_examples_src
-      git sparse-checkout set --no-cone /examples
-      git checkout ${{inputs.f3d_version}}
-
-  - name: Clone f3d example with lfs data
-    if: runner.os == 'Windows'
+    if: runner.os == 'Windows' | runner.os == 'Linux'
     uses: actions/checkout@v6
     with:
       repository: f3d-app/f3d
       github-server-url: https://github.com
+      sparse-checkout: examples
       path: f3d_examples_src
+      lfs: true
+
+  - name: Check Directories
+    working-directory: ${{github.workspace}}
+    shell: bash
+    run: ls f3d_examples_src
 
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
