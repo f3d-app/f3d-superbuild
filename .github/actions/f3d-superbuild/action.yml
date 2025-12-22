@@ -21,6 +21,18 @@ runs:
   using: "composite"
   steps:
 
+  # clone ONLY f3d examples with lfs data for linux as only linux tests them
+  # https://github.com/f3d-app/f3d-superbuild/issues/296
+  - name: Clone f3d example with lfs data
+    if: runner.os == 'Windows' || runner.os == 'Linux'
+    uses: actions/checkout@v6
+    with:
+      repository: f3d-app/f3d
+      github-server-url: https://github.com
+      sparse-checkout: examples
+      path: f3d_examples_src
+      lfs: ${{ runner.os == 'Linux' && true || false }}
+
   - name: Recover LFS Data
     uses: f3d-app/lfs-data-cache-action@v1
     with:
@@ -186,6 +198,21 @@ runs:
     shell: bash
     run: ctest -R exec --no-tests=error --output-on-failure
 
+  - name: Build libf3d C and C++ examples using package
+    if: |
+      runner.os == 'Linux' ||
+      runner.os == 'Windows'
+    shell: bash
+    run: |
+      cmake -B f3d_examples_build -S f3d_examples_src/examples/libf3d/ -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON -Df3d_DIR=$(pwd)/build/Testing/test-extraction/lib/cmake/f3d/
+      cmake --build f3d_examples_build --config Release
+
+  # Linux only for now: https://github.com/f3d-app/f3d-superbuild/issues/296
+  - name: Test libf3d C and C++ examples using package
+    if: runner.os == 'Linux'
+    shell: bash
+    run: ctest --test-dir f3d_examples_build --no-tests=error -C Release -VV
+
   - name: Install and test .deb package
     if: runner.os == 'Linux'
     working-directory: ${{github.workspace}}/build
@@ -193,6 +220,14 @@ runs:
     run: |
       dpkg -i F3D-*.deb
       f3d ../source/testing/data/cow.vtp --resolution=300,300 --output=./Testing/Temporary/TestDeb.png --reference=../source/testing/baselines/TestSimple.png
+
+  - name: Build and test libf3d C and C++ examples using system installed f3d on linux
+    if: runner.os == 'Linux'
+    shell: bash
+    run: |
+      cmake -B f3d_examples_sys -S f3d_examples_src/examples/libf3d -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON
+      cmake --build f3d_examples_sys --config Release
+      ctest --test-dir f3d_examples_sys --no-tests=error -C Release -VV
 
   - name: Upload Tests Artifact
     if: failure()
