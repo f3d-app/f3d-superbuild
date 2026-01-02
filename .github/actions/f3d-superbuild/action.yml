@@ -232,7 +232,7 @@ runs:
     if: runner.os == 'Windows'
     uses: f3d-app/install-mesa-windows-action@v1
     with:
-      path: ${{github.workspace}}\f3d_examples_build\cpp\*\Release
+      path: ${{github.workspace}}\f3d_examples_build\*\*\Release
 
   - name: Build libf3d C and C++ examples using package
     if: |
