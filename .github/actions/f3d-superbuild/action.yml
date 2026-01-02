@@ -209,14 +209,30 @@ runs:
     run: |
       mkdir f3d_examples_build
       mkdir f3d_examples_build\cpp
-      mkdir f3d_examples_build\cpp\render-interact\
+      mkdir f3d_examples_build\cpp\interactive-app
+      mkdir f3d_examples_build\cpp\interactive-app\Release
+      mkdir f3d_examples_build\cpp\multi-files
+      mkdir f3d_examples_build\cpp\multi-files\Release
+      mkdir f3d_examples_build\cpp\offscreen-thumbnail
+      mkdir f3d_examples_build\cpp\offscreen-thumbnail\Release
+      mkdir f3d_examples_build\cpp\render-image
+      mkdir f3d_examples_build\cpp\render-image\Release
+      mkdir f3d_examples_build\cpp\render-interact
       mkdir f3d_examples_build\cpp\render-interact\Release
+      mkdir f3d_examples_build\cpp\use-options-string
+      mkdir f3d_examples_build\cpp\use-options-string\Release
+      mkdir f3d_examples_build\cpp\use-options-struct
+      mkdir f3d_examples_build\cpp\use-options-struct\Release
+      mkdir f3d_examples_build\cpp\use-options-variant
+      mkdir f3d_examples_build\cpp\use-options-variant\Release
+      mkdir f3d_examples_build\c\interactive-app-c
+      mkdir f3d_examples_build\c\interactive-app-c\Release
 
   - name: Install Mesa Windows examples
     if: runner.os == 'Windows'
     uses: f3d-app/install-mesa-windows-action@v1
     with:
-      path: ${{github.workspace}}\f3d_examples_build\cpp\render-interact\Release
+      path: ${{github.workspace}}\f3d_examples_build\cpp\*\Release
 
   - name: Build libf3d C and C++ examples using package
     if: |
