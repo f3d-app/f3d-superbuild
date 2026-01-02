@@ -225,8 +225,8 @@ runs:
       mkdir f3d_examples_build\cpp\use-options-struct\Release
       mkdir f3d_examples_build\cpp\use-options-variant
       mkdir f3d_examples_build\cpp\use-options-variant\Release
-      mkdir f3d_examples_build\c\interactive-app-c
-      mkdir f3d_examples_build\c\interactive-app-c\Release
+      mkdir f3d_examples_build\c\interactive-app
+      mkdir f3d_examples_build\c\interactive-app\Release
 
   - name: Install Mesa Windows examples
     if: runner.os == 'Windows'
