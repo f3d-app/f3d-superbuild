@@ -1,0 +1,25 @@
+diff --git a/src/BinTools/BinTools_ShapeSet.cxx b/src/BinTools/BinTools_ShapeSet.cxx
+index 5fe1fd75..37638fff 100644
+--- a/src/BinTools/BinTools_ShapeSet.cxx
++++ b/src/BinTools/BinTools_ShapeSet.cxx
+@@ -377,8 +377,6 @@ void BinTools_ShapeSet::Read(Standard_IStream& IS, const Message_ProgressRange&
+   } while (!IS.fail());
+   if (IS.fail())
+   {
+-    std::cout << "BinTools_ShapeSet::Read: File was not written with this version of the topology"
+-              << std::endl;
+     return;
+   }
+ 
+diff --git a/src/TopTools/TopTools_ShapeSet.cxx b/src/TopTools/TopTools_ShapeSet.cxx
+index 2b6f9dd0..b81c4a13 100644
+--- a/src/TopTools/TopTools_ShapeSet.cxx
++++ b/src/TopTools/TopTools_ShapeSet.cxx
+@@ -630,7 +630,6 @@ void TopTools_ShapeSet::Read(Standard_IStream& IS, const Message_ProgressRange&
+   } while (!IS.fail());
+   if (IS.fail())
+   {
+-    std::cout << "File was not written with this version of the topology" << std::endl;
+     IS.imbue(anOldLocale);
+     return;
+   }
