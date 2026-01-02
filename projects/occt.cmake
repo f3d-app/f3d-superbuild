@@ -34,3 +34,6 @@ superbuild_add_project(occt
     -DUSE_FREETYPE:BOOL=OFF
     -DUSE_XLIB:BOOL=OFF
 )
+
+superbuild_apply_patch(occt remove-cout-brep
+  "Remove cout usage on failure to load BREP")
