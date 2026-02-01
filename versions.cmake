@@ -44,6 +44,11 @@ superbuild_set_revision(webp
   DOWNLOAD_NAME webp-v1.6.0.tar.gz
   URL_MD5 d498caf9323a24ce3ed40b84c22a32cd)
 
+superbuild_set_revision(webifc
+  URL     "https://github.com/ThatOpen/engine_web-ifc/archive/refs/tags/0.75.tar.gz"
+  DOWNLOAD_NAME webifc-0.75.tar.gz
+  URL_MD5 a75eb5132f58eeaa4db799cc085589c4)
+
 superbuild_set_selectable_source(vtk
   SELECT 9.5.2 DEFAULT
     URL     "https://www.vtk.org/files/release/9.5/VTK-9.5.2.tar.gz"

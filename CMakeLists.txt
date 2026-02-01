@@ -63,6 +63,7 @@ function (superbuild_find_projects var)
     tbb
     vtk
     webp
+    webifc
     xz
     zstd
     zlib)
@@ -144,6 +145,7 @@ set(_superbuild_default_ospray ON)
 set(_superbuild_default_pybind11 OFF)
 set(_superbuild_default_tbb ON)
 set(_superbuild_default_webp ON)
+set(_superbuild_default_webifc ON)
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
