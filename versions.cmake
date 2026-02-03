@@ -64,3 +64,11 @@ superbuild_set_selectable_source(f3d
     GIT_TAG        "origin/master"
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-f3d")
+
+## Temporary bump from f3d-superbuild until
+## https://gitlab.kitware.com/paraview/common-superbuild/-/merge_requests/733 is fixed
+
+superbuild_set_revision(alembic
+  # https://github.com/alembic/alembic/releases
+  URL     "https://www.paraview.org/files/dependencies/alembic-1.8.10.tar.gz"
+  URL_MD5 73d2ea132e334781978d1aeb2961be05)
