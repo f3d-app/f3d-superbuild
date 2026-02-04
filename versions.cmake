@@ -66,7 +66,7 @@ superbuild_set_selectable_source(f3d
     SOURCE_DIR "source-f3d")
 
 ## Temporary bump from f3d-superbuild until
-## https://gitlab.kitware.com/paraview/common-superbuild/-/merge_requests/733 is fixed
+## https://github.com/f3d-app/f3d-superbuild/issues/305 is fixed
 
 superbuild_set_revision(alembic
   # https://github.com/alembic/alembic/releases
