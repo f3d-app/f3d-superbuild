@@ -1,0 +1,60 @@
+name: 'F3D Android'
+description: 'Build and package F3D Android'
+inputs:
+  f3d_version:
+    description: 'F3D version to build'
+    required: true
+    default: 'master'
+  android_keystore_base64:
+    description: 'Base64 encoded Android keystore'
+    required: true
+  android_keystore_password:
+    description: 'Android keystore password'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Checkout f3d-android
+    uses: actions/checkout@v4
+    with:
+      repository: 'f3d-app/f3d-android'
+      fetch-depth: 1
+      path: 'f3d-android'
+      lfs: false
+
+  - name: Update native libraries
+    working-directory: ${{github.workspace}}/f3d-android
+    shell: bash
+    run: |
+      ./update_native_libs.sh --branch ${{ inputs.f3d_version }}
+
+  - name: Set up JDK 17
+    uses: actions/setup-java@v4
+    with:
+      java-version: '17'
+      distribution: 'temurin'
+
+  - name: Setup Gradle
+    uses: gradle/actions/setup-gradle@v4
+
+  - name: Decode keystore
+    working-directory: ${{github.workspace}}/f3d-android
+    shell: bash
+    run: |
+      echo "${{ inputs.android_keystore_base64 }}" | base64 --decode > f3d/f3d-android-key.jks
+
+  - name: Build APKs
+    working-directory: ${{github.workspace}}/f3d-android
+    shell: bash
+    env:
+      ANDROID_KEYSTORE_PASSWORD: ${{ inputs.android_keystore_password }}
+    run: ./gradlew assembleRelease --no-configuration-cache
+
+  - name: Upload APKs
+    uses: actions/upload-artifact@v4
+    with:
+      name: apk-release
+      path: ./f3d-android/f3d/build/outputs/apk/release/*.apk
+

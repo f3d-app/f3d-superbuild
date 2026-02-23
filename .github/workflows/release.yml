@@ -282,6 +282,33 @@ jobs:
       if: ${{ github.event.inputs.publish_assets == 'true' }}
       uses: pypa/gh-action-pypi-publish@release/v1
 
+  android:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Build F3D Android packages
+      uses: ./source/.github/actions/android/
+      with:
+        f3d_version: ${{ github.event.inputs.f3d_version }}
+        android_keystore_base64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        android_keystore_password: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+
+    - name: Publish nightly android package
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        replacesArtifacts: true
+        omitBodyDuringUpdate: true
+        omitNameDuringUpdate: true
+        tag: ${{github.event.inputs.f3d_version}}
+        artifacts: './f3d-android/f3d/build/outputs/apk/release/*.apk'
+
   wasm-package:
     strategy:
       fail-fast: false
