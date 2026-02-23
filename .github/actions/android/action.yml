@@ -41,8 +41,7 @@ runs:
   - name: Decode keystore
     working-directory: ${{github.workspace}}/f3d-android
     shell: bash
-    run: |
-      echo "${{ inputs.android_keystore_base64 }}" | base64 --decode > f3d/f3d-android-key.jks
+    run: echo "${{ inputs.android_keystore_base64 }}" | base64 --decode > f3d/f3d-android-key.jks
 
   - name: Build APKs
     working-directory: ${{github.workspace}}/f3d-android
