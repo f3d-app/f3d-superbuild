@@ -177,3 +177,14 @@ jobs:
       with:
         name: f3d-web
         path: f3d-web-*.tgz
+
+  android:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Build F3D Android packages
+      uses: ./source/.github/actions/android/
+      with:
+        f3d_version: origin/master
+        android_signed: 'false'

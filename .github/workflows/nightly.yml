@@ -306,6 +306,45 @@ jobs:
         body: "Automatically generated nightly binary release"
         artifacts: './wheelhouse/f3d-*.whl'
 
+  android:
+    needs: check_nightly
+    if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Build F3D Android packages
+      uses: ./source/.github/actions/android/
+      with:
+        f3d_version: ${{ needs.check_nightly.outputs.f3d_sha }}
+        android_signed: 'true'
+        android_keystore_base64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        android_keystore_password: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+
+    - name: Delete previous nightly release assets
+      uses: mknejp/delete-release-assets@v1
+      with:
+        token: ${{ secrets.SECRET_TOKEN }}
+        repository: f3d-app/f3d
+        tag: nightly
+        assets: "*.apk"
+        fail-if-no-assets: false
+
+    - name: Publish nightly android package
+      uses: ncipollo/release-action@v1
+      with:
+        owner: f3d-app
+        repo: f3d
+        token: ${{ secrets.SECRET_TOKEN }}
+        prerelease: true
+        allowUpdates: true
+        updateOnlyUnreleased: true
+        tag: nightly
+        name: "Nightly"
+        body: "Automatically generated nightly binary release"
+        artifacts: './f3d-android/f3d/build/outputs/apk/release/*.apk'
+
   wasm_npm:
     needs: check_nightly
     if: ${{ needs.check_nightly.outputs.should_run == 'true' }}
