@@ -5,12 +5,16 @@ inputs:
     description: 'F3D version to build'
     required: true
     default: 'master'
+  android_signed:
+    description: 'Whether to build signed APKs'
+    required: true
+    default: 'false'
   android_keystore_base64:
     description: 'Base64 encoded Android keystore'
-    required: true
+    required: false
   android_keystore_password:
     description: 'Android keystore password'
-    required: true
+    required: false
 
 runs:
   using: "composite"
@@ -39,20 +43,30 @@ runs:
     uses: gradle/actions/setup-gradle@v4
 
   - name: Decode keystore
+    if: ${{ inputs.android_signed == 'true' }}
     working-directory: ${{github.workspace}}/f3d-android
     shell: bash
     run: echo "${{ inputs.android_keystore_base64 }}" | base64 --decode > f3d/f3d-android-key.jks
 
   - name: Build APKs
+    if: ${{ inputs.android_signed == 'true' }}
     working-directory: ${{github.workspace}}/f3d-android
     shell: bash
     env:
       ANDROID_KEYSTORE_PASSWORD: ${{ inputs.android_keystore_password }}
     run: ./gradlew assembleRelease --no-configuration-cache
 
+  - name: Build APKs
+    if: ${{ inputs.android_signed == 'false' }}
+    working-directory: ${{github.workspace}}/f3d-android
+    shell: bash
+    env:
+      ANDROID_KEYSTORE_PASSWORD: ${{ inputs.android_keystore_password }}
+    run: ./gradlew assembleDebug --no-configuration-cache
+
   - name: Upload APKs
+    if: ${{ inputs.android_signed == 'true' }}
     uses: actions/upload-artifact@v4
     with:
       name: apk-release
       path: ./f3d-android/f3d/build/outputs/apk/release/*.apk
-

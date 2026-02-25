@@ -318,6 +318,7 @@ jobs:
       uses: ./source/.github/actions/android/
       with:
         f3d_version: ${{ needs.check_nightly.outputs.f3d_sha }}
+        android_signed: 'true'
         android_keystore_base64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
         android_keystore_password: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
