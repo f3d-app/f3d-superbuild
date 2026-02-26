@@ -193,5 +193,5 @@ jobs:
     - name: Build F3D Android packages
       uses: ./source/.github/actions/android/
       with:
-        f3d_version: origin/master
+        f3d_version: master
         android_signed: 'false'
