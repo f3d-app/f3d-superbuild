@@ -183,6 +183,13 @@ jobs:
 
     steps:
 
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        path: 'source'
+        submodules: false
+        lfs: false
+
     - name: Build F3D Android packages
       uses: ./source/.github/actions/android/
       with:
