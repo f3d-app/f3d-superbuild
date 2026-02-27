@@ -31,7 +31,7 @@ runs:
   - name: Update native libraries
     working-directory: ${{github.workspace}}/f3d-android
     shell: bash
-    run: ./update_native_libs.sh --branch ${{ inputs.f3d_version }}
+    run: ./update_native_libs.sh --ref ${{ inputs.f3d_version }}
 
   - name: Set up JDK 17
     uses: actions/setup-java@v4
