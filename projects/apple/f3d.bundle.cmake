@@ -39,6 +39,7 @@ superbuild_apple_create_app(
   "${f3d_appname}"
   "${superbuild_install_location}/f3d.app/Contents/MacOS/f3d"
   CLEAN
+  USE_RPATHS
   SEARCH_DIRECTORIES "${superbuild_install_location}/lib"
   ADDITIONAL_LIBRARIES ${additional_libraries})
 
