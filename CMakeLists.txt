@@ -32,19 +32,24 @@ function (superbuild_find_projects var)
     alembic
     assimp
     blosc
+    curl
     cxx11
     cxx17
     draco
     embree
-    f3dhdf
     exodus
     f3d
+    f3dhdf
+    gdal
+    geotiff
     hdf5
     imath
     imgui
     ispc
+    jsonc
     lz4
     netcdf
+    nlohmannjson
     occt
     openexr
     openimagedenoise
@@ -53,17 +58,20 @@ function (superbuild_find_projects var)
     openvkl
     ospray
     ospraymaterials
+    pdal
     pkgconf
     png
+    proj
     pybind11
     python3
     rkcommon
     sqlite
     szip
     tbb
+    tiff
     vtk
-    webp
     webifc
+    webp
     xz
     zstd
     zlib)
@@ -142,6 +150,7 @@ set(_superbuild_default_openvdb ON)
 set(_superbuild_default_openexr ON)
 set(_superbuild_default_openusd ON)
 set(_superbuild_default_ospray ON)
+set(_superbuild_default_pdal ON)
 set(_superbuild_default_pybind11 OFF)
 set(_superbuild_default_tbb ON)
 set(_superbuild_default_webp ON)

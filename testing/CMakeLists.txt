@@ -153,3 +153,9 @@ endif ()
 if (openvdb_enabled)
   f3d_add_test(TestVDB icosahedron.vdb)
 endif ()
+
+if (pdal_enabled)
+  f3d_add_test(TestPDAL simple.laz)
+endif ()
+
+

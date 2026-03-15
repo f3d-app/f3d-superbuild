@@ -19,8 +19,8 @@ superbuild_add_project(f3d
   LICENSE_FILES
     LICENSE.md
     THIRD_PARTY_LICENSES.md
-  DEPENDS vtk cxx17
-  DEPENDS_OPTIONAL pybind11 alembic assimp draco imgui occt openexr openusd openvdb webp webifc
+  DEPENDS cxx17 nlohmannjson vtk
+  DEPENDS_OPTIONAL pybind11 alembic assimp draco imgui occt openexr openusd openvdb pdal webp webifc
   CMAKE_ARGS
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     -DF3D_LINUX_GENERATE_MAN:BOOL=${f3d_build_for_linux}
@@ -36,9 +36,11 @@ superbuild_add_project(f3d
     -DF3D_PLUGIN_BUILD_DRACO:BOOL=${draco_enabled}
     -DF3D_PLUGIN_BUILD_HDF:BOOL=${f3dhdf_enabled}
     -DF3D_PLUGIN_BUILD_OCCT:BOOL=${occt_enabled}
+    -DF3D_PLUGIN_BUILD_PDAL:BOOL=${pdal_enabled}
     -DF3D_PLUGIN_BUILD_USD:BOOL=${openusd_enabled}
     -DF3D_PLUGIN_BUILD_VDB:BOOL=${openvdb_enabled}
     -DF3D_PLUGIN_BUILD_WEBIFC:BOOL=${webifc_enabled}
+    -DF3D_USE_EXTERNAL_NLOHMANN_JSON:BOOL=ON
     -DF3D_BINDINGS_C:BOOL=ON
     -DF3D_BINDINGS_PYTHON:BOOL=${f3d_build_python_bindings}
     -DF3D_BINDINGS_PYTHON_GENERATE_STUBS:BOOL=${f3d_build_python_bindings}
