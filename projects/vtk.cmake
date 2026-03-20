@@ -87,3 +87,9 @@ superbuild_add_project(vtk
     -DVTK_USE_X:BOOL=${vtk_use_x}
     -DVTK_VERSIONED_INSTALL:BOOL=OFF
 )
+
+# Needed until https://gitlab.kitware.com/vtk/vtk/-/merge_requests/8686#note_1791001 is fixed
+if (vtk_SOURCE_SELECTION STREQUAL "git")
+  superbuild_apply_patch(vtk revert-weak-ptr-static
+    "Revert Weak ptr static usage")
+endif ()
