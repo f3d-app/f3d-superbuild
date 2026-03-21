@@ -17,6 +17,11 @@ if (openvdb_enabled)
   set(vtk_ioopenvdb_enabled YES)
 endif ()
 
+set(vtk_iopdal_enabled NO)
+if (pdal_enabled)
+  set(vtk_iopdal_enabled YES)
+endif ()
+
 # XXX: Not listed as an optional dependencies
 # as egl is a use system project
 set(vtk_egl_enabled NO)
@@ -43,7 +48,7 @@ superbuild_add_project(vtk
   LICENSE_FILES
     Copyright.txt
   DEPENDS cxx11
-  DEPENDS_OPTIONAL tbb ospray f3dhdf openvdb
+  DEPENDS_OPTIONAL tbb ospray f3dhdf openvdb pdal
   CMAKE_ARGS
     -DH5_HAVE_VASPRINTF=0
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${ospray_enabled}
@@ -64,6 +69,7 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_IOImport:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IONetCDF:STRING=${vtk_ionetcdf_enabled}
     -DVTK_MODULE_ENABLE_VTK_IOOpenVDB:STRING=${vtk_ioopenvdb_enabled}
+    -DVTK_MODULE_ENABLE_VTK_IOPDAL:STRING=${vtk_iopdal_enabled}
     -DVTK_MODULE_ENABLE_VTK_IOPLY:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOParallel:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_IOXML:STRING=YES

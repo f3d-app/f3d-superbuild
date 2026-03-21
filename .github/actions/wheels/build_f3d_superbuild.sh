@@ -15,6 +15,7 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_openvdb=OFF                \
   -DENABLE_osmesa=ON                  \
   -DENABLE_ospray=OFF                 \
+  -DENABLE_pdal=OFF                   \
   -DENABLE_pybind11=ON                \
   -DENABLE_tbb=OFF                    \
   -DENABLE_vtk=ON                     \
