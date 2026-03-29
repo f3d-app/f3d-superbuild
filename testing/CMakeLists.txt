@@ -78,6 +78,7 @@ endif ()
 # F3D test
 
 if (UNIX OR APPLE)
+  superbuild_test_loadable_modules("f3d" "install" "${CMAKE_BINARY_DIR}/install")
   superbuild_test_loadable_modules("f3d" "${generator}" "${f3d_extract_dir}" )
 endif ()
 
