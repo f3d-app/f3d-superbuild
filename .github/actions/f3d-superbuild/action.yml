@@ -128,6 +128,13 @@ runs:
     shell: bash
     run: cmake -E remove_directory install
 
+  # Run lib checks
+  - name: Lib checks
+    if: runner.os != 'Windows'
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: ctest -R ldd --no-tests=error --output-on-failure
+
   - name: Install Mesa Windows extraction
     if: runner.os == 'Windows'
     uses: f3d-app/install-mesa-windows-action@v1
@@ -161,7 +168,7 @@ runs:
       runner.os == 'macOS' &&
       inputs.cpu == 'x86_64'
     shell: bash
-    run: echo "F3D_CTEST_EXCEPTIONS=(TestOCCTColoring)" >> $GITHUB_ENV
+    run: echo "F3D_CTEST_EXCEPTIONS=(TestOCCTColoring)|(TestWebIFCColoring)" >> $GITHUB_ENV
 
   # on macOS arm64 CI, grid rendering has some issues,
   # test only some tests that do not uses grid.
@@ -171,7 +178,7 @@ runs:
       runner.os == 'macOS' &&
       inputs.cpu == 'arm64'
     shell: bash
-    run: echo "F3D_CTEST_EXCEPTIONS=(TestAssimp)|(TestSimple)|(TestAlembic)|(TestDraco)|(TestOCCT)|(TestOCCTColoring)|(TestUSD)|(TestVDB)" >> $GITHUB_ENV
+    run: echo "F3D_CTEST_EXCEPTIONS=(TestAssimp)|(TestSimple)|(TestAlembic)|(TestDraco)|(TestOCCT)|(TestOCCTColoring)|(TestUSD)|(TestVDB)|(TestHDF)|(TestWebIF)|(TestWebIFCColoring)" >> $GITHUB_ENV
 
   # on linux CI, GLX test require a Xorg server
   # Ubuntu 20.04 provided libEGL.so has rendering issues

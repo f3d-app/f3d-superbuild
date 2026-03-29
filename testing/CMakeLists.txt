@@ -77,6 +77,10 @@ endif ()
 
 # F3D test
 
+if (UNIX OR APPLE)
+  superbuild_test_loadable_modules("f3d" "${generator}" "${f3d_extract_dir}" )
+endif ()
+
 # Check f3d executable exists by using md5sum command
 add_test(
   NAME    "f3d-exec-exists"
@@ -150,10 +154,20 @@ if (openusd_enabled)
   f3d_add_test(TestUSD primitives.usda)
 endif ()
 
+if (f3dhdf_enabled)
+  f3d_add_test(TestHDF blob.vtkhdf)
+endif ()
+
 if (openvdb_enabled)
   f3d_add_test(TestVDB icosahedron.vdb)
 endif ()
 
 if (pdal_enabled)
   f3d_add_test(TestPDAL simple.laz)
+endif ()
+
+if (webifc_enabled)
+  # This test is needed because cell coloring does not work on macOS CI: https://github.com/f3d-app/f3d/issues/792
+  f3d_add_test(TestWebIFC IfcOpenHouse_IFC4.ifc --scalar-coloring=false)
+  f3d_add_test(TestWebIFCColoring IfcOpenHouse_IFC4.ifc)
 endif ()

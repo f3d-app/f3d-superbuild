@@ -4,6 +4,7 @@
 - cow.vtp: VTK Data: BSD
 - dragon.vtu: Stanford: Public Domain
 - duck.fbx: assimp test models: BSD-3-Clause
+- IfcOpenHouse_IFC4.ifc: [ThatOpen/engine_web-ifc](https://github.com/ThatOpen/engine_web-ifc): [MPL-2.0](https://www.mozilla.org/en-US/MPL/2.0/)
 - simple.laz: PDAL: Copyright (c) 2025, Hobu, Inc.
 
 All other datasets are licensed under the F3D license terms.
