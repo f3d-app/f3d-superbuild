@@ -60,7 +60,6 @@ f3d_package_all_licenses()
 # List of directories to package
 set(f3d_resource_dirs
     applications
-    bash-completion
     f3d
     fish
     icons
@@ -77,6 +76,11 @@ foreach (f3d_resource_dir IN LISTS f3d_resource_dirs)
 endforeach ()
 
 # Individual files to package
+
+install(
+  FILES   "${superbuild_install_location}/share/bash-completion/completions/f3d"
+  DESTINATION "share/bash-completion/completions")
+
 install(
   FILES   "${superbuild_install_location}/share/man/man1/f3d.1.gz"
   DESTINATION "share/man/man1")
