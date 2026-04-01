@@ -1,5 +1,5 @@
+# Note that webifc only supports static build
 superbuild_add_project(webifc
-  BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
     LICENSE.md
   SOURCE_SUBDIR src/cpp
