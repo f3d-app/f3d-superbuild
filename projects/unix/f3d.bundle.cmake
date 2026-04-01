@@ -52,6 +52,13 @@ if (openusd_enabled)
   f3d_package_usd_plugins(DESTINATION "lib")
 endif()
 
+# proj database
+if (proj_enabled)
+  install(
+    FILES       "${superbuild_install_location}/share/proj/proj.db"
+    DESTINATION "share/proj")
+endif ()
+
 ## Package F3D resources
 
 # Package all licenses

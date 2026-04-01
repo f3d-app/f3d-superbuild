@@ -1,11 +1,20 @@
 # F3D Testing Data
 
 # Copyrights and Licenses
+- 1.2-with-color.ptx: PDAL: Copyright (c) 2025, Hobu, Inc.
+- 10-word.qi: PDAL: Copyright (c) 2025, Hobu, Inc.
+- 20020715-time-color.bin: PDAL: Copyright (c) 2025, Hobu, Inc.
+- autzen-trim.sbet: PDAL: Copyright (c) 2025, Hobu, Inc.
+- autzen-utm.pcd: PDAL: Copyright (c) 2025, Hobu, Inc.
 - cow.vtp: VTK Data: BSD
 - dragon.vtu: Stanford: Public Domain
 - duck.fbx: assimp test models: BSD-3-Clause
 - IfcOpenHouse_IFC4.ifc: [ThatOpen/engine_web-ifc](https://github.com/ThatOpen/engine_web-ifc): [MPL-2.0](https://www.mozilla.org/en-US/MPL/2.0/)
+- sample.csd: PDAL: Copyright (c) 2025, Hobu, Inc.
 - simple.laz: PDAL: Copyright (c) 2025, Hobu, Inc.
+- simple_extra.bpf: PDAL: Copyright (c) 2025, Hobu, Inc.
+- SMALL_AUTZEN_LAS_All.slpk: PDAL: Copyright (c) 2025, Hobu, Inc.
+- warsaw_small.las: PDAL: Copyright (c) 2025, Hobu, Inc.
 
 All other datasets are licensed under the F3D license terms.
 

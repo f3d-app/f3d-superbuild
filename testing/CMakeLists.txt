@@ -163,7 +163,18 @@ if (openvdb_enabled)
 endif ()
 
 if (pdal_enabled)
-  f3d_add_test(TestPDAL simple.laz)
+  # PDAL use a plugin mechanism, each format should be checked
+  # High threshold needed as rendering points is driver dependant
+  f3d_add_test(TestPDALLAS warsaw_small.las --reference-threshold=0.1)
+  f3d_add_test(TestPDALLAZ simple.laz)
+  f3d_add_test(TestPDALBPF simple-extra.bpf)
+  f3d_add_test(TestPDALBIN 20020715-time-color.bin --reference-threshold=0.2)
+  f3d_add_test(TestPDALCSD sample.csd)
+  f3d_add_test(TestPDALPCD autzen-utm.pcd --reference-threshold=0.1)
+  f3d_add_test(TestPDALPTX 1.2-with-color.ptx)
+  f3d_add_test(TestPDALQI 10-word.qi)
+  f3d_add_test(TestPDALSBET autzen_trim.sbet)
+  f3d_add_test(TestPDALSLPK SMALL_AUTZEN_LAS_All.slpk)
 endif ()
 
 if (webifc_enabled)
