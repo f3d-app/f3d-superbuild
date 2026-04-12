@@ -44,13 +44,13 @@ runs:
     run: choco install ninja
 
   - name: Install and setup sccache
-    uses: f3d-app/sccache-setup-action@v1
+    uses: f3d-app/sccache-setup-action@v2
     with:
       key: ${{inputs.raytracing_label}}-${{runner.os}}-${{inputs.cpu}}-0
 
   - name: Setup msvc Windows
     if: runner.os == 'Windows'
-    uses: TheMrMilchmann/setup-msvc-dev@v3
+    uses: TheMrMilchmann/setup-msvc-dev@v4
     with:
       arch: x64
 
@@ -249,7 +249,7 @@ runs:
 
   - name: Upload Tests Artifact
     if: failure()
-    uses: actions/upload-artifact@v4
+    uses: actions/upload-artifact@v7
     with:
       path: ./build/Testing/Temporary
       name: f3d-superbuild-tests-artifact-${{runner.os}}-${{inputs.cpu}}-${{inputs.raytracing_label}}
@@ -261,7 +261,7 @@ runs:
 
   - name: Upload Artifacts
     if: always()
-    uses: actions/upload-artifact@v4
+    uses: actions/upload-artifact@v7
     with:
       path: ./build/F3D-*
       name: F3D-${{runner.os}}-${{inputs.cpu}}-${{inputs.raytracing_label}}

@@ -16,7 +16,7 @@ runs:
   # fetch-depth: 0 is required to get the tags used to determine f3d version
   # lfs: true is needed for testing, use LFS cache action instead TODO
   - name: Checkout f3d
-    uses: actions/checkout@v4
+    uses: actions/checkout@v6
     with:
       repository: 'f3d-app/f3d'
       ref: ${{inputs.f3d_version}}
@@ -38,7 +38,7 @@ runs:
   - name: Cache fsb
     if: inputs.use_cache == 'true'
     id: cache-fsb
-    uses: actions/cache@v4
+    uses: actions/cache@v5
     with:
       path: fsbb/install
       key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-3
@@ -52,7 +52,7 @@ runs:
 
   - name: Setup MSVC Windows
     if: runner.os == 'Windows'
-    uses: TheMrMilchmann/setup-msvc-dev@v3
+    uses: TheMrMilchmann/setup-msvc-dev@v4
     with:
       arch: x64
 
@@ -83,7 +83,7 @@ runs:
     if: |
       steps.cache-fsb.outputs.cache-hit != 'true' ||
       inputs.use_cache != 'true'
-    uses: pypa/cibuildwheel@v3.2.1
+    uses: pypa/cibuildwheel@v3.4.1
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
@@ -115,7 +115,7 @@ runs:
     if: |
       steps.cache-fsb.outputs.cache-hit == 'true' &&
       inputs.use_cache == 'true'
-    uses: pypa/cibuildwheel@v3.2.1
+    uses: pypa/cibuildwheel@v3.4.1
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
@@ -143,7 +143,7 @@ runs:
     working-directory: ${{github.workspace}}
     run: cp -r ./wheelhouse/fsbb_install ./fsbb/install
 
-  - uses: actions/upload-artifact@v4
+  - uses: actions/upload-artifact@v7
     if: always()
     with:
       name: wheels-${{ runner.os }}
