@@ -50,9 +50,9 @@ superbuild_set_revision(webifc
   URL_MD5 a75eb5132f58eeaa4db799cc085589c4)
 
 superbuild_set_selectable_source(vtk
-  SELECT 9.5.2 DEFAULT
-    URL     "https://www.vtk.org/files/release/9.5/VTK-9.5.2.tar.gz"
-    URL_MD5 0506164a7118772878bf165927a19cdb
+  SELECT 9.6.1 DEFAULT
+    URL     "https://www.vtk.org/files/release/9.6/VTK-9.6.1.tar.gz"
+    URL_MD5 056ea89e37f4f9b3a6305e5d67515ccc
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
     GIT_TAG        "origin/master"
