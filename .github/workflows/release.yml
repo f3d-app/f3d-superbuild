@@ -57,7 +57,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         path: 'source'
         fetch-depth: 1
@@ -84,7 +84,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         path: 'source'
         submodules: true
@@ -131,7 +131,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         path: 'source'
         submodules: true
@@ -182,7 +182,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         path: 'source'
         submodules: true
@@ -227,7 +227,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         path: 'source'
         submodules: true
@@ -272,7 +272,7 @@ jobs:
 
     steps:
 
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         pattern: wheels-*
         merge-multiple: true
@@ -288,7 +288,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         path: 'source'
         submodules: false
@@ -342,7 +342,7 @@ jobs:
     - name: Rename package
       run: for file in f3d-*.tgz ; do mv $file ${file//f3d-/f3d-web-} ; done
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       if: always()
       with:
         name: f3d-web
@@ -374,7 +374,7 @@ jobs:
 
     - name: Upload npm log on failure
       if: failure()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         path: /home/runner/.npm/_logs/*.log
         name: f3d-npm-log
