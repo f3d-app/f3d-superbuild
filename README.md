@@ -75,7 +75,7 @@ This repository also generate a nightly release of F3D.
  - `USE_SYSTEM_python3`: OFF by default, can be enabled if available as python is only a build time dependency
  - `f3d_SOURCE_SELECTION`: git by default, let the user choose the version of F3D to build and package
  - `f3d_GIT_TAG`: master by default, when using `-Df3d_SOURCE_SELECTION=git`, select the branch or commit to build
- - `vtk_SOURCE_SELECTION`: 9.2.6 by default, select the version of VTK to build and package
+ - `vtk_SOURCE_SELECTION`: 9.6.1 by default, select the version of VTK to build and package
  - `vtk_GIT_TAG`: master by default, when using `-Dvtk_SOURCE_SELECTION=git`, select the branch or commit to build
  - `BUILD_TESTING`: ON by default, required for the packaging step
 
