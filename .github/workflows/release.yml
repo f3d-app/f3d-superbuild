@@ -25,7 +25,7 @@ jobs:
     steps:
 
     - name: Cache F3D LFS Data and copy to directory
-      uses: f3d-app/lfs-data-cache-action@v1
+      uses: f3d-app/lfs-data-cache-action@v2
       with:
         repository: 'f3d-app/f3d'
         cache_postfix: f3d-cache-0
@@ -65,7 +65,7 @@ jobs:
 
     - name: Cache LFS Data
       id: lfs_sha_recover
-      uses: f3d-app/lfs-data-cache-action@v1
+      uses: f3d-app/lfs-data-cache-action@v2
       with:
         cache_postfix: cache-0
 
