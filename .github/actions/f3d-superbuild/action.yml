@@ -32,7 +32,7 @@ runs:
       lfs: true
 
   - name: Recover LFS Data
-    uses: f3d-app/lfs-data-cache-action@v1
+    uses: f3d-app/lfs-data-cache-action@v2
     with:
       type: 'consumer'
       lfs_sha: ${{inputs.lfs_sha}}
