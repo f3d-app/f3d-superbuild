@@ -80,13 +80,20 @@ runs:
       cmake ../source
       -DBUILD_SHARED_LIBS_alembic=OFF
       -DBUILD_SHARED_LIBS_assimp=OFF
+      -DBUILD_SHARED_LIBS_curl=OFF
       -DBUILD_SHARED_LIBS_draco=OFF
-      -DBUILD_SHARED_LIBS_openexr=OFF
+      -DBUILD_SHARED_LIBS_gdal=OFF
+      -DBUILD_SHARED_LIBS_geotiff=OFF
       -DBUILD_SHARED_LIBS_imath=OFF
       -DBUILD_SHARED_LIBS_imgui=OFF
+      -DBUILD_SHARED_LIBS_jsonc=OFF
+      -DBUILD_SHARED_LIBS_nlohmannjson=OFF
       -DBUILD_SHARED_LIBS_occt=OFF
+      -DBUILD_SHARED_LIBS_openexr=OFF
       -DBUILD_SHARED_LIBS_openusd=ON
       -DBUILD_SHARED_LIBS_openvdb=OFF
+      -DBUILD_SHARED_LIBS_pdal=OFF
+      -DBUILD_SHARED_LIBS_proj=OFF
       -DBUILD_SHARED_LIBS_vtk=OFF
       -DBUILD_SHARED_LIBS_webp=OFF
       -DCMAKE_BUILD_TYPE=Release
