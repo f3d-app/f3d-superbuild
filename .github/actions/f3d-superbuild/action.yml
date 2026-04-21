@@ -119,7 +119,18 @@ runs:
   - name: Build
     working-directory: ${{github.workspace}}/build
     shell: bash
-    run: cmake --build . --config Release || cmake --build . --config Release
+    run: |
+      export CXXFLAGS="-static-libstdc++ -static-libgcc"
+      export LDFLAGS="-static-libstdc++ -static-libgcc"
+      cmake --build . --config Release || cmake --build . --config Release
+
+  - name: Build
+    if: runner.os == 'Linux'
+    working-directory: ${{github.workspace}}/build
+    shell: bash
+    run: |
+      ldd bin/f3d
+      objdump -T bin/f3d | grep GLIBCXX_
 
   # Run cmake to update f3d-version.cmake
   - name: Package
