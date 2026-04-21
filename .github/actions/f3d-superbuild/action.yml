@@ -101,8 +101,14 @@ runs:
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
       -DENABLE_pdal=OFF
+      -DENABLE_assimp=OFF
+      -DENABLE_draco=OFF
+      -DENABLE_webp=OFF
+      -DENABLE_openvdb=OFF
       -DENABLE_occt=OFF
-      -DENABLE_usd=OFF
+      -DENABLE_openusd=OFF
+      -DENABLE_webifc=OFF
+      -DENABLE_alembic=OFF
       -DUSE_SYSTEM_python3=ON
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
@@ -122,18 +128,17 @@ runs:
   - name: Build
     working-directory: ${{github.workspace}}/build
     shell: bash
-    run: |
-      export CXXFLAGS="-static-libstdc++ -static-libgcc"
-      export LDFLAGS="-static-libstdc++ -static-libgcc"
-      cmake --build . --config Release || cmake --build . --config Release
+    run: cmake --build . --config Release || cmake --build . --config Release
 
   - name: Build
     if: runner.os == 'Linux'
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: |
-      ldd bin/f3d
-      objdump -T bin/f3d | grep GLIBCXX_
+      ldd install/bin/f3d
+      ldd install/lib/libf3d.so.3.5
+      objdump -T install/bin/f3d | grep GLIBCXX_3.4.3
+      objdump -T install/lib/libf3d.so.3.5 | grep GLIBCXX_3.4.3
 
   # Run cmake to update f3d-version.cmake
   - name: Package
