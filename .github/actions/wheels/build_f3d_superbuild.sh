@@ -1,6 +1,7 @@
 #!/bin/bash
 cmake -S ./source -B ./fsbb           \
   -DBUILD_SHARED_LIBS=OFF             \
+  -DBUILD_SHARED_LIBS_hdf5=ON         \
   -DCMAKE_BUILD_TYPE=Release          \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0  \
   -DENABLE_f3d=OFF                    \
@@ -15,10 +16,11 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_openvdb=OFF                \
   -DENABLE_osmesa=ON                  \
   -DENABLE_ospray=OFF                 \
-  -DENABLE_pdal=OFF                   \
+  -DENABLE_pdal=ON                    \
   -DENABLE_pybind11=ON                \
   -DENABLE_tbb=OFF                    \
   -DENABLE_vtk=ON                     \
+  -DENABLE_webifc=ON                  \
   -DENABLE_webp=ON                    \
   -DUSE_SYSTEM_python3=ON             \
   -Dvtk_SOURCE_SELECTION=git          \
