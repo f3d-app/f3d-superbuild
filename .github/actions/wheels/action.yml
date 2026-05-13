@@ -106,7 +106,7 @@ runs:
         bash ./source/.github/actions/wheels/build_f3d_superbuild.sh ${{ env.VTK_COMMIT_SHA }} &&
         mkdir -p /output &&
         cp -r fsbb/install /output/fsbb_install
-      CIBW_TEST_REQUIRES: pytest
+      CIBW_TEST_REQUIRES: pytest numpy
       CIBW_BEFORE_TEST_LINUX: Xvfb $DISPLAY -screen 0 1280x1024x24 &
       CIBW_BEFORE_TEST_WINDOWS: bash ./source/.github/actions/wheels/copy_mesa.sh {project}
       CIBW_TEST_COMMAND: bash ${{ runner.os == 'Linux' && '/host' || null }}${{github.workspace}}/source/.github/actions/wheels/test_with_pytest_retry.sh {package}

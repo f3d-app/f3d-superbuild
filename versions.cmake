@@ -39,6 +39,12 @@ superbuild_set_revision(openvdb
   DOWNLOAD_NAME openvdb-v13.0.0.tar.gz
   URL_MD5 7a10f529ed12d9e3ed6d3fd50f157378)
 
+# Temporary update until common-superbuild catches up
+superbuild_set_revision(pybind11
+  URL     "https://github.com/pybind/pybind11/archive/refs/tags/v3.0.4.tar.gz"
+  DOWNLOAD_NAME pybind11-3.0.4.tar.gz
+  URL_MD5 933fa1b6b1fe34c9945ecb3fe67f5c4b)
+
 superbuild_set_revision(webp
   URL     "https://github.com/webmproject/libwebp/archive/refs/tags/v1.6.0.tar.gz"
   DOWNLOAD_NAME webp-v1.6.0.tar.gz
