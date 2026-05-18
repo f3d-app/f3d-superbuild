@@ -47,7 +47,7 @@ jobs:
       run: zip -r f3d-lfs-data.zip f3d-lfs-data
 
     - name: Delete previous nightly release assets
-      uses: mknejp/delete-release-assets@v1
+      uses: mknejp/delete-release-assets@94e5896e003fe67dcd81273e1ce45b90b5f1086d
       with:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
@@ -56,7 +56,7 @@ jobs:
         fail-if-no-assets: false
 
     - name: Publish nightly lfs package
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.21.0
       with:
         owner: f3d-app
         repo: f3d
@@ -120,7 +120,7 @@ jobs:
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Delete previous nightly release assets
-      uses: mknejp/delete-release-assets@v1
+      uses: mknejp/delete-release-assets@94e5896e003fe67dcd81273e1ce45b90b5f1086d
       with:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
@@ -129,7 +129,7 @@ jobs:
         fail-if-no-assets: false
 
     - name: Publish nightly release
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.21.0
       with:
         owner: f3d-app
         repo: f3d
@@ -174,7 +174,7 @@ jobs:
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Delete previous nightly release assets
-      uses: mknejp/delete-release-assets@v1
+      uses: mknejp/delete-release-assets@94e5896e003fe67dcd81273e1ce45b90b5f1086d
       with:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
@@ -183,7 +183,7 @@ jobs:
         fail-if-no-assets: false
 
     - name: Publish nightly release
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.21.0
       with:
         owner: f3d-app
         repo: f3d
@@ -233,7 +233,7 @@ jobs:
         lfs_sha: ${{ needs.cache_lfs.outputs.lfs_sha}}
 
     - name: Delete previous nightly release assets
-      uses: mknejp/delete-release-assets@v1
+      uses: mknejp/delete-release-assets@94e5896e003fe67dcd81273e1ce45b90b5f1086d
       with:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
@@ -242,7 +242,7 @@ jobs:
         fail-if-no-assets: false
 
     - name: Publish nightly release
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.21.0
       with:
         owner: f3d-app
         repo: f3d
@@ -284,7 +284,7 @@ jobs:
         use_cache: false
 
     - name: Delete previous nightly release assets
-      uses: mknejp/delete-release-assets@v1
+      uses: mknejp/delete-release-assets@94e5896e003fe67dcd81273e1ce45b90b5f1086d
       with:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
@@ -293,7 +293,7 @@ jobs:
         fail-if-no-assets: false
 
     - name: Publish nightly python wheels
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.21.0
       with:
         owner: f3d-app
         repo: f3d
@@ -330,7 +330,7 @@ jobs:
         android_keystore_password: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
     - name: Delete previous nightly release assets
-      uses: mknejp/delete-release-assets@v1
+      uses: mknejp/delete-release-assets@94e5896e003fe67dcd81273e1ce45b90b5f1086d
       with:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
@@ -339,7 +339,7 @@ jobs:
         fail-if-no-assets: false
 
     - name: Publish nightly android package
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.21.0
       with:
         owner: f3d-app
         repo: f3d
@@ -408,7 +408,7 @@ jobs:
         path: f3d/f3d-web-*.tgz
 
     - name: Delete previous nightly release assets
-      uses: mknejp/delete-release-assets@v1
+      uses: mknejp/delete-release-assets@94e5896e003fe67dcd81273e1ce45b90b5f1086d
       with:
         token: ${{ secrets.SECRET_TOKEN }}
         repository: f3d-app/f3d
@@ -417,7 +417,7 @@ jobs:
         fail-if-no-assets: false
 
     - name: Publish nightly npm package
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@v1.21.0
       with:
         owner: f3d-app
         repo: f3d
