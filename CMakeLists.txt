@@ -52,6 +52,7 @@ function (superbuild_find_projects var)
     nlohmannjson
     occt
     openexr
+    openjph
     openimagedenoise
     openusd
     openvdb
