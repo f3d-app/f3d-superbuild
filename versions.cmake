@@ -1,7 +1,7 @@
 superbuild_set_revision(assimp
-  URL     "https://github.com/assimp/assimp/archive/refs/tags/v6.0.2.tar.gz"
-  DOWNLOAD_NAME assimp-v6.0.2.tar.gz
-  URL_MD5 c5a1432214fbe08ddfb230b22d53217a)
+  URL     "https://github.com/assimp/assimp/archive/refs/tags/v6.0.5.tar.gz"
+  DOWNLOAD_NAME assimp-v6.0.5.tar.gz
+  URL_MD5 b15787a3bc2f022d01cda9aa712a6681)
 
 superbuild_set_revision(draco
   URL     "https://github.com/google/draco/archive/refs/tags/1.5.7.tar.gz"
@@ -25,21 +25,27 @@ superbuild_set_revision(occt
   URL_MD5 724d6ad98f138b9cda7576679b8bff94)
 
 superbuild_set_revision(openexr
-  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.4.4.tar.gz"
-  DOWNLOAD_NAME openexr-v3.4.4.tar.gz
-  URL_MD5 ad8587c4a64bf423c387734e85d17432)
+  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.4.11.tar.gz"
+  DOWNLOAD_NAME openexr-v3.4.11.tar.gz
+  URL_MD5 e0c1a315ccffa6f0ae94aa75602d58a7)
+
+superbuild_set_revision(openjph
+  URL     "https://github.com/aous72/OpenJPH/archive/refs/tags/0.27.3.tar.gz"
+  DOWNLOAD_NAME openjph-0.27.3.tar.gz
+  URL_MD5 49f930145e000e85f14fbe5ac2ae4367)
 
 superbuild_set_revision(openusd
-  URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v25.11.tar.gz"
-  DOWNLOAD_NAME openusd-v25.11.tar.gz
-  URL_MD5 c5d35692ad9809cad046037f1512b1b4)
+  URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v26.05.tar.gz"
+  DOWNLOAD_NAME openusd-v26.05.tar.gz
+  URL_MD5 080e3e471ec56f8493ea4a56a7a2068a)
 
 superbuild_set_revision(openvdb
   URL "https://github.com/AcademySoftwareFoundation/openvdb/archive/refs/tags/v13.0.0.tar.gz"
   DOWNLOAD_NAME openvdb-v13.0.0.tar.gz
   URL_MD5 7a10f529ed12d9e3ed6d3fd50f157378)
 
-# Temporary update until common-superbuild catches up
+# pybind11 cannot be updated in common-superbuild for now
+# https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/87
 superbuild_set_revision(pybind11
   URL     "https://github.com/pybind/pybind11/archive/refs/tags/v3.0.4.tar.gz"
   DOWNLOAD_NAME pybind11-3.0.4.tar.gz
@@ -51,9 +57,9 @@ superbuild_set_revision(webp
   URL_MD5 d498caf9323a24ce3ed40b84c22a32cd)
 
 superbuild_set_revision(webifc
-  URL     "https://github.com/ThatOpen/engine_web-ifc/archive/refs/tags/0.75.tar.gz"
-  DOWNLOAD_NAME webifc-0.75.tar.gz
-  URL_MD5 a75eb5132f58eeaa4db799cc085589c4)
+  URL     "https://github.com/ThatOpen/engine_web-ifc/archive/refs/tags/0.77.tar.gz"
+  DOWNLOAD_NAME webifc-0.77.tar.gz
+  URL_MD5 b9fc504150899f3894741759f9bb8f41)
 
 superbuild_set_selectable_source(vtk
   SELECT 9.6.1 DEFAULT
@@ -75,11 +81,3 @@ superbuild_set_selectable_source(f3d
     GIT_TAG        "origin/master"
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-f3d")
-
-## Temporary bump from f3d-superbuild until
-## https://github.com/f3d-app/f3d-superbuild/issues/305 is fixed
-
-superbuild_set_revision(alembic
-  # https://github.com/alembic/alembic/releases
-  URL     "https://www.paraview.org/files/dependencies/alembic-1.8.10.tar.gz"
-  URL_MD5 73d2ea132e334781978d1aeb2961be05)
