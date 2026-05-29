@@ -44,7 +44,8 @@ superbuild_set_revision(openvdb
   DOWNLOAD_NAME openvdb-v13.0.0.tar.gz
   URL_MD5 7a10f529ed12d9e3ed6d3fd50f157378)
 
-# Temporary update until common-superbuild catches up
+# pybind11 cannot be updated in common-superbuild for now
+# https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/87
 superbuild_set_revision(pybind11
   URL     "https://github.com/pybind/pybind11/archive/refs/tags/v3.0.4.tar.gz"
   DOWNLOAD_NAME pybind11-3.0.4.tar.gz
@@ -80,11 +81,3 @@ superbuild_set_selectable_source(f3d
     GIT_TAG        "origin/master"
   SELECT source CUSTOMIZABLE
     SOURCE_DIR "source-f3d")
-
-## Temporary bump from f3d-superbuild until
-## https://github.com/f3d-app/f3d-superbuild/issues/305 is fixed
-
-superbuild_set_revision(alembic
-  # https://github.com/alembic/alembic/releases
-  URL     "https://www.paraview.org/files/dependencies/alembic-1.8.10.tar.gz"
-  URL_MD5 73d2ea132e334781978d1aeb2961be05)
