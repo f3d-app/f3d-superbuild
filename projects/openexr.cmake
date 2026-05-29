@@ -2,7 +2,7 @@ superbuild_add_project(openexr
   BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
     LICENSE.md
-  DEPENDS imath zlib
+  DEPENDS openjph imath zlib
   CMAKE_ARGS
     -DBUILD_TESTING:BOOL=OFF
     -DOPENEXR_INSTALL_EXAMPLES:BOOL=OFF
