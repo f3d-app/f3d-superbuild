@@ -1,0 +1,24 @@
+diff --git a/pdal/util/FileUtils.cpp b/pdal/util/FileUtils.cpp
+index 5081056e9..a16a24cad 100644
+--- a/pdal/util/FileUtils.cpp
++++ b/pdal/util/FileUtils.cpp
+@@ -46,8 +46,8 @@
+ #include <codecvt>
+ #endif
+ 
+-#include <filesystem>
+-namespace fs = std::filesystem;
++#include <experimental/filesystem>
++namespace fs = std::experimental::filesystem;
+ 
+ 
+ 
+@@ -345,7 +345,7 @@ std::string getcwd()
+ 
+ std::string toCanonicalPath(std::string filename)
+ {
+-    return fs::weakly_canonical(toNative(filename)).u8string();
++    return fs::canonical(toNative(filename)).u8string();
+ }
+ 
+ // if the filename is an absolute path, just return it
