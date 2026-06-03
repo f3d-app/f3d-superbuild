@@ -1,0 +1,254 @@
+From 5795965a81b6f92bb99205a83d6801f2d4c81952 Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Fri, 29 May 2026 08:57:28 +0200
+Subject: [PATCH] Add static build support
+
+---
+ CMakeLists.txt                         | 17 ++++++++++++++++-
+ PDALConfig.cmake.in                    | 16 ++++++++++++++++
+ cmake/libraries.cmake                  |  6 +++++-
+ cmake/macros.cmake                     | 19 ++++++++++++-------
+ vendor/arbiter/CMakeLists.txt          |  2 +-
+ vendor/h3/CMakeLists.txt               |  2 +-
+ vendor/kazhdan/CMakeLists.txt          |  2 +-
+ vendor/lazperf/CMakeLists.txt          |  2 +-
+ vendor/lepcc/CMakeLists.txt            |  2 +-
+ vendor/schema-validator/CMakeLists.txt |  4 ++--
+ 10 files changed, 56 insertions(+), 16 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1ab7ea732..ae4903e93 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -8,6 +8,8 @@ cmake_minimum_required(VERSION 3.13)
+ project(PDAL VERSION 2.10.1 LANGUAGES CXX C)
+ string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
+ 
++option(BUILD_SHARED_LIBS "Build pdal as a shared library" ON)
++
+ set(ROOT_DIR "${PROJECT_SOURCE_DIR}")
+ include(${ROOT_DIR}/cmake/common.cmake NO_POLICY_SCOPE)
+ 
+@@ -246,6 +248,7 @@ target_include_directories(${PDAL_LIB_NAME}
+         ${UTFCPP_INCLUDE_DIR}
+ )
+ 
++
+ target_link_libraries(${PDAL_LIB_NAME}
+     PRIVATE
+         ${CMAKE_THREAD_LIBS_INIT}
+@@ -260,7 +263,6 @@ target_link_libraries(${PDAL_LIB_NAME}
+         ${PDAL_KAZHDAN_LIB_NAME}
+         ${PDAL_LEPCC_LIB_NAME}
+         ${PDAL_LAZPERF_LIB_NAME}
+-        ${UTFCPP_LIB_NAME}
+         ${BACKTRACE_LIBRARIES}
+        "$<$<AND:$<CXX_COMPILER_ID:GNU>,$<VERSION_LESS:$<CXX_COMPILER_VERSION>,9.0>>:-lstdc++fs>"
+     PUBLIC
+@@ -419,6 +421,19 @@ export(
+     FILE
+         "${PDAL_BINARY_DIR}/PDALTargets.cmake")
+ 
++if (${PDAL_LIB_TYPE} STREQUAL "STATIC")
++  export(
++      TARGETS
++          ${JSON_SCHEMA_LIB_NAME}
++          ${PDAL_ARBITER_LIB_NAME}
++          ${PDAL_H3_LIB_NAME}
++          ${PDAL_KAZHDAN_LIB_NAME}
++          ${PDAL_LAZPERF_LIB_NAME}
++          ${PDAL_LEPCC_LIB_NAME}
++      FILE
++          "${PDAL_BINARY_DIR}/PDALTargets.cmake")
++endif ()
++
+ install(
+     EXPORT
+         PDALTargets
+diff --git a/PDALConfig.cmake.in b/PDALConfig.cmake.in
+index b0eaca164..768e6e4cd 100644
+--- a/PDALConfig.cmake.in
++++ b/PDALConfig.cmake.in
+@@ -18,4 +18,20 @@ include("${CMAKE_CURRENT_LIST_DIR}/PDALTargets.cmake")
+ #
+ set(PDAL_LIBRARIES @PDAL_LIB_NAME@)
+ 
++set(PDAL_LIB_TYPE @PDAL_LIB_TYPE@)
++set(PDAL_WITH_ZLIB @WITH_ZLIB@)
++set(PDAL_WITH_ZSTD @WITH_ZSTD@)
++if (${PDAL_LIB_TYPE} STREQUAL "STATIC")
++  find_package(CURL REQUIRED)
++  find_package(GDAL CONFIG REQUIRED)
++  find_package(PROJ 9.0 REQUIRED CONFIG)
++  find_package(LibXml2)
++  if (PDAL_WITH_ZLIB)
++    find_package(ZLIB REQUIRED)
++  endif ()
++  if (PDAL_WITH_ZSTD)
++    find_package(zstd REQUIRED)
++  endif ()
++endif ()
++
+ check_required_components(PDAL)
+diff --git a/cmake/libraries.cmake b/cmake/libraries.cmake
+index 0ca52061b..ed33a06dc 100644
+--- a/cmake/libraries.cmake
++++ b/cmake/libraries.cmake
+@@ -1,6 +1,10 @@
+ # Build shared libraries by default.
+ 
+-set(PDAL_LIB_TYPE "SHARED")
++if (BUILD_SHARED_LIBS)
++  set(PDAL_LIB_TYPE "SHARED")
++else ()
++  set(PDAL_LIB_TYPE "STATIC")
++endif ()
+ if (WIN32)
+     set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_IMPORT_LIBRARY_SUFFIX})
+ endif()
+diff --git a/cmake/macros.cmake b/cmake/macros.cmake
+index 9608163a9..6081eb1d7 100644
+--- a/cmake/macros.cmake
++++ b/cmake/macros.cmake
+@@ -57,6 +57,8 @@ macro(PDAL_ADD_LIBRARY _name)
+     pdal_lib_compile_settings(${_name})
+     if (NOT ${_library_type} STREQUAL "STATIC")
+         target_compile_definitions(${_name} PRIVATE PDAL_DLL_EXPORT)
++    else ()
++       set_target_properties(${_name} PROPERTIES POSITION_INDEPENDENT_CODE ON)
+     endif()
+ 
+     target_compile_features (${_name}
+@@ -84,7 +86,7 @@ endmacro(PDAL_ADD_LIBRARY)
+ # _library_type Shared or static
+ # ARGN The source files for the library.
+ #
+-macro(PDAL_ADD_FREE_LIBRARY _name _library_type)
++macro(PDAL_ADD_FREE_LIBRARY _name _library_type _pdal_lib_type)
+     add_library(${_name} ${_library_type} ${ARGN})
+     set_property(TARGET ${_name} PROPERTY FOLDER "Libraries")
+     target_include_directories(${_name} PRIVATE
+@@ -96,18 +98,21 @@ macro(PDAL_ADD_FREE_LIBRARY _name _library_type)
+         CXX_STANDARD 17
+     )
+ 
++    if (${_library_type} STREQUAL "STATIC")
++      set_target_properties(${_name} PROPERTIES
++        POSITION_INDEPENDENT_CODE TRUE)
++    endif ()
++
+     # Don't install static libraries - they're already built into libpdalXXX
+-    if (NOT ${_library_type} STREQUAL "STATIC")
++    # Unless pdal is built statically
++    if (NOT ${_library_type} STREQUAL "STATIC" OR ${_pdal_lib_type} STREQUAL "STATIC")
+         target_compile_definitions(${_name} PRIVATE PDAL_DLL_EXPORT)
+         install(TARGETS ${_name}
+             EXPORT PDALTargets
+             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+-    else()
+-        set_target_properties(${_name} PROPERTIES
+-            POSITION_INDEPENDENT_CODE TRUE)
+-    endif()
++    endif ()
+ endmacro(PDAL_ADD_FREE_LIBRARY)
+ 
+ ###############################################################################
+@@ -136,7 +141,7 @@ macro(PDAL_ADD_PLUGIN _name _type _shortname)
+         list(APPEND ${PDAL_ADD_PLUGIN_FILES} ${PDAL_TARGET_OBJECTS})
+     endif()
+ 
+-    add_library(${${_name}} SHARED ${PDAL_ADD_PLUGIN_FILES})
++    add_library(${${_name}} ${PDAL_LIB_TYPE} ${PDAL_ADD_PLUGIN_FILES})
+     pdal_target_compile_settings(${${_name}})
+     target_include_directories(${${_name}} PRIVATE
+         ${PROJECT_BINARY_DIR}/include
+diff --git a/vendor/arbiter/CMakeLists.txt b/vendor/arbiter/CMakeLists.txt
+index fc73b75a4..e943cfafa 100644
+--- a/vendor/arbiter/CMakeLists.txt
++++ b/vendor/arbiter/CMakeLists.txt
+@@ -7,7 +7,7 @@ if (EXISTS)
+     return()
+ endif()
+ 
+-PDAL_ADD_FREE_LIBRARY(${PDAL_ARBITER_LIB_NAME} STATIC arbiter.cpp)
++PDAL_ADD_FREE_LIBRARY(${PDAL_ARBITER_LIB_NAME} STATIC ${PDAL_LIB_TYPE} arbiter.cpp)
+ target_include_directories(${PDAL_ARBITER_LIB_NAME}
+     PRIVATE
+         ${NLOHMANN_INCLUDE_DIR}
+diff --git a/vendor/h3/CMakeLists.txt b/vendor/h3/CMakeLists.txt
+index c831bc535..4c4bcd07b 100644
+--- a/vendor/h3/CMakeLists.txt
++++ b/vendor/h3/CMakeLists.txt
+@@ -50,7 +50,7 @@ set(H3SRCS
+     "${CMAKE_CURRENT_SOURCE_DIR}/lib/baseCells.c")
+ 
+ 
+-PDAL_ADD_FREE_LIBRARY(${PDAL_H3_LIB_NAME} STATIC ${H3SRCS})
++PDAL_ADD_FREE_LIBRARY(${PDAL_H3_LIB_NAME} STATIC ${PDAL_LIB_TYPE} ${H3SRCS})
+ 
+ target_compile_definitions(${PDAL_H3_LIB_NAME}
+     PRIVATE
+diff --git a/vendor/kazhdan/CMakeLists.txt b/vendor/kazhdan/CMakeLists.txt
+index 12659bf99..61fc9f88a 100644
+--- a/vendor/kazhdan/CMakeLists.txt
++++ b/vendor/kazhdan/CMakeLists.txt
+@@ -3,7 +3,7 @@ if (EXISTS)
+     return()
+ endif()
+ 
+-PDAL_ADD_FREE_LIBRARY(${PDAL_KAZHDAN_LIB_NAME} STATIC
++PDAL_ADD_FREE_LIBRARY(${PDAL_KAZHDAN_LIB_NAME} STATIC ${PDAL_LIB_TYPE}
+     Factor.cpp
+     Geometry.cpp
+     MarchingCubes.cpp
+diff --git a/vendor/lazperf/CMakeLists.txt b/vendor/lazperf/CMakeLists.txt
+index 9d59bff4f..f585b8963 100644
+--- a/vendor/lazperf/CMakeLists.txt
++++ b/vendor/lazperf/CMakeLists.txt
+@@ -12,7 +12,7 @@ file(GLOB LAZPERF_SRCS
+     detail/*.cpp
+ )
+ 
+-PDAL_ADD_FREE_LIBRARY(${PDAL_LAZPERF_LIB_NAME} STATIC ${LAZPERF_SRCS})
++PDAL_ADD_FREE_LIBRARY(${PDAL_LAZPERF_LIB_NAME} STATIC ${PDAL_LIB_TYPE} ${LAZPERF_SRCS})
+ # Lazperf is built static but is included in a shared lib.
+ set_target_properties(${PDAL_LAZPERF_LIB_NAME} PROPERTIES POSITION_INDEPENDENT_CODE ON)
+ target_compile_definitions(${PDAL_LAZPERF_LIB_NAME} PRIVATE LAZPERF_VENDORED)
+diff --git a/vendor/lepcc/CMakeLists.txt b/vendor/lepcc/CMakeLists.txt
+index 9b583d82c..6ac4e2b0f 100644
+--- a/vendor/lepcc/CMakeLists.txt
++++ b/vendor/lepcc/CMakeLists.txt
+@@ -12,7 +12,7 @@ file(GLOB TEST_SRCS
+ 
+ list(REMOVE_ITEM BASE_SRCS ${TEST_SRCS})
+ 
+-PDAL_ADD_FREE_LIBRARY(${PDAL_LEPCC_LIB_NAME} STATIC ${BASE_SRCS})
++PDAL_ADD_FREE_LIBRARY(${PDAL_LEPCC_LIB_NAME} STATIC ${PDAL_LIB_TYPE} ${BASE_SRCS})
+ 
+ set(LEPCC_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/src/include")
+ 
+diff --git a/vendor/schema-validator/CMakeLists.txt b/vendor/schema-validator/CMakeLists.txt
+index 83654aeb2..519c90a0b 100644
+--- a/vendor/schema-validator/CMakeLists.txt
++++ b/vendor/schema-validator/CMakeLists.txt
+@@ -3,7 +3,7 @@ if (EXISTS)
+     return()
+ endif()
+ 
+-PDAL_ADD_FREE_LIBRARY(${JSON_SCHEMA_LIB_NAME} STATIC
++PDAL_ADD_FREE_LIBRARY(${JSON_SCHEMA_LIB_NAME} STATIC ${PDAL_LIB_TYPE}
+     json-schema-draft7.json.cpp
+     json-validator.cpp
+     string-format-check.cpp
+@@ -27,4 +27,4 @@ target_include_directories(${JSON_SCHEMA_LIB_NAME}
+ #     CLEAN_DIRECT_OUTPUT 1)
+ 
+ target_link_libraries(${JSON_SCHEMA_LIB_NAME})
+-set_property(GLOBAL PROPERTY _PDALJSON_SCHEMA_INCLUDED TRUE)
+\ No newline at end of file
++set_property(GLOBAL PROPERTY _PDALJSON_SCHEMA_INCLUDED TRUE)
+-- 
+2.54.0
+
