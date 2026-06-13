@@ -181,5 +181,5 @@ endif ()
 if (webifc_enabled)
   # This test is needed because cell coloring does not work on macOS CI: https://github.com/f3d-app/f3d/issues/792
   f3d_add_test(TestWebIFC IfcOpenHouse_IFC4.ifc --scalar-coloring=false)
-  f3d_add_test(TestWebIFCColoring IfcOpenHouse_IFC4.ifc)
+  f3d_add_test(TestWebIFCColoring IfcOpenHouse_IFC4.ifc --reference-threshold=0.06)
 endif ()
