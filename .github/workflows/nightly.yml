@@ -16,7 +16,7 @@ jobs:
     steps:
 
     - name: Checkout F3D
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         repository: f3d-app/f3d
         fetch-depth: 0
@@ -78,7 +78,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         path: 'source'
         fetch-depth: 1
@@ -106,7 +106,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         path: 'source'
         submodules: true
@@ -160,7 +160,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         path: 'source'
         submodules: true
@@ -218,7 +218,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         path: 'source'
         submodules: true
@@ -271,7 +271,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         path: 'source'
         submodules: true
@@ -315,7 +315,7 @@ jobs:
     steps:
 
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         path: 'source'
         submodules: false
@@ -374,7 +374,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
 
     - name: Checkout f3d
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         repository: 'f3d-app/f3d'
         ref: ${{needs.check_nightly.outputs.f3d_sha}}
@@ -447,7 +447,7 @@ jobs:
     steps:
 
     - name: Checkout F3D
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         repository: f3d-app/f3d
         fetch-depth: 0
