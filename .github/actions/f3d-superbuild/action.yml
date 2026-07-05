@@ -40,6 +40,12 @@ runs:
 
   - name: Set up Python
     uses: actions/setup-python@v6
+    with:
+      python-version: 3.14
+
+  - name: Upgrade pip
+    shell: bash
+    run: python -m pip install --upgrade pip
 
   - name: Install ninja Windows
     if: runner.os == 'Windows'
