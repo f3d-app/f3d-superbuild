@@ -38,6 +38,9 @@ runs:
       lfs_sha: ${{inputs.lfs_sha}}
       cache_postfix: cache-0
 
+  - name: Set up Python
+    uses: actions/setup-python@v6
+
   - name: Install ninja Windows
     if: runner.os == 'Windows'
     shell: cmd
