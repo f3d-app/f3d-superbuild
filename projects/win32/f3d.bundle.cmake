@@ -43,6 +43,12 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
+# Package supplemental osmesa library that may be loaded dynamically
+if (osmesa_enabled)
+  superbuild_windows_install_plugin("osmesa.dll" "bin" "bin"
+      SEARCH_DIRECTORIES "${library_paths}" COMPONENT "")
+endif ()
+
 # OpenUSD plugin descriptors
 if (openusd_enabled)
   f3d_package_usd_plugins(DESTINATION "bin")
