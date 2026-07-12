@@ -86,6 +86,14 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:STRING=${vtk_raytracing_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_TestingCore:STRING=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${vtk_iohdf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${vtk_ionetcdf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_sqlite:BOOL=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_tiff:BOOL=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_lz4:BOOL=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_nlohmannjson:BOOL=YES
     -DVTK_OPENGL_HAS_EGL:BOOL=${vtk_egl_enabled}
     -DVTK_SMP_ENABLE_SEQUENTIAL:BOOL=${vtk_smp_enable_sequential}
     -DVTK_SMP_ENABLE_STDTHREAD:BOOL=OFF
