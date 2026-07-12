@@ -42,7 +42,7 @@ else ()
   set(vtk_smp_enable_sequential ON)
 endif ()
 
-# H5_HAVE_VASPRINTF is needed for ci-build-wheel
+# H5_HAVE_VASPRINTF and H5_HAVE_QSORT_REENTRANT are needed for ci-build-wheel
 superbuild_add_project(vtk
   BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
@@ -51,6 +51,7 @@ superbuild_add_project(vtk
   DEPENDS_OPTIONAL tbb ospray f3dhdf openvdb pdal
   CMAKE_ARGS
     -DH5_HAVE_VASPRINTF=0
+    -DH5_HAVE_QSORT_REENTRANT=0
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${ospray_enabled}
     -DVTK_BUILD_TESTING:BOOL=OFF
     -DVTK_ENABLE_LOGGING:BOOL=OFF
