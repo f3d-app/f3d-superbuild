@@ -42,15 +42,13 @@ else ()
   set(vtk_smp_enable_sequential ON)
 endif ()
 
-# H5_HAVE_VASPRINTF is needed for ci-build-wheel
 superbuild_add_project(vtk
   BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
     Copyright.txt
-  DEPENDS cxx11
-  DEPENDS_OPTIONAL tbb ospray f3dhdf openvdb pdal
+  DEPENDS cxx11 png sqlite tiff lz4 nlohmannjson
+  DEPENDS_OPTIONAL tbb ospray hdf5 netcdf f3dhdf openvdb pdal
   CMAKE_ARGS
-    -DH5_HAVE_VASPRINTF=0
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${ospray_enabled}
     -DVTK_BUILD_TESTING:BOOL=OFF
     -DVTK_ENABLE_LOGGING:BOOL=OFF
