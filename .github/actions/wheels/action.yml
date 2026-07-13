@@ -61,15 +61,9 @@ runs:
     shell: bash
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
-  # Should be remove once https://github.com/f3d-app/install-mesa-windows-action/pull/6 is released
-  - name: Prepare mesa directory
-    if: runner.os == 'Windows'
-    shell: bash
-    run: mkdir mesa
-
   - name: Download and extract Mesa Windows
     if: runner.os == 'Windows'
-    uses: f3d-app/install-mesa-windows-action@v1
+    uses: f3d-app/install-mesa-windows-action@v2
     with:
       path: ${{github.workspace}}\mesa
 
