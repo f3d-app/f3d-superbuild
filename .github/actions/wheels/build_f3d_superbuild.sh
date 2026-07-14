@@ -2,6 +2,7 @@
 cmake -S ./source -B ./fsbb           \
   -DBUILD_SHARED_LIBS=OFF             \
   -DBUILD_SHARED_LIBS_hdf5=ON         \
+  -DBUILD_SHARED_LIBS_tiff=ON         \
   -DCMAKE_BUILD_TYPE=Release          \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0  \
   -DENABLE_f3d=OFF                    \
