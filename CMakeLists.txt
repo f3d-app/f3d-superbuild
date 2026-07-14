@@ -157,6 +157,10 @@ set(_superbuild_default_tbb ON)
 set(_superbuild_default_webp ON)
 set(_superbuild_default_webifc ON)
 
+# force certain options
+set(proj_EMBED_RESOURCES ON
+  CACHE BOOL "Embed resource files in the library binary")
+
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
                       "is missing; did you forget to do `git submodule init` "
