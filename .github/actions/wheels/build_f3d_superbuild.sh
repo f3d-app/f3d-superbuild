@@ -1,4 +1,6 @@
 #!/bin/bash
+# tiff is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/90
+# hdf5 is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/86
 cmake -S ./source -B ./fsbb           \
   -DBUILD_SHARED_LIBS=OFF             \
   -DBUILD_SHARED_LIBS_hdf5=ON         \
