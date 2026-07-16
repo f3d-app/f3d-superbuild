@@ -73,6 +73,11 @@ runs:
       echo VTK_COMMIT_SHA=$VTK_COMMIT_SHA >> $GITHUB_ENV
 
   # OCCT coloring is disabled on macOS because of f3d-app/f3d#792
+  # f3d is build shared becase we ship the libf3d
+  # hdf5 is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/86
+  # netcdf is build shared because of TODO
+  # tiff and zlib are build shared because of TODO
+  # openusd is build shared because of its plugin system
   - name: Configure
     working-directory: ${{github.workspace}}/build
     shell: bash
@@ -80,22 +85,33 @@ runs:
       cmake ../source
       -DBUILD_SHARED_LIBS_alembic=OFF
       -DBUILD_SHARED_LIBS_assimp=OFF
+      -DBUILD_SHARED_LIBS_blosc=OFF
       -DBUILD_SHARED_LIBS_curl=OFF
       -DBUILD_SHARED_LIBS_draco=OFF
+      -DBUILD_SHARED_LIBS_f3d=ON
       -DBUILD_SHARED_LIBS_gdal=OFF
       -DBUILD_SHARED_LIBS_geotiff=OFF
+      -DBUILD_SHARED_LIBS_hdf5=ON
       -DBUILD_SHARED_LIBS_imath=OFF
       -DBUILD_SHARED_LIBS_imgui=OFF
       -DBUILD_SHARED_LIBS_jsonc=OFF
+      -DBUILD_SHARED_LIBS_lz4=OFF
+      -DBUILD_SHARED_LIBS_netcdf=OFF
       -DBUILD_SHARED_LIBS_nlohmannjson=OFF
       -DBUILD_SHARED_LIBS_occt=OFF
       -DBUILD_SHARED_LIBS_openexr=OFF
+      -DBUILD_SHARED_LIBS_openjph=OFF
       -DBUILD_SHARED_LIBS_openusd=ON
       -DBUILD_SHARED_LIBS_openvdb=OFF
       -DBUILD_SHARED_LIBS_pdal=OFF
+      -DBUILD_SHARED_LIBS_png=OFF
       -DBUILD_SHARED_LIBS_proj=OFF
+      -DBUILD_SHARED_LIBS_szip=OFF
+      -DBUILD_SHARED_LIBS_tiff=ON
       -DBUILD_SHARED_LIBS_vtk=OFF
       -DBUILD_SHARED_LIBS_webp=OFF
+      -DBUILD_SHARED_LIBS_zlib=ON
+      -DBUILD_SHARED_LIBS_zstd=OFF
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
