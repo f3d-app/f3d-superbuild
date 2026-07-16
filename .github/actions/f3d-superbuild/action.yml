@@ -76,7 +76,7 @@ runs:
   # f3d is build shared becase we ship the libf3d
   # hdf5 is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/86
   # netcdf is build shared because of TODO
-  # tiff and zlib are build shared because of TODO
+  # tiff is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/90
   # openusd is build shared because of its plugin system
   - name: Configure
     working-directory: ${{github.workspace}}/build
@@ -96,7 +96,7 @@ runs:
       -DBUILD_SHARED_LIBS_imgui=OFF
       -DBUILD_SHARED_LIBS_jsonc=OFF
       -DBUILD_SHARED_LIBS_lz4=OFF
-      -DBUILD_SHARED_LIBS_netcdf=OFF
+      -DBUILD_SHARED_LIBS_netcdf=ON
       -DBUILD_SHARED_LIBS_nlohmannjson=OFF
       -DBUILD_SHARED_LIBS_occt=OFF
       -DBUILD_SHARED_LIBS_openexr=OFF
@@ -110,7 +110,7 @@ runs:
       -DBUILD_SHARED_LIBS_tiff=ON
       -DBUILD_SHARED_LIBS_vtk=OFF
       -DBUILD_SHARED_LIBS_webp=OFF
-      -DBUILD_SHARED_LIBS_zlib=ON
+      -DBUILD_SHARED_LIBS_zlib=OFF
       -DBUILD_SHARED_LIBS_zstd=OFF
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
