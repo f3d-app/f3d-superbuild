@@ -77,6 +77,7 @@ runs:
   # hdf5 is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/86
   # netcdf is build shared because of TODO
   # tiff is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/90
+  # zstd is build shared because of TODO
   # openusd is build shared because of its plugin system
   - name: Configure
     working-directory: ${{github.workspace}}/build
@@ -111,7 +112,7 @@ runs:
       -DBUILD_SHARED_LIBS_vtk=OFF
       -DBUILD_SHARED_LIBS_webp=OFF
       -DBUILD_SHARED_LIBS_zlib=OFF
-      -DBUILD_SHARED_LIBS_zstd=OFF
+      -DBUILD_SHARED_LIBS_zstd=ON
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
