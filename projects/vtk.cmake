@@ -100,7 +100,3 @@ superbuild_add_project(vtk
     -DVTK_USE_X:BOOL=${vtk_use_x}
     -DVTK_VERSIONED_INSTALL:BOOL=OFF
 )
-
-# Needed for wheels
-superbuild_apply_patch(vtk hdf5-not-qsort-reentrant
-  "Remove faulty detection of qsort reentrant")
