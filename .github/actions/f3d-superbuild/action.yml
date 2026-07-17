@@ -86,7 +86,7 @@ runs:
       cmake ../source
       -DBUILD_SHARED_LIBS_alembic=OFF
       -DBUILD_SHARED_LIBS_assimp=OFF
-      -DBUILD_SHARED_LIBS_blosc=OFF
+      -DBUILD_SHARED_LIBS_blosc=ON
       -DBUILD_SHARED_LIBS_curl=OFF
       -DBUILD_SHARED_LIBS_draco=OFF
       -DBUILD_SHARED_LIBS_f3d=ON
@@ -96,7 +96,7 @@ runs:
       -DBUILD_SHARED_LIBS_imath=OFF
       -DBUILD_SHARED_LIBS_imgui=OFF
       -DBUILD_SHARED_LIBS_jsonc=OFF
-      -DBUILD_SHARED_LIBS_lz4=OFF
+      -DBUILD_SHARED_LIBS_lz4=ON
       -DBUILD_SHARED_LIBS_netcdf=ON
       -DBUILD_SHARED_LIBS_nlohmannjson=OFF
       -DBUILD_SHARED_LIBS_occt=OFF
