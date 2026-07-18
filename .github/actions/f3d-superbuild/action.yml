@@ -75,9 +75,9 @@ runs:
   # OCCT coloring is disabled on macOS because of f3d-app/f3d#792
   # f3d is build shared becase we ship the libf3d
   # hdf5 is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/86
-  # netcdf is build shared because of TODO
+  # netcdf is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/92
   # tiff is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/90
-  # blosc is build shared because of TODO
+  # blosc is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/91
   # openusd is build shared because of its plugin system
   - name: Configure
     working-directory: ${{github.workspace}}/build
