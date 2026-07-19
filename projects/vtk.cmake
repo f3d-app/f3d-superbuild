@@ -42,15 +42,13 @@ else ()
   set(vtk_smp_enable_sequential ON)
 endif ()
 
-# H5_HAVE_VASPRINTF is needed for ci-build-wheel
 superbuild_add_project(vtk
   BUILD_SHARED_LIBS_INDEPENDENT
   LICENSE_FILES
     Copyright.txt
-  DEPENDS cxx11
-  DEPENDS_OPTIONAL tbb ospray f3dhdf openvdb pdal
+  DEPENDS cxx11 png sqlite tiff lz4 nlohmannjson
+  DEPENDS_OPTIONAL tbb ospray hdf5 netcdf f3dhdf openvdb pdal
   CMAKE_ARGS
-    -DH5_HAVE_VASPRINTF=0
     -DVTKOSPRAY_ENABLE_DENOISER:BOOL=${ospray_enabled}
     -DVTK_BUILD_TESTING:BOOL=OFF
     -DVTK_ENABLE_LOGGING:BOOL=OFF
@@ -86,6 +84,14 @@ superbuild_add_project(vtk
     -DVTK_MODULE_ENABLE_VTK_RenderingRayTracing:STRING=${vtk_raytracing_enabled}
     -DVTK_MODULE_ENABLE_VTK_RenderingVolumeOpenGL2:STRING=YES
     -DVTK_MODULE_ENABLE_VTK_TestingCore:STRING=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_hdf5:BOOL=${vtk_iohdf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_netcdf:BOOL=${vtk_ionetcdf_enabled}
+    -DVTK_MODULE_USE_EXTERNAL_VTK_png:BOOL=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_sqlite:BOOL=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_tiff:BOOL=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_lz4:BOOL=YES
+    -DVTK_MODULE_USE_EXTERNAL_VTK_nlohmannjson:BOOL=YES
     -DVTK_OPENGL_HAS_EGL:BOOL=${vtk_egl_enabled}
     -DVTK_SMP_ENABLE_SEQUENTIAL:BOOL=${vtk_smp_enable_sequential}
     -DVTK_SMP_ENABLE_STDTHREAD:BOOL=OFF
@@ -94,7 +100,3 @@ superbuild_add_project(vtk
     -DVTK_USE_X:BOOL=${vtk_use_x}
     -DVTK_VERSIONED_INSTALL:BOOL=OFF
 )
-
-# Needed for wheels
-superbuild_apply_patch(vtk hdf5-not-qsort-reentrant
-  "Remove faulty detection of qsort reentrant")
