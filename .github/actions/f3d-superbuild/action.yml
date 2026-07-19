@@ -78,6 +78,7 @@ runs:
   # netcdf is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/92
   # tiff is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/90
   # blosc is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/91
+  # openusd is build shared because of https://github.com/f3d-app/f3d-superbuild/issues/350
   - name: Configure
     working-directory: ${{github.workspace}}/build
     shell: bash
@@ -101,7 +102,7 @@ runs:
       -DBUILD_SHARED_LIBS_occt=OFF
       -DBUILD_SHARED_LIBS_openexr=OFF
       -DBUILD_SHARED_LIBS_openjph=OFF
-      -DBUILD_SHARED_LIBS_openusd=OFF
+      -DBUILD_SHARED_LIBS_openusd=ON
       -DBUILD_SHARED_LIBS_openvdb=OFF
       -DBUILD_SHARED_LIBS_pdal=OFF
       -DBUILD_SHARED_LIBS_png=OFF
