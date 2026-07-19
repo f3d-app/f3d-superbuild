@@ -47,6 +47,16 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
+# Package supplemental osmesa library that may be loaded dynamically
+if (osmesa_enabled)
+  superbuild_unix_install_module("${superbuild_install_location}/lib/libOSMesa.so"
+    "lib"
+    "lib"
+    LOADER_PATHS  "${library_paths}"
+    LOCATION      "lib"
+    HAS_SYMLINKS)
+endif ()
+
 # OpenUSD plugin descriptors
 if (openusd_enabled)
   f3d_package_usd_plugins(DESTINATION "lib")
