@@ -26,7 +26,6 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_vtk=ON                     \
   -DENABLE_webifc=ON                  \
   -DENABLE_webp=ON                    \
-  -DUSE_SYSTEM_python3=ON             \
   -Dvtk_SOURCE_SELECTION=git          \
   -Dvtk_GIT_TAG=$1
 cmake --build ./fsbb
