@@ -62,6 +62,7 @@ function (superbuild_find_projects var)
     openusd
     openvdb
     openvkl
+    osmesa
     ospray
     ospraymaterials
     pdal
@@ -96,7 +97,6 @@ function (superbuild_find_projects var)
     if (NOT APPLE)
       list(APPEND projects
          egl
-         osmesa
          utillinux)
     endif ()
   endif ()
