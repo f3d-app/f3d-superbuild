@@ -147,7 +147,7 @@ if (assimp_enabled)
 endif ()
 
 if (draco_enabled)
-  f3d_add_test(NAME TestDraco FILE suzanne.drc)
+  f3d_add_test(NAME TestDraco FILE suzanne.drc ARGS --coloring-component=0)
 endif ()
 
 if (occt_enabled)
@@ -162,7 +162,8 @@ if (ospray_enabled)
 endif ()
 
 if (openusd_enabled)
-  f3d_add_test(NAME TestUSD FILE primitives.usda)
+  # --camera-view-angle needed because of https://github.com/f3d-app/f3d/issues/3375
+  f3d_add_test(NAME TestUSD FILE primitives.usda ARGS --camera-view-angle=29.3333)
 endif ()
 
 if (f3dhdf_enabled)
@@ -176,11 +177,12 @@ endif ()
 if (pdal_enabled)
   # PDAL use a plugin mechanism, each format should be checked
   # High threshold needed as rendering points is driver dependant
+  # --camera-view-angle sometimes needed because of https://github.com/f3d-app/f3d/issues/3375
   f3d_add_test(NAME TestPDALLAS FILE warsaw_small.las ARGS --reference-threshold=0.1)
   f3d_add_test(NAME TestPDALLAZ FILE simple.laz)
   f3d_add_test(NAME TestPDALBPF FILE simple-extra.bpf)
   f3d_add_test(NAME TestPDALBIN FILE 20020715-time-color.bin ARGS --reference-threshold=0.21)
-  f3d_add_test(NAME TestPDALCSD FILE sample.csd)
+  f3d_add_test(NAME TestPDALCSD FILE sample.csd ARGS --camera-view-angle=27.4444)
   f3d_add_test(NAME TestPDALPCD FILE autzen-utm.pcd ARGS --reference-threshold=0.1)
   f3d_add_test(NAME TestPDALPTX FILE 1.2-with-color.ptx)
   f3d_add_test(NAME TestPDALQI FILE 10-word.qi)
