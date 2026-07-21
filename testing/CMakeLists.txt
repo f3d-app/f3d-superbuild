@@ -147,7 +147,9 @@ if (assimp_enabled)
 endif ()
 
 if (draco_enabled)
-  f3d_add_test(NAME TestDraco FILE suzanne.drc ARGS --coloring-component=0)
+  # --coloring-component because of https://github.com/f3d-app/f3d/issues/3399
+  # --camera-view-angle because of https://github.com/f3d-app/f3d/issues/3375
+  f3d_add_test(NAME TestDraco FILE suzanne.drc ARGS --coloring-component=0 --camera-view-angle=29.3333)
 endif ()
 
 if (occt_enabled)
