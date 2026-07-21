@@ -151,9 +151,7 @@ if (draco_enabled)
 endif ()
 
 if (occt_enabled)
-  # This test is needed because cell coloring does not work on macOS CI: https://github.com/f3d-app/f3d/issues/792
-  f3d_add_test(NAME TestOCCT FILE f3d.stp ARGS --scalar-coloring=false)
-  f3d_add_test(NAME TestOCCTColoring FILE f3d.stp)
+  f3d_add_test(NAME TestOCCT FILE f3d.stp)
 endif ()
 
 if (ospray_enabled)
@@ -191,7 +189,5 @@ if (pdal_enabled)
 endif ()
 
 if (webifc_enabled)
-  # This test is needed because cell coloring does not work on macOS CI: https://github.com/f3d-app/f3d/issues/792
-  f3d_add_test(NAME TestWebIFC FILE IfcOpenHouse_IFC4.ifc ARGS --scalar-coloring=false)
-  f3d_add_test(NAME TestWebIFCColoring FILE IfcOpenHouse_IFC4.ifc ARGS --reference-threshold=0.06)
+  f3d_add_test(NAME TestWebIFC FILE IfcOpenHouse_IFC4.ifc ARGS --reference-threshold=0.06)
 endif ()

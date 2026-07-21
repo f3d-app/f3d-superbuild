@@ -83,7 +83,6 @@ runs:
       VTK_COMMIT_SHA=`curl -s https://raw.githubusercontent.com/f3d-app/f3d/master/.github/workflows/versions.json | jq -r '.vtk_commit_sha'`
       echo VTK_COMMIT_SHA=$VTK_COMMIT_SHA >> $GITHUB_ENV
 
-  # OCCT coloring is disabled on macOS because of f3d-app/f3d#792
   # f3d is build shared because we ship the libf3d
   # hdf5 is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/86
   # netcdf is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/92
