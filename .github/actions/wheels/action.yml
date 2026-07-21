@@ -43,6 +43,11 @@ runs:
       path: fsbb/install
       key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-7
 
+  - name: Remove GNU link.exe on Windows
+    if: runner.os == 'Windows'
+    shell: cmd
+    run: rm 'C:\Program Files\Git\usr\bin\link.EXE'
+
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'
     shell: bash
