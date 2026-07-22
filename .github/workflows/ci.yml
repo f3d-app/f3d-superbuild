@@ -68,7 +68,7 @@ jobs:
         raytracing_label: [raytracing, no-raytracing]
 
     runs-on: ubuntu-latest
-    container: mwestphal/f3d-superbuild-ci:latest
+    container: ghcr.io/f3d-app/f3d-superbuild-ci
 
     env:
       DISPLAY: :0

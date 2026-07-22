@@ -98,7 +98,7 @@ runs:
       CIBW_SKIP: '*-musl* cp38-* cp39-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
-      CIBW_MANYLINUX_X86_64_IMAGE: mwestphal/f3d-wheels-ci-superbuild:latest
+      CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
       CIBW_ENVIRONMENT: CMAKE_POLICY_VERSION_MINIMUM=3.5 MACOSX_DEPLOYMENT_TARGET=14.0
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
@@ -129,7 +129,7 @@ runs:
       CIBW_SKIP: '*-musl* cp38-* cp39-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
-      CIBW_MANYLINUX_X86_64_IMAGE: mwestphal/f3d-wheels-ci-superbuild:latest
+      CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
       CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=14.0
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
