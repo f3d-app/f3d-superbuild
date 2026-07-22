@@ -18,6 +18,24 @@ include(f3d.suffix)
 set(f3d_package_file_name "${f3d_name}-${f3d_version_full}-${f3d_package_suffix}")
 superbuild_add_extract_test("f3d" "${f3d_package_file_name}" "${generator}" "${f3d_extract_dir}" LABELS "F3D")
 
+#[==[.md
+# Add a test using the f3d executable and compare rendering result against a baseline
+# A resulting typical test command line would look like this:
+
+```
+f3d "/path/to/data.ext" "--resolution=300,300" "--output=/path/to/build/Testing/Temporary/TestName.png" "--reference=/path/to/source/testing/baselines/TestName.png" "--rendering-backend=auto"
+```
+
+Usage:
+
+```
+f3d_add_test(<NAME> [ARGS...])
+```
+  - `NAME` Provide the name of the test, mandatory and must be unique
+  - `DATA` Data to open
+  - `BACKEND` Rendering backend to use, if not set fallback to F3D_TESTING_FORCE_RENDERING_BACKEND
+  - `ARGS` Supplement arguments to add to the f3d command line
+#]==]
 function(f3d_add_test)
 
   cmake_parse_arguments(F3D_ADD_TEST "" "NAME;FILE;BACKEND" "ARGS" ${ARGN})
@@ -120,9 +138,15 @@ if (WIN32)
   f3d_add_console_test(TestSimple cow.vtp)
 endif ()
 
-if (UNIX AND NOT APPLE)
-  # XXX: This test requires a Xorg server running
-  f3d_add_test(NAME TestRenderingGLX FILE dragon.vtu BACKEND glx)
+if (UNIX)
+ if (APPLE)
+    # XXX: A simple cocoa test without grid rendering
+    # See https://github.com/f3d-app/f3d/issues/1276 for more context
+    f3d_add_test(NAME TestRenderingCOCOA FILE cow.vtp BACKEND cocoa)
+ else ()
+    # XXX: This test requires a Xorg server running
+    f3d_add_test(NAME TestRenderingGLX FILE dragon.vtu BACKEND glx)
+  endif ()
 endif ()
 
 if (NOT APPLE)

@@ -38,12 +38,6 @@ runs:
       lfs_sha: ${{inputs.lfs_sha}}
       cache_postfix: cache-0
 
-  # TODO docker
-  - name: Install deps
-    if: runner.os == 'Linux'
-    shell: bash
-    run: apt install -y flex bison
-
   - name: Install ninja Windows
     if: runner.os == 'Windows'
     shell: cmd
