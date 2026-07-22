@@ -43,7 +43,6 @@ function(f3d_add_test)
   if (F3D_ADD_TEST_BACKEND)
     list(APPEND F3D_ADD_TEST_ARGS "--rendering-backend=${F3D_ADD_TEST_BACKEND}")
   else ()
-    # TODO what about COCOA then ?
     list(APPEND F3D_ADD_TEST_ARGS "--rendering-backend=${F3D_TESTING_FORCE_RENDERING_BACKEND}")
   endif ()
 
@@ -142,7 +141,7 @@ if (UNIX)
  if (APPLE)
     # XXX: A simple cocoa test without grid rendering
     # See https://github.com/f3d-app/f3d/issues/1276 for more context
-    f3d_add_test(NAME TestRenderingCOCOA FILE cow.vtp BACKEND cocoa)
+    f3d_add_test(NAME TestRenderingCOCOA FILE cow.vtp BACKEND cocoa ARGS --grid=off)
  else ()
     # XXX: This test requires a Xorg server running
     f3d_add_test(NAME TestRenderingGLX FILE dragon.vtu BACKEND glx)
