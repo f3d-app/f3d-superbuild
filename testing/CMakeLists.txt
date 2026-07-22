@@ -141,7 +141,8 @@ if (UNIX)
  if (APPLE)
     # XXX: A simple cocoa test without grid rendering
     # See https://github.com/f3d-app/f3d/issues/1276 for more context
-    f3d_add_test(NAME TestRenderingCOCOA FILE cow.vtp BACKEND cocoa ARGS --grid=off)
+    # Using auto because of https://github.com/f3d-app/f3d/issues/3405
+    f3d_add_test(NAME TestRenderingCOCOA FILE cow.vtp BACKEND auto ARGS --grid=off)
  else ()
     # XXX: This test requires a Xorg server running
     f3d_add_test(NAME TestRenderingGLX FILE dragon.vtu BACKEND glx)
