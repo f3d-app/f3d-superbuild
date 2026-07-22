@@ -170,6 +170,8 @@ set(_superbuild_default_webifc ON)
 
 # force certain options
 set(proj_EMBED_RESOURCES ON CACHE INTERNAL "" FORCE)
+set(mesa_FORCE_NO_ZLIB ON CACHE INTERNAL "" FORCE)
+set(mesa_SHARED_GLAPI OFF CACHE INTERNAL "" FORCE)
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
