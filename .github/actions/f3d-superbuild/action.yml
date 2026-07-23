@@ -164,11 +164,16 @@ runs:
     shell: bash
     run: ctest -R ldd --no-tests=error --output-on-failure
 
-  - name: Install Mesa Windows extraction
+  - name: Remove faulty OPENGL32.dll
     if: runner.os == 'Windows'
-    uses: f3d-app/install-mesa-windows-action@v1
+    shell: cmd
+    run: rm 'C:\Windows\system32\OPENGL32.dll'
+
+  - name: Install Mesa opengl instead
+    if: runner.os == 'Windows'
+    uses: f3d-app/install-mesa-windows-action@v3
     with:
-      path: ${{github.workspace}}\build\Testing\test-extraction\bin
+      path: C:\Windows\system32
 
   - name: Setup Directories mesa
     if: runner.os == 'Windows'
@@ -177,12 +182,6 @@ runs:
     run: |
       mkdir build\Testing\test-sdk\
       mkdir build\Testing\test-sdk\TestRendering_build
-
-  - name: Install Mesa Windows test-sdk
-    if: runner.os == 'Windows'
-    uses: f3d-app/install-mesa-windows-action@v1
-    with:
-      path: ${{github.workspace}}\build\Testing\test-sdk\TestRendering_build
 
   # XXX: No test is not a failure here as MacOS bundle does not support SDK
   - name: Test sdk
@@ -226,12 +225,6 @@ runs:
     run: |
       cmake -B f3d_examples_build -S f3d_examples_src/examples/libf3d/ -DBUILD_TESTING=ON -DF3D_ENABLE_C_EXAMPLES=ON -Df3d_DIR=$(pwd)/build/Testing/test-extraction/lib/cmake/f3d/
       cmake --build f3d_examples_build --config Release
-
-  - name: Install Mesa Windows on all examples bin directories
-    if: runner.os == 'Windows'
-    uses: f3d-app/install-mesa-windows-action@v1
-    with:
-      path: ${{github.workspace}}\f3d_examples_build\*\*\Release
 
   - name: Test libf3d C and C++ examples using package
     if: |
