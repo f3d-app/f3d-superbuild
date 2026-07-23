@@ -33,6 +33,12 @@ if (ospray_enabled)
   endforeach ()
 endif ()
 
+# Package supplemental osmesa library that may be loaded dynamically
+if (osmesa_enabled)
+  list(APPEND additional_libraries
+    "${superbuild_install_location}/lib/libOSMesa.dylib")
+endif ()
+
 # Bundle F3D and all binaries
 superbuild_apple_create_app(
   "\${CMAKE_INSTALL_PREFIX}"

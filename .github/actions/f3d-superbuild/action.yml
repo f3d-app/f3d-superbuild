@@ -60,6 +60,11 @@ runs:
     shell: powershell
     run: cp source\.github\nsis\FileAssociation.nsh "${env:ProgramFiles(x86)}/NSIS/Include"
 
+  - name: Remove GNU link.exe on Windows
+    if: runner.os == 'Windows'
+    shell: cmd
+    run: rm 'C:\Program Files\Git\usr\bin\link.EXE'
+
   - name: Setup Directories
     working-directory: ${{github.workspace}}
     shell: bash
@@ -72,7 +77,6 @@ runs:
       VTK_COMMIT_SHA=`curl -s https://raw.githubusercontent.com/f3d-app/f3d/master/.github/workflows/versions.json | jq -r '.vtk_commit_sha'`
       echo VTK_COMMIT_SHA=$VTK_COMMIT_SHA >> $GITHUB_ENV
 
-  # OCCT coloring is disabled on macOS because of f3d-app/f3d#792
   # f3d is build shared because we ship the libf3d
   # hdf5 is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/86
   # netcdf is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/92
@@ -116,16 +120,17 @@ runs:
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
+      -DENABLE_osmesa=ON
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
-      -DUSE_SYSTEM_python3=ON
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
+      -Dmesa_SOURCE_SELECTION=25.0.7
       -Dospray_SOURCE_SELECTION=2.12.0
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -Dvtk_SOURCE_SELECTION=git
-      ${{ runner.os == 'Linux' && '-DENABLE_egl=ON -DENABLE_osmesa=ON' || null }}
+      ${{ runner.os == 'Linux' && '-DENABLE_egl=ON' || null }}
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
-      ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=14.0' || null }}
+      ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DF3D_TESTING_FORCE_RENDERING_BACKEND=osmesa' || null }}
 
   - name: Disable LFS during the build
     working-directory: ${{github.workspace}}
@@ -185,31 +190,11 @@ runs:
     shell: bash
     run: ctest -R sdk --output-on-failure
 
-  # on macOS CI, texture rendering has some issues,
-  # https://github.com/f3d-app/f3d/issues/792
-  - name: Set CI test exception for macOS x86_64
-    if: |
-      runner.os == 'macOS' &&
-      inputs.cpu == 'x86_64'
-    shell: bash
-    run: echo "F3D_CTEST_EXCEPTIONS=(TestOCCTColoring)|(TestWebIFCColoring)" >> $GITHUB_ENV
-
-  # on macOS arm64 CI, grid rendering has some issues,
-  # test only some tests that do not uses grid.
-  # https://github.com/f3d-app/f3d/issues/1276
-  - name: Set CI test exception for macOS arm64
-    if: |
-      runner.os == 'macOS' &&
-      inputs.cpu == 'arm64'
-    shell: bash
-    run: echo "F3D_CTEST_EXCEPTIONS=(TestAssimp)|(TestSimple)|(TestAlembic)|(TestDraco)|(TestOCCT)|(TestOCCTColoring)|(TestUSD)|(TestVDB)|(TestHDF)|(TestWebIF)|(TestWebIFCColoring)|(TestPDALCSD)|(TestPDALSBET)|(TestPDALSLPK)|(TestPDALBPF)" >> $GITHUB_ENV
-
   # on linux CI, GLX test require a Xorg server
-  # Ubuntu 20.04 provided libEGL.so has rendering issues
   - name: Set CI test exception for EGL rendering on Linux
     if: runner.os == 'Linux'
     shell: bash
-    run: echo "F3D_CTEST_EXCEPTIONS=(TestRenderingGLX)|(TestOCCTColoring)|(TestSimpleColor)|(TestSplat)|(TestOSPRay)" >> $GITHUB_ENV
+    run: echo "F3D_CTEST_EXCEPTIONS=(TestRenderingGLX)" >> $GITHUB_ENV
 
   - name: Test executable
     working-directory: ${{github.workspace}}/build
@@ -221,7 +206,7 @@ runs:
     shell: bash
     run: Xvfb $DISPLAY -screen 0 1280x1024x24 &
 
-  - name: Test executable with Xvfb
+  - name: Test executable with Xvfb instead of EGL on linux
     if: runner.os == 'Linux'
     working-directory: ${{github.workspace}}/build
     shell: bash

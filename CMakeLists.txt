@@ -40,6 +40,7 @@ function (superbuild_find_projects var)
     exodus
     f3d
     f3dhdf
+    flexbison
     gdal
     geotiff
     hdf5
@@ -47,16 +48,21 @@ function (superbuild_find_projects var)
     imgui
     ispc
     jsonc
+    llvm
     lz4
+    mesatoolchainoverride
+    meson
     netcdf
+    ninja
     nlohmannjson
     occt
     openexr
-    openjph
     openimagedenoise
+    openjph
     openusd
     openvdb
     openvkl
+    osmesa
     ospray
     ospraymaterials
     pdal
@@ -65,6 +71,12 @@ function (superbuild_find_projects var)
     proj
     pybind11
     python3
+    pythonflitcore
+    pythonmako
+    pythonmarkupsafe
+    pythonpyyaml
+    pythonsetuptools
+    pythonwheel
     rkcommon
     sqlite
     szip
@@ -85,7 +97,6 @@ function (superbuild_find_projects var)
     if (NOT APPLE)
       list(APPEND projects
          egl
-         osmesa
          utillinux)
     endif ()
   endif ()
@@ -159,11 +170,20 @@ set(_superbuild_default_webifc ON)
 
 # force certain options
 set(proj_EMBED_RESOURCES ON CACHE INTERNAL "" FORCE)
+set(mesa_FORCE_NO_ZLIB ON CACHE INTERNAL "" FORCE)
+set(mesa_SHARED_GLAPI OFF CACHE INTERNAL "" FORCE)
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
                       "is missing; did you forget to do `git submodule init` "
                       "and `git submodule update`?")
 endif ()
+
+# Support forcing rendering backend
+if(NOT F3D_TESTING_FORCE_RENDERING_BACKEND)
+  set(F3D_TESTING_FORCE_RENDERING_BACKEND "auto" CACHE STRING "Force testing rendering backend" FORCE)
+  set_property(CACHE F3D_TESTING_FORCE_RENDERING_BACKEND PROPERTY STRINGS "auto" "egl" "osmesa")
+endif()
+mark_as_advanced(F3D_TESTING_FORCE_RENDERING_BACKEND)
 
 add_subdirectory(superbuild)

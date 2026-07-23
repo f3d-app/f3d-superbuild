@@ -1,1 +1,0 @@
-superbuild_add_project(osmesa MUST_USE_SYSTEM)

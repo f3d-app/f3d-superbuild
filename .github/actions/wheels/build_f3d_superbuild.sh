@@ -8,11 +8,11 @@ cmake -S ./source -B ./fsbb           \
   -DBUILD_SHARED_LIBS_tiff=ON         \
   -DCMAKE_BUILD_TYPE=Release          \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0  \
-  -DENABLE_f3d=OFF                    \
   -DENABLE_alembic=ON                 \
   -DENABLE_assimp=ON                  \
   -DENABLE_draco=ON                   \
   -DENABLE_egl=ON                     \
+  -DENABLE_f3d=OFF                    \
   -DENABLE_imgui=ON                   \
   -DENABLE_occt=ON                    \
   -DENABLE_openexr=ON                 \
@@ -26,7 +26,7 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_vtk=ON                     \
   -DENABLE_webifc=ON                  \
   -DENABLE_webp=ON                    \
-  -DUSE_SYSTEM_python3=ON             \
+  -Dmesa_SOURCE_SELECTION=25.0.7      \
   -Dvtk_SOURCE_SELECTION=git          \
   -Dvtk_GIT_TAG=$1
 cmake --build ./fsbb

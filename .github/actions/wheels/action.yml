@@ -56,6 +56,11 @@ runs:
     with:
       arch: x64
 
+  - name: Remove GNU link.exe on Windows
+    if: runner.os == 'Windows'
+    shell: cmd
+    run: rm 'C:\Program Files\Git\usr\bin\link.EXE'
+
   - name: Escaping backslashes Windows
     if: runner.os == 'Windows'
     shell: bash

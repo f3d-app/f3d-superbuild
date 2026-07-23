@@ -18,16 +18,43 @@ include(f3d.suffix)
 set(f3d_package_file_name "${f3d_name}-${f3d_version_full}-${f3d_package_suffix}")
 superbuild_add_extract_test("f3d" "${f3d_package_file_name}" "${generator}" "${f3d_extract_dir}" LABELS "F3D")
 
-function (f3d_add_test name file)
+#[==[.md
+# Add a test using the f3d executable and compare rendering result against a baseline
+# A resulting typical test command line would look like this:
+
+```
+f3d "/path/to/data.ext" "--resolution=300,300" "--output=/path/to/build/Testing/Temporary/TestName.png" "--reference=/path/to/source/testing/baselines/TestName.png" "--rendering-backend=auto"
+```
+
+Usage:
+
+```
+f3d_add_test(<NAME> [ARGS...])
+```
+  - `NAME` Provide the name of the test, mandatory and must be unique
+  - `DATA` Data to open
+  - `BACKEND` Rendering backend to use, if not set fallback to F3D_TESTING_FORCE_RENDERING_BACKEND
+  - `ARGS` Supplement arguments to add to the f3d command line
+#]==]
+function(f3d_add_test)
+
+  cmake_parse_arguments(F3D_ADD_TEST "" "NAME;FILE;BACKEND" "ARGS" ${ARGN})
+
+  if (F3D_ADD_TEST_BACKEND)
+    list(APPEND F3D_ADD_TEST_ARGS "--rendering-backend=${F3D_ADD_TEST_BACKEND}")
+  else ()
+    list(APPEND F3D_ADD_TEST_ARGS "--rendering-backend=${F3D_TESTING_FORCE_RENDERING_BACKEND}")
+  endif ()
+
   add_test(
-    NAME    "f3d-exec-${name}"
+    NAME    "f3d-exec-${F3D_ADD_TEST_NAME}"
     COMMAND "${f3d_exe}"
-            "${CMAKE_SOURCE_DIR}/testing/data/${file}"
+            "${CMAKE_SOURCE_DIR}/testing/data/${F3D_ADD_TEST_FILE}"
             "--resolution=300,300"
-            "--output=${CMAKE_BINARY_DIR}/Testing/Temporary/${name}.png"
-            "--reference=${CMAKE_SOURCE_DIR}/testing/baselines/${name}.png"
-            ${ARGN})
-  set_tests_properties(f3d-exec-${name}
+            "--output=${CMAKE_BINARY_DIR}/Testing/Temporary/${F3D_ADD_TEST_NAME}.png"
+            "--reference=${CMAKE_SOURCE_DIR}/testing/baselines/${F3D_ADD_TEST_NAME}.png"
+            ${F3D_ADD_TEST_ARGS})
+  set_tests_properties(f3d-exec-${F3D_ADD_TEST_NAME}
     PROPERTIES
       LABELS  "F3D"
       DEPENDS "f3d-exec-exists")
@@ -92,12 +119,12 @@ set_tests_properties(f3d-exec-exists
     DEPENDS "extract-f3d-${generator}")
 
 # Use f3d executable to ensure dependecies can be loaded and renders correctly
-f3d_add_test(TestSimple cow.vtp)
-f3d_add_test(TestSimpleColor dragon.vtu --colormap-file=viridis)
-f3d_add_test(TestThumbnail dragon.vtu --config=thumbnail)
+f3d_add_test(NAME TestSimple FILE cow.vtp)
+f3d_add_test(NAME TestSimpleColor FILE dragon.vtu ARGS --colormap-file=viridis)
+f3d_add_test(NAME TestThumbnail FILE dragon.vtu ARGS --config=thumbnail)
 
 if (WIN32)
-  f3d_add_test(TestRenderingWGL dragon.vtu --rendering-backend=wgl)
+  f3d_add_test(NAME TestRenderingWGL FILE dragon.vtu BACKEND wgl)
 
   add_test(
     NAME    "f3d-console-exec-exists"
@@ -110,76 +137,83 @@ if (WIN32)
   f3d_add_console_test(TestSimple cow.vtp)
 endif ()
 
-if (UNIX AND NOT APPLE)
-  # XXX: This test requires a Xorg server running
-  f3d_add_test(TestRenderingGLX dragon.vtu --rendering-backend=glx)
+if (UNIX)
+ if (APPLE)
+    # XXX: A simple cocoa test without grid rendering
+    # See https://github.com/f3d-app/f3d/issues/1276 for more context
+    # Using auto because of https://github.com/f3d-app/f3d/issues/3405
+    f3d_add_test(NAME TestRenderingCOCOA FILE cow.vtp BACKEND auto ARGS --grid=off)
+ else ()
+    # XXX: This test requires a Xorg server running
+    f3d_add_test(NAME TestRenderingGLX FILE dragon.vtu BACKEND glx)
+  endif ()
 endif ()
 
 if (NOT APPLE)
-  f3d_add_test(TestSplat small.splat)
+  f3d_add_test(NAME TestSplat FILE small.splat)
 endif ()
 
 if (egl_enabled)
   # XXX: Once Ubuntu 22.04 is used for CI, this test should use coloring
-  f3d_add_test(TestRenderingHeadlessEGL cow.vtp --rendering-backend=egl)
+  f3d_add_test(NAME TestRenderingHeadlessEGL FILE cow.vtp BACKEND egl)
 endif ()
 
 if (osmesa_enabled)
-  f3d_add_test(TestRenderingHeadlessOSMESA dragon.vtu --rendering-backend=osmesa)
+  f3d_add_test(NAME TestRenderingHeadlessOSMESA FILE dragon.vtu BACKEND osmesa)
 endif ()
 
 if (alembic_enabled)
-  f3d_add_test(TestAlembic suzanne.abc)
+  f3d_add_test(NAME TestAlembic FILE suzanne.abc)
 endif ()
 
 if (assimp_enabled)
-  f3d_add_test(TestAssimp duck.fbx)
+  f3d_add_test(NAME TestAssimp FILE duck.fbx)
 endif ()
 
 if (draco_enabled)
-  f3d_add_test(TestDraco suzanne.drc)
+  # --coloring-component because of https://github.com/f3d-app/f3d/issues/3399
+  # --camera-view-angle because of https://github.com/f3d-app/f3d/issues/3375
+  f3d_add_test(NAME TestDraco FILE suzanne.drc ARGS --coloring-component=0 --camera-view-angle=29.3333)
 endif ()
 
 if (occt_enabled)
-  # This test is needed because cell coloring does not work on macOS CI: https://github.com/f3d-app/f3d/issues/792
-  f3d_add_test(TestOCCT f3d.stp --scalar-coloring=false)
-  f3d_add_test(TestOCCTColoring f3d.stp)
+  f3d_add_test(NAME TestOCCT FILE f3d.stp)
 endif ()
 
 if (ospray_enabled)
   # This baseline is incorrect, caused by https://github.com/f3d-app/f3d/issues/483
-  f3d_add_test(TestOSPRay dragon.vtu -rd --raytracing-samples=4)
+  f3d_add_test(NAME TestOSPRay FILE dragon.vtu ARGS -rd --raytracing-samples=4)
 endif ()
 
 if (openusd_enabled)
-  f3d_add_test(TestUSD primitives.usda)
+  # --camera-view-angle needed because of https://github.com/f3d-app/f3d/issues/3375
+  f3d_add_test(NAME TestUSD FILE primitives.usda ARGS --camera-view-angle=29.3333)
 endif ()
 
 if (f3dhdf_enabled)
-  f3d_add_test(TestHDF blob.vtkhdf)
+  f3d_add_test(NAME TestHDF FILE blob.vtkhdf)
 endif ()
 
 if (openvdb_enabled)
-  f3d_add_test(TestVDB icosahedron.vdb)
+  f3d_add_test(NAME TestVDB FILE icosahedron.vdb)
 endif ()
 
 if (pdal_enabled)
   # PDAL use a plugin mechanism, each format should be checked
   # High threshold needed as rendering points is driver dependant
-  f3d_add_test(TestPDALLAS warsaw_small.las --reference-threshold=0.1)
-  f3d_add_test(TestPDALLAZ simple.laz)
-  f3d_add_test(TestPDALBPF simple-extra.bpf)
-  f3d_add_test(TestPDALBIN 20020715-time-color.bin --reference-threshold=0.21)
-  f3d_add_test(TestPDALCSD sample.csd)
-  f3d_add_test(TestPDALPCD autzen-utm.pcd --reference-threshold=0.1)
-  f3d_add_test(TestPDALPTX 1.2-with-color.ptx)
-  f3d_add_test(TestPDALQI 10-word.qi)
-  f3d_add_test(TestPDALSBET autzen_trim.sbet)
-  f3d_add_test(TestPDALSLPK SMALL_AUTZEN_LAS_All.slpk)
+  # --camera-view-angle sometimes needed because of https://github.com/f3d-app/f3d/issues/3375
+  f3d_add_test(NAME TestPDALLAS FILE warsaw_small.las ARGS --reference-threshold=0.1)
+  f3d_add_test(NAME TestPDALLAZ FILE simple.laz)
+  f3d_add_test(NAME TestPDALBPF FILE simple-extra.bpf)
+  f3d_add_test(NAME TestPDALBIN FILE 20020715-time-color.bin ARGS --reference-threshold=0.21)
+  f3d_add_test(NAME TestPDALCSD FILE sample.csd ARGS --camera-view-angle=27.4444)
+  f3d_add_test(NAME TestPDALPCD FILE autzen-utm.pcd ARGS --reference-threshold=0.1)
+  f3d_add_test(NAME TestPDALPTX FILE 1.2-with-color.ptx)
+  f3d_add_test(NAME TestPDALQI FILE 10-word.qi)
+  f3d_add_test(NAME TestPDALSBET FILE autzen_trim.sbet)
+  f3d_add_test(NAME TestPDALSLPK FILE SMALL_AUTZEN_LAS_All.slpk)
 endif ()
 
 if (webifc_enabled)
-  # This test is needed because cell coloring does not work on macOS CI: https://github.com/f3d-app/f3d/issues/792
-  f3d_add_test(TestWebIFC IfcOpenHouse_IFC4.ifc --scalar-coloring=false)
-  f3d_add_test(TestWebIFCColoring IfcOpenHouse_IFC4.ifc --reference-threshold=0.06)
+  f3d_add_test(NAME TestWebIFC FILE IfcOpenHouse_IFC4.ifc ARGS --reference-threshold=0.06)
 endif ()
