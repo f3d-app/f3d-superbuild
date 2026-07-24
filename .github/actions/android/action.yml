@@ -21,7 +21,7 @@ runs:
   steps:
 
   - name: Checkout f3d-android
-    uses: actions/checkout@v6
+    uses: actions/checkout@v7
     with:
       repository: 'f3d-app/f3d-android'
       fetch-depth: 1
