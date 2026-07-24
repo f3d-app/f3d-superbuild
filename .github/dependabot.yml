@@ -7,8 +7,6 @@ updates:
   - package-ecosystem: "github-actions"
     directories:
       - "/.github/actions/*/"
-    labels:
-      - "source:CI"
     schedule:
       interval: "weekly"
     groups:
