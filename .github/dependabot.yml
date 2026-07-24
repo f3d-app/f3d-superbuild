@@ -4,3 +4,14 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/.github/actions/*/"
+    labels:
+      - "source:CI"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "actions/*"
