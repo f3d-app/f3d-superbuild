@@ -66,6 +66,11 @@ runs:
     shell: bash
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
+  - name: Prepare mesa directory
+    if: runner.os == 'Windows'
+    shell: bash
+    run: mkdir mesa
+
   # Copy to python bin dir needed for proper import
   - name: Download and extract Mesa Windows
     if: runner.os == 'Windows'
