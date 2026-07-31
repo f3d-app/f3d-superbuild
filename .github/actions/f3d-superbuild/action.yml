@@ -23,7 +23,7 @@ runs:
 
   - name: Clone f3d example with lfs data
     if: runner.os == 'Windows' || runner.os == 'Linux'
-    uses: actions/checkout@v6
+    uses: actions/checkout@v7
     with:
       repository: f3d-app/f3d
       github-server-url: https://github.com
