@@ -7,6 +7,7 @@ superbuild_add_project(assimp
     -DASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT:BOOL=OFF
     -DASSIMP_BUILD_ASSIMP_TOOLS:BOOL=OFF
     -DASSIMP_BUILD_3MF_IMPORTER:BOOL=ON
+    -DASSIMP_BUILD_AMF_IMPORTER:BOOL=ON
     -DASSIMP_BUILD_COLLADA_IMPORTER:BOOL=ON
     -DASSIMP_BUILD_DXF_IMPORTER:BOOL=ON
     -DASSIMP_BUILD_FBX_IMPORTER:BOOL=ON
@@ -22,3 +23,7 @@ superbuild_add_project(assimp
 
 superbuild_apply_patch(assimp revert-fbx-bone-anim
   "Revert bone anim regression")
+
+# https://github.com/assimp/assimp/pull/6753
+superbuild_apply_patch(assimp fix-amf-leak
+  "Fix AMF leak")
