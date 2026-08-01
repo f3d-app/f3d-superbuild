@@ -51,6 +51,7 @@ function(f3d_add_test)
     COMMAND "${f3d_exe}"
             "${CMAKE_SOURCE_DIR}/testing/data/${F3D_ADD_TEST_FILE}"
             "--resolution=300,300"
+            "--dpi-aware=false"
             "--output=${CMAKE_BINARY_DIR}/Testing/Temporary/${F3D_ADD_TEST_NAME}.png"
             "--reference=${CMAKE_SOURCE_DIR}/testing/baselines/${F3D_ADD_TEST_NAME}.png"
             ${F3D_ADD_TEST_ARGS})
@@ -66,6 +67,7 @@ function (f3d_add_console_test name file)
     COMMAND "${f3d_console_exe}"
             "${CMAKE_SOURCE_DIR}/testing/data/${file}"
             "--resolution=300,300"
+            "--dpi-aware=false"
             "--output=${CMAKE_BINARY_DIR}/Testing/Temporary/${name}.png"
             "--reference=${CMAKE_SOURCE_DIR}/testing/baselines/${name}.png"
             ${ARGN})
