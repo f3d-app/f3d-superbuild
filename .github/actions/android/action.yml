@@ -34,7 +34,7 @@ runs:
     run: ./update_native_libs.sh --ref ${{ inputs.f3d_version }}
 
   - name: Set up JDK 17
-    uses: actions/setup-java@v5
+    uses: actions/setup-java@v5.6.0
     with:
       java-version: '17'
       distribution: 'temurin'
