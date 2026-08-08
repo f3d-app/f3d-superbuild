@@ -88,7 +88,7 @@ runs:
     if: |
       steps.cache-fsb.outputs.cache-hit != 'true' ||
       inputs.use_cache != 'true'
-    uses: pypa/cibuildwheel@v3.4.1
+    uses: pypa/cibuildwheel@v4.1.1
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
@@ -98,6 +98,7 @@ runs:
       CIBW_SKIP: '*-musl* cp38-* cp39-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
+      CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: ''
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
       CIBW_ENVIRONMENT: CMAKE_POLICY_VERSION_MINIMUM=3.5 MACOSX_DEPLOYMENT_TARGET=14.0
       CIBW_ENVIRONMENT_PASS_LINUX: >
@@ -120,7 +121,7 @@ runs:
     if: |
       steps.cache-fsb.outputs.cache-hit == 'true' &&
       inputs.use_cache == 'true'
-    uses: pypa/cibuildwheel@v3.4.1
+    uses: pypa/cibuildwheel@v4.1.1
     with:
       package-dir: ${{github.workspace}}/f3d
       output-dir: ${{github.workspace}}/wheelhouse
@@ -129,6 +130,7 @@ runs:
       CIBW_SKIP: '*-musl* cp38-* cp39-* pp*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
+      CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: ''
       CIBW_MANYLINUX_X86_64_IMAGE: ghcr.io/f3d-app/f3d-wheels-manylinux-ci
       CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=14.0
       CIBW_ENVIRONMENT_PASS_LINUX: >
