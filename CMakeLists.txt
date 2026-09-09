@@ -28,6 +28,11 @@ endmacro ()
 
 function (superbuild_find_projects var)
 
+  # pkgconf must be listed first in the project list
+  # https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/93
+  list(APPEND projects
+    pkgconf)
+
   list(APPEND projects
     alembic
     assimp
@@ -40,6 +45,7 @@ function (superbuild_find_projects var)
     exodus
     f3d
     f3dhdf
+    ffmpeg
     flexbison
     gdal
     geotiff
@@ -52,6 +58,7 @@ function (superbuild_find_projects var)
     lz4
     mesatoolchainoverride
     meson
+    nasm
     netcdf
     ninja
     nlohmannjson
@@ -59,6 +66,7 @@ function (superbuild_find_projects var)
     openexr
     openimagedenoise
     openjph
+    openh264
     openusd
     openvdb
     openvkl
@@ -66,7 +74,6 @@ function (superbuild_find_projects var)
     ospray
     ospraymaterials
     pdal
-    pkgconf
     png
     proj
     pybind11
@@ -156,10 +163,12 @@ set(_superbuild_default_alembic ON)
 set(_superbuild_default_assimp ON)
 set(_superbuild_default_draco ON)
 set(_superbuild_default_f3dhdf ON)
+set(_superbuild_default_ffmpeg ON)
 set(_superbuild_default_imgui ON)
 set(_superbuild_default_occt ON)
 set(_superbuild_default_openvdb ON)
 set(_superbuild_default_openexr ON)
+set(_superbuild_default_openh264 ON)
 set(_superbuild_default_openusd ON)
 set(_superbuild_default_ospray ON)
 set(_superbuild_default_pdal ON)
