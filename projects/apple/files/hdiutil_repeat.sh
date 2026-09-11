@@ -12,14 +12,21 @@ if [ "$1" != "create" && "$1" != "detach" ]; then
   exit 0
 fi
 
-# Try repeatedly, up to 10 times
+# Adapted from https://github.com/actions/runner-images/issues/7522#issuecomment-1556766641
+echo killing XProtect...; /usr/bin/sudo /usr/bin/pkill -9 XProtect >/dev/null || true;
+while pgrep XProtect; echo waiting...; do sleep 1; done;
+
+# Try repeatedly
 # This prevents spurious errors caused by a race condition with XProtect
 # See https://github.com/actions/runner-images/issues/7522
+retry_limit=20
 i=0
 until
-hdiutil "$@"
+/usr/bin/sudo /usr/bin/hdiutil "$@"
 do
-if [ $i -eq 10 ]; then exit 1; fi
+if [ $i -eq $retry_limit ]; then exit 1; fi
 i=$((i+1))
 sleep 1
 done
+
+echo "hdiutil command completed after $i attempts."
