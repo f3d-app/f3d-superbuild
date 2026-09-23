@@ -28,11 +28,6 @@ endmacro ()
 
 function (superbuild_find_projects var)
 
-  # pkgconf must be listed first in the project list
-  # https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/93
-  list(APPEND projects
-    pkgconf)
-
   list(APPEND projects
     alembic
     assimp
@@ -74,6 +69,7 @@ function (superbuild_find_projects var)
     ospray
     ospraymaterials
     pdal
+    pkgconf
     png
     proj
     pybind11
