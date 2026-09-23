@@ -29,8 +29,7 @@ find_program(BASH_EXECUTABLE bash REQUIRED)
 
 superbuild_add_project(ffmpeg
   BUILD_SHARED_LIBS_INDEPENDENT
-  DEPENDS nasm openh264
-  DEPENDS_ORDERED pkgconf
+  DEPENDS nasm openh264 pkgconf
   LICENSE_FILES
     LICENSE.md
     COPYING.LGPLv2.1
