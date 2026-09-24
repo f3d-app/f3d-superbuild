@@ -14,6 +14,11 @@ superbuild_set_revision(embree
     URL     "https://www.paraview.org/files/dependencies/embree-4.2.0.tar.gz"
     URL_MD5 9e6abbfb230a2ea07e80fa193ed94186)
 
+superbuild_set_revision(ffmpeg
+    URL     "https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n9.0.1.tar.gz"
+    DOWNLOAD_NAME ffmpeg-n9.0.1.tar.gz
+    URL_MD5 7484fac66b42c149a6cd87744efae4d0)
+
 superbuild_set_revision(imgui
   URL "https://github.com/ocornut/imgui/archive/refs/tags/v1.92.5.tar.gz"
   DOWNLOAD_NAME imgui-v1.92.5.tar.gz
@@ -33,6 +38,11 @@ superbuild_set_revision(openjph
   URL     "https://github.com/aous72/OpenJPH/archive/refs/tags/0.27.3.tar.gz"
   DOWNLOAD_NAME openjph-0.27.3.tar.gz
   URL_MD5 49f930145e000e85f14fbe5ac2ae4367)
+
+superbuild_set_revision(openh264
+  URL     "https://github.com/cisco/openh264/archive/refs/tags/v2.6.0.tar.gz"
+  DOWNLOAD_NAME openh264-v2.6.0.tar.gz
+  URL_MD5 0b01f0279eca1c7bb65395ea350fa85c)
 
 superbuild_set_revision(openusd
   URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v26.05.tar.gz"
