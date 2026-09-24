@@ -36,6 +36,7 @@ function (superbuild_find_projects var)
   list(APPEND projects
     alembic
     assimp
+    bash
     blosc
     curl
     cxx11

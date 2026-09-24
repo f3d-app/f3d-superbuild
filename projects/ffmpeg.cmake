@@ -25,18 +25,12 @@ elseif (APPLE)
   set(ffmpeg_extra_args --cc=clang --install-name-dir=@rpath)
 endif ()
 
-find_program(BASH_EXECUTABLE bash REQUIRED)
-
 superbuild_add_project(ffmpeg
   BUILD_SHARED_LIBS_INDEPENDENT
-  DEPENDS nasm openh264 pkgconf
+  DEPENDS bash nasm openh264 pkgconf
   LICENSE_FILES
     LICENSE.md
     COPYING.LGPLv2.1
-  SPDX_LICENSE_IDENTIFIER
-    LGPL-2.1-or-later
-  SPDX_COPYRIGHT_TEXT
-    "Copyright (c) the FFmpeg developers"
   CONFIGURE_COMMAND
     "${BASH_EXECUTABLE}"
     <SOURCE_DIR>/configure

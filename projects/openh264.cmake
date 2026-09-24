@@ -14,10 +14,6 @@ superbuild_add_project(openh264
   DEPENDS meson nasm ninja
   LICENSE_FILES
     LICENSE
-  SPDX_LICENSE_IDENTIFIER
-    BSD-2-Clause
-  SPDX_COPYRIGHT_TEXT
-    "Copyright (c) 2013, Cisco Systems"
   CONFIGURE_COMMAND
     ${meson_command}
       setup
