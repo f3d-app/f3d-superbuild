@@ -27,7 +27,7 @@ counter=0
 while [[ $counter -lt $max_retry ]]
 do
   # Run pytest and recover result
-  pytest -vv -s "$1/python/testing/test_image.py" "$1/python/testing/test_image_compare.py"
+  pytest -s "$1/python/testing"
   result=$?
   echo $result
 
