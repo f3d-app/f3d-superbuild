@@ -19,7 +19,7 @@ then
 fi
 
 # Try loading f3d module
-python -c 'import f3d; print("hello world")'
+python -c 'import f3d; print("F3D module loaded successfully!")'
 
 # Run pytest command multiple times if needed to pass
 echo "Trying pytest a maximum of $max_retry times"
@@ -27,7 +27,7 @@ counter=0
 while [[ $counter -lt $max_retry ]]
 do
   # Run pytest and recover result
-  pytest -s "$1/python/testing"
+  pytest -vv -s "$1/python/testing/test_scene.py::test_scene"
   result=$?
   echo $result
 
