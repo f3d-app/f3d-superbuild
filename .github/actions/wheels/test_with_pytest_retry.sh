@@ -24,7 +24,7 @@ counter=0
 while [[ $counter -lt $max_retry ]]
 do
   # Run pytest and recover result
-  pytest -s "$1/python/testing"
+  PYTHONFAULTHANDLER=1 pytest -s "$1/python/testing"
   result=$?
   echo $result
 
