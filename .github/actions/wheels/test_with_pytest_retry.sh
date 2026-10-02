@@ -18,13 +18,16 @@ then
   max_retry=10
 fi
 
+# Try loading f3d module
+python -c 'import f3d; print("hello world")'
+
 # Run pytest command multiple times if needed to pass
 echo "Trying pytest a maximum of $max_retry times"
 counter=0
 while [[ $counter -lt $max_retry ]]
 do
   # Run pytest and recover result
-  PYTHONFAULTHANDLER=1 pytest -s "$1/python/testing"
+  pytest -s "$1/python/testing"
   result=$?
   echo $result
 
