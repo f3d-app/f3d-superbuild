@@ -95,7 +95,7 @@ runs:
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
       # TODO: cross-compile ARM and PyPy too
-      CIBW_SKIP: '*-musl* cp39-*'
+      CIBW_SKIP: '*-musl* cp39-* cp310-*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: ''
@@ -127,7 +127,7 @@ runs:
       output-dir: ${{github.workspace}}/wheelhouse
       config-file: ${{github.workspace}}/f3d/pyproject.toml
     env:
-      CIBW_SKIP: '*-musl* cp39-*'
+      CIBW_SKIP: '*-musl* cp39-* cp310-*'
       CIBW_ARCHS: native
       CIBW_BUILD_VERBOSITY: 1
       CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: ''
