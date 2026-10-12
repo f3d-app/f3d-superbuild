@@ -38,7 +38,7 @@ This repository also generate a nightly release of F3D.
 # How to use on github to generate a package of F3D master branch
 
  - Navigate to https://github.com/f3d-app/f3d-superbuild/actions/workflows/release.yml
- - Click "run workflow", with branch: main, F3D version to build: origin/master, Superbuild branch/tag to use: main
+ - Click "run workflow", with branch: main, F3D version to build: master, Superbuild branch/tag to use: main
  - Wait for github actions to finish, this will take a while
  - Download the relocatable package which are available as artifacts
 
