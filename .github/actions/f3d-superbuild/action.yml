@@ -29,6 +29,7 @@ runs:
       github-server-url: https://github.com
       sparse-checkout: examples
       path: f3d_examples_src
+      ref: ${{inputs.f3d_version}}
       lfs: true
 
   - name: Recover LFS Data
