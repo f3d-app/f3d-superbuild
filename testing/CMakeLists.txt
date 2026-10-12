@@ -155,6 +155,16 @@ if (NOT APPLE)
   f3d_add_test(NAME TestSplat FILE small.splat)
 endif ()
 
+if (ffmpeg_enabled)
+  add_test(
+    NAME    "f3d-exec-TestOutputVideo"
+    COMMAND "${f3d_exe}"
+            "${CMAKE_SOURCE_DIR}/testing/data/f3d.glb"
+            "--resolution=300,300"
+            "--output-video=${CMAKE_BINARY_DIR}/Testing/Temporary/out.h264"
+  )
+endif ()
+
 if (egl_enabled)
   # XXX: Once Ubuntu 22.04 is used for CI, this test should use coloring
   f3d_add_test(NAME TestRenderingHeadlessEGL FILE cow.vtp BACKEND egl)

@@ -66,6 +66,7 @@ This repository also generate a nightly release of F3D.
  - `ENABLE_assimp`: ON by defaut, build and package assimp and the associated F3D plugin
  - `ENABLE_draco`: ON by defaut, build and package draco and the associated F3D plugin
  - `ENABLE_imgui`: ON by default, build and package imgui and the associated F3D module
+ - `ENABLE_ffmpeg`: ON by default, build and package ffmpeg and the associated F3D module
  - `ENABLE_occt`: ON by defaut, build and package occt and the associated F3D plugin
  - `ENABLE_openexr`: ON by default, build and package OpenEXR and the associated F3D module
  - `ENABLE_ospray`: ON by defaut, build and package ospray and the associated VTK module

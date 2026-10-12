@@ -27,6 +27,7 @@ superbuild_add_project(f3d
     -DF3D_LINUX_INSTALL_DEFAULT_CONFIGURATION_FILE_IN_PREFIX:BOOL=${f3d_build_for_linux}
     -DF3D_MACOS_BUNDLE:BOOL=${f3d_build_for_macos}
     -DF3D_MODULE_EXR:BOOL=${openexr_enabled}
+    -DF3D_MODULE_FFMPEG:BOOL=${ffmpeg_enabled}
     -DF3D_MODULE_RAYTRACING:BOOL=${ospray_enabled}
     -DF3D_MODULE_UI:BOOL=${imgui_enabled}
     -DF3D_MODULE_WEBP:BOOL=${webp_enabled}
