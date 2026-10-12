@@ -4,7 +4,7 @@ inputs:
   f3d_version:
     description: 'F3D version to build'
     required: true
-    default: 'origin/master'
+    default: 'master'
   raytracing_label:
     description: 'A label to enable raytracing'
     required: false
@@ -29,6 +29,7 @@ runs:
       github-server-url: https://github.com
       sparse-checkout: examples
       path: f3d_examples_src
+      ref: ${{inputs.f3d_version}}
       lfs: true
 
   - name: Recover LFS Data
