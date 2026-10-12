@@ -20,7 +20,7 @@ superbuild_add_project(f3d
     LICENSE.md
     THIRD_PARTY_LICENSES.md
   DEPENDS cxx17 nlohmannjson vtk
-  DEPENDS_OPTIONAL pybind11 alembic assimp draco imgui occt openexr openusd openvdb pdal webp webifc
+  DEPENDS_OPTIONAL pybind11 alembic assimp draco ffmpeg imgui occt openexr openusd openvdb pdal webp webifc
   CMAKE_ARGS
     -DCMAKE_INSTALL_NAME_DIR:PATH=<INSTALL_DIR>/lib
     -DF3D_LINUX_GENERATE_MAN:BOOL=${f3d_build_for_linux}
