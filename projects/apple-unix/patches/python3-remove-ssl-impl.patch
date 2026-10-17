@@ -1,0 +1,463 @@
+From f5412742e32b67887dab2f8083740a86aad8b9fc Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Sat, 17 Oct 2026 12:42:47 +0200
+Subject: [PATCH] remove ssl impl
+
+---
+ Modules/_ssl.c | 424 +------------------------------------------------
+ 1 file changed, 2 insertions(+), 422 deletions(-)
+
+diff --git a/Modules/_ssl.c b/Modules/_ssl.c
+index aae4dc3..f27bff3 100644
+--- a/Modules/_ssl.c
++++ b/Modules/_ssl.c
+@@ -729,65 +729,6 @@ static int
+ _ssl_configure_hostname(PySSLSocket *self, const char* server_hostname)
+ {
+     int retval = -1;
+-    ASN1_OCTET_STRING *ip;
+-    PyObject *hostname;
+-    size_t len;
+-
+-    assert(server_hostname);
+-
+-    /* Disable OpenSSL's special mode with leading dot in hostname:
+-     * When name starts with a dot (e.g ".example.com"), it will be
+-     * matched by a certificate valid for any sub-domain of name.
+-     */
+-    len = strlen(server_hostname);
+-    if (len == 0 || *server_hostname == '.') {
+-        PyErr_SetString(
+-            PyExc_ValueError,
+-            "server_hostname cannot be an empty string or start with a "
+-            "leading dot.");
+-        return retval;
+-    }
+-
+-    /* inet_pton is not available on all platforms. */
+-    ip = a2i_IPADDRESS(server_hostname);
+-    if (ip == NULL) {
+-        ERR_clear_error();
+-    }
+-
+-    hostname = PyUnicode_Decode(server_hostname, len, "ascii", "strict");
+-    if (hostname == NULL) {
+-        goto error;
+-    }
+-    self->server_hostname = hostname;
+-
+-    /* Only send SNI extension for non-IP hostnames */
+-    if (ip == NULL) {
+-        if (!SSL_set_tlsext_host_name(self->ssl, server_hostname)) {
+-            _setSSLError(get_state_sock(self), NULL, 0, __FILE__, __LINE__);
+-            goto error;
+-        }
+-    }
+-    if (self->ctx->check_hostname) {
+-        X509_VERIFY_PARAM *param = SSL_get0_param(self->ssl);
+-        if (ip == NULL) {
+-            if (!X509_VERIFY_PARAM_set1_host(param, server_hostname,
+-                                             strlen(server_hostname))) {
+-                _setSSLError(get_state_sock(self), NULL, 0, __FILE__, __LINE__);
+-                goto error;
+-            }
+-        } else {
+-            if (!X509_VERIFY_PARAM_set1_ip(param, ASN1_STRING_get0_data(ip),
+-                                           ASN1_STRING_length(ip))) {
+-                _setSSLError(get_state_sock(self), NULL, 0, __FILE__, __LINE__);
+-                goto error;
+-            }
+-        }
+-    }
+-    retval = 0;
+-  error:
+-    if (ip != NULL) {
+-        ASN1_OCTET_STRING_free(ip);
+-    }
+     return retval;
+ }
+ 
+@@ -1191,378 +1132,17 @@ _create_tuple_for_X509_NAME (_sslmodulestate *state, X509_NAME *xname)
+ 
+ static PyObject *
+ _get_peer_alt_names (_sslmodulestate *state, X509 *certificate) {
+-
+-    /* this code follows the procedure outlined in
+-       OpenSSL's crypto/x509v3/v3_prn.c:X509v3_EXT_print()
+-       function to extract the STACK_OF(GENERAL_NAME),
+-       then iterates through the stack to add the
+-       names. */
+-
+-    int j;
+-    PyObject *peer_alt_names = Py_None;
+-    PyObject *v = NULL, *t;
+-    GENERAL_NAMES *names = NULL;
+-    GENERAL_NAME *name;
+-    BIO *biobuf = NULL;
+-    char buf[2048];
+-    char *vptr;
+-    int len;
+-
+-    if (certificate == NULL)
+-        return peer_alt_names;
+-
+-    /* get a memory buffer */
+-    biobuf = BIO_new(BIO_s_mem());
+-    if (biobuf == NULL) {
+-        PyErr_SetString(state->PySSLErrorObject, "failed to allocate BIO");
+-        return NULL;
+-    }
+-
+-    names = (GENERAL_NAMES *)X509_get_ext_d2i(
+-        certificate, NID_subject_alt_name, NULL, NULL);
+-    if (names != NULL) {
+-        if (peer_alt_names == Py_None) {
+-            peer_alt_names = PyList_New(0);
+-            if (peer_alt_names == NULL)
+-                goto fail;
+-        }
+-
+-        for(j = 0; j < sk_GENERAL_NAME_num(names); j++) {
+-            /* get a rendering of each name in the set of names */
+-            int gntype;
+-            ASN1_STRING *as = NULL;
+-
+-            name = sk_GENERAL_NAME_value(names, j);
+-            gntype = name->type;
+-            switch (gntype) {
+-            case GEN_DIRNAME:
+-                /* we special-case DirName as a tuple of
+-                   tuples of attributes */
+-
+-                t = PyTuple_New(2);
+-                if (t == NULL) {
+-                    goto fail;
+-                }
+-
+-                v = PyUnicode_FromString("DirName");
+-                if (v == NULL) {
+-                    Py_DECREF(t);
+-                    goto fail;
+-                }
+-                PyTuple_SET_ITEM(t, 0, v);
+-
+-                v = _create_tuple_for_X509_NAME(state, name->d.dirn);
+-                if (v == NULL) {
+-                    Py_DECREF(t);
+-                    goto fail;
+-                }
+-                PyTuple_SET_ITEM(t, 1, v);
+-                break;
+-
+-            case GEN_EMAIL:
+-            case GEN_DNS:
+-            case GEN_URI:
+-                /* GENERAL_NAME_print() doesn't handle NULL bytes in ASN1_string
+-                   correctly, CVE-2013-4238 */
+-                t = PyTuple_New(2);
+-                if (t == NULL)
+-                    goto fail;
+-                switch (gntype) {
+-                case GEN_EMAIL:
+-                    v = PyUnicode_FromString("email");
+-                    as = name->d.rfc822Name;
+-                    break;
+-                case GEN_DNS:
+-                    v = PyUnicode_FromString("DNS");
+-                    as = name->d.dNSName;
+-                    break;
+-                case GEN_URI:
+-                    v = PyUnicode_FromString("URI");
+-                    as = name->d.uniformResourceIdentifier;
+-                    break;
+-                }
+-                if (v == NULL) {
+-                    Py_DECREF(t);
+-                    goto fail;
+-                }
+-                PyTuple_SET_ITEM(t, 0, v);
+-                v = PyUnicode_FromStringAndSize((char *)ASN1_STRING_get0_data(as),
+-                                                ASN1_STRING_length(as));
+-                if (v == NULL) {
+-                    Py_DECREF(t);
+-                    goto fail;
+-                }
+-                PyTuple_SET_ITEM(t, 1, v);
+-                break;
+-
+-            case GEN_RID:
+-                t = PyTuple_New(2);
+-                if (t == NULL)
+-                    goto fail;
+-
+-                v = PyUnicode_FromString("Registered ID");
+-                if (v == NULL) {
+-                    Py_DECREF(t);
+-                    goto fail;
+-                }
+-                PyTuple_SET_ITEM(t, 0, v);
+-
+-                len = i2t_ASN1_OBJECT(buf, sizeof(buf)-1, name->d.rid);
+-                if (len < 0) {
+-                    Py_DECREF(t);
+-                    _setSSLError(state, NULL, 0, __FILE__, __LINE__);
+-                    goto fail;
+-                } else if (len >= (int)sizeof(buf)) {
+-                    v = PyUnicode_FromString("<INVALID>");
+-                } else {
+-                    v = PyUnicode_FromStringAndSize(buf, len);
+-                }
+-                if (v == NULL) {
+-                    Py_DECREF(t);
+-                    goto fail;
+-                }
+-                PyTuple_SET_ITEM(t, 1, v);
+-                break;
+-
+-            case GEN_IPADD:
+-                /* OpenSSL < 3.0.0 adds a trailing \n to IPv6. 3.0.0 removed
+-                 * the trailing newline. Remove it in all versions
+-                 */
+-                t = PyTuple_New(2);
+-                if (t == NULL)
+-                    goto fail;
+-
+-                v = PyUnicode_FromString("IP Address");
+-                if (v == NULL) {
+-                    Py_DECREF(t);
+-                    goto fail;
+-                }
+-                PyTuple_SET_ITEM(t, 0, v);
+-
+-                if (name->d.ip->length == 4) {
+-                    unsigned char *p = name->d.ip->data;
+-                    v = PyUnicode_FromFormat(
+-                        "%d.%d.%d.%d",
+-                        p[0], p[1], p[2], p[3]
+-                    );
+-                } else if (name->d.ip->length == 16) {
+-                    unsigned char *p = name->d.ip->data;
+-                    v = PyUnicode_FromFormat(
+-                        "%X:%X:%X:%X:%X:%X:%X:%X",
+-                        p[0] << 8 | p[1],
+-                        p[2] << 8 | p[3],
+-                        p[4] << 8 | p[5],
+-                        p[6] << 8 | p[7],
+-                        p[8] << 8 | p[9],
+-                        p[10] << 8 | p[11],
+-                        p[12] << 8 | p[13],
+-                        p[14] << 8 | p[15]
+-                    );
+-                } else {
+-                    v = PyUnicode_FromString("<invalid>");
+-                }
+-
+-                if (v == NULL) {
+-                    Py_DECREF(t);
+-                    goto fail;
+-                }
+-                PyTuple_SET_ITEM(t, 1, v);
+-                break;
+-
+-            default:
+-                /* for everything else, we use the OpenSSL print form */
+-                switch (gntype) {
+-                    /* check for new general name type */
+-                    case GEN_OTHERNAME:
+-                    case GEN_X400:
+-                    case GEN_EDIPARTY:
+-                    case GEN_RID:
+-                        break;
+-                    default:
+-                        if (PyErr_WarnFormat(PyExc_RuntimeWarning, 1,
+-                                             "Unknown general name type %d",
+-                                             gntype) == -1) {
+-                            goto fail;
+-                        }
+-                        break;
+-                }
+-                (void) BIO_reset(biobuf);
+-                GENERAL_NAME_print(biobuf, name);
+-                len = BIO_gets(biobuf, buf, sizeof(buf)-1);
+-                if (len < 0) {
+-                    _setSSLError(state, NULL, 0, __FILE__, __LINE__);
+-                    goto fail;
+-                }
+-                vptr = strchr(buf, ':');
+-                if (vptr == NULL) {
+-                    PyErr_Format(PyExc_ValueError,
+-                                 "Invalid value %.200s",
+-                                 buf);
+-                    goto fail;
+-                }
+-                t = PyTuple_New(2);
+-                if (t == NULL)
+-                    goto fail;
+-                v = PyUnicode_FromStringAndSize(buf, (vptr - buf));
+-                if (v == NULL) {
+-                    Py_DECREF(t);
+-                    goto fail;
+-                }
+-                PyTuple_SET_ITEM(t, 0, v);
+-                v = PyUnicode_FromStringAndSize((vptr + 1),
+-                                                (len - (vptr - buf + 1)));
+-                if (v == NULL) {
+-                    Py_DECREF(t);
+-                    goto fail;
+-                }
+-                PyTuple_SET_ITEM(t, 1, v);
+-                break;
+-            }
+-
+-            /* and add that rendering to the list */
+-
+-            if (PyList_Append(peer_alt_names, t) < 0) {
+-                Py_DECREF(t);
+-                goto fail;
+-            }
+-            Py_DECREF(t);
+-        }
+-        sk_GENERAL_NAME_pop_free(names, GENERAL_NAME_free);
+-    }
+-    BIO_free(biobuf);
+-    if (peer_alt_names != Py_None) {
+-        v = PyList_AsTuple(peer_alt_names);
+-        Py_DECREF(peer_alt_names);
+-        return v;
+-    } else {
+-        return peer_alt_names;
+-    }
+-
+-
+-  fail:
+-    if (biobuf != NULL)
+-        BIO_free(biobuf);
+-
+-    if (peer_alt_names != Py_None) {
+-        Py_XDECREF(peer_alt_names);
+-    }
+-
+     return NULL;
+ }
+ 
+ static PyObject *
+ _get_aia_uri(X509 *certificate, int nid) {
+-    PyObject *lst = NULL, *ostr = NULL;
+-    int i, result;
+-    AUTHORITY_INFO_ACCESS *info;
+-
+-    info = X509_get_ext_d2i(certificate, NID_info_access, NULL, NULL);
+-    if (info == NULL)
+-        return Py_None;
+-    if (sk_ACCESS_DESCRIPTION_num(info) == 0) {
+-        AUTHORITY_INFO_ACCESS_free(info);
+-        return Py_None;
+-    }
+-
+-    if ((lst = PyList_New(0)) == NULL) {
+-        goto fail;
+-    }
+-
+-    for (i = 0; i < sk_ACCESS_DESCRIPTION_num(info); i++) {
+-        ACCESS_DESCRIPTION *ad = sk_ACCESS_DESCRIPTION_value(info, i);
+-        ASN1_IA5STRING *uri;
+-
+-        if ((OBJ_obj2nid(ad->method) != nid) ||
+-                (ad->location->type != GEN_URI)) {
+-            continue;
+-        }
+-        uri = ad->location->d.uniformResourceIdentifier;
+-        ostr = PyUnicode_FromStringAndSize((char *)uri->data,
+-                                           uri->length);
+-        if (ostr == NULL) {
+-            goto fail;
+-        }
+-        result = PyList_Append(lst, ostr);
+-        Py_DECREF(ostr);
+-        if (result < 0) {
+-            goto fail;
+-        }
+-    }
+-    AUTHORITY_INFO_ACCESS_free(info);
+-
+-    /* convert to tuple or None */
+-    if (PyList_Size(lst) == 0) {
+-        Py_DECREF(lst);
+-        return Py_None;
+-    } else {
+-        PyObject *tup;
+-        tup = PyList_AsTuple(lst);
+-        Py_DECREF(lst);
+-        return tup;
+-    }
+-
+-  fail:
+-    AUTHORITY_INFO_ACCESS_free(info);
+-    Py_XDECREF(lst);
+-    return NULL;
++    return Py_None;
+ }
+ 
+ static PyObject *
+ _get_crl_dp(X509 *certificate) {
+-    STACK_OF(DIST_POINT) *dps;
+-    int i, j;
+-    PyObject *lst, *res = NULL;
+-
+-    dps = X509_get_ext_d2i(certificate, NID_crl_distribution_points, NULL, NULL);
+-
+-    if (dps == NULL)
+-        return Py_None;
+-
+-    lst = PyList_New(0);
+-    if (lst == NULL)
+-        goto done;
+-
+-    for (i=0; i < sk_DIST_POINT_num(dps); i++) {
+-        DIST_POINT *dp;
+-        STACK_OF(GENERAL_NAME) *gns;
+-
+-        dp = sk_DIST_POINT_value(dps, i);
+-        if (dp->distpoint == NULL) {
+-            /* Ignore empty DP value, CVE-2019-5010 */
+-            continue;
+-        }
+-        gns = dp->distpoint->name.fullname;
+-
+-        for (j=0; j < sk_GENERAL_NAME_num(gns); j++) {
+-            GENERAL_NAME *gn;
+-            ASN1_IA5STRING *uri;
+-            PyObject *ouri;
+-            int err;
+-
+-            gn = sk_GENERAL_NAME_value(gns, j);
+-            if (gn->type != GEN_URI) {
+-                continue;
+-            }
+-            uri = gn->d.uniformResourceIdentifier;
+-            ouri = PyUnicode_FromStringAndSize((char *)uri->data,
+-                                               uri->length);
+-            if (ouri == NULL)
+-                goto done;
+-
+-            err = PyList_Append(lst, ouri);
+-            Py_DECREF(ouri);
+-            if (err < 0)
+-                goto done;
+-        }
+-    }
+-
+-    /* Convert to tuple. */
+-    res = (PyList_GET_SIZE(lst) > 0) ? PyList_AsTuple(lst) : Py_None;
+-
+-  done:
+-    Py_XDECREF(lst);
+-    CRL_DIST_POINTS_free(dps);
+-    return res;
++    return Py_None;
+ }
+ 
+ static PyObject *
+-- 
+2.56.0
+
