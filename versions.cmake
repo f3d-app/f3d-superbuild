@@ -19,6 +19,11 @@ superbuild_set_revision(ffmpeg
     DOWNLOAD_NAME ffmpeg-n9.0.1.tar.gz
     URL_MD5 7484fac66b42c149a6cd87744efae4d0)
 
+superbuild_set_revision(pythonflitcore
+  # https://pypi.org/project/flit-core/#history
+  URL     "https://files.pythonhosted.org/packages/e7/91/add211b38c357bf1b94900b4f79c34661a92be65c0243d2b0a3393c5092d/flit_core-4.1.0.tar.gz"
+  URL_MD5 6aed048324976ab2178d4d57a7933763)
+
 superbuild_set_revision(imgui
   URL "https://github.com/ocornut/imgui/archive/refs/tags/v1.92.5.tar.gz"
   DOWNLOAD_NAME imgui-v1.92.5.tar.gz

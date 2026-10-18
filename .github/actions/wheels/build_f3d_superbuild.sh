@@ -31,6 +31,7 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_vtk=ON                     \
   -DENABLE_webifc=ON                  \
   -DENABLE_webp=ON                    \
+  -DUSE_SYSTEM_python3=ON             \
   -Dmesa_SOURCE_SELECTION=25.0.7      \
   -Dvtk_SOURCE_SELECTION=git          \
   -Dvtk_GIT_TAG=$1
