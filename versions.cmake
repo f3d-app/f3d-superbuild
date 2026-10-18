@@ -24,6 +24,11 @@ superbuild_set_revision(pythonflitcore
   URL     "https://files.pythonhosted.org/packages/e7/91/add211b38c357bf1b94900b4f79c34661a92be65c0243d2b0a3393c5092d/flit_core-4.1.0.tar.gz"
   URL_MD5 6aed048324976ab2178d4d57a7933763)
 
+superbuild_set_revision(pythonwheel
+  # https://pypi.org/project/wheel/#history
+  URL     "https://www.paraview.org/files/dependencies/wheel-0.41.2-nounicodedist.tar.gz"
+  URL_MD5 b5f1f03ec0ad347b8b17c33077513863)
+
 superbuild_set_revision(imgui
   URL "https://github.com/ocornut/imgui/archive/refs/tags/v1.92.5.tar.gz"
   DOWNLOAD_NAME imgui-v1.92.5.tar.gz
