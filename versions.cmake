@@ -19,20 +19,16 @@ superbuild_set_revision(ffmpeg
     DOWNLOAD_NAME ffmpeg-n9.0.1.tar.gz
     URL_MD5 7484fac66b42c149a6cd87744efae4d0)
 
-superbuild_set_revision(pythonflitcore
-  # https://pypi.org/project/flit-core/#history
-  URL     "https://files.pythonhosted.org/packages/e7/91/add211b38c357bf1b94900b4f79c34661a92be65c0243d2b0a3393c5092d/flit_core-4.1.0.tar.gz"
-  URL_MD5 6aed048324976ab2178d4d57a7933763)
-
-superbuild_set_revision(pythonwheel
-  # https://pypi.org/project/wheel/#history
-  URL     "https://www.paraview.org/files/dependencies/wheel-0.41.2-nounicodedist.tar.gz"
-  URL_MD5 b5f1f03ec0ad347b8b17c33077513863)
-
 superbuild_set_revision(imgui
   URL "https://github.com/ocornut/imgui/archive/refs/tags/v1.92.5.tar.gz"
   DOWNLOAD_NAME imgui-v1.92.5.tar.gz
   URL_MD5 49b9bc2a3afe18bccb790d1c7427dc29)
+
+superbuild_set_selectable_source(meson
+  # https://github.com/mesonbuild/meson/releases
+  SELECT 1.12.1 DEFAULT
+    URL     "https://github.com/mesonbuild/meson/releases/download/1.12.1/meson-1.12.1.tar.gz"
+    URL_MD5 c6eb71722ba220419cbebab8b1bd895f)
 
 superbuild_set_revision(occt
   URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_9_3.tar.gz"
@@ -70,6 +66,16 @@ superbuild_set_revision(pybind11
   URL     "https://github.com/pybind/pybind11/archive/refs/tags/v3.0.4.tar.gz"
   DOWNLOAD_NAME pybind11-3.0.4.tar.gz
   URL_MD5 933fa1b6b1fe34c9945ecb3fe67f5c4b)
+
+superbuild_set_revision(pythonflitcore
+  # https://pypi.org/project/flit-core/#history
+  URL     "https://files.pythonhosted.org/packages/e7/91/add211b38c357bf1b94900b4f79c34661a92be65c0243d2b0a3393c5092d/flit_core-4.1.0.tar.gz"
+  URL_MD5 6aed048324976ab2178d4d57a7933763)
+
+superbuild_set_revision(pythonwheel
+  # https://pypi.org/project/wheel/#history
+  URL     "https://www.paraview.org/files/dependencies/wheel-0.41.2-nounicodedist.tar.gz"
+  URL_MD5 b5f1f03ec0ad347b8b17c33077513863)
 
 superbuild_set_revision(webp
   URL     "https://github.com/webmproject/libwebp/archive/refs/tags/v1.6.0.tar.gz"
