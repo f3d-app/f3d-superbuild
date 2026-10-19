@@ -68,6 +68,7 @@ function (superbuild_find_projects var)
     openimagedenoise
     openjph
     openh264
+    openssl
     openusd
     openvdb
     openvkl

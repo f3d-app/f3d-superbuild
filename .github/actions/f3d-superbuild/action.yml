@@ -86,11 +86,13 @@ runs:
   # openusd is build shared because of https://github.com/f3d-app/f3d-superbuild/issues/350
   # openh264 if build shared because of https://github.com/f3d-app/f3d-superbuild/issues/370
   # ffmpeg is build shared because it's LGPL
+  # openssl is enabled because python < 3.15 is not compatible with OpenSSL 4.0+ system version
   - name: Configure
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: >
       cmake ../source
+      -D_superbuild_enable_openssl=ON
       -DBUILD_SHARED_LIBS_alembic=OFF
       -DBUILD_SHARED_LIBS_assimp=OFF
       -DBUILD_SHARED_LIBS_blosc=ON
