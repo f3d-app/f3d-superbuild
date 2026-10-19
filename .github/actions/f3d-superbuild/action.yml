@@ -86,7 +86,7 @@ runs:
   # openusd is build shared because of https://github.com/f3d-app/f3d-superbuild/issues/350
   # openh264 if build shared because of https://github.com/f3d-app/f3d-superbuild/issues/370
   # ffmpeg is build shared because it's LGPL
-  # openssl is enabled because python < 3.15 is not compatible with OpenSSL 4.0+ system version
+  # openssl is enabled because python < 3.15 is not compatible with OpenSSL 4.0+ system version: https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/95
   - name: Configure
     working-directory: ${{github.workspace}}/build
     shell: bash
