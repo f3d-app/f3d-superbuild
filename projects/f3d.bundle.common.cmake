@@ -38,6 +38,7 @@ function (f3d_package_all_licenses)
   list(REMOVE_ITEM license_projects
    ffi
    ispc
+   openssl
    ospraymaterials
    png
    python3
