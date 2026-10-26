@@ -26,7 +26,7 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_occt=ON                    \
   -DENABLE_openexr=ON                 \
   -DENABLE_openssl=ON                 \
-  -DENABLE_openusd=OFF                \
+  -DENABLE_openusd=ON                 \
   -DENABLE_openvdb=ON                 \
   -DENABLE_osmesa=ON                  \
   -DENABLE_ospray=OFF                 \
