@@ -41,7 +41,7 @@ runs:
     uses: actions/cache@v6
     with:
       path: fsbb/install
-      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-1
+      key: fsbb-${{runner.os}}-${{env.VTK_COMMIT_SHA}}-3
 
   - name: Setup Ninja Windows
     if: runner.os == 'Windows'
@@ -78,13 +78,13 @@ runs:
     with:
       path: ${{github.workspace}}\mesa
 
-  # -DCMAKE_MODULE_PATH=${{ env.ESCAPED_WS }}/fsbb/install/lib/cmake/OpenVDB/ required because of
-  # https://github.com/AcademySoftwareFoundation/openvdb/issues/1160
+  # CMAKE_MODULE_PATH required because of https://github.com/AcademySoftwareFoundation/openvdb/issues/1160
   - name: Set needed env variables
     shell: bash
     run: |
       echo "CMAKE_PREFIX_PATH=../fsbb/install" >> $GITHUB_ENV
-      echo "SKBUILD_CMAKE_ARGS=-DCMAKE_MODULE_PATH=${{ env.ESCAPED_WS }}/fsbb/install/lib/cmake/OpenVDB/;-DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_BINDINGS_PYTHON_WINDOWS_BUILD_DLL_FIXUP=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_PLUGIN_BUILD_ALEMBIC=ON;-DF3D_PLUGIN_BUILD_ASSIMP=ON;-DF3D_PLUGIN_BUILD_DRACO=ON;-DF3D_PLUGIN_BUILD_OCCT=ON;-DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;-DF3D_PLUGIN_BUILD_PDAL=ON;-DF3D_PLUGIN_BUILD_VDB=ON;-DF3D_PLUGIN_BUILD_WEBIFC=ON;-DF3D_MODULE_EXR=ON;-DF3D_MODULE_FFMPEG=ON;-DF3D_MODULE_UI=ON;-DF3D_MODULE_WEBP=ON;-DF3D_BUILD_APPLICATION=OFF;-DF3D_MACOS_BUNDLE=OFF" >> $GITHUB_ENV
+      echo "CMAKE_MODULE_PATH=../fsbb/install/lib/cmake/OpenVDB/" >> $GITHUB_ENV
+      echo "SKBUILD_CMAKE_ARGS=-DF3D_DEPENDENCIES_DIR=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_BINDINGS_PYTHON_WINDOWS_BUILD_DLL_FIXUP=${{ env.ESCAPED_WS }}/fsbb/install/bin;-DF3D_PLUGIN_BUILD_ALEMBIC=ON;-DF3D_PLUGIN_BUILD_ASSIMP=ON;-DF3D_PLUGIN_BUILD_DRACO=ON;-DF3D_PLUGIN_BUILD_OCCT=ON;-DF3D_PLUGIN_OCCT_COLORING_SUPPORT=ON;-DF3D_PLUGIN_BUILD_PDAL=ON;-DF3D_PLUGIN_BUILD_VDB=ON;-DF3D_PLUGIN_BUILD_WEBIFC=ON;-DF3D_MODULE_EXR=ON;-DF3D_MODULE_FFMPEG=ON;-DF3D_MODULE_UI=ON;-DF3D_MODULE_WEBP=ON;-DF3D_BUILD_APPLICATION=OFF;-DF3D_MACOS_BUNDLE=OFF" >> $GITHUB_ENV
 
   - name: Build superbuild and wheels
     if: |
@@ -105,6 +105,7 @@ runs:
       CIBW_ENVIRONMENT: CMAKE_POLICY_VERSION_MINIMUM=3.5 MACOSX_DEPLOYMENT_TARGET=14.0
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
+        CMAKE_MODULE_PATH
         DISPLAY
         SKBUILD_CMAKE_ARGS
         VTK_COMMIT_SHA
@@ -137,6 +138,7 @@ runs:
       CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=14.0
       CIBW_ENVIRONMENT_PASS_LINUX: >
         CMAKE_PREFIX_PATH
+        CMAKE_MODULE_PATH
         DISPLAY
         SKBUILD_CMAKE_ARGS
       CIBW_TEST_REQUIRES: pytest numpy
