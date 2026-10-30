@@ -29,7 +29,7 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_osmesa=OFF                  \
   -DENABLE_ospray=OFF                 \
   -DENABLE_pdal=OFF                    \
-  -DENABLE_pybind11=OFF                \
+  -DENABLE_pybind11=ON                \
   -DENABLE_tbb=OFF                    \
   -DENABLE_vtk=ON                     \
   -DENABLE_webifc=OFF                  \
