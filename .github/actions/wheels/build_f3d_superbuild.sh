@@ -7,10 +7,10 @@
 cmake -S ./source -B ./fsbb           \
   -D_superbuild_enable_openssl=ON     \
   -DBUILD_SHARED_LIBS=OFF             \
-  -DBUILD_SHARED_LIBS_ffmpeg=OFF       \
-  -DBUILD_SHARED_LIBS_hdf5=OFF         \
-  -DBUILD_SHARED_LIBS_netcdf=OFF       \
-  -DBUILD_SHARED_LIBS_openh264=OFF     \
+  -DBUILD_SHARED_LIBS_ffmpeg=ON       \
+  -DBUILD_SHARED_LIBS_hdf5=ON         \
+  -DBUILD_SHARED_LIBS_netcdf=ON       \
+  -DBUILD_SHARED_LIBS_openh264=ON     \
   -DBUILD_SHARED_LIBS_tiff=ON         \
   -DCMAKE_BUILD_TYPE=Release          \
   -DCMAKE_OSX_DEPLOYMENT_TARGET=14.0  \
@@ -23,7 +23,7 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_imgui=OFF                   \
   -DENABLE_occt=OFF                    \
   -DENABLE_openexr=OFF                 \
-  -DENABLE_openssl=OFF                 \
+  -DENABLE_openssl=ON                 \
   -DENABLE_openusd=OFF                \
   -DENABLE_openvdb=ON                 \
   -DENABLE_osmesa=OFF                  \
