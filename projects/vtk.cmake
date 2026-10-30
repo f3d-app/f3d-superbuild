@@ -100,3 +100,8 @@ superbuild_add_project(vtk
     -DVTK_USE_X:BOOL=${vtk_use_x}
     -DVTK_VERSIONED_INSTALL:BOOL=OFF
 )
+
+# https://gitlab.kitware.com/vtk/vtk/-/merge_requests/13925
+# Remove when VTK is bumped
+superbuild_apply_patch(vtk minimized-window
+  "Fix window position and size on Windows")

@@ -1,0 +1,83 @@
+From a66eaeea1e8fddaa17afcfc326bd5e5d2cd2f046 Mon Sep 17 00:00:00 2001
+From: Michael Migliore <mcmigliore@gmail.com>
+Date: Fri, 30 Oct 2026 11:10:19 +0100
+Subject: [PATCH] Windows: Rely on cached position/size when window is
+ minimized
+
+---
+ .../release/dev/fix-windows-minimized-window.md |  3 +++
+ .../OpenGL2/vtkWin32OpenGLRenderWindow.cxx      | 17 +++++++++++------
+ Rendering/UI/vtkWin32RenderWindowInteractor.cxx |  5 ++++-
+ 3 files changed, 18 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/release/dev/fix-windows-minimized-window.md
+
+diff --git a/Documentation/release/dev/fix-windows-minimized-window.md b/Documentation/release/dev/fix-windows-minimized-window.md
+new file mode 100644
+index 00000000000..d731bdd2b1f
+--- /dev/null
++++ b/Documentation/release/dev/fix-windows-minimized-window.md
+@@ -0,0 +1,3 @@
++## Fix position/size with minimized window on Windows
++
++On Windows, when minimized, `vtkRenderWindow` APIs `GetPosition()` and `GetSize()` now return cached value instead of incorrect values.
+diff --git a/Rendering/OpenGL2/vtkWin32OpenGLRenderWindow.cxx b/Rendering/OpenGL2/vtkWin32OpenGLRenderWindow.cxx
+index f26f616c295..b15bc9f6af4 100644
+--- a/Rendering/OpenGL2/vtkWin32OpenGLRenderWindow.cxx
++++ b/Rendering/OpenGL2/vtkWin32OpenGLRenderWindow.cxx
+@@ -804,7 +804,7 @@ LRESULT vtkWin32OpenGLRenderWindow::MessageProc(
+       return 0;
+     case WM_SIZE:
+       /* track window size changes */
+-      if (this->ContextId)
++      if (this->ContextId && wParam != SIZE_MINIMIZED)
+       {
+         this->SetSize((int)LOWORD(lParam), (int)HIWORD(lParam));
+         return 0;
+@@ -1108,7 +1108,7 @@ void vtkWin32OpenGLRenderWindow::DestroyWindow()
+ int* vtkWin32OpenGLRenderWindow::GetSize(void)
+ {
+   // if we aren't mapped then just call super
+-  if (this->WindowId && !this->UseOffScreenBuffers)
++  if (this->WindowId && !IsIconic(this->WindowId) && !this->UseOffScreenBuffers)
+   {
+     RECT rect;
+ 
+@@ -1167,10 +1167,15 @@ int* vtkWin32OpenGLRenderWindow::GetPosition(void)
+   }
+ 
+   //  Find the current window position
+-  RECT rect;
+-  GetWindowRect(this->WindowId, &rect);
+-  this->Position[0] = rect.left;
+-  this->Position[1] = rect.top;
++  WINDOWPLACEMENT wp{};
++  wp.length = sizeof(wp);
++
++  if (GetWindowPlacement(this->WindowId, &wp))
++  {
++    RECT rect = wp.rcNormalPosition;
++    this->Position[0] = wp.rcNormalPosition.left;
++    this->Position[1] = wp.rcNormalPosition.top;
++  }
+ 
+   return this->Position;
+ }
+diff --git a/Rendering/UI/vtkWin32RenderWindowInteractor.cxx b/Rendering/UI/vtkWin32RenderWindowInteractor.cxx
+index 2ca16933154..51c1b2f7d47 100644
+--- a/Rendering/UI/vtkWin32RenderWindowInteractor.cxx
++++ b/Rendering/UI/vtkWin32RenderWindowInteractor.cxx
+@@ -1087,7 +1087,10 @@ LRESULT CALLBACK vtkHandleMessage2(
+     }
+ 
+     case WM_SIZE:
+-      handled = me->OnSize(hWnd, wParam, LOWORD(lParam), HIWORD(lParam));
++      if (wParam != SIZE_MINIMIZED)
++      {
++        handled = me->OnSize(hWnd, wParam, LOWORD(lParam), HIWORD(lParam));
++      }
+       break;
+ 
+     case WM_LBUTTONDBLCLK:
+-- 
+GitLab
+
