@@ -61,15 +61,20 @@ runs:
     shell: cmd
     run: rm 'C:\Program Files\Git\usr\bin\link.EXE'
 
-  - name: Escaping backslashes Windows
+  - name: Escaping backslashes in ESCAPED_WS (Windows)
     if: runner.os == 'Windows'
     shell: bash
     run: echo "ESCAPED_WS=${{github.workspace}}" | tr '\\' '/' >> $GITHUB_ENV
 
-  - name: Passthrough ESCAPED_WS
-    if: runner.os != 'Windows'
+  - name: Passthrough ESCAPED_WS (macOS)
+    if: runner.os == 'macOS'
     shell: bash
     run: echo "ESCAPED_WS=${{github.workspace}}" >> $GITHUB_ENV
+
+  - name: Docker hardcoded ESCAPED_WS (Linux)
+    if: runner.os == 'Linux'
+    shell: bash
+    run: echo "ESCAPED_WS=/project" >> $GITHUB_ENV
 
   - name: Prepare mesa directory
     if: runner.os == 'Windows'
