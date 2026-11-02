@@ -21,14 +21,14 @@ cmake -S ./source -B ./fsbb           \
   -DENABLE_draco=ON                   \
   -DENABLE_egl=ON                     \
   -DENABLE_f3d=OFF                    \
-  -DENABLE_ffmpeg=ON                  \
+  -DENABLE_ffmpeg=OFF                  \
   -DENABLE_imgui=ON                   \
-  -DENABLE_occt=ON                    \
+  -DENABLE_occt=OFF                    \
   -DENABLE_openexr=ON                 \
   -DENABLE_openssl=ON                 \
   -DENABLE_openusd=ON                 \
   -DENABLE_openvdb=ON                 \
-  -DENABLE_osmesa=ON                  \
+  -DENABLE_osmesa=OFF                  \
   -DENABLE_ospray=OFF                 \
   -DENABLE_pdal=ON                    \
   -DENABLE_pybind11=ON                \
