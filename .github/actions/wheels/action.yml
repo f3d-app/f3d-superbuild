@@ -18,8 +18,8 @@ runs:
   - name: Checkout f3d
     uses: actions/checkout@v7
     with:
-      repository: 'f3d-app/f3d'
-      ref: ${{inputs.f3d_version}}
+      repository: 'Meakk/f3d'
+      ref: usd-install
       fetch-depth: 0
       path: 'f3d'
       lfs: true
