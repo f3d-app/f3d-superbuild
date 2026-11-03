@@ -56,6 +56,14 @@ runs:
       ANDROID_KEYSTORE_PASSWORD: ${{ inputs.android_keystore_password }}
     run: ./gradlew assembleRelease --no-configuration-cache
 
+  - name: Build bundle
+    if: ${{ inputs.android_signed == 'true' }}
+    working-directory: ${{github.workspace}}/f3d-android
+    shell: bash
+    env:
+      ANDROID_KEYSTORE_PASSWORD: ${{ inputs.android_keystore_password }}
+    run: ./gradlew bundleRelease --no-configuration-cache
+
   - name: Build APKs
     if: ${{ inputs.android_signed == 'false' }}
     working-directory: ${{github.workspace}}/f3d-android
@@ -70,3 +78,10 @@ runs:
     with:
       name: apk-release
       path: ./f3d-android/f3d/build/outputs/apk/release/*.apk
+
+  - name: Upload Bundle
+    if: ${{ inputs.android_signed == 'true' }}
+    uses: actions/upload-artifact@v7
+    with:
+      name: bundle-release
+      path: ./f3d-android/f3d/build/outputs/bundle/release/*.aab
