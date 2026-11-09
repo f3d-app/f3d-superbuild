@@ -120,6 +120,12 @@ set_tests_properties(f3d-exec-exists
     LABELS  "F3D"
     DEPENDS "extract-f3d-${generator}")
 
+if (UNIX)
+  add_test(
+    NAME    "f3d-package-files-f3d-named"
+    COMMAND "${CMAKE_COMMAND}" -P ${CMAKE_SOURCE_DIR}/testing/scripts/filenames-contains.cmake ${f3d_extract_dir} f3d)
+endif()
+
 # Use f3d executable to ensure dependecies can be loaded and renders correctly
 f3d_add_test(NAME TestSimple FILE cow.vtp)
 f3d_add_test(NAME TestSimpleColor FILE dragon.vtu ARGS --colormap-file=viridis)

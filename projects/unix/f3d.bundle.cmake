@@ -1,14 +1,22 @@
 ## Set CPack vars
-set(f3d_license_path "share/licenses")
+set(f3d_license_path "share/licenses/f3d")
 include(f3d.bundle.common)
 
 ## Package binaries
 
 # Set where library will be found by fixup_bundle.py
-set(library_paths "${superbuild_install_location}/lib")
+set(library_paths "${superbuild_install_location}/lib/f3d")
 
-# Package the F3D executable
-superbuild_unix_install_program("${superbuild_install_location}/bin/f3d" "lib" SEARCH_DIRECTORIES "${library_paths}")
+## Package libf3d to /lib and all lib deps to /lib/f3d
+superbuild_unix_install_module("${superbuild_install_location}/lib/libf3d.so"
+  "lib/f3d"
+  "lib"
+  LOADER_PATHS  "${library_paths}"
+  LOCATION      "lib"
+  HAS_SYMLINKS)
+
+# Package the F3D executable but not the libf3d
+superbuild_unix_install_program("${superbuild_install_location}/bin/f3d" "lib" SEARCH_DIRECTORIES "${library_paths}" EXCLUDE_REGEXES ".*libf3d.*")
 
 # Package supplemental ospray libraries that may be loaded dynamically
 if (ospray_enabled)
@@ -38,10 +46,10 @@ if (ospray_enabled)
       endif ()
 
       superbuild_unix_install_module("${lib_filename}"
-        "lib"
+        "lib/f3d"
         "lib"
         LOADER_PATHS  "${library_paths}"
-        LOCATION      "lib"
+        LOCATION      "lib/f3d"
         HAS_SYMLINKS)
     endforeach ()
   endforeach ()
@@ -50,16 +58,16 @@ endif ()
 # Package supplemental osmesa library that may be loaded dynamically
 if (osmesa_enabled)
   superbuild_unix_install_module("${superbuild_install_location}/lib/libOSMesa.so"
-    "lib"
+    "lib/f3d"
     "lib"
     LOADER_PATHS  "${library_paths}"
-    LOCATION      "lib"
+    LOCATION      "lib/f3d"
     HAS_SYMLINKS)
 endif ()
 
 # OpenUSD plugin descriptors
 if (openusd_enabled)
-  f3d_package_usd_plugins(DESTINATION "lib")
+  f3d_package_usd_plugins(DESTINATION "lib/f3d")
 endif()
 
 ## Package F3D resources
@@ -115,7 +123,8 @@ superbuild_unix_install_module("${superbuild_install_location}/lib/libf3d_c_api.
   "lib"
   LOADER_PATHS  "${library_paths}"
   LOCATION      "lib"
-  HAS_SYMLINKS)
+  HAS_SYMLINKS
+  EXCLUDE_REGEXES ".*libf3d.*")
 
 ## Deb Generator specific
 if (cpack_generator MATCHES "DEB")

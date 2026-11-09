@@ -69,4 +69,9 @@ function (f3d_package_usd_plugins)
     DIRECTORY   "${superbuild_install_location}/lib/usd"
     DESTINATION "${USD_PLUGINS_DESTINATION}"
     USE_SOURCE_PERMISSIONS)
+  install(
+    DIRECTORY   "${superbuild_install_location}/lib/f3d/usd"
+    DESTINATION "${USD_PLUGINS_DESTINATION}"
+    USE_SOURCE_PERMISSIONS)
+
 endfunction ()
