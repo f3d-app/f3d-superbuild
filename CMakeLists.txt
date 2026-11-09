@@ -68,7 +68,6 @@ function (superbuild_find_projects var)
     openimagedenoise
     openjph
     openh264
-    openssl
     openusd
     openvdb
     openvkl
@@ -183,6 +182,7 @@ set(_superbuild_default_webifc ON)
 set(proj_EMBED_RESOURCES ON CACHE INTERNAL "" FORCE)
 set(mesa_FORCE_NO_ZLIB ON CACHE INTERNAL "" FORCE)
 set(mesa_SHARED_GLAPI OFF CACHE INTERNAL "" FORCE)
+set(mesa_SOURCE_SELECTION 25.0.7 CACHE INTERNAL "" FORCE)
 
 if (NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/superbuild/CMakeLists.txt")
   message(FATAL_ERROR "It appears as though the superbuild infrastructure "
