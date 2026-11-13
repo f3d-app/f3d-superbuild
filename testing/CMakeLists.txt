@@ -189,7 +189,8 @@ if (draco_enabled)
 endif ()
 
 if (meshoptimizer_enabled)
-  f3d_add_test(NAME TestMeshOptimizer FILE MeshPrimitiveModes_meshopt.glb)
+  # --camera-view-angle needed because of https://github.com/f3d-app/f3d/issues/3375
+  f3d_add_test(NAME TestMeshOptimizer FILE vertex_color_meshopt.glb ARGS --camera-view-angle=29.3333)
 endif ()
 
 if (occt_enabled)
