@@ -1,12 +1,18 @@
+superbuild_set_revision(alembic
+  # https://github.com/alembic/alembic/releases
+  URL     "https://github.com/alembic/alembic/archive/refs/tags/1.8.12.tar.gz"
+  DOWNLOAD_NAME alembic-1.8.12.tar.gz
+  URL_MD5 1f0f4e9fcd92f104dcdf825c6a08773f)
+
 superbuild_set_revision(assimp
-  URL     "https://github.com/assimp/assimp/archive/refs/tags/v6.0.5.tar.gz"
-  DOWNLOAD_NAME assimp-v6.0.5.tar.gz
-  URL_MD5 b15787a3bc2f022d01cda9aa712a6681)
+  URL     "https://github.com/assimp/assimp/archive/refs/tags/v6.0.6.tar.gz"
+  DOWNLOAD_NAME assimp-v6.0.6.tar.gz
+  URL_MD5 d51dd2934b02a09e43a0c2d903774b42)
 
 superbuild_set_revision(draco
-  URL     "https://github.com/google/draco/archive/refs/tags/1.5.7.tar.gz"
-  DOWNLOAD_NAME draco-1.5.7.tar.gz
-  URL_MD5 b91def257264152be35c62f82f805d25)
+  URL     "https://github.com/google/draco/archive/refs/tags/1.5.9.tar.gz"
+  DOWNLOAD_NAME draco-1.5.9.tar.gz
+  URL_MD5 cd4c85e9acd5b445f0e0cca40ebd1658)
 
 # Force embree to 4.2.0 because of
 # https://github.com/f3d-app/f3d-superbuild/issues/260
@@ -15,39 +21,39 @@ superbuild_set_revision(embree
     URL_MD5 9e6abbfb230a2ea07e80fa193ed94186)
 
 superbuild_set_revision(ffmpeg
-    URL     "https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n9.0.1.tar.gz"
-    DOWNLOAD_NAME ffmpeg-n9.0.1.tar.gz
-    URL_MD5 7484fac66b42c149a6cd87744efae4d0)
+    URL     "https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n9.0.2.tar.gz"
+    DOWNLOAD_NAME ffmpeg-n9.0.2.tar.gz
+    URL_MD5 d1b1427d7e28c5c10e03b00c65180aa4)
 
 superbuild_set_revision(imgui
-  URL "https://github.com/ocornut/imgui/archive/refs/tags/v1.92.5.tar.gz"
-  DOWNLOAD_NAME imgui-v1.92.5.tar.gz
-  URL_MD5 49b9bc2a3afe18bccb790d1c7427dc29)
+  URL "https://github.com/ocornut/imgui/archive/refs/tags/v1.93.0.tar.gz"
+  DOWNLOAD_NAME imgui-v1.93.0.tar.gz
+  URL_MD5 76c8b7d8453d8b5845fd8b8b06aa1b87)
 
 superbuild_set_revision(occt
-  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_9_3.tar.gz"
-  DOWNLOAD_NAME occt-V7_9_3.tar.gz
-  URL_MD5 724d6ad98f138b9cda7576679b8bff94)
+  URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V8.0.1.tar.gz"
+  DOWNLOAD_NAME occt-V8.0.1.tar.gz
+  URL_MD5 5a4329b73b5814925bc827c14cc379a1)
 
 superbuild_set_revision(openexr
-  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.4.11.tar.gz"
-  DOWNLOAD_NAME openexr-v3.4.11.tar.gz
-  URL_MD5 e0c1a315ccffa6f0ae94aa75602d58a7)
+  URL     "https://github.com/AcademySoftwareFoundation/openexr/archive/refs/tags/v3.5.4.tar.gz"
+  DOWNLOAD_NAME openexr-v3.5.4.tar.gz
+  URL_MD5 e595b30909f8cee0791ede0cd269ca08)
 
 superbuild_set_revision(openjph
-  URL     "https://github.com/aous72/OpenJPH/archive/refs/tags/0.27.3.tar.gz"
-  DOWNLOAD_NAME openjph-0.27.3.tar.gz
-  URL_MD5 49f930145e000e85f14fbe5ac2ae4367)
+  URL     "https://github.com/aous72/OpenJPH/archive/refs/tags/0.33.0.tar.gz"
+  DOWNLOAD_NAME openjph-0.33.0.tar.gz
+  URL_MD5 ff4b1fd07374ba4ac3cfd4915661827a)
 
 superbuild_set_revision(openh264
-  URL     "https://github.com/cisco/openh264/archive/refs/tags/v2.6.0.tar.gz"
-  DOWNLOAD_NAME openh264-v2.6.0.tar.gz
-  URL_MD5 0b01f0279eca1c7bb65395ea350fa85c)
+  URL     "https://github.com/cisco/openh264/archive/refs/tags/v2.7.0.tar.gz"
+  DOWNLOAD_NAME openh264-v2.7.0.tar.gz
+  URL_MD5 1514a475e1843b10d24f74b02ad4eaed)
 
 superbuild_set_revision(openusd
-  URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v26.05.tar.gz"
-  DOWNLOAD_NAME openusd-v26.05.tar.gz
-  URL_MD5 080e3e471ec56f8493ea4a56a7a2068a)
+  URL     "https://github.com/PixarAnimationStudios/OpenUSD/archive/refs/tags/v26.11.1.tar.gz"
+  DOWNLOAD_NAME openusd-v26.11.1.tar.gz
+  URL_MD5 c7b8e64f81d8569f9220e2f9c8a57317)
 
 superbuild_set_revision(openvdb
   URL "https://github.com/AcademySoftwareFoundation/openvdb/archive/refs/tags/v13.0.0.tar.gz"
@@ -67,14 +73,14 @@ superbuild_set_revision(webp
   URL_MD5 d498caf9323a24ce3ed40b84c22a32cd)
 
 superbuild_set_revision(webifc
-  URL     "https://github.com/ThatOpen/engine_web-ifc/archive/refs/tags/0.77.tar.gz"
-  DOWNLOAD_NAME webifc-0.77.tar.gz
-  URL_MD5 b9fc504150899f3894741759f9bb8f41)
+  URL     "https://github.com/ThatOpen/engine_web-ifc/archive/refs/tags/0.79.tar.gz"
+  DOWNLOAD_NAME webifc-0.79.tar.gz
+  URL_MD5 e5bd8e5aaeda764a02a4d3ad392967b2)
 
 superbuild_set_selectable_source(vtk
-  SELECT 9.6.1 DEFAULT
-    URL     "https://www.vtk.org/files/release/9.6/VTK-9.6.1.tar.gz"
-    URL_MD5 056ea89e37f4f9b3a6305e5d67515ccc
+  SELECT 9.7.2 DEFAULT
+    URL     "https://www.vtk.org/files/release/9.7/VTK-9.7.2.tar.gz"
+    URL_MD5 6b177350e2ec5f9e348eef3766161a0a
   SELECT git CUSTOMIZABLE
     GIT_REPOSITORY "https://gitlab.kitware.com/vtk/vtk.git"
     GIT_TAG        "origin/master"
