@@ -128,10 +128,12 @@ runs:
       -DENABLE_openssl=ON
       -DENABLE_osmesa=ON
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
+      -DUSE_SYSTEM_meson=ON
       -DUSE_SYSTEM_python3=ON
       -DUSE_SYSTEM_pythonflitcore=ON
       -DUSE_SYSTEM_pythonsetuptools=ON
       -DUSE_SYSTEM_pythonwheel=ON
+      -DUSE_SYSTEM_pythonmako=ON
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
       -Dmesa_SOURCE_SELECTION=25.0.7
