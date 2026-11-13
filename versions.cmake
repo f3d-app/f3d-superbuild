@@ -24,6 +24,11 @@ superbuild_set_revision(imgui
   DOWNLOAD_NAME imgui-v1.92.5.tar.gz
   URL_MD5 49b9bc2a3afe18bccb790d1c7427dc29)
 
+superbuild_set_revision(meshoptimizer
+  URL "https://github.com/zeux/meshoptimizer/archive/refs/tags/v1.3.tar.gz"
+  DOWNLOAD_NAME meshoptimizer-v1.3.tar.gz
+  URL_MD5 0840900ea9bbe2c693e044608715a246)
+
 superbuild_set_revision(occt
   URL     "https://github.com/Open-Cascade-SAS/OCCT/archive/refs/tags/V7_9_3.tar.gz"
   DOWNLOAD_NAME occt-V7_9_3.tar.gz

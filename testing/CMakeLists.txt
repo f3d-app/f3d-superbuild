@@ -188,6 +188,10 @@ if (draco_enabled)
   f3d_add_test(NAME TestDraco FILE suzanne.drc ARGS --coloring-component=0 --camera-view-angle=29.3333)
 endif ()
 
+if (meshoptimizer_enabled)
+  f3d_add_test(NAME TestMeshOptimizer FILE MeshPrimitiveModes_meshopt.glb)
+endif ()
+
 if (occt_enabled)
   f3d_add_test(NAME TestOCCT FILE f3d.stp)
 endif ()

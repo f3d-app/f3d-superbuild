@@ -58,6 +58,7 @@ function (superbuild_find_projects var)
     llvm
     lz4
     mesatoolchainoverride
+    meshoptimizer
     meson
     nasm
     netcdf
@@ -167,6 +168,7 @@ set(_superbuild_default_draco ON)
 set(_superbuild_default_f3dhdf ON)
 set(_superbuild_default_ffmpeg ON)
 set(_superbuild_default_imgui ON)
+set(_superbuild_default_meshoptimizer ON)
 set(_superbuild_default_occt ON)
 set(_superbuild_default_openvdb ON)
 set(_superbuild_default_openexr ON)
