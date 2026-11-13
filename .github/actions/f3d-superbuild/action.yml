@@ -135,7 +135,7 @@ runs:
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
       -Dmesa_SOURCE_SELECTION=25.0.7
-      -Dospray_SOURCE_SELECTION=2.12.0
+      -Dospray_SOURCE_SELECTION=2.12.1
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -Dvtk_SOURCE_SELECTION=git
       ${{ runner.os == 'Linux' && '-DENABLE_egl=ON' || null }}
