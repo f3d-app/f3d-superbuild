@@ -23,7 +23,3 @@ superbuild_add_project(assimp
 
 superbuild_apply_patch(assimp revert-fbx-bone-anim
   "Revert bone anim regression")
-
-# https://github.com/assimp/assimp/pull/6753
-superbuild_apply_patch(assimp fix-amf-leak
-  "Fix AMF leak")
