@@ -188,6 +188,11 @@ if (draco_enabled)
   f3d_add_test(NAME TestDraco FILE suzanne.drc ARGS --coloring-component=0 --camera-view-angle=29.3333)
 endif ()
 
+if (meshoptimizer_enabled)
+  # --camera-view-angle needed because of https://github.com/f3d-app/f3d/issues/3375
+  f3d_add_test(NAME TestMeshOptimizer FILE vertex_color_meshopt.glb ARGS --camera-view-angle=29.3333)
+endif ()
+
 if (occt_enabled)
   f3d_add_test(NAME TestOCCT FILE f3d.stp)
 endif ()
