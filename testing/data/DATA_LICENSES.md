@@ -14,6 +14,7 @@
 - simple.laz: PDAL: Copyright (c) 2025, Hobu, Inc.
 - simple_extra.bpf: PDAL: Copyright (c) 2025, Hobu, Inc.
 - SMALL_AUTZEN_LAS_All.slpk: PDAL: Copyright (c) 2025, Hobu, Inc.
+- vertex_color_meshopt.glb: glTF-Sample-Models/Analytical Graphics, Inc.: [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 - warsaw_small.las: PDAL: Copyright (c) 2025, Hobu, Inc.
 
 All other datasets are licensed under the F3D license terms.
