@@ -12,7 +12,7 @@ endif ()
 # CMAKE_MSVC_RUNTIME_LIBRARY is needed because of https://github.com/AcademySoftwareFoundation/openvdb/issues/1131
 superbuild_add_project(openvdb
   BUILD_SHARED_LIBS_INDEPENDENT
-  DEPENDS tbb cxx17 blosc zlib lz4 zstd
+  DEPENDS tbb cxx17 zlib lz4 zstd
   LICENSE_FILES
     LICENSE
   CMAKE_ARGS
@@ -23,7 +23,6 @@ superbuild_add_project(openvdb
     -DOPENVDB_CORE_SHARED:BOOL=${openvdb_build_shared}
     -DOPENVDB_CORE_STATIC:BOOL=${openvdb_build_static}
     -DOPENVDB_USE_DELAYED_LOADING:BOOL=OFF
-    -DUSE_BLOSC:BOOL=ON
     -DUSE_CCACHE:BOOL=OFF
     -DUSE_EXPLICIT_INSTANTIATION:BOOL=OFF
     -DUSE_ZLIB:BOOL=ON)
@@ -37,12 +36,12 @@ superbuild_add_extra_cmake_args(
 
 # https://github.com/AcademySoftwareFoundation/openvdb/issues/1741
 # https://github.com/AcademySoftwareFoundation/openvdb/issues/1740
-superbuild_apply_patch(openvdb remove-not-needed-cmake-modules
-  "Remove not needed cmake modules")
+#superbuild_apply_patch(openvdb remove-not-needed-cmake-modules
+#  "Remove not needed cmake modules")
 
 # https://github.com/AcademySoftwareFoundation/openvdb/issues/1630
-superbuild_apply_patch(openvdb fix-visible-dependencies-link
-  "Fix visible dependencies link")
+#superbuild_apply_patch(openvdb fix-visible-dependencies-link
+#  "Fix visible dependencies link")
 
 # https://github.com/AcademySoftwareFoundation/openvdb/issues/1630
 superbuild_apply_patch(openvdb remove-lib-prefix-static
