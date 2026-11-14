@@ -78,9 +78,9 @@ superbuild_set_revision(webp
   URL_MD5 d498caf9323a24ce3ed40b84c22a32cd)
 
 superbuild_set_revision(webifc
-  URL     "https://github.com/ThatOpen/engine_web-ifc/archive/refs/tags/0.79.tar.gz"
-  DOWNLOAD_NAME webifc-0.79.tar.gz
-  URL_MD5 e5bd8e5aaeda764a02a4d3ad392967b2)
+  URL     "https://github.com/ThatOpen/engine_web-ifc/archive/refs/tags/0.77.tar.gz"
+  DOWNLOAD_NAME webifc-0.77.tar.gz
+  URL_MD5 b9fc504150899f3894741759f9bb8f41)
 
 superbuild_set_selectable_source(vtk
   SELECT 9.7.2 DEFAULT
