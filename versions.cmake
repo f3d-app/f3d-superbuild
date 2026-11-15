@@ -14,12 +14,6 @@ superbuild_set_revision(draco
   DOWNLOAD_NAME draco-1.5.9.tar.gz
   URL_MD5 cd4c85e9acd5b445f0e0cca40ebd1658)
 
-# Force embree to 4.2.0 because of
-# https://github.com/f3d-app/f3d-superbuild/issues/260
-superbuild_set_revision(embree
-    URL     "https://www.paraview.org/files/dependencies/embree-4.2.0.tar.gz"
-    URL_MD5 9e6abbfb230a2ea07e80fa193ed94186)
-
 superbuild_set_revision(ffmpeg
     URL     "https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n9.0.2.tar.gz"
     DOWNLOAD_NAME ffmpeg-n9.0.2.tar.gz
