@@ -1,25 +1,38 @@
-diff --git a/src/BinTools/BinTools_ShapeSet.cxx b/src/BinTools/BinTools_ShapeSet.cxx
-index 5fe1fd75..37638fff 100644
---- a/src/BinTools/BinTools_ShapeSet.cxx
-+++ b/src/BinTools/BinTools_ShapeSet.cxx
-@@ -377,8 +377,6 @@ void BinTools_ShapeSet::Read(Standard_IStream& IS, const Message_ProgressRange&
+From cf4007adbd62984f24a45830cf7fcf85a52ca20b Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Sun, 15 Nov 2026 23:35:44 +0100
+Subject: [PATCH] remove-cout-brep
+
+---
+ src/ModelingData/TKBRep/BinTools/BinTools_ShapeSet.cxx | 2 --
+ src/ModelingData/TKBRep/TopTools/TopTools_ShapeSet.cxx | 1 -
+ 2 files changed, 3 deletions(-)
+
+diff --git a/src/ModelingData/TKBRep/BinTools/BinTools_ShapeSet.cxx b/src/ModelingData/TKBRep/BinTools/BinTools_ShapeSet.cxx
+index 2b4bb87725..e87ada0512 100644
+--- a/src/ModelingData/TKBRep/BinTools/BinTools_ShapeSet.cxx
++++ b/src/ModelingData/TKBRep/BinTools/BinTools_ShapeSet.cxx
+@@ -403,8 +403,6 @@ void BinTools_ShapeSet::Read(Standard_IStream& IS, const Message_ProgressRange&
    } while (!IS.fail());
    if (IS.fail())
    {
 -    std::cout << "BinTools_ShapeSet::Read: File was not written with this version of the topology"
--              << std::endl;
+-              << '\n';
      return;
    }
  
-diff --git a/src/TopTools/TopTools_ShapeSet.cxx b/src/TopTools/TopTools_ShapeSet.cxx
-index 2b6f9dd0..b81c4a13 100644
---- a/src/TopTools/TopTools_ShapeSet.cxx
-+++ b/src/TopTools/TopTools_ShapeSet.cxx
-@@ -630,7 +630,6 @@ void TopTools_ShapeSet::Read(Standard_IStream& IS, const Message_ProgressRange&
+diff --git a/src/ModelingData/TKBRep/TopTools/TopTools_ShapeSet.cxx b/src/ModelingData/TKBRep/TopTools/TopTools_ShapeSet.cxx
+index 3bc065bf41..765096d80b 100644
+--- a/src/ModelingData/TKBRep/TopTools/TopTools_ShapeSet.cxx
++++ b/src/ModelingData/TKBRep/TopTools/TopTools_ShapeSet.cxx
+@@ -695,7 +695,6 @@ void TopTools_ShapeSet::Read(Standard_IStream& IS, const Message_ProgressRange&
    } while (!IS.fail());
    if (IS.fail())
    {
--    std::cout << "File was not written with this version of the topology" << std::endl;
+-    std::cout << "File was not written with this version of the topology" << '\n';
      IS.imbue(anOldLocale);
      return;
    }
+-- 
+2.56.0
+

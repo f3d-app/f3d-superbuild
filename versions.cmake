@@ -1,4 +1,5 @@
 superbuild_set_revision(alembic
+  # csb version is locked because of CMake version issues, lets override it 
   # https://github.com/alembic/alembic/releases
   URL     "https://github.com/alembic/alembic/archive/refs/tags/1.8.12.tar.gz"
   DOWNLOAD_NAME alembic-1.8.12.tar.gz

@@ -35,5 +35,6 @@ superbuild_add_project(occt
     -DUSE_XLIB:BOOL=OFF
 )
 
-#superbuild_apply_patch(occt remove-cout-brep
-#  "Remove cout usage on failure to load BREP")
+# https://github.com/Open-Cascade-SAS/OCCT/issues/1626
+superbuild_apply_patch(occt remove-cout-brep
+  "Remove cout usage on failure to load BREP")
