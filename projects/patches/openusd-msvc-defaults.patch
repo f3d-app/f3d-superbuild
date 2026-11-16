@@ -1,14 +1,20 @@
+From 1b4cddbf7e8b5dbda8c3006652df3dcd00bb405e Mon Sep 17 00:00:00 2001
+From: Mathieu Westphal <mathieu.westphal@kitware.com>
+Date: Sun, 15 Nov 2026 23:41:43 +0100
+Subject: [PATCH] msvc-defaults
+
+---
+ cmake/defaults/msvcdefaults.cmake | 4 ----
+ 1 file changed, 4 deletions(-)
+
 diff --git a/cmake/defaults/msvcdefaults.cmake b/cmake/defaults/msvcdefaults.cmake
-index 1c4cb369d..8fa0e931b 100644
+index f87fa0393..b49af6e4b 100644
 --- a/cmake/defaults/msvcdefaults.cmake
 +++ b/cmake/defaults/msvcdefaults.cmake
-@@ -124,13 +124,6 @@ _add_define("WIN32_LEAN_AND_MEAN")
- # for all translation units.
- set(_PXR_CXX_FLAGS "${_PXR_CXX_FLAGS} /bigobj")
+@@ -136,10 +136,6 @@ else()
+     set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>")
+ endif()
  
--# Enable PDB generation.
--set(_PXR_CXX_FLAGS "${_PXR_CXX_FLAGS} /Zi")
--
 -# Enable multiprocessor builds.
 -set(_PXR_CXX_FLAGS "${_PXR_CXX_FLAGS} /MP")
 -set(_PXR_CXX_FLAGS "${_PXR_CXX_FLAGS} /Gm-")
@@ -16,3 +22,6 @@ index 1c4cb369d..8fa0e931b 100644
  # Ignore LNK4221.  This happens when making an archive with a object file
  # with no symbols in it.  We do this a lot because of a pattern of having
  # a C++ source file for many header-only facilities, e.g. tf/bitUtils.cpp.
+-- 
+2.56.0
+

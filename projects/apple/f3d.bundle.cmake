@@ -16,7 +16,7 @@ if (ospray_enabled)
     ospray_module_denoiser)
 
 
-  if (ospray_SOURCE_SELECTION STREQUAL "2.12.0")
+  if (ospray_SOURCE_SELECTION STREQUAL "2.12.1")
     list(APPEND osprayextra_libraries
       ispcrt_device_cpu
       ospray_module_cpu)
