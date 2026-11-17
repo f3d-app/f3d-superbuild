@@ -47,7 +47,18 @@ runs:
   - name: Install mako and meson on Windows/MacOS
     if: runner.os != 'Linux'
     shell: bash
-    run: pip install meson mako setuptools
+    run: pip uninstall setuptools
+
+  - name: Install mako and meson on Windows/MacOS
+    if: runner.os != 'Linux'
+    shell: bash
+    run: pip install meson mako setuptools wheel
+
+
+  - name: Install mako and meson on Windows/MacOS
+    if: runner.os != 'Linux'
+    shell: bash
+    run: python3 -c "import setuptools"
 
   - name: Install and setup sccache
     uses: f3d-app/sccache-setup-action@v2
