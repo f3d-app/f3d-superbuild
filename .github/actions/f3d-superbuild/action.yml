@@ -44,31 +44,10 @@ runs:
     shell: cmd
     run: choco install ninja
 
-  - name: test
+  - name: Install needed python modules on Windows/MacOS
     if: runner.os != 'Linux'
     shell: bash
-    run: pip --version
-
-  - name: test
-    if: runner.os != 'Linux'
-    shell: bash
-    run: python -m pip --version
-
-  - name: test
-    if: runner.os != 'Linux'
-    shell: bash
-    run: python3 -m pip --version
-
-  - name: Install mako and meson on Windows/MacOS
-    if: runner.os != 'Linux'
-    shell: bash
-    run: pip install meson mako setuptools wheel
-
-
-  - name: Install mako and meson on Windows/MacOS
-    if: runner.os != 'Linux'
-    shell: bash
-    run: python -c "import setuptools"
+    run: pip install meson mako PyYAML
 
   - name: Install and setup sccache
     uses: f3d-app/sccache-setup-action@v2
@@ -154,10 +133,8 @@ runs:
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
       -DUSE_SYSTEM_meson=ON
       -DUSE_SYSTEM_python3=ON
-      -DUSE_SYSTEM_pythonflitcore=ON
-      -DUSE_SYSTEM_pythonsetuptools=ON
-      -DUSE_SYSTEM_pythonwheel=ON
       -DUSE_SYSTEM_pythonmako=ON
+      -DUSE_SYSTEM_pythonpyyaml=ON
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
       -Dospray_SOURCE_SELECTION=2.12.1
