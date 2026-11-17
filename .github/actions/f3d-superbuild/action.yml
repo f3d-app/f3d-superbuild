@@ -44,10 +44,15 @@ runs:
     shell: cmd
     run: choco install ninja
 
-  - name: Install mako and meson on Windows/MacOS
+  - name: test
     if: runner.os != 'Linux'
     shell: bash
-    run: pip uninstall setuptools
+    run: pip --version
+
+  - name: test
+    if: runner.os != 'Linux'
+    shell: bash
+    run: python -m pip --version
 
   - name: Install mako and meson on Windows/MacOS
     if: runner.os != 'Linux'
