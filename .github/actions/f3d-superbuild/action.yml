@@ -44,10 +44,6 @@ runs:
     shell: cmd
     run: choco install ninja
 
-  - name: Install needed python modules on Windows/MacOS
-    shell: bash
-    run: pip install meson mako PyYAML packaging
-
   - name: Install and setup sccache
     uses: f3d-app/sccache-setup-action@v2
     with:
@@ -130,16 +126,12 @@ runs:
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
       -DENABLE_osmesa=ON
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
-      -DUSE_SYSTEM_meson=ON
-      -DUSE_SYSTEM_python3=ON
-      -DUSE_SYSTEM_pythonmako=ON
-      -DUSE_SYSTEM_pythonpyyaml=ON
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
       -Dospray_SOURCE_SELECTION=2.12.1
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -Dvtk_SOURCE_SELECTION=git
-      ${{ runner.os == 'Linux' && '-DENABLE_egl=ON' || null }}
+      ${{ runner.os == 'Linux' && '-DENABLE_egl=ON -DUSE_SYSTEM_meson=ON -DUSE_SYSTEM_python3=ON -DUSE_SYSTEM_pythonmako=ON -DUSE_SYSTEM_pythonpyyaml=ON' || null }}
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DF3D_TESTING_FORCE_RENDERING_BACKEND=osmesa' || null }}
 
