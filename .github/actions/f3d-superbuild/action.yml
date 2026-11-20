@@ -47,7 +47,7 @@ runs:
   - name: Set up Python
     uses: actions/setup-python@v7
     with:
-    python-version: ${{ inputs.python_version }}
+    python-version: 3.15
 
   - name: Upgrade pip
     shell: bash
