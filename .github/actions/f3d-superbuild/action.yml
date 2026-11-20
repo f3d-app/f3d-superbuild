@@ -142,9 +142,13 @@ runs:
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
       -Dospray_SOURCE_SELECTION=2.12.1
+      -DUSE_SYSTEM_meson=ON
+      -DUSE_SYSTEM_python3=ON
+      -DUSE_SYSTEM_pythonmako=ON
+      -DUSE_SYSTEM_pythonpyyaml=ON
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -Dvtk_SOURCE_SELECTION=git
-      ${{ runner.os == 'Linux' && '-DENABLE_egl=ON -DUSE_SYSTEM_meson=ON -DUSE_SYSTEM_python3=ON -DUSE_SYSTEM_pythonmako=ON -DUSE_SYSTEM_pythonpyyaml=ON' || null }}
+      ${{ runner.os == 'Linux' && '-DENABLE_egl=ON || null }}
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DF3D_TESTING_FORCE_RENDERING_BACKEND=osmesa' || null }}
 
