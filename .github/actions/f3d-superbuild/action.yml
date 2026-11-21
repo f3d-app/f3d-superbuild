@@ -59,11 +59,15 @@ runs:
 
   - name: Upgrade pip
     shell: bash
-    run: ${{ env.pythonLocation }} -m pip install --upgrade pip
+    run: python -m pip install --upgrade pip
 
   - name: Install Python dependencies
     shell: bash
-    run: ${{ env.pythonLocation }} -m pip install meson Mako PyYaml
+    run: python -m pip install meson Mako PyYaml
+
+  - name: Check python works
+    shell: bash
+    run: python -c "import yaml"
 
   - name: Install and setup sccache
     uses: f3d-app/sccache-setup-action@v2
