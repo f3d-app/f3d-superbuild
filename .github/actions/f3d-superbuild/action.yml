@@ -47,7 +47,13 @@ runs:
   - name: Set up Python
     uses: actions/setup-python@v7
     with:
-      python-version: 3.15
+      python-version: '3.13'
+
+  - name: Display python version
+    run: python --version
+
+  - name: Display Pip version
+    run: pip --version
 
   - name: Upgrade pip
     shell: bash
