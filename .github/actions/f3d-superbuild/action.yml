@@ -45,6 +45,7 @@ runs:
     run: choco install ninja
 
   - name: Set up Python
+    if: runner.os != 'Linux'
     uses: actions/setup-python@v7
     with:
       python-version: '3.13'
@@ -54,20 +55,27 @@ runs:
     run: python --version
 
   - name: Display Pip version
+    if: runner.os != 'Linux'
     shell: bash
     run: pip --version
 
   - name: Upgrade pip
+    if: runner.os != 'Linux'
     shell: bash
     run: python -m pip install --upgrade pip
 
   - name: Install Python dependencies
+    if: runner.os != 'Linux'
     shell: bash
-    run: python -m pip install meson Mako PyYaml
+    run: python -m pip install meson Mako PyYaml packaging distutils
 
   - name: Check python works
     shell: bash
-    run: python -c "import yaml"
+    run: python -c "import packaging"
+
+  - name: Check python works
+    shell: bash
+    run: python -c "import distutils"
 
   - name: Install and setup sccache
     uses: f3d-app/sccache-setup-action@v2
