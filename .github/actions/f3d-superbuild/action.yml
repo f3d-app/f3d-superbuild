@@ -51,6 +51,7 @@ runs:
       python-version: '3.13'
 
   - name: Display python version
+    if: runner.os != 'Linux'
     shell: bash
     run: python --version
 
@@ -67,7 +68,7 @@ runs:
   - name: Install Python dependencies
     if: runner.os != 'Linux'
     shell: bash
-    run: python -m pip install meson Mako PyYaml packaging
+    run: python -m pip install meson Mako PyYaml packaging setuptools
 
   - name: Check python works
     if: runner.os != 'Linux'
