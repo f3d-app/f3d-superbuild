@@ -50,9 +50,11 @@ runs:
       python-version: '3.13'
 
   - name: Display python version
+    shell: bash
     run: python --version
 
   - name: Display Pip version
+    shell: bash
     run: pip --version
 
   - name: Upgrade pip
