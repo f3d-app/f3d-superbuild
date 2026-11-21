@@ -67,13 +67,15 @@ runs:
   - name: Install Python dependencies
     if: runner.os != 'Linux'
     shell: bash
-    run: python -m pip install meson Mako PyYaml packaging distutils
+    run: python -m pip install meson Mako PyYaml packaging
 
   - name: Check python works
+    if: runner.os != 'Linux'
     shell: bash
     run: python -c "import packaging"
 
   - name: Check python works
+    if: runner.os != 'Linux'
     shell: bash
     run: python -c "import distutils"
 
