@@ -363,9 +363,6 @@ jobs:
     permissions:
       id-token: write
 
-    env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
     steps:
     - name: Install recent node
       uses: actions/setup-node@v7
