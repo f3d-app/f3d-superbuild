@@ -44,6 +44,22 @@ runs:
     shell: cmd
     run: choco install ninja
 
+  - name: Set up Python macOS/Windows
+    if: runner.os != 'Linux'
+    uses: actions/setup-python@v7
+    with:
+      python-version: '3.13'
+
+  - name: Upgrade pip macOS/Windows
+    if: runner.os != 'Linux'
+    shell: bash
+    run: python -m pip install --upgrade pip
+
+  - name: Install Python dependencies macOS/Windows
+    if: runner.os != 'Linux'
+    shell: bash
+    run: python -m pip install meson Mako PyYaml packaging setuptools
+
   - name: Install and setup sccache
     uses: f3d-app/sccache-setup-action@v2
     with:
@@ -85,13 +101,12 @@ runs:
   # blosc is build shared because of https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/91
   # openh264 if build shared because of https://github.com/f3d-app/f3d-superbuild/issues/370
   # ffmpeg is build shared because it's LGPL
-  # openssl is enabled because python < 3.15 is not compatible with OpenSSL 4.0+ system version: https://gitlab.kitware.com/paraview/common-superbuild/-/work_items/95
+  # Using system python* on Windows is not working because of llvm/zlib linking issue in osmesa
   - name: Configure
     working-directory: ${{github.workspace}}/build
     shell: bash
     run: >
       cmake ../source
-      -D_superbuild_enable_openssl=ON
       -DBUILD_SHARED_LIBS_alembic=OFF
       -DBUILD_SHARED_LIBS_assimp=OFF
       -DBUILD_SHARED_LIBS_blosc=ON
@@ -126,13 +141,15 @@ runs:
       -DCMAKE_BUILD_TYPE=Release
       -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       -DCMAKE_C_COMPILER_LAUNCHER=sccache
-      -DENABLE_openssl=ON
       -DENABLE_osmesa=ON
       -DENABLE_ospray=${{ inputs.raytracing_label == 'raytracing' && 'ON' || 'OFF' }}
       -Df3d_GIT_TAG=${{ inputs.f3d_version }}
       -Df3d_SOURCE_SELECTION=git
-      -Dmesa_SOURCE_SELECTION=25.0.7
       -Dospray_SOURCE_SELECTION=2.12.1
+      -DUSE_SYSTEM_meson=ON
+      -DUSE_SYSTEM_python3=ON
+      -DUSE_SYSTEM_pythonmako=ON
+      -DUSE_SYSTEM_pythonpyyaml=ON
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -Dvtk_SOURCE_SELECTION=git
       ${{ runner.os == 'Linux' && '-DENABLE_egl=ON' || null }}
