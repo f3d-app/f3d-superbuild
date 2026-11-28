@@ -135,7 +135,7 @@ runs:
       -Dospray_SOURCE_SELECTION=2.12.1
       -Dvtk_GIT_TAG=${{ env.VTK_COMMIT_SHA }}
       -Dvtk_SOURCE_SELECTION=git
-      ${{ runner.os == 'Linux' && '-DENABLE_egl=ON' || null }}
+      ${{ runner.os != 'macOS' && '-DENABLE_egl=ON' || null }}
       ${{ runner.os == 'Windows' && '-G Ninja' || null }}
       ${{ runner.os == 'macOS' && '-DCMAKE_OSX_DEPLOYMENT_TARGET=14.0 -DF3D_TESTING_FORCE_RENDERING_BACKEND=osmesa' || null }}
 
